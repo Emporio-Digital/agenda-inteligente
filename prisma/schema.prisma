@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 🏢 O CLIENTE DO SAAS (A Barbearia/Salão)
+model Tenant {
+  id             String   @id @default(uuid())
+  name           String
+  slug           String   @unique
+  planTier       String   @default("SOLO")
+  createdAt      DateTime @default(now())
+  
+  // Configurações Visuais
+  primaryColor   String   @default("#000000") 
+  secondaryColor String   @default("#ffffff")
+  logoUrl        String?
+  themeVariant   String   @default("BARBER")
+
+  services       Service[]
+  professionals  Professional[]
+  customers      Customer[]
+  appointments   Appointment[]
+}
+
+// 💇‍♂️ OS PROFISSIONAIS
+model Professional {
+  id            String   @id @default(uuid())
+  name          String
+  photoUrl      String?
+  isActive      Boolean  @default(true)
+  tenantId      String
+  tenant        Tenant   @relation(fields: [tenantId], references: [id])
+  appointments  Appointment[]
+  workHours     Json?
+}
+
+// ✂️ OS SERVIÇOS
+model Service {
+  id            String   @id @default(uuid())
+  name          String
+  price         Decimal
+  durationMin   Int
+  description   String?
+  tenantId      String
+  tenant        Tenant   @relation(fields: [tenantId], references: [id])
+  appointments  Appointment[]
+}
+
+// 📅 OS AGENDAMENTOS
+model Appointment {
+  id             String   @id @default(uuid())
+  date           DateTime
+  status         String   @default("SCHEDULED")
+  tenantId       String
+  tenant         Tenant   @relation(fields: [tenantId], references: [id])
+  professionalId String
+  professional   Professional @relation(fields: [professionalId], references: [id])
+  customerId     String
+  customer       Customer @relation(fields: [customerId], references: [id])
+  serviceId      String
+  service        Service @relation(fields: [serviceId], references: [id])
+}
+
+// 👤 O CLIENTE FINAL
+model Customer {
+  id        String   @id @default(uuid())
+  name      String
+  phone     String
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  appointments Appointment[]
+}
