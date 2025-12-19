@@ -85,7 +85,7 @@ export default async function BarbeariaPage({ params }: { params: Promise<{ slug
       </div>
 
       {/* --- CONTEÚDO --- */}
-      <div className="max-w-md mx-auto px-4 -mt-6 relative z-10">
+      <div classNamse="max-w-md mx-auto px-4 -mt-6 relative z-10">
         
         {/* Passamos o estilo do tema para o BookingSystem também */}
         <div className={`${currentTheme.card} p-1 shadow-2xl ${currentTheme.rounded}`}>
