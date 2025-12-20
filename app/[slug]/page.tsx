@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma" // <--- CORREÇÃO CRUCIAL AQUI (Uso do @)
+import { prisma } from "../../lib/prisma"
 import BookingSystem from "./agendamento"
 
 // --- MOTOR DE TEMAS ---
