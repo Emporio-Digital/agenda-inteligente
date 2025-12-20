@@ -19,7 +19,7 @@ model Tenant {
   primaryColor   String   @default("#000000") 
   secondaryColor String   @default("#ffffff")
   logoUrl        String?
-  coverUrl       String?  // <-- A CORREÇÃO ESTÁ AQUI ✅
+  coverUrl       String?
   themeVariant   String   @default("BARBER")
 
   services       Service[]

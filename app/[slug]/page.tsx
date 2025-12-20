@@ -1,4 +1,4 @@
-import { prisma } from "../lib/prisma"
+import { prisma } from "@/lib/prisma" // <--- CORREÇÃO CRUCIAL AQUI (Uso do @)
 import BookingSystem from "./agendamento"
 
 // --- MOTOR DE TEMAS ---
@@ -85,7 +85,6 @@ export default async function BarbeariaPage({ params }: { params: Promise<{ slug
       </div>
 
       {/* --- CONTEÚDO --- */}
-      {/* CORREÇÃO FEITA AQUI EMBAIXO: className (antes estava classNamse) */}
       <div className="max-w-md mx-auto px-4 -mt-6 relative z-10">
         
         {/* Passamos o estilo do tema para o BookingSystem também */}
