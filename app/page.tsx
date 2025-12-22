@@ -15,8 +15,8 @@ export default function LandingPage() {
             <Link href="/admin" className="text-sm font-medium text-slate-400 hover:text-white transition-colors py-2">
               Entrar
             </Link>
-            <Link href="#planos" className="hidden md:block bg-white text-slate-950 px-4 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-colors">
-              Começar Grátis
+            <Link href="/admin" className="hidden md:block bg-white text-slate-950 px-4 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-colors">
+              Teste Grátis
             </Link>
           </div>
         </div>
@@ -29,7 +29,7 @@ export default function LandingPage() {
 
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-block mb-4 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-wider">
-            🚀 O Sistema nº 1 para Barbearias e Salões
+            🚀 O Sistema nº 1 para o Seu Negócio
           </div>
           
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-tight">
@@ -46,7 +46,7 @@ export default function LandingPage() {
               href="/admin" 
               className="w-full md:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-lg transition-all hover:scale-105 shadow-lg shadow-blue-500/20"
             >
-              Criar Minha Agenda Grátis
+              Começar Teste Grátis
             </Link>
             <Link 
               href="/barbearia-ze" 
@@ -57,7 +57,7 @@ export default function LandingPage() {
           </div>
 
           <p className="mt-6 text-sm text-slate-500">
-            ✅ Sem cartão de crédito • ✅ Setup em 2 minutos • ✅ Plano Grátis
+            ✅ Sem cartão de crédito • ✅ Setup em 2 minutos • ✅ 3 Dias Grátis
           </p>
         </div>
       </section>
@@ -117,7 +117,7 @@ export default function LandingPage() {
       {/* --- CTA FINAL --- */}
       <section className="py-20 px-6 border-t border-slate-800 bg-gradient-to-b from-slate-950 to-slate-900">
         <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6">Pronto para modernizar sua barbearia?</h2>
+            <h2 className="text-4xl font-bold mb-6">Pronto para modernizar seu negócio?</h2>
             <p className="text-slate-400 mb-8 text-lg">Junte-se a centenas de profissionais que já automatizaram suas agendas.</p>
             <Link 
               href="/admin" 
