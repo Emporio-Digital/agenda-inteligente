@@ -25,7 +25,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
   const [customerPhone, setCustomerPhone] = useState("")
   const [loading, setLoading] = useState(false)
 
-  // Horários estáticos para o MVP
+  // Horários estáticos (Devem bater com a API)
   const timeSlots = ["09:00", "09:45", "10:30", "11:15", "14:00", "14:45", "15:30", "16:15", "17:00", "18:00"]
 
   // --- CÁLCULOS ---
@@ -49,16 +49,23 @@ export default function BookingSystem({ tenantId, services, professionals, prima
     setStep(3)
   }
 
+  // MUDANÇA PRINCIPAL AQUI:
   async function handleDateSelect(date: string) {
     setSelectedDate(date)
-    setBusyTimeSlots([]) 
+    setBusyTimeSlots([]) // Limpa enquanto carrega
+    
     try {
       if(selectedPro) {
-        const res = await fetch(`/api/disponibilidade?professionalId=${selectedPro.id}&date=${date}`)
+        // Agora passamos a DURAÇÃO TOTAL para a API calcular o encaixe
+        const res = await fetch(`/api/disponibilidade?professionalId=${selectedPro.id}&date=${date}&duration=${totalDuration}`)
         const data = await res.json()
-        if (data.busySlots) setBusyTimeSlots(data.busySlots)
+        if (data.busySlots) {
+            setBusyTimeSlots(data.busySlots)
+        }
       }
-    } catch (error) { console.error(error) }
+    } catch (error) { 
+        console.error(error) 
+    }
     setStep(4)
   }
 
@@ -84,7 +91,8 @@ export default function BookingSystem({ tenantId, services, professionals, prima
             setStep(6)
         } else {
             const erro = await response.json()
-            alert(erro.error || "Erro ao agendar. Tente outro horário.")
+            // Mensagem amigável caso algo escape
+            alert(erro.error || "Poxa, esse horário acabou de ser ocupado. Tente outro!")
         }
     } catch (error) {
         alert("Erro de conexão.")
@@ -184,17 +192,26 @@ export default function BookingSystem({ tenantId, services, professionals, prima
         <div className="animate-in fade-in slide-in-from-right-8 duration-300">
           <h2 className="text-xl font-bold mb-2 text-black">Horário de Início</h2>
           <p className="text-xs text-gray-500 mb-4">Duração total estimada: <span className="font-bold">{totalDuration} min</span></p>
+          
           <div className="grid grid-cols-3 gap-3 mt-4">
             {timeSlots.map((time) => {
                const isBusy = busyTimeSlots.includes(time)
                return (
-                 <button key={time} disabled={isBusy} onClick={() => { setSelectedTime(time); setStep(5); }}
-                   className={`py-3 rounded-xl border text-sm font-semibold transition-all
-                     ${isBusy ? 'bg-gray-100 text-gray-300 cursor-not-allowed line-through' : 'hover:bg-black hover:text-white border-gray-200 text-black shadow-sm hover:shadow-md'}
+                 <button 
+                   key={time} 
+                   disabled={isBusy} 
+                   onClick={() => { setSelectedTime(time); setStep(5); }}
+                   className={`
+                     py-3 rounded-xl border text-sm font-semibold transition-all relative
+                     ${isBusy 
+                        ? 'bg-gray-100 text-gray-300 cursor-not-allowed' // Estilo Bloqueado
+                        : 'hover:bg-black hover:text-white border-gray-200 text-black shadow-sm hover:shadow-md cursor-pointer' // Estilo Livre
+                     }
                    `}
-                   style={!isBusy ? { borderColor: primaryColor } : {}}
+                   style={!isBusy ? { borderColor: primaryColor } : { borderColor: 'transparent' }}
                  >
                    {time}
+                   {isBusy && <span className="absolute inset-0 flex items-center justify-center text-gray-400 text-xs font-normal">Ocupado</span>}
                  </button>
                )
             })}
@@ -230,7 +247,6 @@ export default function BookingSystem({ tenantId, services, professionals, prima
           <div className="space-y-4">
             <div>
                 <label className="text-xs font-bold text-gray-500 uppercase ml-1">Seu Nome</label>
-                {/* CORREÇÃO AQUI: removi focusRingColor e deixei borderColor */}
                 <input 
                   type="text" 
                   placeholder="Ex: João Silva" 
