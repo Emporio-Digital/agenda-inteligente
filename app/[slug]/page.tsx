@@ -2,23 +2,22 @@ import { prisma } from "../lib/prisma"
 import BookingSystem from "./agendamento"
 
 // --- MOTOR DE TEMAS ---
-// Aqui definimos como cada nicho se comporta visualmente
 const THEMES: any = {
   BARBER: {
-    bg: "bg-zinc-950",           // Fundo super escuro
-    text: "text-zinc-100",       // Texto claro
-    card: "bg-zinc-900 border-zinc-800", // Cartões escuros
-    rounded: "rounded-none",     // Cantos quadrados (visual robusto/macho)
-    button: "uppercase tracking-widest font-black", // Botões agressivos
-    iconStyle: "grayscale"       // Ícones preto e branco
+    bg: "bg-zinc-950",           
+    text: "text-zinc-100",       
+    card: "bg-zinc-900 border-zinc-800", 
+    rounded: "rounded-none",     
+    button: "uppercase tracking-widest font-black", 
+    iconStyle: "grayscale"       
   },
   BEAUTY: {
-    bg: "bg-rose-50",            // Fundo rosinha claro
-    text: "text-rose-950",       // Texto escuro elegante
-    card: "bg-white border-rose-100", // Cartões brancos clean
-    rounded: "rounded-3xl",      // Cantos bem redondos (suave)
-    button: "capitalize font-medium tracking-wide", // Botões delicados
-    iconStyle: ""                // Ícones coloridos
+    bg: "bg-rose-50",            
+    text: "text-rose-950",       
+    card: "bg-white border-rose-100", 
+    rounded: "rounded-3xl",      
+    button: "capitalize font-medium tracking-wide", 
+    iconStyle: ""                
   }
 }
 
@@ -33,7 +32,7 @@ export default async function BarbeariaPage({ params }: { params: Promise<{ slug
     }
   })
 
-  if (!tenant) return <h1>Barbearia não encontrada 😕</h1>
+  if (!tenant) return <h1 className="text-center mt-10 text-2xl font-bold">Barbearia não encontrada 😕</h1>
 
   // Limpeza do Decimal para Number
   const servicosLimpos = tenant.services.map(service => ({
@@ -41,11 +40,11 @@ export default async function BarbeariaPage({ params }: { params: Promise<{ slug
     price: Number(service.price)
   }))
 
-  // Seleciona o tema atual (Se não tiver definido, usa BARBER como padrão)
+  // Seleciona o tema atual
   const currentTheme = THEMES[tenant.themeVariant] || THEMES.BARBER
 
   return (
-    <div className={`min-h-screen ${currentTheme.bg} ${currentTheme.text} pb-20`}>
+    <div className={`min-h-screen ${currentTheme.bg} ${currentTheme.text} pb-20 font-sans`}>
       
       {/* --- ÁREA DA CAPA (HERO SECTION) --- */}
       <div className="relative w-full h-64 md:h-80 overflow-hidden">
@@ -54,8 +53,6 @@ export default async function BarbeariaPage({ params }: { params: Promise<{ slug
              className="absolute inset-0 bg-cover bg-center"
              style={{ backgroundImage: `url(${tenant.coverUrl})` }}
            >
-             {/* Degradê para o texto aparecer em cima da foto */}
-             {/* O split pega a cor base do tema (ex: zinc ou rose) para fazer o degradê combinar */}
              <div className={`absolute inset-0 bg-gradient-to-t from-${currentTheme.bg.split('-')[1]}-950/90 to-transparent`}></div>
            </div>
         ) : (
@@ -63,11 +60,12 @@ export default async function BarbeariaPage({ params }: { params: Promise<{ slug
         )}
 
         {/* Logo e Nome sobre a capa */}
-        <div className="absolute bottom-0 left-0 w-full p-6 text-center">
+        <div className="absolute bottom-0 left-0 w-full p-6 text-center z-10">
             {tenant.logoUrl ? (
                 <img 
                   src={tenant.logoUrl} 
                   className={`w-24 h-24 mx-auto mb-4 border-4 border-white shadow-xl object-cover ${currentTheme.rounded}`} 
+                  alt="Logo"
                 />
             ) : (
                 <div className={`w-24 h-24 mx-auto mb-4 flex items-center justify-center bg-white text-black font-bold text-3xl border-4 border-white shadow-xl ${currentTheme.rounded}`}>
@@ -75,8 +73,7 @@ export default async function BarbeariaPage({ params }: { params: Promise<{ slug
                 </div>
             )}
             
-            {/* TÍTULO COM SOMBRA FORTE PARA LEITURA */}
-            <h1 className="text-3xl md:text-5xl font-black drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
+            <h1 className="text-3xl md:text-5xl font-black drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] tracking-tight">
                 {tenant.name}
             </h1>
             
@@ -85,9 +82,8 @@ export default async function BarbeariaPage({ params }: { params: Promise<{ slug
       </div>
 
       {/* --- CONTEÚDO --- */}
-      <div className="max-w-md mx-auto px-4 -mt-6 relative z-10">
+      <div className="max-w-md mx-auto px-4 -mt-6 relative z-20">
         
-        {/* Passamos o estilo do tema para o BookingSystem também */}
         <div className={`${currentTheme.card} p-1 shadow-2xl ${currentTheme.rounded}`}>
             <BookingSystem 
                 tenantId={tenant.id}
