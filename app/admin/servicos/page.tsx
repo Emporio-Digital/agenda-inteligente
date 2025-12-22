@@ -7,7 +7,7 @@ export default function ServicesPage() {
   const [services, setServices] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
-  // Estados do Formulário de Novo Serviço
+  // Estados do Formulário
   const [isAdding, setIsAdding] = useState(false)
   const [newName, setNewName] = useState('')
   const [newPrice, setNewPrice] = useState('')
@@ -34,8 +34,8 @@ export default function ServicesPage() {
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault()
     
-    // Validação básica
-    if (!newName || !newPrice || !newDuration) return alert("Preencha tudo!")
+    // Validação
+    if (!newName || !newPrice || !newDuration) return alert("Preencha todos os campos!")
 
     const res = await fetch('/api/admin/services', {
       method: 'POST',
@@ -52,7 +52,7 @@ export default function ServicesPage() {
         setNewName('')
         setNewPrice('')
         setNewDuration('30')
-        fetchServices() // Recarrega a lista
+        fetchServices() // Atualiza a lista
     } else {
         alert('Erro ao salvar serviço')
     }
@@ -82,7 +82,7 @@ export default function ServicesPage() {
                 </button>
             </div>
 
-            {/* FORMULÁRIO DE ADIÇÃO (APARECE AO CLICAR) */}
+            {/* FORMULÁRIO DE ADIÇÃO */}
             {isAdding && (
                 <form onSubmit={handleCreate} className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 mb-8 animate-in slide-in-from-top-4">
                     <h3 className="font-bold text-lg mb-4">Adicionar Serviço</h3>
@@ -97,13 +97,16 @@ export default function ServicesPage() {
                         </div>
                         <div>
                             <label className="text-xs font-bold text-gray-500 uppercase">Duração (min)</label>
-                            <select value={newDuration} onChange={e => setNewDuration(e.target.value)} className="w-full p-3 border rounded-xl bg-white">
-                                <option value="15">15 min</option>
-                                <option value="30">30 min</option>
-                                <option value="45">45 min</option>
-                                <option value="60">1 hora</option>
-                                <option value="90">1h 30m</option>
-                            </select>
+                            {/* AQUI ESTÁ A CORREÇÃO: type="number" e step="5" */}
+                            <input 
+                                type="number" 
+                                step="5"
+                                min="5"
+                                value={newDuration} 
+                                onChange={e => setNewDuration(e.target.value)} 
+                                className="w-full p-3 border rounded-xl" 
+                            />
+                            <p className="text-[10px] text-gray-400 mt-1">Múltiplos de 5 min</p>
                         </div>
                     </div>
                     <button type="submit" className="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700">
