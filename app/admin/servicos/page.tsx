@@ -6,80 +6,116 @@ import Link from "next/link"
 export default function GerenciarServicos() {
   const [services, setServices] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false) // Novo estado para o botão salvar
 
   // Estados do Formulário
   const [name, setName] = useState("")
   const [price, setPrice] = useState("")
-  const [duration, setDuration] = useState("30") // Padrão 30 min
+  const [duration, setDuration] = useState("30")
   
-  // ID do Tenant (Como ainda não temos Login, vamos pegar o primeiro do banco ou hardcoded)
-  // IMPORTANTE: No futuro isso virá automático do Login do dono.
-  // Para funcionar HOJE, vamos buscar o tenantId na hora de carregar.
   const [tenantId, setTenantId] = useState("")
 
   useEffect(() => {
-    fetchTenantAndServices()
+    async function init() {
+        const res = await fetch('/api/public-tenant-id?slug=barbearia-ze')
+        const data = await res.json()
+        if (data.id) {
+            setTenantId(data.id)
+            loadServices(data.id)
+        }
+    }
+    init()
   }, [])
 
-  // 1. Busca o ID da Barbearia (Tenant) e seus serviços
-  async function fetchTenantAndServices() {
+  async function loadServices(tId: string) {
+    setLoading(true)
+    // O cache: 'no-store' garante que ele sempre busque dados novos
+    const res = await fetch(`/api/services?tenantId=${tId}`, { cache: 'no-store' })
+    const data = await res.json()
+    setServices(data)
+    setLoading(false)
+  }
+
+  // --- AÇÃO DE CRIAR (Com Loading) ---
+  async function handleCreate() {
+    setSaving(true) // Trava o botão
     try {
-      // Truque do MVP: Buscamos o 'barbearia-ze' para pegar o ID
-      // Depois do Login pronto, isso muda.
-      const resTenant = await fetch('/api/public-tenant?slug=barbearia-ze') 
-      // Nota: Se essa API não existir, criei uma gambiarra segura abaixo para buscar direto nos serviços se tiver
-      
-      // Vamos listar assumindo que precisamos descobrir o ID primeiro.
-      // Como é MVP, vamos facilitar: Vou assumir que você vai usar o ID que já existe no banco.
-      // Mas para a tela funcionar sozinha, vou fazer um fetch nos serviços passando um ID fixo se você tiver, 
-      // ou listar todos (perigoso em prod, ok para mvp de teste).
-      
-      // SOLUÇÃO ELEGANTE PRO MVP:
-      // Vou pedir para criar um serviço e passar o SLUG na url da api se fosse preciso.
-      // Mas vamos simplificar: Vamos assumir que vamos gerenciar a "Barbearia do Zé".
+        const res = await fetch('/api/services', {
+            method: 'POST',
+            body: JSON.stringify({
+                name,
+                price,
+                durationMin: duration,
+                tenantId: tenantId 
+            })
+        })
+
+        if (res.ok) {
+            const newService = await res.json()
+            // Adiciona na lista IMEDIATAMENTE sem precisar recarregar tudo do banco
+            setServices(prev => [...prev, newService])
+            // Limpa formulário
+            setName("")
+            setPrice("")
+        } else {
+            alert("Erro ao salvar")
+        }
     } catch (error) {
-       console.error(error)
+        alert("Erro de conexão")
+    } finally {
+        setSaving(false) // Destrava o botão
     }
   }
 
-  // REFAZENDO A LÓGICA DE BUSCA PRO SEU MVP RODAR LISO:
-  // Vamos buscar os serviços passando o slug na query (Vou ajustar a API acima mentalmente, mas o melhor é buscar pelo ID).
-  // Sócio, pra facilitar sua vida AGORA:
-  // Vou colocar um input "ID da Barbearia" escondido ou manual se precisar, 
-  // MAS o ideal é listar. Vou listar tudo pra você ver funcionando.
-  
-  // ATUALIZAÇÃO: Para não travar, vou fazer o seguinte:
-  // Ao abrir a página, ele busca todos os serviços.
-  // Você vai ver o que tem lá.
-  
+  // --- AÇÃO DE DELETAR (Instantânea - Optimistic UI) ---
+  async function handleDelete(id: string) {
+    if(!confirm("Tem certeza que deseja excluir este serviço?")) return
+
+    // 1. ATUALIZA A TELA INSTANTANEAMENTE (Remove da lista visualmente)
+    const backupServices = [...services] // Guarda cópia caso dê erro
+    setServices(prev => prev.filter(s => s.id !== id))
+
+    // 2. MANDA PRO SERVIDOR EM BACKGROUND
+    try {
+        const res = await fetch(`/api/services?id=${id}`, { method: 'DELETE' })
+        if (!res.ok) {
+            throw new Error("Falha ao deletar")
+        }
+    } catch (error) {
+        // Se der erro, volta o item pra lista e avisa
+        setServices(backupServices) 
+        alert("Erro ao excluir. O serviço voltou.")
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 p-8 font-sans">
       <div className="max-w-4xl mx-auto">
         
-        {/* Header com Voltar */}
+        {/* Header */}
         <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
-                <Link href="/admin" className="text-gray-500 hover:text-black">
+                <Link href="/admin" className="text-gray-500 hover:text-black font-medium transition-colors">
                     ← Voltar
                 </Link>
                 <h1 className="text-3xl font-bold text-gray-900">Meus Serviços ✂️</h1>
             </div>
         </div>
 
-        {/* --- FORMULÁRIO DE CADASTRO --- */}
+        {/* --- FORMULÁRIO --- */}
         <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 mb-10">
             <h2 className="text-xl font-bold mb-4 text-gray-800">Adicionar Novo Serviço</h2>
             
             <div className="grid md:grid-cols-3 gap-4">
                 {/* Nome */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">Nome do Serviço</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">Nome</label>
                     <input 
                         type="text" 
                         value={name}
                         onChange={e => setName(e.target.value)}
                         placeholder="Ex: Corte Degrade"
-                        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                     />
                 </div>
 
@@ -91,19 +127,18 @@ export default function GerenciarServicos() {
                         value={price}
                         onChange={e => setPrice(e.target.value)}
                         placeholder="0.00"
-                        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                     />
                 </div>
 
-                {/* Duração (A Lógica de 5 em 5 min) */}
+                {/* Duração */}
                 <div>
                     <label className="block text-sm font-medium text-gray-600 mb-1">Duração</label>
                     <select 
                         value={duration}
                         onChange={e => setDuration(e.target.value)}
-                        className="w-full p-3 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 outline-none"
+                        className="w-full p-3 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
                     >
-                        {/* Gera opções de 5 em 5 minutos até 3 horas */}
                         {Array.from({ length: 36 }, (_, i) => (i + 1) * 5).map(min => (
                             <option key={min} value={min}>{min} min</option>
                         ))}
@@ -113,14 +148,16 @@ export default function GerenciarServicos() {
 
             <button 
                 onClick={handleCreate}
-                disabled={!name || !price}
-                className="mt-4 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors w-full md:w-auto disabled:opacity-50"
+                disabled={!name || !price || saving}
+                className={`mt-4 w-full md:w-auto font-bold py-3 px-6 rounded-lg transition-all flex items-center justify-center gap-2
+                    ${saving || !name || !price ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700 hover:scale-105 shadow-md'}
+                `}
             >
-                Salvar Serviço
+                {saving ? "Salvando..." : "Salvar Serviço"}
             </button>
         </div>
 
-        {/* --- LISTA DE SERVIÇOS --- */}
+        {/* --- LISTA --- */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <table className="w-full text-left">
                 <thead className="bg-gray-50 border-b">
@@ -133,7 +170,7 @@ export default function GerenciarServicos() {
                 </thead>
                 <tbody className="divide-y text-gray-800">
                     {services.map((service) => (
-                        <tr key={service.id} className="hover:bg-gray-50">
+                        <tr key={service.id} className="hover:bg-gray-50 transition-colors animate-in fade-in">
                             <td className="p-4 font-bold">{service.name}</td>
                             <td className="p-4">
                                 <span className="bg-blue-100 text-blue-700 py-1 px-3 rounded-full text-xs font-bold">
@@ -144,7 +181,7 @@ export default function GerenciarServicos() {
                             <td className="p-4 text-right">
                                 <button 
                                     onClick={() => handleDelete(service.id)}
-                                    className="text-red-500 hover:text-red-700 text-sm font-medium"
+                                    className="text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded-md text-sm font-medium transition-colors"
                                 >
                                     Excluir
                                 </button>
@@ -161,79 +198,15 @@ export default function GerenciarServicos() {
                     )}
                 </tbody>
             </table>
+            
+            {loading && (
+                <div className="p-8 text-center text-gray-500">
+                    Carregando serviços...
+                </div>
+            )}
         </div>
 
       </div>
     </div>
   )
-
-  // --- FUNÇÕES DE AÇÃO ---
-
-  async function handleCreate() {
-    // ⚠️ ATENÇÃO SÓCIO: 
-    // Como não temos login ainda, vou buscar a "Barbearia do Zé" pelo slug pra pegar o ID dela.
-    // Isso é um "hack" pro MVP funcionar hoje.
-    
-    // 1. Descobrir ID do Tenant
-    let currentTenantId = tenantId
-    if (!currentTenantId) {
-        const res = await fetch('/api/public-tenant-id?slug=barbearia-ze') // Vamos criar essa mini API rapidinho
-        const data = await res.json()
-        if (data.id) {
-            currentTenantId = data.id
-            setTenantId(data.id)
-        } else {
-            alert("Erro: Barbearia não encontrada para vincular o serviço.")
-            return
-        }
-    }
-
-    // 2. Criar Serviço
-    const res = await fetch('/api/services', {
-        method: 'POST',
-        body: JSON.stringify({
-            name,
-            price,
-            durationMin: duration,
-            tenantId: currentTenantId 
-        })
-    })
-
-    if (res.ok) {
-        setName("")
-        setPrice("")
-        loadServices(currentTenantId) // Recarrega a lista
-    } else {
-        alert("Erro ao salvar")
-    }
-  }
-
-  async function handleDelete(id: string) {
-    if(!confirm("Tem certeza?")) return
-    await fetch(`/api/services?id=${id}`, { method: 'DELETE' })
-    // Recarrega a lista
-    if(tenantId) loadServices(tenantId)
-  }
-
-  async function loadServices(tId: string) {
-    setLoading(true)
-    const res = await fetch(`/api/services?tenantId=${tId}`)
-    const data = await res.json()
-    setServices(data)
-    setLoading(false)
-  }
-
-  // Efeito inicial para carregar dados
-  useEffect(() => {
-    async function init() {
-        // Busca ID da Barbearia Zé
-        const res = await fetch('/api/public-tenant-id?slug=barbearia-ze')
-        const data = await res.json()
-        if (data.id) {
-            setTenantId(data.id)
-            loadServices(data.id)
-        }
-    }
-    init()
-  }, [])
 }

@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/app/lib/prisma'
 
-// LISTAR SERVIÇOS (Para carregar na tela)
+// ESSA LINHA CORRIGE O ERRO DOS DADOS QUE VOLTAM (Desativa o Cache)
+export const dynamic = 'force-dynamic'
+
+// LISTAR SERVIÇOS
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const tenantId = searchParams.get('tenantId')
@@ -27,8 +30,8 @@ export async function POST(request: Request) {
     const newService = await prisma.service.create({
       data: {
         name,
-        price: Number(price), // Garante que é número
-        durationMin: Number(durationMin), // O tempo em minutos
+        price: Number(price),
+        durationMin: Number(durationMin),
         description,
         tenantId
       }
