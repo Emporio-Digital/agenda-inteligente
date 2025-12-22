@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma"
 import Link from "next/link"
+import { formatInTimeZone } from 'date-fns-tz'
+import { ptBR } from 'date-fns/locale'
 
 export const dynamic = 'force-dynamic'
 
@@ -8,7 +10,7 @@ export default async function AdminDashboard() {
     orderBy: { date: 'asc' },
     include: {
       customer: true,
-      services: true, // MUDOU AQUI: services no plural
+      services: true, 
       professional: true,
       tenant: true
     }
@@ -59,22 +61,21 @@ export default async function AdminDashboard() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {appointments.map((appt) => {
-                  const dataObj = new Date(appt.date)
-                  const dia = dataObj.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })
-                  const hora = dataObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+                  // MUDANÇA: Uso de date-fns-tz para garantir exibição no horário do Brasil
+                  const dataFormatada = formatInTimeZone(appt.date, 'America/Sao_Paulo', "dd/MM", { locale: ptBR })
+                  const horaFormatada = formatInTimeZone(appt.date, 'America/Sao_Paulo', "HH:mm", { locale: ptBR })
                   
-                  // MUDANÇA: Junta os nomes dos serviços (ex: Corte + Barba)
                   const servicosTexto = appt.services.map(s => s.name).join(' + ')
 
-                  const msg = `Olá ${appt.customer.name}, confirmo seu agendamento de ${servicosTexto} na ${appt.tenant.name} dia ${dia} às ${hora}.`
+                  const msg = `Olá ${appt.customer.name}, confirmo seu agendamento de ${servicosTexto} na ${appt.tenant.name} dia ${dataFormatada} às ${horaFormatada}.`
                   const zapLink = `https://wa.me/55${cleanPhone(appt.customer.phone)}?text=${encodeURIComponent(msg)}`
 
                   return (
                     <tr key={appt.id} className="hover:bg-blue-50/50 transition-colors group">
                       <td className="p-5">
                         <div className="flex flex-col">
-                            <span className="font-black text-xl text-gray-800">{dia}</span>
-                            <span className="text-blue-600 font-bold bg-blue-100 px-2 py-0.5 rounded w-fit text-sm mt-1">{hora}</span>
+                            <span className="font-black text-xl text-gray-800">{dataFormatada}</span>
+                            <span className="text-blue-600 font-bold bg-blue-100 px-2 py-0.5 rounded w-fit text-sm mt-1">{horaFormatada}</span>
                         </div>
                       </td>
                       <td className="p-5">
@@ -83,7 +84,6 @@ export default async function AdminDashboard() {
                       </td>
                       <td className="p-5">
                         <div className="flex flex-col gap-1">
-                            {/* Renderiza cada serviço como uma etiqueta */}
                             {appt.services.map(s => (
                                 <span key={s.id} className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium border border-gray-200 w-fit">
                                     {s.name}

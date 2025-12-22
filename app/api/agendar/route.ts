@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/app/lib/prisma'
+import { addMinutes, areIntervalsOverlapping, startOfDay, endOfDay } from 'date-fns'
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    // Agora recebemos serviceIds (ARRAY) em vez de serviceId (STRING)
     const { tenantId, serviceIds, professionalId, date, customerName, customerPhone } = body
 
     // 1. Validar se tem serviços selecionados
@@ -12,47 +12,80 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Selecione pelo menos um serviço.' }, { status: 400 })
     }
 
-    // 2. Calcular a duração TOTAL para saber quando acaba
+    // 2. Calcular a duração TOTAL do NOVO agendamento
     const services = await prisma.service.findMany({
         where: { id: { in: serviceIds } }
     })
     
-    // Soma os minutos de todos os serviços
     const totalDuration = services.reduce((acc, curr) => acc + curr.durationMin, 0)
 
-    // Data de Início e Fim
+    // Data de Início e Fim do NOVO agendamento
     const startDate = new Date(date)
-    const endDate = new Date(startDate.getTime() + totalDuration * 60000)
+    const endDate = addMinutes(startDate, totalDuration)
 
-    // 3. Verificar se o profissional já tem agendamento nesse intervalo (Lógica Básica)
-    const conflito = await prisma.appointment.findFirst({
+    // 3. Verificar CONFLITO REAL
+    // Buscamos todos os agendamentos do profissional naquele DIA para checar na memória
+    const dayStart = startOfDay(startDate)
+    const dayEnd = endOfDay(startDate)
+
+    const existingAppointments = await prisma.appointment.findMany({
       where: {
         professionalId,
         date: {
-          lt: endDate, // Começa antes de terminar este
-        },
-        // Na vida real precisaria verificar o fim do agendamento existente também
-        // Mas pro MVP vamos confiar na disponibilidade da tela anterior
+          gte: dayStart,
+          lte: dayEnd
+        }
+      },
+      include: {
+        services: true // Importante para calcular a duração dos agendamentos existentes
       }
     })
 
-    // 4. Criar Cliente (ou buscar se já existe - Simplificado: Cria novo sempre pra MVP)
-    const customer = await prisma.customer.create({
-      data: {
-        name: customerName,
-        phone: customerPhone,
-        tenantId
-      }
+    const hasConflict = existingAppointments.some(appt => {
+      // Duração do agendamento existente
+      const existingDuration = appt.services.reduce((acc, s) => acc + s.durationMin, 0)
+      const apptStart = new Date(appt.date)
+      const apptEnd = addMinutes(apptStart, existingDuration)
+
+      // Verifica se os intervalos se cruzam
+      return areIntervalsOverlapping(
+        { start: startDate, end: endDate },
+        { start: apptStart, end: apptEnd }
+      )
     })
 
-    // 5. CRIAR O AGENDAMENTO (MULTI-SERVIÇOS)
+    if (hasConflict) {
+        return NextResponse.json(
+            { error: 'Horário indisponível! Já existe um agendamento neste intervalo.' }, 
+            { status: 409 }
+        )
+    }
+
+    // 4. Criar Cliente (Verifica se já existe pelo telefone no mesmo tenant)
+    let customer = await prisma.customer.findFirst({
+        where: { 
+            phone: customerPhone,
+            tenantId: tenantId
+        }
+    })
+
+    if (!customer) {
+        customer = await prisma.customer.create({
+            data: {
+                name: customerName,
+                phone: customerPhone,
+                tenantId
+            }
+        })
+    }
+
+    // 5. CRIAR O AGENDAMENTO
     const appointment = await prisma.appointment.create({
       data: {
         date: startDate,
         tenantId,
         professionalId,
         customerId: customer.id,
-        // A MÁGICA DO PRISMA (Conecta vários de uma vez)
         services: {
             connect: serviceIds.map((id: string) => ({ id }))
         }
@@ -61,7 +94,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(appointment)
   } catch (error) {
-    console.error(error)
+    console.error("Erro no agendamento:", error)
     return NextResponse.json({ error: 'Erro ao agendar' }, { status: 500 })
   }
 }

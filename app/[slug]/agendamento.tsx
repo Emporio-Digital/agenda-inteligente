@@ -10,9 +10,10 @@ interface BookingProps {
 }
 
 export default function BookingSystem({ tenantId, services, professionals, primaryColor }: BookingProps) {
+  // Passos: 1=Serviço, 2=Pro, 3=Data, 4=Hora, 5=Form, 6=Sucesso
   const [step, setStep] = useState(1)
   
-  // MUDANÇA: Agora é um ARRAY de serviços selecionados
+  // ESTADO MULTI-SERVIÇOS
   const [selectedServices, setSelectedServices] = useState<any[]>([])
   
   const [selectedPro, setSelectedPro] = useState<any>(null)
@@ -24,6 +25,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
   const [customerPhone, setCustomerPhone] = useState("")
   const [loading, setLoading] = useState(false)
 
+  // Horários estáticos para o MVP (Futuramente virá do banco)
   const timeSlots = ["09:00", "09:45", "10:30", "11:15", "14:00", "14:45", "15:30", "16:15", "17:00", "18:00"]
 
   // --- CÁLCULOS ---
@@ -32,7 +34,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
 
   // --- FUNÇÕES ---
 
-  // Lógica de Multi-Seleção (Toggle)
+  // Selecionar/Deselecionar Serviço
   function toggleService(service: any) {
     const exists = selectedServices.find(s => s.id === service.id)
     if (exists) {
@@ -50,18 +52,20 @@ export default function BookingSystem({ tenantId, services, professionals, prima
   async function handleDateSelect(date: string) {
     setSelectedDate(date)
     setBusyTimeSlots([]) 
-    // Nota: A lógica de disponibilidade completa (calculando os 45min no buraco da agenda) 
-    // requer uma API mais robusta. No MVP, checamos se o horário de INÍCIO está livre.
+    // Busca disponibilidade simples (opcional para o MVP)
     try {
-      const res = await fetch(`/api/disponibilidade?professionalId=${selectedPro.id}&date=${date}`)
-      const data = await res.json()
-      if (data.busySlots) setBusyTimeSlots(data.busySlots)
+      if(selectedPro) {
+        const res = await fetch(`/api/disponibilidade?professionalId=${selectedPro.id}&date=${date}`)
+        const data = await res.json()
+        if (data.busySlots) setBusyTimeSlots(data.busySlots)
+      }
     } catch (error) { console.error(error) }
     setStep(4)
   }
 
   async function handleFinish() {
     setLoading(true)
+    // Monta a data final ISO
     const dataFinal = new Date(`${selectedDate}T${selectedTime}:00`)
 
     try {
@@ -70,16 +74,20 @@ export default function BookingSystem({ tenantId, services, professionals, prima
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 tenantId,
-                serviceIds: selectedServices.map(s => s.id), // Envia LISTA de IDs
+                serviceIds: selectedServices.map(s => s.id), // Envia Array de IDs
                 professionalId: selectedPro.id,
-                date: dataFinal.toISOString(),
+                date: dataFinal.toISOString(), // Envia data ISO UTC
                 customerName,
                 customerPhone
             })
         })
 
-        if (response.ok) setStep(6)
-        else alert("Erro ao agendar.")
+        if (response.ok) {
+            setStep(6) // Vai para tela de sucesso/propaganda
+        } else {
+            const erro = await response.json()
+            alert(erro.error || "Erro ao agendar. Tente outro horário.")
+        }
     } catch (error) {
         alert("Erro de conexão.")
     } finally {
@@ -90,47 +98,49 @@ export default function BookingSystem({ tenantId, services, professionals, prima
   return (
     <div className="max-w-md mx-auto mt-6 bg-white p-6 rounded-xl shadow-lg border border-gray-100 text-zinc-900 font-sans">
       
-      {/* HEADER */}
+      {/* HEADER DE NAVEGAÇÃO */}
       {step < 6 && (
         <div className="mb-6 flex justify-between items-center text-xs text-gray-400 uppercase tracking-wide">
-            <span className={step >= 1 ? "text-black font-bold" : ""}>Serviços</span> &gt;
-            <span className={step >= 2 ? "text-black font-bold" : ""}>Pro</span> &gt;
-            <span className={step >= 3 ? "text-black font-bold" : ""}>Data</span>
+            <button disabled={step < 2} onClick={() => setStep(1)} className={step >= 1 ? "text-black font-bold hover:underline" : ""}>Serviços</button> &gt;
+            <button disabled={step < 3} onClick={() => setStep(2)} className={step >= 2 ? "text-black font-bold hover:underline" : ""}>Pro</button> &gt;
+            <button disabled={step < 4} onClick={() => setStep(3)} className={step >= 3 ? "text-black font-bold hover:underline" : ""}>Data</button>
         </div>
       )}
 
-      {/* 1. SELEÇÃO DE SERVIÇOS (MULTI) */}
+      {/* 1. SELEÇÃO DE SERVIÇOS */}
       {step === 1 && (
         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
           <h2 className="text-xl font-bold mb-2 text-black">Selecione os serviços</h2>
-          <p className="text-sm text-gray-500 mb-4">Você pode selecionar mais de um.</p>
+          <p className="text-sm text-gray-500 mb-4">Selecione quantos quiser.</p>
           
-          {services.map((service) => {
-            const isSelected = selectedServices.find(s => s.id === service.id)
-            return (
-                <div key={service.id} onClick={() => toggleService(service)} 
-                    className={`border p-4 rounded-lg flex justify-between cursor-pointer transition-all 
-                    ${isSelected ? 'bg-gray-900 text-white border-black' : 'hover:bg-gray-50 border-gray-200'}
-                    `}>
-                    <div>
-                        <h3 className="font-bold">{service.name}</h3>
-                        <p className={`text-xs ${isSelected ? 'text-gray-300' : 'text-gray-500'}`}>{service.durationMin} min</p>
+          <div className="space-y-3">
+            {services.map((service) => {
+                const isSelected = selectedServices.find(s => s.id === service.id)
+                return (
+                    <div key={service.id} onClick={() => toggleService(service)} 
+                        className={`border p-4 rounded-xl flex justify-between items-center cursor-pointer transition-all 
+                        ${isSelected ? 'bg-zinc-900 text-white border-black shadow-md' : 'hover:bg-gray-50 border-gray-200'}
+                        `}>
+                        <div>
+                            <h3 className="font-bold text-sm">{service.name}</h3>
+                            <p className={`text-xs ${isSelected ? 'text-gray-400' : 'text-gray-500'}`}>{service.durationMin} min</p>
+                        </div>
+                        <div className="font-bold text-sm">R$ {Number(service.price).toFixed(2)}</div>
                     </div>
-                    <div className="font-bold">R$ {Number(service.price).toFixed(2)}</div>
-                </div>
-            )
-          })}
+                )
+            })}
+          </div>
 
-          {/* BARRA DE RESUMO */}
+          {/* BARRA DE TOTAL */}
           <div className="pt-4 border-t border-gray-100 mt-4">
             <div className="flex justify-between items-center mb-4 font-medium">
-                <span>Total estimado:</span>
-                <span>{totalDuration} min • R$ {totalPrice.toFixed(2)}</span>
+                <span className="text-sm text-gray-500">Resumo:</span>
+                <span className="text-lg font-bold">{totalDuration} min • R$ {totalPrice.toFixed(2)}</span>
             </div>
             <button 
                 disabled={selectedServices.length === 0}
                 onClick={() => setStep(2)}
-                className="w-full py-4 rounded-lg text-white font-bold text-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 rounded-xl text-white font-bold text-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transform active:scale-95 transition-all"
                 style={{ backgroundColor: selectedServices.length > 0 ? primaryColor : '#ccc' }}
             >
                 Continuar
@@ -145,15 +155,15 @@ export default function BookingSystem({ tenantId, services, professionals, prima
           <h2 className="text-xl font-bold mb-2 text-black">Quem vai te atender?</h2>
           <div className="grid grid-cols-2 gap-4">
             {professionals.map((pro) => (
-              <div key={pro.id} onClick={() => handleProfessionalSelect(pro)} className="border border-gray-200 p-4 rounded-lg cursor-pointer hover:bg-gray-50 text-center transition-all">
-                <div className="w-16 h-16 rounded-full bg-gray-200 mx-auto mb-2 flex items-center justify-center text-2xl overflow-hidden border-2 border-transparent hover:border-gray-300">
-                  {pro.photoUrl ? <img src={pro.photoUrl} alt={pro.name} className="w-full h-full object-cover"/> : "✂️"}
+              <div key={pro.id} onClick={() => handleProfessionalSelect(pro)} className="border border-gray-200 p-4 rounded-xl cursor-pointer hover:bg-gray-50 text-center transition-all hover:border-black group">
+                <div className="w-16 h-16 rounded-full bg-gray-100 mx-auto mb-3 flex items-center justify-center text-2xl overflow-hidden border-2 border-transparent group-hover:border-gray-300">
+                  {pro.photoUrl ? <img src={pro.photoUrl} alt={pro.name} className="w-full h-full object-cover"/> : "💈"}
                 </div>
                 <h3 className="font-bold text-sm text-black">{pro.name}</h3>
               </div>
             ))}
           </div>
-          <button onClick={() => setStep(1)} className="text-sm text-gray-400 mt-4 underline w-full">Voltar</button>
+          <button onClick={() => setStep(1)} className="text-sm text-gray-400 mt-4 underline w-full text-center">Voltar</button>
         </div>
       )}
 
@@ -168,7 +178,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
             min={new Date().toISOString().split('T')[0]} 
             onChange={(e) => handleDateSelect(e.target.value)}
           />
-          <button onClick={() => setStep(2)} className="text-sm text-gray-400 mt-4 underline w-full">Voltar</button>
+          <button onClick={() => setStep(2)} className="text-sm text-gray-400 mt-4 underline w-full text-center">Voltar</button>
         </div>
       )}
 
@@ -176,14 +186,14 @@ export default function BookingSystem({ tenantId, services, professionals, prima
       {step === 4 && (
         <div className="animate-in fade-in slide-in-from-right-8 duration-300">
           <h2 className="text-xl font-bold mb-2 text-black">Horário de Início</h2>
-          <p className="text-xs text-gray-500 mb-4">Duração total: {totalDuration} min</p>
+          <p className="text-xs text-gray-500 mb-4">Duração total estimada: <span className="font-bold">{totalDuration} min</span></p>
           <div className="grid grid-cols-3 gap-3 mt-4">
             {timeSlots.map((time) => {
                const isBusy = busyTimeSlots.includes(time)
                return (
                  <button key={time} disabled={isBusy} onClick={() => { setSelectedTime(time); setStep(5); }}
-                   className={`py-2 rounded-md border text-sm font-semibold transition-colors
-                     ${isBusy ? 'bg-gray-100 text-gray-300 cursor-not-allowed line-through' : 'hover:bg-black hover:text-white border-gray-200 text-black'}
+                   className={`py-3 rounded-xl border text-sm font-semibold transition-all
+                     ${isBusy ? 'bg-gray-100 text-gray-300 cursor-not-allowed line-through' : 'hover:bg-black hover:text-white border-gray-200 text-black shadow-sm hover:shadow-md'}
                    `}
                    style={!isBusy ? { borderColor: primaryColor } : {}}
                  >
@@ -192,40 +202,85 @@ export default function BookingSystem({ tenantId, services, professionals, prima
                )
             })}
           </div>
-          <button onClick={() => setStep(3)} className="text-sm text-gray-400 mt-6 underline w-full">Trocar Data</button>
+          <button onClick={() => setStep(3)} className="text-sm text-gray-400 mt-6 underline w-full text-center">Trocar Data</button>
         </div>
       )}
 
-      {/* 5. FINALIZAR */}
+      {/* 5. FINALIZAR (FORMULÁRIO) */}
       {step === 5 && (
-        <div className="animate-in fade-in slide-in-from-right-8 duration-300 text-center">
-          <h2 className="text-xl font-bold mb-6 text-black">Confirmar</h2>
+        <div className="animate-in fade-in slide-in-from-right-8 duration-300">
+          <h2 className="text-xl font-bold mb-6 text-black text-center">Confirmar Agendamento</h2>
           
-          <div className="bg-gray-50 p-4 rounded-lg mb-6 text-left text-sm space-y-2 text-black border border-gray-100">
-            <p><strong className="text-gray-600">Serviços:</strong> {selectedServices.map(s => s.name).join(' + ')}</p>
-            <p><strong className="text-gray-600">Total:</strong> R$ {totalPrice.toFixed(2)} ({totalDuration} min)</p>
-            <p><strong className="text-gray-600">Pro:</strong> {selectedPro?.name}</p>
-            <p><strong className="text-gray-600">Data:</strong> {new Date(selectedDate).toLocaleDateString('pt-BR')} às {selectedTime}</p>
+          <div className="bg-gray-50 p-5 rounded-xl mb-6 text-sm space-y-3 text-black border border-gray-100 shadow-inner">
+            <div className="flex justify-between border-b border-gray-200 pb-2">
+                <span className="text-gray-500">Serviços:</span>
+                <span className="font-bold text-right max-w-[60%]">{selectedServices.map(s => s.name).join(', ')}</span>
+            </div>
+            <div className="flex justify-between">
+                <span className="text-gray-500">Profissional:</span>
+                <span className="font-bold">{selectedPro?.name}</span>
+            </div>
+            <div className="flex justify-between">
+                <span className="text-gray-500">Data e Hora:</span>
+                <span className="font-bold">{new Date(selectedDate).toLocaleDateString('pt-BR')} às {selectedTime}</span>
+            </div>
+            <div className="flex justify-between pt-2 text-base">
+                <span className="text-gray-900 font-bold">Total:</span>
+                <span className="text-green-600 font-black">R$ {totalPrice.toFixed(2)}</span>
+            </div>
           </div>
 
-          <div className="space-y-3">
-            <input type="text" placeholder="Seu Nome" className="w-full p-3 border rounded-lg text-black bg-white" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
-            <input type="tel" placeholder="WhatsApp" className="w-full p-3 border rounded-lg text-black bg-white" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} />
+          <div className="space-y-4">
+            <div>
+                <label className="text-xs font-bold text-gray-500 uppercase ml-1">Seu Nome</label>
+                <input type="text" placeholder="Ex: João Silva" className="w-full p-4 border rounded-xl text-black bg-white focus:ring-2 focus:border-transparent outline-none" style={{focusRingColor: primaryColor}} value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+            </div>
+            <div>
+                <label className="text-xs font-bold text-gray-500 uppercase ml-1">Seu WhatsApp</label>
+                <input type="tel" placeholder="(00) 00000-0000" className="w-full p-4 border rounded-xl text-black bg-white focus:ring-2 focus:border-transparent outline-none" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} />
+            </div>
           </div>
 
-          <button onClick={handleFinish} disabled={!customerName || !customerPhone || loading} className="w-full mt-6 py-4 rounded-lg text-white font-bold text-lg shadow-md disabled:opacity-50" style={{ backgroundColor: primaryColor }}>
-            {loading ? "Agendando..." : "Confirmar"}
+          <button onClick={handleFinish} disabled={!customerName || !customerPhone || loading} className="w-full mt-8 py-4 rounded-xl text-white font-bold text-lg shadow-lg disabled:opacity-50 hover:opacity-90 transition-opacity" style={{ backgroundColor: primaryColor }}>
+            {loading ? "Processando..." : "Confirmar Agendamento"}
           </button>
-          <button onClick={() => setStep(4)} className="text-sm text-gray-400 mt-4 underline">Voltar</button>
+          <button onClick={() => setStep(4)} className="text-sm text-gray-400 mt-4 underline w-full text-center">Voltar</button>
         </div>
       )}
 
-      {/* 6. SUCESSO */}
+      {/* 6. SUCESSO & PROPAGANDA (PLG) */}
       {step === 6 && (
-        <div className="text-center animate-in zoom-in duration-500 py-8">
-            <div className="text-6xl mb-4">✅</div>
-            <h2 className="text-2xl font-bold mb-2 text-black">Tudo Certo!</h2>
-            <p className="text-gray-600">Te esperamos lá.</p>
+        <div className="text-center animate-in zoom-in duration-500 py-6">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-4xl">✅</span>
+            </div>
+            <h2 className="text-2xl font-bold mb-2 text-black">Agendado com Sucesso!</h2>
+            <p className="text-gray-600 mb-8 max-w-xs mx-auto">
+                Prontinho, <strong>{customerName}</strong>. Já separamos seu horário com o <strong>{selectedPro?.name}</strong>.
+            </p>
+
+            {/* --- CARD PROPAGANDA SAAS (Product Led Growth) --- */}
+            <div className="relative group cursor-pointer overflow-hidden rounded-2xl bg-zinc-900 p-6 text-white shadow-xl transition-all hover:shadow-2xl hover:-translate-y-1 border border-zinc-800">
+                
+                {/* Efeito Glow Fundo */}
+                <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-blue-500 opacity-20 blur-2xl transition-opacity group-hover:opacity-40"></div>
+                
+                <a href="/" target="_blank" className="relative z-10 flex flex-col items-center gap-3">
+                    <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">Curtiu a praticidade?</p>
+                    <div className="text-center">
+                        <span className="block text-xl font-black text-white">Tenha uma Agenda Assim 🚀</span>
+                        <span className="text-xs text-zinc-400 mt-1 block">Simples, rápida e inteligente para o seu negócio.</span>
+                    </div>
+                    <div className="mt-3 rounded-lg bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-black shadow-md transition-transform group-hover:scale-105">
+                        Criar Minha Agenda Grátis
+                    </div>
+                </a>
+            </div>
+            {/* ------------------------------------------------ */}
+
+            <button onClick={() => window.location.reload()} className="mt-8 text-sm text-gray-400 hover:text-gray-600 underline">
+                Fazer novo agendamento
+            </button>
         </div>
       )}
     </div>
