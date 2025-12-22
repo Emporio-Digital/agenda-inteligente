@@ -10,26 +10,36 @@ interface BookingProps {
 }
 
 export default function BookingSystem({ tenantId, services, professionals, primaryColor }: BookingProps) {
-  // Passos: 1=Serviço, 2=Pro, 3=DATA, 4=HORA, 5=FIM, 6=SUCESSO
   const [step, setStep] = useState(1)
   
-  const [selectedService, setSelectedService] = useState<any>(null)
-  const [selectedPro, setSelectedPro] = useState<any>(null)
-  const [selectedDate, setSelectedDate] = useState<string>("") // YYYY-MM-DD
-  const [selectedTime, setSelectedTime] = useState<string | null>(null)
+  // MUDANÇA: Agora é um ARRAY de serviços selecionados
+  const [selectedServices, setSelectedServices] = useState<any[]>([])
   
+  const [selectedPro, setSelectedPro] = useState<any>(null)
+  const [selectedDate, setSelectedDate] = useState<string>("")
+  const [selectedTime, setSelectedTime] = useState<string | null>(null)
   const [busyTimeSlots, setBusyTimeSlots] = useState<string[]>([])
+  
   const [customerName, setCustomerName] = useState("")
   const [customerPhone, setCustomerPhone] = useState("")
   const [loading, setLoading] = useState(false)
 
-  // Horários fixos (Isso pode vir do banco no futuro)
   const timeSlots = ["09:00", "09:45", "10:30", "11:15", "14:00", "14:45", "15:30", "16:15", "17:00", "18:00"]
 
+  // --- CÁLCULOS ---
+  const totalPrice = selectedServices.reduce((acc, s) => acc + Number(s.price), 0)
+  const totalDuration = selectedServices.reduce((acc, s) => acc + s.durationMin, 0)
+
   // --- FUNÇÕES ---
-  function handleServiceSelect(service: any) {
-    setSelectedService(service)
-    setStep(2)
+
+  // Lógica de Multi-Seleção (Toggle)
+  function toggleService(service: any) {
+    const exists = selectedServices.find(s => s.id === service.id)
+    if (exists) {
+        setSelectedServices(prev => prev.filter(s => s.id !== service.id))
+    } else {
+        setSelectedServices(prev => [...prev, service])
+    }
   }
 
   function handleProfessionalSelect(pro: any) {
@@ -40,19 +50,14 @@ export default function BookingSystem({ tenantId, services, professionals, prima
   async function handleDateSelect(date: string) {
     setSelectedDate(date)
     setBusyTimeSlots([]) 
+    // Nota: A lógica de disponibilidade completa (calculando os 45min no buraco da agenda) 
+    // requer uma API mais robusta. No MVP, checamos se o horário de INÍCIO está livre.
     try {
       const res = await fetch(`/api/disponibilidade?professionalId=${selectedPro.id}&date=${date}`)
       const data = await res.json()
       if (data.busySlots) setBusyTimeSlots(data.busySlots)
-    } catch (error) {
-      console.error(error)
-    }
+    } catch (error) { console.error(error) }
     setStep(4)
-  }
-
-  function handleTimeSelect(time: string) {
-    setSelectedTime(time)
-    setStep(5)
   }
 
   async function handleFinish() {
@@ -65,7 +70,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 tenantId,
-                serviceId: selectedService.id,
+                serviceIds: selectedServices.map(s => s.id), // Envia LISTA de IDs
                 professionalId: selectedPro.id,
                 date: dataFinal.toISOString(),
                 customerName,
@@ -73,11 +78,8 @@ export default function BookingSystem({ tenantId, services, professionals, prima
             })
         })
 
-        if (response.ok) {
-            setStep(6)
-        } else {
-            alert("Erro ao agendar. Tente novamente.")
-        }
+        if (response.ok) setStep(6)
+        else alert("Erro ao agendar.")
     } catch (error) {
         alert("Erro de conexão.")
     } finally {
@@ -88,29 +90,52 @@ export default function BookingSystem({ tenantId, services, professionals, prima
   return (
     <div className="max-w-md mx-auto mt-6 bg-white p-6 rounded-xl shadow-lg border border-gray-100 text-zinc-900 font-sans">
       
-      {/* HEADER DE PROGRESSO */}
+      {/* HEADER */}
       {step < 6 && (
         <div className="mb-6 flex justify-between items-center text-xs text-gray-400 uppercase tracking-wide">
-            <span className={step >= 1 ? "text-black font-bold" : ""}>Serviço</span> &gt;
+            <span className={step >= 1 ? "text-black font-bold" : ""}>Serviços</span> &gt;
             <span className={step >= 2 ? "text-black font-bold" : ""}>Pro</span> &gt;
-            <span className={step >= 3 ? "text-black font-bold" : ""}>Data</span> &gt;
-            <span className={step >= 4 ? "text-black font-bold" : ""}>Hora</span>
+            <span className={step >= 3 ? "text-black font-bold" : ""}>Data</span>
         </div>
       )}
 
-      {/* 1. SERVIÇO */}
+      {/* 1. SELEÇÃO DE SERVIÇOS (MULTI) */}
       {step === 1 && (
         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
-          <h2 className="text-xl font-bold mb-4 text-black">O que vamos fazer hoje?</h2>
-          {services.map((service) => (
-            <div key={service.id} onClick={() => handleServiceSelect(service)} className="border p-4 rounded-lg flex justify-between cursor-pointer hover:bg-gray-50 transition-all border-gray-200 group">
-              <div>
-                <h3 className="font-bold text-black group-hover:text-gray-700">{service.name}</h3>
-                <p className="text-xs text-gray-500">{service.durationMin} min</p>
-              </div>
-              <div className="font-bold" style={{ color: primaryColor }}>R$ {Number(service.price).toFixed(2)}</div>
+          <h2 className="text-xl font-bold mb-2 text-black">Selecione os serviços</h2>
+          <p className="text-sm text-gray-500 mb-4">Você pode selecionar mais de um.</p>
+          
+          {services.map((service) => {
+            const isSelected = selectedServices.find(s => s.id === service.id)
+            return (
+                <div key={service.id} onClick={() => toggleService(service)} 
+                    className={`border p-4 rounded-lg flex justify-between cursor-pointer transition-all 
+                    ${isSelected ? 'bg-gray-900 text-white border-black' : 'hover:bg-gray-50 border-gray-200'}
+                    `}>
+                    <div>
+                        <h3 className="font-bold">{service.name}</h3>
+                        <p className={`text-xs ${isSelected ? 'text-gray-300' : 'text-gray-500'}`}>{service.durationMin} min</p>
+                    </div>
+                    <div className="font-bold">R$ {Number(service.price).toFixed(2)}</div>
+                </div>
+            )
+          })}
+
+          {/* BARRA DE RESUMO */}
+          <div className="pt-4 border-t border-gray-100 mt-4">
+            <div className="flex justify-between items-center mb-4 font-medium">
+                <span>Total estimado:</span>
+                <span>{totalDuration} min • R$ {totalPrice.toFixed(2)}</span>
             </div>
-          ))}
+            <button 
+                disabled={selectedServices.length === 0}
+                onClick={() => setStep(2)}
+                className="w-full py-4 rounded-lg text-white font-bold text-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ backgroundColor: selectedServices.length > 0 ? primaryColor : '#ccc' }}
+            >
+                Continuar
+            </button>
+          </div>
         </div>
       )}
 
@@ -128,16 +153,14 @@ export default function BookingSystem({ tenantId, services, professionals, prima
               </div>
             ))}
           </div>
-          <button onClick={() => setStep(1)} className="text-sm text-gray-400 mt-4 underline w-full hover:text-gray-600">Voltar</button>
+          <button onClick={() => setStep(1)} className="text-sm text-gray-400 mt-4 underline w-full">Voltar</button>
         </div>
       )}
 
-      {/* 3. DATA (CALENDÁRIO) */}
+      {/* 3. DATA */}
       {step === 3 && (
         <div className="space-y-4 animate-in fade-in slide-in-from-right-8 duration-300">
-          <h2 className="text-xl font-bold mb-2 text-black">Qual o melhor dia?</h2>
-          <p className="text-sm text-gray-500">Selecione a data no calendário abaixo:</p>
-          
+          <h2 className="text-xl font-bold mb-2 text-black">Escolha a data</h2>
           <input 
             type="date" 
             className="w-full p-4 border-2 rounded-xl text-lg font-bold text-center text-black bg-white focus:outline-none focus:ring-2"
@@ -145,20 +168,20 @@ export default function BookingSystem({ tenantId, services, professionals, prima
             min={new Date().toISOString().split('T')[0]} 
             onChange={(e) => handleDateSelect(e.target.value)}
           />
-
-          <button onClick={() => setStep(2)} className="text-sm text-gray-400 mt-4 underline w-full hover:text-gray-600">Voltar</button>
+          <button onClick={() => setStep(2)} className="text-sm text-gray-400 mt-4 underline w-full">Voltar</button>
         </div>
       )}
 
       {/* 4. HORÁRIO */}
       {step === 4 && (
         <div className="animate-in fade-in slide-in-from-right-8 duration-300">
-          <h2 className="text-xl font-bold mb-2 text-black">Horários para {new Date(selectedDate).toLocaleDateString('pt-BR')}</h2>
+          <h2 className="text-xl font-bold mb-2 text-black">Horário de Início</h2>
+          <p className="text-xs text-gray-500 mb-4">Duração total: {totalDuration} min</p>
           <div className="grid grid-cols-3 gap-3 mt-4">
             {timeSlots.map((time) => {
                const isBusy = busyTimeSlots.includes(time)
                return (
-                 <button key={time} disabled={isBusy} onClick={() => handleTimeSelect(time)}
+                 <button key={time} disabled={isBusy} onClick={() => { setSelectedTime(time); setStep(5); }}
                    className={`py-2 rounded-md border text-sm font-semibold transition-colors
                      ${isBusy ? 'bg-gray-100 text-gray-300 cursor-not-allowed line-through' : 'hover:bg-black hover:text-white border-gray-200 text-black'}
                    `}
@@ -169,44 +192,31 @@ export default function BookingSystem({ tenantId, services, professionals, prima
                )
             })}
           </div>
-          <button onClick={() => setStep(3)} className="text-sm text-gray-400 mt-6 underline w-full hover:text-gray-600">Trocar Data</button>
+          <button onClick={() => setStep(3)} className="text-sm text-gray-400 mt-6 underline w-full">Trocar Data</button>
         </div>
       )}
 
-      {/* 5. CADASTRO FINAL */}
+      {/* 5. FINALIZAR */}
       {step === 5 && (
         <div className="animate-in fade-in slide-in-from-right-8 duration-300 text-center">
-          <h2 className="text-xl font-bold mb-6 text-black">Finalizar Agendamento</h2>
+          <h2 className="text-xl font-bold mb-6 text-black">Confirmar</h2>
           
-          <div className="bg-gray-50 p-4 rounded-lg mb-6 text-left text-sm space-y-2 text-black border border-gray-100 shadow-inner">
-            <p><strong className="text-gray-600">Dia:</strong> {new Date(selectedDate).toLocaleDateString('pt-BR')}</p>
-            <p><strong className="text-gray-600">Hora:</strong> {selectedTime}</p>
-            <p><strong className="text-gray-600">Profissional:</strong> {selectedPro?.name}</p>
-            <p><strong className="text-gray-600">Serviço:</strong> {selectedService?.name}</p>
-            <p><strong className="text-gray-600">Valor:</strong> R$ {Number(selectedService?.price).toFixed(2)}</p>
+          <div className="bg-gray-50 p-4 rounded-lg mb-6 text-left text-sm space-y-2 text-black border border-gray-100">
+            <p><strong className="text-gray-600">Serviços:</strong> {selectedServices.map(s => s.name).join(' + ')}</p>
+            <p><strong className="text-gray-600">Total:</strong> R$ {totalPrice.toFixed(2)} ({totalDuration} min)</p>
+            <p><strong className="text-gray-600">Pro:</strong> {selectedPro?.name}</p>
+            <p><strong className="text-gray-600">Data:</strong> {new Date(selectedDate).toLocaleDateString('pt-BR')} às {selectedTime}</p>
           </div>
 
           <div className="space-y-3">
-            <input 
-                type="text" 
-                placeholder="Seu Nome Completo" 
-                className="w-full p-3 border rounded-lg text-black bg-white border-gray-300 focus:border-black outline-none transition-colors" 
-                value={customerName} 
-                onChange={(e) => setCustomerName(e.target.value)} 
-            />
-            <input 
-                type="tel" 
-                placeholder="Seu WhatsApp (com DDD)" 
-                className="w-full p-3 border rounded-lg text-black bg-white border-gray-300 focus:border-black outline-none transition-colors" 
-                value={customerPhone} 
-                onChange={(e) => setCustomerPhone(e.target.value)} 
-            />
+            <input type="text" placeholder="Seu Nome" className="w-full p-3 border rounded-lg text-black bg-white" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+            <input type="tel" placeholder="WhatsApp" className="w-full p-3 border rounded-lg text-black bg-white" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} />
           </div>
 
-          <button onClick={handleFinish} disabled={!customerName || !customerPhone || loading} className="w-full mt-6 py-4 rounded-lg text-white font-bold text-lg shadow-md disabled:opacity-50 hover:opacity-90 transition-opacity" style={{ backgroundColor: primaryColor }}>
-            {loading ? "Agendando..." : "Confirmar Agendamento"}
+          <button onClick={handleFinish} disabled={!customerName || !customerPhone || loading} className="w-full mt-6 py-4 rounded-lg text-white font-bold text-lg shadow-md disabled:opacity-50" style={{ backgroundColor: primaryColor }}>
+            {loading ? "Agendando..." : "Confirmar"}
           </button>
-          <button onClick={() => setStep(4)} className="text-sm text-gray-400 mt-4 underline hover:text-gray-600">Voltar</button>
+          <button onClick={() => setStep(4)} className="text-sm text-gray-400 mt-4 underline">Voltar</button>
         </div>
       )}
 
@@ -214,15 +224,8 @@ export default function BookingSystem({ tenantId, services, professionals, prima
       {step === 6 && (
         <div className="text-center animate-in zoom-in duration-500 py-8">
             <div className="text-6xl mb-4">✅</div>
-            <h2 className="text-2xl font-bold mb-2 text-black">Agendamento Confirmado!</h2>
-            <p className="text-gray-600">Dia {new Date(selectedDate).toLocaleDateString('pt-BR')} às {selectedTime}</p>
-            <p className="text-sm text-gray-400 mt-2">Te esperamos lá!</p>
-            
-            <div className="bg-zinc-900 text-white p-6 rounded-xl mt-8 shadow-xl">
-                <p className="font-semibold text-lg mb-2">Gostou da experiência?</p>
-                <p className="text-xs text-zinc-400 mb-4">Tenha um sistema igual para o seu negócio.</p>
-                <a href="#" className="block w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200 transition-colors">Criar Minha Agenda Grátis</a>
-            </div>
+            <h2 className="text-2xl font-bold mb-2 text-black">Tudo Certo!</h2>
+            <p className="text-gray-600">Te esperamos lá.</p>
         </div>
       )}
     </div>
