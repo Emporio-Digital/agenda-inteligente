@@ -25,7 +25,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
   const [customerPhone, setCustomerPhone] = useState("")
   const [loading, setLoading] = useState(false)
 
-  // Horários estáticos para o MVP (Futuramente virá do banco)
+  // Horários estáticos para o MVP
   const timeSlots = ["09:00", "09:45", "10:30", "11:15", "14:00", "14:45", "15:30", "16:15", "17:00", "18:00"]
 
   // --- CÁLCULOS ---
@@ -52,7 +52,6 @@ export default function BookingSystem({ tenantId, services, professionals, prima
   async function handleDateSelect(date: string) {
     setSelectedDate(date)
     setBusyTimeSlots([]) 
-    // Busca disponibilidade simples (opcional para o MVP)
     try {
       if(selectedPro) {
         const res = await fetch(`/api/disponibilidade?professionalId=${selectedPro.id}&date=${date}`)
@@ -65,7 +64,6 @@ export default function BookingSystem({ tenantId, services, professionals, prima
 
   async function handleFinish() {
     setLoading(true)
-    // Monta a data final ISO
     const dataFinal = new Date(`${selectedDate}T${selectedTime}:00`)
 
     try {
@@ -74,16 +72,16 @@ export default function BookingSystem({ tenantId, services, professionals, prima
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 tenantId,
-                serviceIds: selectedServices.map(s => s.id), // Envia Array de IDs
+                serviceIds: selectedServices.map(s => s.id),
                 professionalId: selectedPro.id,
-                date: dataFinal.toISOString(), // Envia data ISO UTC
+                date: dataFinal.toISOString(),
                 customerName,
                 customerPhone
             })
         })
 
         if (response.ok) {
-            setStep(6) // Vai para tela de sucesso/propaganda
+            setStep(6)
         } else {
             const erro = await response.json()
             alert(erro.error || "Erro ao agendar. Tente outro horário.")
@@ -131,7 +129,6 @@ export default function BookingSystem({ tenantId, services, professionals, prima
             })}
           </div>
 
-          {/* BARRA DE TOTAL */}
           <div className="pt-4 border-t border-gray-100 mt-4">
             <div className="flex justify-between items-center mb-4 font-medium">
                 <span className="text-sm text-gray-500">Resumo:</span>
@@ -233,11 +230,26 @@ export default function BookingSystem({ tenantId, services, professionals, prima
           <div className="space-y-4">
             <div>
                 <label className="text-xs font-bold text-gray-500 uppercase ml-1">Seu Nome</label>
-                <input type="text" placeholder="Ex: João Silva" className="w-full p-4 border rounded-xl text-black bg-white focus:ring-2 focus:border-transparent outline-none" style={{focusRingColor: primaryColor}} value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+                {/* CORREÇÃO AQUI: removi focusRingColor e deixei borderColor */}
+                <input 
+                  type="text" 
+                  placeholder="Ex: João Silva" 
+                  className="w-full p-4 border rounded-xl text-black bg-white focus:ring-2 focus:border-transparent outline-none" 
+                  style={{ borderColor: primaryColor }} 
+                  value={customerName} 
+                  onChange={(e) => setCustomerName(e.target.value)} 
+                />
             </div>
             <div>
                 <label className="text-xs font-bold text-gray-500 uppercase ml-1">Seu WhatsApp</label>
-                <input type="tel" placeholder="(00) 00000-0000" className="w-full p-4 border rounded-xl text-black bg-white focus:ring-2 focus:border-transparent outline-none" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} />
+                <input 
+                  type="tel" 
+                  placeholder="(00) 00000-0000" 
+                  className="w-full p-4 border rounded-xl text-black bg-white focus:ring-2 focus:border-transparent outline-none" 
+                  style={{ borderColor: primaryColor }}
+                  value={customerPhone} 
+                  onChange={(e) => setCustomerPhone(e.target.value)} 
+                />
             </div>
           </div>
 
@@ -248,7 +260,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
         </div>
       )}
 
-      {/* 6. SUCESSO & PROPAGANDA (PLG) */}
+      {/* 6. SUCESSO & PROPAGANDA */}
       {step === 6 && (
         <div className="text-center animate-in zoom-in duration-500 py-6">
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -259,12 +271,9 @@ export default function BookingSystem({ tenantId, services, professionals, prima
                 Prontinho, <strong>{customerName}</strong>. Já separamos seu horário com o <strong>{selectedPro?.name}</strong>.
             </p>
 
-            {/* --- CARD PROPAGANDA SAAS (Product Led Growth) --- */}
+            {/* PROPAGANDA */}
             <div className="relative group cursor-pointer overflow-hidden rounded-2xl bg-zinc-900 p-6 text-white shadow-xl transition-all hover:shadow-2xl hover:-translate-y-1 border border-zinc-800">
-                
-                {/* Efeito Glow Fundo */}
                 <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-blue-500 opacity-20 blur-2xl transition-opacity group-hover:opacity-40"></div>
-                
                 <a href="/" target="_blank" className="relative z-10 flex flex-col items-center gap-3">
                     <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">Curtiu a praticidade?</p>
                     <div className="text-center">
@@ -276,7 +285,6 @@ export default function BookingSystem({ tenantId, services, professionals, prima
                     </div>
                 </a>
             </div>
-            {/* ------------------------------------------------ */}
 
             <button onClick={() => window.location.reload()} className="mt-8 text-sm text-gray-400 hover:text-gray-600 underline">
                 Fazer novo agendamento
