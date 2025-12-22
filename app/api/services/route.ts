@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/app/lib/prisma'
 
-// 1. OTIMIZAÇÃO DE VELOCIDADE:
-// Isso força a API a não guardar cache, garantindo que a lista esteja sempre atualizada
-// e evitando aquela sensação de "lento" ou dados antigos voltando.
 export const dynamic = 'force-dynamic'
 
 // LISTAR SERVIÇOS
@@ -45,7 +42,7 @@ export async function POST(request: Request) {
   }
 }
 
-// DELETAR SERVIÇO (AGORA COM FORÇA TOTAL)
+// DELETAR SERVIÇO (ATUALIZADO PARA MULTI-SERVIÇOS)
 export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
@@ -53,13 +50,17 @@ export async function DELETE(request: Request) {
 
     if (!id) return NextResponse.json({ error: 'ID obrigatório' }, { status: 400 })
 
-    // PASSO 1: Apaga os agendamentos desse serviço primeiro (Limpeza)
-    // Isso evita o erro de "Foreign Key Constraint" que estava travando você.
+    // CORREÇÃO AQUI:
+    // Antes buscávamos por 'serviceId'. Agora buscamos se o serviço está na lista 'services'.
     await prisma.appointment.deleteMany({
-      where: { serviceId: id }
+      where: {
+        services: {
+            some: { id } // Tradução: "Apague agendamentos onde ALGUM serviço tenha esse ID"
+        }
+      }
     })
 
-    // PASSO 2: Agora que está limpo, apaga o serviço
+    // Depois apaga o serviço
     await prisma.service.delete({
       where: { id }
     })
