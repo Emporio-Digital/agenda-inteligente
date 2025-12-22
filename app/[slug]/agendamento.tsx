@@ -19,13 +19,13 @@ export default function BookingSystem({ tenantId, services, professionals, prima
   const [selectedPro, setSelectedPro] = useState<any>(null)
   const [selectedDate, setSelectedDate] = useState<string>("")
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
-  const [busyTimeSlots, setBusyTimeSlots] = useState<string[]>([])
+  const [busyTimeSlots, setBusyTimeSlots] = useState<string[]>([]) // Lista de horários ocupados
   
   const [customerName, setCustomerName] = useState("")
   const [customerPhone, setCustomerPhone] = useState("")
   const [loading, setLoading] = useState(false)
 
-  // Horários estáticos (Devem bater com a API)
+  // Horários estáticos (Devem ser iguais aos da API)
   const timeSlots = ["09:00", "09:45", "10:30", "11:15", "14:00", "14:45", "15:30", "16:15", "17:00", "18:00"]
 
   // --- CÁLCULOS ---
@@ -49,22 +49,31 @@ export default function BookingSystem({ tenantId, services, professionals, prima
     setStep(3)
   }
 
-  // MUDANÇA PRINCIPAL AQUI:
+  // --- A CORREÇÃO ESTÁ AQUI ---
   async function handleDateSelect(date: string) {
     setSelectedDate(date)
-    setBusyTimeSlots([]) // Limpa enquanto carrega
+    setBusyTimeSlots([]) // Limpa para não misturar dias
     
     try {
       if(selectedPro) {
-        // Agora passamos a DURAÇÃO TOTAL para a API calcular o encaixe
-        const res = await fetch(`/api/disponibilidade?professionalId=${selectedPro.id}&date=${date}&duration=${totalDuration}`)
-        const data = await res.json()
-        if (data.busySlots) {
-            setBusyTimeSlots(data.busySlots)
+        // MUDANÇA: Adicionei '/agendar' no caminho da API
+        const url = `/api/agendar/disponibilidade?professionalId=${selectedPro.id}&date=${date}&duration=${totalDuration}`
+        console.log("Buscando disponibilidade em:", url) // Para debug
+
+        const res = await fetch(url)
+        
+        if (res.ok) {
+            const data = await res.json()
+            console.log("Horários ocupados recebidos:", data.busySlots) // Para debug
+            if (data.busySlots) {
+                setBusyTimeSlots(data.busySlots)
+            }
+        } else {
+            console.error("Erro na API:", res.status)
         }
       }
     } catch (error) { 
-        console.error(error) 
+        console.error("Erro de conexão:", error) 
     }
     setStep(4)
   }
@@ -91,8 +100,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
             setStep(6)
         } else {
             const erro = await response.json()
-            // Mensagem amigável caso algo escape
-            alert(erro.error || "Poxa, esse horário acabou de ser ocupado. Tente outro!")
+            alert(erro.error || "Erro ao agendar. Esse horário pode ter sido ocupado agora.")
         }
     } catch (error) {
         alert("Erro de conexão.")
@@ -195,7 +203,9 @@ export default function BookingSystem({ tenantId, services, professionals, prima
           
           <div className="grid grid-cols-3 gap-3 mt-4">
             {timeSlots.map((time) => {
+               // Verifica se o horário está na lista de ocupados
                const isBusy = busyTimeSlots.includes(time)
+               
                return (
                  <button 
                    key={time} 
@@ -204,14 +214,16 @@ export default function BookingSystem({ tenantId, services, professionals, prima
                    className={`
                      py-3 rounded-xl border text-sm font-semibold transition-all relative
                      ${isBusy 
-                        ? 'bg-gray-100 text-gray-300 cursor-not-allowed' // Estilo Bloqueado
-                        : 'hover:bg-black hover:text-white border-gray-200 text-black shadow-sm hover:shadow-md cursor-pointer' // Estilo Livre
+                        ? 'bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed opacity-60' // ESTILO OCUPADO
+                        : 'bg-white hover:bg-black hover:text-white border-gray-200 text-black shadow-sm hover:shadow-md cursor-pointer' // ESTILO LIVRE
                      }
                    `}
-                   style={!isBusy ? { borderColor: primaryColor } : { borderColor: 'transparent' }}
+                   // Só aplica a cor da borda se estiver LIVRE
+                   style={!isBusy ? { borderColor: primaryColor } : {}}
                  >
                    {time}
-                   {isBusy && <span className="absolute inset-0 flex items-center justify-center text-gray-400 text-xs font-normal">Ocupado</span>}
+                   {/* Texto explicativo sobre o botão se estiver ocupado */}
+                   {isBusy && <span className="absolute inset-0 flex items-center justify-center text-gray-400 text-xs font-bold bg-gray-50/50">Ocupado</span>}
                  </button>
                )
             })}
@@ -220,7 +232,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
         </div>
       )}
 
-      {/* 5. FINALIZAR (FORMULÁRIO) */}
+      {/* 5. FINALIZAR */}
       {step === 5 && (
         <div className="animate-in fade-in slide-in-from-right-8 duration-300">
           <h2 className="text-xl font-bold mb-6 text-black text-center">Confirmar Agendamento</h2>
@@ -276,7 +288,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
         </div>
       )}
 
-      {/* 6. SUCESSO & PROPAGANDA */}
+      {/* 6. SUCESSO */}
       {step === 6 && (
         <div className="text-center animate-in zoom-in duration-500 py-6">
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
