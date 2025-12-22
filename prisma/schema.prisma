@@ -4,8 +4,11 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL") // <-- ADICIONADO: Essencial para Supabase + Vercel
+  // A integração Vercel+Supabase cria essa variável automaticamente (Porta 6543 - Pooler)
+  url       = env("POSTGRES_PRISMA_URL") 
+  
+  // A integração cria essa variável automaticamente (Porta 5432 - Direct)
+  directUrl = env("POSTGRES_URL_NON_POOLING") 
 }
 
 // 🏢 O CLIENTE DO SAAS (A Barbearia/Salão)
