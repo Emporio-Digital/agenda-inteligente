@@ -5,42 +5,30 @@ import bcrypt from 'bcryptjs'
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { barbershopName, name, email, password } = body
+    // Recebendo o 'theme' do frontend
+    const { barbershopName, name, email, password, theme } = body
 
-    // 1. Verificar se email já existe
-    const existingUser = await prisma.user.findUnique({
-      where: { email }
-    })
-
+    const existingUser = await prisma.user.findUnique({ where: { email } })
     if (existingUser) {
       return NextResponse.json({ error: 'Este email já está em uso.' }, { status: 400 })
     }
 
-    // 2. Gerar o "Slug" (Link da barbearia) automaticamente
-    // Ex: "Barbearia do Zé" vira "barbearia-do-ze-1234" (pra ser único)
     const randomCode = Math.floor(1000 + Math.random() * 9000)
-    const slug = barbershopName
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/[\s_-]+/g, '-') + '-' + randomCode
-
-    // 3. Criptografar a senha
+    const slug = barbershopName.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-') + '-' + randomCode
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    // 4. Criar TUDO junto (Tenant + User)
-    // O prisma faz isso numa transação segura
     const result = await prisma.$transaction(async (tx) => {
-      // Cria a Barbearia
+      // Cria a Barbearia com o TEMA ESCOLHIDO
       const newTenant = await tx.tenant.create({
         data: {
           name: barbershopName,
           slug: slug,
-          planTier: 'FREE_TRIAL', // Começa grátis pra testar
+          planTier: 'FREE_TRIAL',
+          themeVariant: theme || 'BARBER', // Salva o tema (ou Barber se falhar)
+          primaryColor: '#000000', // Default, o usuário muda depois nas configs
         }
       })
 
-      // Cria o Dono
       const newUser = await tx.user.create({
         data: {
           name,
@@ -50,8 +38,7 @@ export async function POST(request: Request) {
           tenantId: newTenant.id
         }
       })
-
-      return { newTenant, newUser }
+      return { newTenant }
     })
 
     return NextResponse.json({ success: true, slug: result.newTenant.slug })
