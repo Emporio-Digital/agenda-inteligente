@@ -4,10 +4,8 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  // A integração Vercel+Supabase cria essa variável automaticamente (Porta 6543 - Pooler)
+  // Mantive suas variáveis originais da Vercel
   url       = env("POSTGRES_PRISMA_URL") 
-  
-  // A integração cria essa variável automaticamente (Porta 5432 - Direct)
   directUrl = env("POSTGRES_URL_NON_POOLING") 
 }
 
@@ -16,7 +14,7 @@ model Tenant {
   id             String   @id @default(uuid())
   name           String
   slug           String   @unique
-  planTier       String   @default("SOLO")
+  planTier       String   @default("SOLO") // SOLO, PRO
   createdAt      DateTime @default(now())
   
   // Configurações Visuais
@@ -26,10 +24,32 @@ model Tenant {
   coverUrl       String?
   themeVariant   String   @default("BARBER")
 
+  // --- NOVOS CAMPOS (PAGAMENTO STRIPE) ---
+  stripeCustomerId   String?
+  subscriptionStatus String? // ACTIVE, PAST_DUE, CANCELED
+  // ----------------------------------------
+
   services       Service[]
   professionals  Professional[]
   customers      Customer[]
   appointments   Appointment[]
+  
+  // Relação com Usuários (Login)
+  users          User[]
+}
+
+// 👤 USUÁRIOS DO SISTEMA (LOGIN DO DONO) - NOVO MODEL
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String    @unique
+  password      String    // Senha hash (Bcrypt)
+  role          String    @default("ADMIN") // ADMIN, STAFF
+  
+  tenantId      String
+  tenant        Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  
+  createdAt     DateTime  @default(now())
 }
 
 // 💇‍♂️ OS PROFISSIONAIS
@@ -38,10 +58,21 @@ model Professional {
   name          String
   photoUrl      String?
   isActive      Boolean  @default(true)
+  
+  // --- NOVOS CAMPOS (HORÁRIOS DE TRABALHO) ---
+  // Adicionamos como String simples para facilitar a edição no painel
+  workStart     String   @default("09:00")
+  workEnd       String   @default("18:00")
+  lunchStart    String?  @default("12:00")
+  lunchEnd      String?  @default("13:00")
+  workDays      String   @default("1,2,3,4,5,6") // 0=Dom, 1=Seg...
+  // -------------------------------------------
+
+  workHours     Json?    // Mantive seu campo Json caso queira usar lógica complexa no futuro
+
   tenantId      String
   tenant        Tenant   @relation(fields: [tenantId], references: [id])
   appointments  Appointment[]
-  workHours     Json?
 }
 
 // ✂️ OS SERVIÇOS
@@ -54,7 +85,6 @@ model Service {
   tenantId      String
   tenant        Tenant   @relation(fields: [tenantId], references: [id])
   
-  // MUDANÇA AQUI: Agora um serviço pode estar em vários agendamentos (Relação N-N)
   appointments  Appointment[] 
 }
 
@@ -62,7 +92,11 @@ model Service {
 model Appointment {
   id             String   @id @default(uuid())
   date           DateTime
-  status         String   @default("SCHEDULED")
+  status         String   @default("SCHEDULED") // SCHEDULED, CANCELED, COMPLETED
+  
+  // Adicionei createdAt para ordenar no Admin (Novos primeiro)
+  createdAt      DateTime @default(now())
+
   tenantId       String
   tenant         Tenant   @relation(fields: [tenantId], references: [id])
   
@@ -72,8 +106,6 @@ model Appointment {
   customerId     String
   customer       Customer @relation(fields: [customerId], references: [id])
   
-  // MUDANÇA AQUI: Removemos 'serviceId' único e colocamos uma lista
-  // Isso cria uma tabela invisível de "Muitos-para-Muitos" automaticamente
   services       Service[]
 }
 
