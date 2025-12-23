@@ -8,19 +8,19 @@ export const dynamic = 'force-dynamic'
 
 // --- REGRAS DO SAAS ---
 const PLAN_LIMITS: any = {
-  "FREE_TRIAL": 3, // Dei uma colher de chá no Trial
+  "FREE_TRIAL": 3,
   "SOLO": 1,
   "PRO": 5,
   "UNLIMITED": 999
 }
 
-// 1. LISTAR PROFISSIONAIS (Híbrido: Funciona Publico e Admin)
+// 1. LISTAR PROFISSIONAIS
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
     let tenantId = searchParams.get('tenantId')
 
-    // Se não veio na URL (Modo Admin), tenta pegar do Token
+    // Se não veio na URL, tenta pegar do Token (Admin)
     if (!tenantId) {
       const headerList = await headers()
       const token = headerList.get('cookie')?.split('auth_token=')[1]?.split(';')[0]
@@ -33,7 +33,7 @@ export async function GET(request: Request) {
     }
 
     if (!tenantId) {
-      return NextResponse.json({ error: 'ID da Barbearia não identificado' }, { status: 400 })
+      return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
     const professionals = await prisma.professional.findMany({
@@ -47,10 +47,9 @@ export async function GET(request: Request) {
   }
 }
 
-// 2. CRIAR PROFISSIONAL (Correção do Erro "Tenant não encontrado")
+// 2. CRIAR PROFISSIONAL (COM TRAVA DE PLANO)
 export async function POST(request: Request) {
   try {
-    // A. Autenticação (Quem está criando?)
     const headerList = await headers()
     const token = headerList.get('cookie')?.split('auth_token=')[1]?.split(';')[0]
     
@@ -58,27 +57,22 @@ export async function POST(request: Request) {
 
     const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'segredo-padrao-mvp')
     const { payload } = await jwtVerify(token, secret)
-    const tenantId = payload.tenantId as string // <--- AQUI ESTÁ A CORREÇÃO
+    const tenantId = payload.tenantId as string 
 
-    // B. Dados do Form
     const body = await request.json()
     const { name } = body 
 
     if (!name) return NextResponse.json({ error: 'Nome é obrigatório' }, { status: 400 })
 
-    // C. Verificar Limites do Plano
+    // Verificar Limites
     const tenant = await prisma.tenant.findUnique({
       where: { id: tenantId },
-      include: {
-        _count: {
-          select: { professionals: true }
-        }
-      }
+      include: { _count: { select: { professionals: true } } }
     })
 
     if (!tenant) return NextResponse.json({ error: 'Barbearia não encontrada' }, { status: 404 })
 
-    const currentPlan = tenant.planTier || "FREE_TRIAL"
+    const currentPlan = tenant.planTier || "SOLO"
     const currentCount = tenant._count.professionals
     const limit = PLAN_LIMITS[currentPlan] || 1
 
@@ -88,15 +82,15 @@ export async function POST(request: Request) {
       }, { status: 403 })
     }
 
-    // D. Criar com Segurança
     const newProfessional = await prisma.professional.create({
       data: {
         name,
-        tenantId, // ID vindo do token, seguro.
+        tenantId, 
         isActive: true,
-        // Horários Padrão (O dono edita depois)
         workStart: '09:00',
         workEnd: '18:00',
+        lunchStart: '12:00',
+        lunchEnd: '13:00',
         workDays: '1,2,3,4,5,6' 
       }
     })
@@ -109,13 +103,51 @@ export async function POST(request: Request) {
   }
 }
 
-// 3. DELETAR PROFISSIONAL (Seguro)
+// 3. ATUALIZAR HORÁRIOS (PUT) - NOVO!
+export async function PUT(request: Request) {
+  try {
+    const headerList = await headers()
+    const token = headerList.get('cookie')?.split('auth_token=')[1]?.split(';')[0]
+    if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'segredo-padrao-mvp')
+    const { payload } = await jwtVerify(token, secret)
+
+    const body = await request.json()
+    const { id, name, workStart, workEnd, lunchStart, lunchEnd } = body
+
+    if (!id) return NextResponse.json({ error: 'ID obrigatório' }, { status: 400 })
+
+    // Verifica segurança (se o profissional é do dono mesmo)
+    const existing = await prisma.professional.findUnique({ where: { id }})
+    if (!existing || existing.tenantId !== payload.tenantId) {
+        return NextResponse.json({ error: 'Proibido' }, { status: 403 })
+    }
+
+    const updated = await prisma.professional.update({
+        where: { id },
+        data: {
+            name,
+            workStart,
+            workEnd,
+            lunchStart,
+            lunchEnd
+        }
+    })
+
+    return NextResponse.json(updated)
+
+  } catch (error) {
+    return NextResponse.json({ error: 'Erro ao atualizar' }, { status: 500 })
+  }
+}
+
+// 4. DELETAR PROFISSIONAL
 export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
 
-    // Autenticação
     const headerList = await headers()
     const token = headerList.get('cookie')?.split('auth_token=')[1]?.split(';')[0]
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -125,7 +157,6 @@ export async function DELETE(request: Request) {
 
     if (!id) return NextResponse.json({ error: 'ID obrigatório' }, { status: 400 })
 
-    // Verifica se o profissional pertence ao tenant do usuário logado antes de apagar
     const professional = await prisma.professional.findUnique({
         where: { id }
     })
@@ -134,15 +165,8 @@ export async function DELETE(request: Request) {
         return NextResponse.json({ error: 'Proibido' }, { status: 403 })
     }
 
-    // Limpa agendamentos
-    await prisma.appointment.deleteMany({
-      where: { professionalId: id }
-    })
-
-    // Deleta Pro
-    await prisma.professional.delete({
-      where: { id }
-    })
+    await prisma.appointment.deleteMany({ where: { professionalId: id } })
+    await prisma.professional.delete({ where: { id } })
 
     return NextResponse.json({ success: true })
   } catch (error) {

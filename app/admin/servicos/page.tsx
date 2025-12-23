@@ -1,145 +1,151 @@
-'use client'
+"use client"
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import { useState, useEffect } from "react"
+import Link from "next/link"
 
-export default function ServicesPage() {
+export default function GerenciarServicos() {
   const [services, setServices] = useState<any[]>([])
+  const [professionals, setProfessionals] = useState<any[]>([]) // Lista para o dropdown
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
 
-  // Estados do Formulário
-  const [isAdding, setIsAdding] = useState(false)
-  const [newName, setNewName] = useState('')
-  const [newPrice, setNewPrice] = useState('')
-  const [newDuration, setNewDuration] = useState('30')
+  // Form
+  const [name, setName] = useState("")
+  const [price, setPrice] = useState("")
+  const [duration, setDuration] = useState("30")
+  const [selectedProId, setSelectedProId] = useState("") // Novo campo
 
   useEffect(() => {
-    fetchServices()
+    loadData()
   }, [])
 
-  async function fetchServices() {
+  async function loadData() {
+    setLoading(true)
+    // Busca Serviços
+    const resServices = await fetch('/api/admin/services')
+    const dataServices = await resServices.json()
+    if (resServices.ok) setServices(dataServices)
+
+    // Busca Profissionais (para o select)
+    const resPros = await fetch('/api/professionals')
+    const dataPros = await resPros.json()
+    if (resPros.ok) {
+        setProfessionals(dataPros)
+        if (dataPros.length > 0) setSelectedProId(dataPros[0].id) // Seleciona o primeiro por padrão
+    }
+    
+    setLoading(false)
+  }
+
+  async function handleCreate() {
+    if (!selectedProId) {
+        alert("Você precisa cadastrar um profissional antes de criar serviços.")
+        return
+    }
+
+    setSaving(true)
     try {
-      const res = await fetch('/api/admin/services')
-      if (res.ok) {
-        const data = await res.json()
-        setServices(data)
-      }
+        const res = await fetch('/api/admin/services', {
+            method: 'POST',
+            body: JSON.stringify({
+                name,
+                price,
+                duration,
+                professionalId: selectedProId // Envia o dono
+            })
+        })
+
+        if (res.ok) {
+            await loadData() // Recarrega tudo
+            setName("")
+            setPrice("")
+            setDuration("30")
+        } else {
+            alert("Erro ao salvar")
+        }
     } catch (error) {
-      console.error(error)
+        alert("Erro de conexão")
     } finally {
-      setLoading(false)
+        setSaving(false)
     }
   }
 
-  async function handleCreate(e: React.FormEvent) {
-    e.preventDefault()
-    
-    // Validação
-    if (!newName || !newPrice || !newDuration) return alert("Preencha todos os campos!")
-
-    const res = await fetch('/api/admin/services', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: newName,
-        price: newPrice,
-        durationMin: newDuration
-      })
-    })
-
-    if (res.ok) {
-        setIsAdding(false)
-        setNewName('')
-        setNewPrice('')
-        setNewDuration('30')
-        fetchServices() // Atualiza a lista
-    } else {
-        alert('Erro ao salvar serviço')
-    }
+  async function handleDelete(id: string) {
+    if (!confirm("Apagar serviço?")) return
+    await fetch(`/api/admin/services?id=${id}`, { method: 'DELETE' })
+    setServices(prev => prev.filter(s => s.id !== id))
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 md:p-10 font-sans">
-        <div className="max-w-4xl mx-auto">
-            
-            {/* BOTÃO VOLTAR */}
-            <div className="mb-6">
-                <Link href="/admin" className="text-sm font-bold text-gray-500 hover:text-black flex items-center gap-2 transition-colors">
-                    ← Voltar ao Painel
-                </Link>
-            </div>
-
-            <div className="flex justify-between items-center mb-8">
-                <div>
-                    <h1 className="text-3xl font-bold text-gray-900">Serviços</h1>
-                    <p className="text-gray-500">Gerencie seu menu de preços.</p>
-                </div>
-                <button 
-                    onClick={() => setIsAdding(!isAdding)}
-                    className="bg-black text-white px-6 py-3 rounded-xl font-bold hover:bg-gray-800 transition-all shadow-lg"
-                >
-                    {isAdding ? 'Cancelar' : '+ Novo Serviço'}
-                </button>
-            </div>
-
-            {/* FORMULÁRIO DE ADIÇÃO */}
-            {isAdding && (
-                <form onSubmit={handleCreate} className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 mb-8 animate-in slide-in-from-top-4">
-                    <h3 className="font-bold text-lg mb-4">Adicionar Serviço</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                        <div>
-                            <label className="text-xs font-bold text-gray-500 uppercase">Nome</label>
-                            <input autoFocus value={newName} onChange={e => setNewName(e.target.value)} placeholder="Ex: Corte Navalhado" className="w-full p-3 border rounded-xl" />
-                        </div>
-                        <div>
-                            <label className="text-xs font-bold text-gray-500 uppercase">Preço (R$)</label>
-                            <input type="number" value={newPrice} onChange={e => setNewPrice(e.target.value)} placeholder="0.00" className="w-full p-3 border rounded-xl" />
-                        </div>
-                        <div>
-                            <label className="text-xs font-bold text-gray-500 uppercase">Duração (min)</label>
-                            {/* AQUI ESTÁ A CORREÇÃO: type="number" e step="5" */}
-                            <input 
-                                type="number" 
-                                step="5"
-                                min="5"
-                                value={newDuration} 
-                                onChange={e => setNewDuration(e.target.value)} 
-                                className="w-full p-3 border rounded-xl" 
-                            />
-                            <p className="text-[10px] text-gray-400 mt-1">Múltiplos de 5 min</p>
-                        </div>
-                    </div>
-                    <button type="submit" className="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700">
-                        Salvar Serviço
-                    </button>
-                </form>
-            )}
-
-            {/* LISTAGEM */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-                {loading ? (
-                    <div className="p-10 text-center text-gray-400">Carregando serviços...</div>
-                ) : services.length === 0 ? (
-                    <div className="p-10 text-center text-gray-400">Nenhum serviço cadastrado ainda.</div>
-                ) : (
-                    <div className="divide-y divide-gray-100">
-                        {services.map(service => (
-                            <div key={service.id} className="p-5 flex justify-between items-center hover:bg-gray-50">
-                                <div>
-                                    <h4 className="font-bold text-lg text-gray-900">{service.name}</h4>
-                                    <span className="text-xs font-bold bg-gray-100 text-gray-600 px-2 py-1 rounded">
-                                        ⏱ {service.durationMin} min
-                                    </span>
-                                </div>
-                                <div className="font-bold text-green-600 text-xl">
-                                    R$ {Number(service.price).toFixed(2)}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
+    <div className="min-h-screen bg-gray-50 p-8 font-sans">
+      <div className="max-w-4xl mx-auto">
+        
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-8">
+            <Link href="/admin" className="text-gray-500 hover:text-black font-medium">← Voltar</Link>
+            <h1 className="text-3xl font-bold text-gray-900">Catálogo de Serviços ✂️</h1>
         </div>
+
+        {/* Form */}
+        <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 mb-10">
+            <h2 className="text-xl font-bold mb-4 text-gray-800">Novo Serviço</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label className="text-xs font-bold text-gray-500 uppercase">Nome do Serviço</label>
+                    <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Ex: Corte Degrade" className="w-full p-3 border rounded-lg mt-1" />
+                </div>
+                <div>
+                    <label className="text-xs font-bold text-gray-500 uppercase">Preço (R$)</label>
+                    <input type="number" value={price} onChange={e => setPrice(e.target.value)} placeholder="0.00" className="w-full p-3 border rounded-lg mt-1" />
+                </div>
+                <div>
+                    <label className="text-xs font-bold text-gray-500 uppercase">Duração (min)</label>
+                    <input type="number" value={duration} onChange={e => setDuration(e.target.value)} step="5" className="w-full p-3 border rounded-lg mt-1" />
+                </div>
+                <div>
+                    <label className="text-xs font-bold text-blue-600 uppercase">Realizado por:</label>
+                    <select 
+                        value={selectedProId} 
+                        onChange={e => setSelectedProId(e.target.value)}
+                        className="w-full p-3 border-2 border-blue-100 bg-blue-50 rounded-lg mt-1 font-bold text-gray-700"
+                    >
+                        {professionals.map(p => (
+                            <option key={p.id} value={p.id}>{p.name}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+
+            <button onClick={handleCreate} disabled={!name || !price || saving} className="w-full py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition-colors">
+                {saving ? "Salvando..." : "Adicionar ao Catálogo"}
+            </button>
+        </div>
+
+        {/* Lista */}
+        <div className="space-y-3">
+            {services.map(s => (
+                <div key={s.id} className="bg-white p-4 rounded-xl border border-gray-200 flex justify-between items-center shadow-sm">
+                    <div>
+                        <h3 className="font-bold text-lg">{s.name}</h3>
+                        <div className="flex gap-3 text-sm text-gray-500">
+                            <span>⏱ {s.durationMin} min</span>
+                            <span className="text-green-600 font-bold">R$ {Number(s.price).toFixed(2)}</span>
+                        </div>
+                        {/* Mostra de quem é o serviço */}
+                        <div className="mt-1">
+                             <span className="text-[10px] uppercase font-bold bg-gray-100 px-2 py-0.5 rounded text-gray-600">
+                                Feito por: {s.professional?.name || 'Todos'}
+                             </span>
+                        </div>
+                    </div>
+                    <button onClick={() => handleDelete(s.id)} className="text-red-400 hover:text-red-600 p-2">🗑️</button>
+                </div>
+            ))}
+            {services.length === 0 && !loading && <p className="text-center text-gray-400 py-10">Nenhum serviço cadastrado.</p>}
+        </div>
+
+      </div>
     </div>
   )
 }

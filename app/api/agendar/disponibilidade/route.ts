@@ -1,99 +1,125 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/app/lib/prisma'
-import { 
-  parseISO, 
-  startOfDay, 
-  endOfDay, 
-  addMinutes, 
-  setHours, 
-  setMinutes, 
-  areIntervalsOverlapping 
-} from 'date-fns'
+import { format } from 'date-fns'
+import { toZonedTime, fromZonedTime } from 'date-fns-tz'
 
-// Garante que a API não faça cache na Vercel (sempre dados frescos)
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
     const professionalId = searchParams.get('professionalId')
-    const dateParam = searchParams.get('date') // Formato YYYY-MM-DD
-    const durationParam = searchParams.get('duration') // Duração total em minutos
+    const dateParam = searchParams.get('date') // YYYY-MM-DD
+    const durationParam = searchParams.get('duration') // Minutos
 
     if (!professionalId || !dateParam) {
-      return NextResponse.json({ error: 'Faltam dados obrigatórios' }, { status: 400 })
+      return NextResponse.json({ error: 'Dados incompletos' }, { status: 400 })
     }
 
-    // Se não vier duração, assume 30min por segurança
     const duration = durationParam ? parseInt(durationParam) : 30
-    
-    // Configura o dia da busca
-    const searchDate = parseISO(dateParam)
-    const dayStart = startOfDay(searchDate)
-    const dayEnd = endOfDay(searchDate)
+    const timeZone = 'America/Sao_Paulo'
 
-    // 1. Busca todos os agendamentos do dia (incluindo serviços para calcular duração)
+    // 1. Busca Configuração do Profissional
+    const professional = await prisma.professional.findUnique({
+        where: { id: professionalId }
+    })
+
+    if (!professional) return NextResponse.json({ error: 'Profissional não encontrado' }, { status: 404 })
+
+    const workStartMin = timeToMinutes(professional.workStart || "09:00")
+    const workEndMin = timeToMinutes(professional.workEnd || "18:00")
+    
+    let lunchStartMin = -1
+    let lunchEndMin = -1
+    if (professional.lunchStart && professional.lunchEnd) {
+        lunchStartMin = timeToMinutes(professional.lunchStart)
+        lunchEndMin = timeToMinutes(professional.lunchEnd)
+    }
+
+    // 2. Busca Agendamentos (QUERY CORRIGIDA COM FUSO BRASIL) 🇧🇷
+    // Criamos o início e fim do dia NO FUSO BRASIL e convertemos para UTC para buscar no banco
+    const startOfDayBR = new Date(`${dateParam}T00:00:00`)
+    const endOfDayBR = new Date(`${dateParam}T23:59:59`)
+    
+    const startUtc = fromZonedTime(startOfDayBR, timeZone)
+    const endUtc = fromZonedTime(endOfDayBR, timeZone)
+
     const appointments = await prisma.appointment.findMany({
       where: {
         professionalId: professionalId,
-        date: {
-          gte: dayStart,
-          lte: dayEnd
-        },
-        // Ignora cancelados
-        status: {
-            not: 'CANCELED' 
-        }
+        date: { gte: startUtc, lte: endUtc },
+        status: { not: 'CANCELED' }
       },
-      include: {
-        services: true // Precisamos disso para saber quando o agendamento existente TERMINA
-      }
+      include: { services: true }
     })
 
-    // 2. Define os Horários (Slots) Disponíveis
-    // ATENÇÃO: Esses horários devem ser IGUAIS aos que estão no seu Frontend (agendamento.tsx)
-    const timeSlots = [
-        "09:00", "09:45", "10:30", "11:15", 
-        "14:00", "14:45", "15:30", "16:15", "17:00", "18:00"
-    ]
+    // 3. GERA OS SLOTS
+    const slots = []
     
-    const busySlots: string[] = []
-
-    // 3. Verifica Slot por Slot se cabe o novo serviço
-    for (const slot of timeSlots) {
-      const [hour, minute] = slot.split(':').map(Number)
-      
-      // Cria o intervalo PROPOSTO pelo cliente
-      // Começa no horário do slot
-      const proposedStart = setMinutes(setHours(searchDate, hour), minute)
-      // Termina X minutos depois (duração do serviço escolhido)
-      const proposedEnd = addMinutes(proposedStart, duration)
-
-      // Verifica se bate com algum agendamento existente
-      const hasConflict = appointments.some((appt) => {
-        // Calcula o intervalo do agendamento JÁ EXISTENTE
-        const existingDuration = appt.services.reduce((acc, s) => acc + s.durationMin, 0)
+    for (let currentMin = workStartMin; currentMin < workEndMin; currentMin += 15) {
+        const timeString = minutesToTime(currentMin)
         
-        const existingStart = new Date(appt.date)
-        const existingEnd = addMinutes(existingStart, existingDuration)
+        // Fim deste atendimento
+        const serviceEndMin = currentMin + duration
 
-        // A mágica: Verifica se os intervalos se sobrepõem
-        return areIntervalsOverlapping(
-          { start: proposedStart, end: proposedEnd },
-          { start: existingStart, end: existingEnd }
-        )
-      })
+        let isAvailable = true
 
-      // Se tiver conflito, adiciona na lista de ocupados
-      if (hasConflict) {
-        busySlots.push(slot)
-      }
+        // A. Passou do expediente?
+        if (serviceEndMin > workEndMin) {
+            isAvailable = false
+        }
+
+        // B. Colisão com Almoço
+        if (isAvailable && lunchStartMin !== -1) {
+            // Se o serviço começa ANTES do almoço terminar E termina DEPOIS do almoço começar
+            // Ex: Almoço 12:00. Slot 11:45 (30min) -> Termina 12:15. Bateu? Sim. Bloqueia.
+            // Ex: Almoço 12:00. Slot 11:45 (15min) -> Termina 12:00. Bateu? Não. Libera.
+            if (currentMin < lunchEndMin && serviceEndMin > lunchStartMin) {
+                isAvailable = false
+            }
+        }
+
+        // C. Colisão com Agendamentos
+        if (isAvailable) {
+            const hasConflict = appointments.some(appt => {
+                // Converte a data do banco (UTC) para o horário REAL do Brasil
+                const zonedDate = toZonedTime(appt.date, timeZone)
+                const horaString = format(zonedDate, 'HH:mm')
+                
+                const apptStart = timeToMinutes(horaString)
+                const apptDuration = appt.services.reduce((acc, s) => acc + s.durationMin, 0)
+                const apptEnd = apptStart + apptDuration
+
+                // Lógica de Sobreposição:
+                // Bloqueia se o meu horário proposto encavalar com o agendamento
+                return (currentMin < apptEnd && serviceEndMin > apptStart)
+            })
+            
+            if (hasConflict) isAvailable = false
+        }
+
+        slots.push({
+            time: timeString,
+            available: isAvailable
+        })
     }
 
-    return NextResponse.json({ busySlots })
+    return NextResponse.json(slots)
 
   } catch (error) {
-    console.error("Erro ao verificar disponibilidade:", error)
+    console.error("Erro disp:", error)
     return NextResponse.json({ error: 'Erro interno' }, { status: 500 })
   }
+}
+
+// Helpers
+function timeToMinutes(timeStr: string) {
+    const [h, m] = timeStr.split(':').map(Number)
+    return h * 60 + m
+}
+
+function minutesToTime(minutes: number) {
+    const h = Math.floor(minutes / 60)
+    const m = minutes % 60
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
 }

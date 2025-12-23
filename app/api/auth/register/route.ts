@@ -5,30 +5,38 @@ import bcrypt from 'bcryptjs'
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    // Recebendo o 'theme' do frontend
-    const { barbershopName, name, email, password, theme } = body
+    // Agora recebemos também o 'plan' vindo do formulário
+    const { barbershopName, name, email, password, theme, plan } = body
 
+    // 1. Verifica se email já existe
     const existingUser = await prisma.user.findUnique({ where: { email } })
     if (existingUser) {
       return NextResponse.json({ error: 'Este email já está em uso.' }, { status: 400 })
     }
 
+    // 2. Gera Slug único (ex: barbearia-do-ze-1234)
     const randomCode = Math.floor(1000 + Math.random() * 9000)
     const slug = barbershopName.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-') + '-' + randomCode
+    
+    // 3. Criptografa a senha
     const hashedPassword = await bcrypt.hash(password, 10)
 
     const result = await prisma.$transaction(async (tx) => {
-      // Cria a Barbearia com o TEMA ESCOLHIDO
+      // 4. Cria a Barbearia (Tenant)
       const newTenant = await tx.tenant.create({
         data: {
           name: barbershopName,
           slug: slug,
-          planTier: 'FREE_TRIAL',
-          themeVariant: theme || 'BARBER', // Salva o tema (ou Barber se falhar)
-          primaryColor: '#000000', // Default, o usuário muda depois nas configs
+          // Salva o plano escolhido (SOLO, PRO, UNLIMITED)
+          planTier: plan || 'SOLO', 
+          // Marca como Período de Testes
+          subscriptionStatus: 'TRIAL', 
+          themeVariant: theme || 'BARBER', 
+          primaryColor: '#000000', 
         }
       })
 
+      // 5. Cria o Usuário Dono (Admin)
       const newUser = await tx.user.create({
         data: {
           name,

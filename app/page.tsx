@@ -2,137 +2,203 @@ import Link from "next/link"
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50 font-sans selection:bg-blue-500 selection:text-white">
+    <div className="min-h-screen bg-zinc-950 text-white font-sans selection:bg-blue-500 selection:text-white">
       
       {/* --- NAVBAR --- */}
-      <nav className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white">A</div>
-            <span className="font-bold text-xl tracking-tight">Agenda Inteligente</span>
+      <nav className="fixed top-0 w-full bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800 z-50">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          
+          {/* LOGO + NOME + SLOGAN */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 relative flex items-center justify-center">
+                <img src="/logo.png" alt="Logo Kairós" className="object-contain w-full h-full" />
+            </div>
+            <div className="flex flex-col">
+                <span className="text-xl font-bold tracking-tight text-white leading-none">Kairós</span>
+                <span className="text-[10px] text-gray-400 font-medium tracking-wide">mais controle, menos correria</span>
+            </div>
           </div>
-          <div className="flex gap-4">
-            <Link href="/admin" className="text-sm font-medium text-slate-400 hover:text-white transition-colors py-2">
+
+          {/* BOTÕES NAV */}
+          <div className="flex items-center gap-4">
+            <Link href="/login" className="text-sm font-medium text-gray-400 hover:text-white transition-colors hidden md:block">
               Entrar
             </Link>
-            <Link href="/admin" className="hidden md:block bg-white text-slate-950 px-4 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-colors">
+            <Link 
+              href="/cadastro" 
+              className="bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-900/20"
+            >
               Teste Grátis
             </Link>
           </div>
         </div>
       </nav>
 
-      {/* --- HERO SECTION (A Vitrine) --- */}
-      <section className="relative pt-20 pb-32 px-6 overflow-hidden">
-        {/* Efeito de fundo (Glow) */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-blue-600/20 rounded-full blur-[100px] -z-10"></div>
+      {/* --- HERO SECTION --- */}
+      <section className="pt-40 pb-20 px-6 relative overflow-hidden">
+        {/* Background Glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] -z-10"></div>
 
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-block mb-4 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-wider">
-            🚀 O Sistema nº 1 para o Seu Negócio
-          </div>
+        <div className="max-w-4xl mx-auto text-center space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
           
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-tight">
-            Sua agenda lotada no <br />
-            <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">Piloto Automático.</span>
+          {/* FRASE TOPO AJUSTADA (Nº 1) */}
+          <div className="inline-flex items-center gap-2 bg-zinc-900 text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-zinc-800">
+            <span>🚀</span>
+            <span>O sistema de agendamento Nº 1 do mercado</span>
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.1] text-white">
+            Sua agenda cheia. <br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+              Sua vida tranquila.
+            </span>
           </h1>
           
-          <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Pare de perder tempo respondendo WhatsApp. Deixe seus clientes agendarem sozinhos, 24 horas por dia, com confirmação automática.
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            Agendamento em 1 minuto. Seu cliente escolhe o profissional, o serviço e o horário. Simples e sem cadastro chato.
           </p>
 
-          <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-4">
             <Link 
-              href="/admin" 
-              className="w-full md:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-lg transition-all hover:scale-105 shadow-lg shadow-blue-500/20"
+              href="/cadastro" 
+              className="w-full md:w-auto bg-white text-black px-8 py-4 rounded-full text-lg font-bold hover:bg-gray-200 transition-all shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2"
             >
-              Começar Teste Grátis
-            </Link>
-            <Link 
-              href="/barbearia-ze" 
-              className="w-full md:w-auto px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold text-lg border border-slate-700 transition-all"
-            >
-              Ver Exemplo Real
+              Começar Agora 🚀
             </Link>
           </div>
 
-          <p className="mt-6 text-sm text-slate-500">
-            ✅ Sem cartão de crédito • ✅ Setup em 2 minutos • ✅ 3 Dias Grátis
+          <p className="text-xs text-gray-500 uppercase tracking-widest font-bold pt-4">
+            Teste grátis de 3 dias • Cancele quando quiser
           </p>
         </div>
       </section>
 
-      {/* --- MOCKUP / DEMO --- */}
-      <section className="px-6 pb-20">
-        <div className="max-w-5xl mx-auto bg-slate-900 rounded-2xl border border-slate-800 p-2 md:p-4 shadow-2xl">
-            <div className="bg-slate-950 rounded-xl overflow-hidden border border-slate-800 relative aspect-video flex items-center justify-center group">
-                {/* Simulação de Interface */}
-                <div className="text-center">
-                    <p className="text-slate-500 mb-4 font-mono text-sm">A interface que seu cliente vê:</p>
-                    <div className="inline-flex gap-4">
-                        <div className="w-16 h-24 bg-slate-800 rounded-lg animate-pulse"></div>
-                        <div className="w-16 h-24 bg-slate-800 rounded-lg animate-pulse delay-75"></div>
-                        <div className="w-16 h-24 bg-blue-900/50 border border-blue-500/30 rounded-lg flex items-center justify-center text-blue-400 font-bold">
-                            9:00
-                        </div>
-                    </div>
-                </div>
+      {/* --- COMO FUNCIONA (Ícones Neutros) --- */}
+      <section className="py-24 bg-zinc-900 border-y border-zinc-800">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-4 text-white">Simples como deve ser.</h2>
+            <p className="text-gray-400">Tudo automático, 24 horas por dia.</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* PASSO 1 - ÍCONE NEUTRO (USUÁRIO) */}
+            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 relative overflow-hidden group hover:border-blue-900 transition-all">
+              <span className="relative text-4xl mb-4 block">👤</span>
+              <h3 className="relative text-xl font-bold mb-2 text-white">1. Escolhe o Profissional</h3>
+              <p className="relative text-gray-400 text-sm">
+                 Escolha o especialista de sua preferência.
+              </p>
             </div>
+
+            {/* PASSO 2 - ÍCONE NEUTRO (PRANCHETA/LISTA) */}
+            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 relative overflow-hidden group hover:border-purple-900 transition-all">
+              <span className="relative text-4xl mb-4 block">📋</span>
+              <h3 className="relative text-xl font-bold mb-2 text-white">2. Escolhe o Serviço</h3>
+              <p className="relative text-gray-400 text-sm">
+                Lista de serviços personalizada para aquele profissional escolhido.
+              </p>
+            </div>
+
+            {/* PASSO 3 - ÍCONE NEUTRO (CALENDÁRIO) */}
+            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 relative overflow-hidden group hover:border-green-900 transition-all">
+              <span className="relative text-4xl mb-4 block">📅</span>
+              <h3 className="relative text-xl font-bold mb-2 text-white">3. Data e Hora</h3>
+              <p className="relative text-gray-400 text-sm">
+                Visualização clara dos horários livres reais, sem conflitos.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* --- FEATURES (Bento Grid) --- */}
-      <section className="py-20 px-6 bg-slate-950 relative">
-        <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">Tudo o que você precisa</h2>
-                <p className="text-slate-400">Desenvolvido pensando na correria do dia a dia.</p>
+      {/* --- PREÇOS --- */}
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-4 text-white">Planos que crescem com você</h2>
+            <p className="text-gray-400">Comece pequeno, termine gigante.</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            
+            {/* SOLO */}
+            <div className="border border-zinc-800 bg-zinc-900 rounded-3xl p-8 hover:border-zinc-700 transition-colors">
+              <h3 className="font-bold text-gray-500 uppercase tracking-widest text-sm mb-2">Solo</h3>
+              <div className="text-4xl font-black mb-4 text-white">R$ 29<span className="text-lg text-gray-500 font-medium">/mês</span></div>
+              <p className="text-sm text-gray-400 mb-8 border-b border-zinc-800 pb-8">
+                Ideal para autônomos que querem organização.
+              </p>
+              <ul className="space-y-3 mb-8 text-sm text-gray-300">
+                <li className="flex gap-2">✅ 1 Profissional</li>
+                <li className="flex gap-2">✅ Agendamentos Ilimitados</li>
+                <li className="flex gap-2">✅ Link Personalizado</li>
+              </ul>
+              <Link href="/cadastro" className="block w-full py-3 rounded-xl border border-white text-white font-bold text-center hover:bg-white hover:text-black transition-all">
+                Testar Grátis
+              </Link>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
-                {/* Feature 1 */}
-                <div className="bg-slate-900/50 border border-slate-800 p-8 rounded-2xl hover:border-blue-500/50 transition-colors">
-                    <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center text-2xl mb-4">⚡</div>
-                    <h3 className="text-xl font-bold mb-2">Agendamento em 3 Cliques</h3>
-                    <p className="text-slate-400">Seu cliente escolhe o serviço, o profissional e o horário. Simples e sem cadastro chato.</p>
-                </div>
-
-                {/* Feature 2 */}
-                <div className="bg-slate-900/50 border border-slate-800 p-8 rounded-2xl hover:border-purple-500/50 transition-colors">
-                    <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center text-2xl mb-4">💬</div>
-                    <h3 className="text-xl font-bold mb-2">WhatsApp Automático</h3>
-                    <p className="text-slate-400">Gere links automáticos de confirmação para reduzir faltas e manter o cliente engajado.</p>
-                </div>
-
-                {/* Feature 3 */}
-                <div className="bg-slate-900/50 border border-slate-800 p-8 rounded-2xl hover:border-green-500/50 transition-colors">
-                    <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center text-2xl mb-4">💰</div>
-                    <h3 className="text-xl font-bold mb-2">Painel de Gestão</h3>
-                    <p className="text-slate-400">Saiba exatamente quanto vai faturar no dia e organize a agenda da sua equipe.</p>
-                </div>
+            {/* PRO */}
+            <div className="border border-blue-600 bg-zinc-900 rounded-3xl p-8 relative shadow-2xl shadow-blue-900/20 transform md:-translate-y-4">
+              <div className="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl rounded-tr-2xl uppercase tracking-widest">
+                Recomendado
+              </div>
+              <h3 className="font-bold text-blue-400 uppercase tracking-widest text-sm mb-2">Pró</h3>
+              <div className="text-4xl font-black mb-4 text-white">R$ 59<span className="text-lg text-gray-500 font-medium">/mês</span></div>
+              <p className="text-sm text-gray-400 mb-8 border-b border-zinc-800 pb-8">
+                Para negócios com equipe em crescimento.
+              </p>
+              <ul className="space-y-3 mb-8 text-sm text-white">
+                <li className="flex gap-2">🚀 Até 5 Profissionais</li>
+                <li className="flex gap-2">✅ Agenda Separada por Pro</li>
+                <li className="flex gap-2">✅ Dashboard Financeiro</li>
+                <li className="flex gap-2">✅ Tudo do plano Solo</li>
+              </ul>
+              <Link href="/cadastro" className="block w-full py-3 rounded-xl bg-blue-600 text-white font-bold text-center hover:bg-blue-700 transition-all">
+                Testar Grátis Agora
+              </Link>
             </div>
-        </div>
-      </section>
 
-      {/* --- CTA FINAL --- */}
-      <section className="py-20 px-6 border-t border-slate-800 bg-gradient-to-b from-slate-950 to-slate-900">
-        <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6">Pronto para modernizar seu negócio?</h2>
-            <p className="text-slate-400 mb-8 text-lg">Junte-se a centenas de profissionais que já automatizaram suas agendas.</p>
-            <Link 
-              href="/admin" 
-              className="inline-block px-10 py-5 bg-white text-slate-950 rounded-full font-bold text-lg hover:bg-gray-200 transition-colors shadow-xl"
-            >
-              Começar Agora
-            </Link>
+            {/* ILIMITADO */}
+            <div className="border border-zinc-800 bg-zinc-900 rounded-3xl p-8 hover:border-zinc-700 transition-colors">
+              <h3 className="font-bold text-gray-500 uppercase tracking-widest text-sm mb-2">Ilimitado</h3>
+              <div className="text-4xl font-black mb-4 text-white">R$ 99<span className="text-lg text-gray-500 font-medium">/mês</span></div>
+              <p className="text-sm text-gray-400 mb-8 border-b border-zinc-800 pb-8">
+                Para grandes redes e franquias. Sem limites.
+              </p>
+              <ul className="space-y-3 mb-8 text-sm text-gray-300">
+                <li className="flex gap-2">🔥 Profissionais Ilimitados</li>
+                <li className="flex gap-2">✅ Múltiplos Admin</li>
+                <li className="flex gap-2">✅ Suporte Prioritário</li>
+                <li className="flex gap-2">✅ Gestão Completa</li>
+              </ul>
+              <Link href="/cadastro" className="block w-full py-3 rounded-xl border border-white text-white font-bold text-center hover:bg-white hover:text-black transition-all">
+                Testar Grátis
+              </Link>
+            </div>
+
+          </div>
+          <p className="text-center text-xs text-gray-500 mt-8">
+            * Valores referentes ao plano mensal. Descontos progressivos para planos semestrais e anuais disponíveis no painel.
+          </p>
         </div>
       </section>
 
       {/* --- FOOTER --- */}
-      <footer className="py-8 border-t border-slate-800 text-center text-slate-600 text-sm">
-        <p>&copy; 2025 Agenda Inteligente. Feito com ❤️ para empreendedores.</p>
+      <footer className="bg-zinc-950 py-12 border-t border-zinc-900">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-2 opacity-50">
+            <div className="w-6 h-6 relative">
+                 <img src="/logo.png" alt="Logo Kairós" className="object-contain w-full h-full grayscale" />
+            </div>
+            <span className="font-bold text-gray-400">Kairós</span>
+          </div>
+          <div className="text-sm text-gray-600">
+            © 2025 Kairós. Todos os direitos reservados.
+          </div>
+        </div>
       </footer>
-
     </div>
   )
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface BookingProps {
   tenantId: string
@@ -10,31 +10,58 @@ interface BookingProps {
 }
 
 export default function BookingSystem({ tenantId, services, professionals, primaryColor }: BookingProps) {
-  // Passos: 1=Serviço, 2=Pro, 3=Data, 4=Hora, 5=Form, 6=Sucesso
+  // Passos INVERTIDOS: 1=Pro, 2=Serviço, 3=Data, 4=Hora...
   const [step, setStep] = useState(1)
   
-  // ESTADO MULTI-SERVIÇOS
   const [selectedServices, setSelectedServices] = useState<any[]>([])
-  
   const [selectedPro, setSelectedPro] = useState<any>(null)
+  
+  // Lista de serviços FILTRADA pelo profissional escolhido
+  const [availableServices, setAvailableServices] = useState<any[]>([])
+
   const [selectedDate, setSelectedDate] = useState<string>("")
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
-  const [busyTimeSlots, setBusyTimeSlots] = useState<string[]>([]) // Lista de horários ocupados
+  const [daySlots, setDaySlots] = useState<{ time: string, available: boolean }[]>([])
+  const [loadingSlots, setLoadingSlots] = useState(false)
   
   const [customerName, setCustomerName] = useState("")
   const [customerPhone, setCustomerPhone] = useState("")
   const [loading, setLoading] = useState(false)
 
-  // Horários estáticos (Devem ser iguais aos da API)
-  const timeSlots = ["09:00", "09:45", "10:30", "11:15", "14:00", "14:45", "15:30", "16:15", "17:00", "18:00"]
-
-  // --- CÁLCULOS ---
   const totalPrice = selectedServices.reduce((acc, s) => acc + Number(s.price), 0)
   const totalDuration = selectedServices.reduce((acc, s) => acc + s.durationMin, 0)
 
-  // --- FUNÇÕES ---
+  // Quando escolhe o profissional, filtra os serviços dele
+  function handleProSelect(pro: any) {
+    setSelectedPro(pro)
+    // Filtra: Mostra serviços que são DELE ou serviços antigos sem dono (retrocompatibilidade)
+    const proServices = services.filter(s => s.professionalId === pro.id || !s.professionalId)
+    setAvailableServices(proServices)
+    setSelectedServices([]) // Limpa seleção anterior para evitar erro
+    setStep(2) // Vai para serviços
+  }
 
-  // Selecionar/Deselecionar Serviço
+  // Busca horários (Etapa 4)
+  useEffect(() => {
+    if (step === 4 && selectedPro && selectedDate) {
+        fetchSlots()
+    }
+  }, [step, selectedPro, selectedDate])
+
+  async function fetchSlots() {
+    setLoadingSlots(true)
+    setDaySlots([]) 
+    try {
+        const url = `/api/agendar/disponibilidade?professionalId=${selectedPro.id}&date=${selectedDate}&duration=${totalDuration}`
+        const res = await fetch(url)
+        if (res.ok) {
+            const data = await res.json()
+            if (Array.isArray(data)) setDaySlots(data)
+        }
+    } catch (error) { console.error(error) } 
+    finally { setLoadingSlots(false) }
+  }
+
   function toggleService(service: any) {
     const exists = selectedServices.find(s => s.id === service.id)
     if (exists) {
@@ -44,37 +71,8 @@ export default function BookingSystem({ tenantId, services, professionals, prima
     }
   }
 
-  function handleProfessionalSelect(pro: any) {
-    setSelectedPro(pro)
-    setStep(3)
-  }
-
-  // --- A CORREÇÃO ESTÁ AQUI ---
-  async function handleDateSelect(date: string) {
+  function handleDateSelect(date: string) {
     setSelectedDate(date)
-    setBusyTimeSlots([]) // Limpa para não misturar dias
-    
-    try {
-      if(selectedPro) {
-        // MUDANÇA: Adicionei '/agendar' no caminho da API
-        const url = `/api/agendar/disponibilidade?professionalId=${selectedPro.id}&date=${date}&duration=${totalDuration}`
-        console.log("Buscando disponibilidade em:", url) // Para debug
-
-        const res = await fetch(url)
-        
-        if (res.ok) {
-            const data = await res.json()
-            console.log("Horários ocupados recebidos:", data.busySlots) // Para debug
-            if (data.busySlots) {
-                setBusyTimeSlots(data.busySlots)
-            }
-        } else {
-            console.error("Erro na API:", res.status)
-        }
-      }
-    } catch (error) { 
-        console.error("Erro de conexão:", error) 
-    }
     setStep(4)
   }
 
@@ -100,35 +98,52 @@ export default function BookingSystem({ tenantId, services, professionals, prima
             setStep(6)
         } else {
             const erro = await response.json()
-            alert(erro.error || "Erro ao agendar. Esse horário pode ter sido ocupado agora.")
+            alert(erro.error || "Erro.")
+            fetchSlots()
+            setStep(4)
         }
-    } catch (error) {
-        alert("Erro de conexão.")
-    } finally {
-        setLoading(false)
-    }
+    } catch (error) { alert("Erro de conexão.") } 
+    finally { setLoading(false) }
   }
 
   return (
     <div className="max-w-md mx-auto mt-6 bg-white p-6 rounded-xl shadow-lg border border-gray-100 text-zinc-900 font-sans">
       
-      {/* HEADER DE NAVEGAÇÃO */}
+      {/* HEADER */}
       {step < 6 && (
         <div className="mb-6 flex justify-between items-center text-xs text-gray-400 uppercase tracking-wide">
-            <button disabled={step < 2} onClick={() => setStep(1)} className={step >= 1 ? "text-black font-bold hover:underline" : ""}>Serviços</button> &gt;
-            <button disabled={step < 3} onClick={() => setStep(2)} className={step >= 2 ? "text-black font-bold hover:underline" : ""}>Pro</button> &gt;
-            <button disabled={step < 4} onClick={() => setStep(3)} className={step >= 3 ? "text-black font-bold hover:underline" : ""}>Data</button>
+            <button disabled={step < 2} onClick={() => setStep(1)} className={step >= 1 ? "text-black font-bold" : ""}>Pro</button> &gt;
+            <button disabled={step < 3} onClick={() => setStep(2)} className={step >= 2 ? "text-black font-bold" : ""}>Serviços</button> &gt;
+            <button disabled={step < 4} onClick={() => setStep(3)} className={step >= 3 ? "text-black font-bold" : ""}>Data</button>
         </div>
       )}
 
-      {/* 1. SELEÇÃO DE SERVIÇOS */}
+      {/* 1. PROFISSIONAL (AGORA É O PRIMEIRO) */}
       {step === 1 && (
+        <div className="space-y-4 animate-in fade-in slide-in-from-right-8 duration-300">
+          <h2 className="text-xl font-bold mb-2 text-black">Quem vai te atender?</h2>
+          <div className="grid grid-cols-2 gap-4">
+            {professionals.map((pro) => (
+              <div key={pro.id} onClick={() => handleProSelect(pro)} className="border border-gray-200 p-4 rounded-xl cursor-pointer hover:bg-gray-50 text-center transition-all hover:border-black group">
+                <div className="w-16 h-16 rounded-full bg-gray-100 mx-auto mb-3 flex items-center justify-center text-2xl overflow-hidden border-2 border-transparent group-hover:border-gray-300">
+                  {pro.photoUrl ? <img src={pro.photoUrl} alt={pro.name} className="w-full h-full object-cover"/> : "💈"}
+                </div>
+                <h3 className="font-bold text-sm text-black">{pro.name}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 2. SERVIÇOS (FILTRADOS PELO PRO) */}
+      {step === 2 && (
         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
-          <h2 className="text-xl font-bold mb-2 text-black">Selecione os serviços</h2>
-          <p className="text-sm text-gray-500 mb-4">Selecione quantos quiser.</p>
+          <h2 className="text-xl font-bold mb-2 text-black">O que vamos fazer com {selectedPro?.name}?</h2>
           
           <div className="space-y-3">
-            {services.map((service) => {
+            {availableServices.length === 0 ? (
+                <p className="text-gray-500 text-center py-8">Este profissional ainda não tem serviços cadastrados.</p>
+            ) : availableServices.map((service) => {
                 const isSelected = selectedServices.find(s => s.id === service.id)
                 return (
                     <div key={service.id} onClick={() => toggleService(service)} 
@@ -152,31 +167,14 @@ export default function BookingSystem({ tenantId, services, professionals, prima
             </div>
             <button 
                 disabled={selectedServices.length === 0}
-                onClick={() => setStep(2)}
-                className="w-full py-4 rounded-xl text-white font-bold text-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transform active:scale-95 transition-all"
+                onClick={() => setStep(3)}
+                className="w-full py-4 rounded-xl text-white font-bold text-lg shadow-lg disabled:opacity-50 transition-all"
                 style={{ backgroundColor: selectedServices.length > 0 ? primaryColor : '#ccc' }}
             >
                 Continuar
             </button>
+            <button onClick={() => setStep(1)} className="text-sm text-gray-400 mt-4 underline w-full text-center">Trocar Profissional</button>
           </div>
-        </div>
-      )}
-
-      {/* 2. PROFISSIONAL */}
-      {step === 2 && (
-        <div className="space-y-4 animate-in fade-in slide-in-from-right-8 duration-300">
-          <h2 className="text-xl font-bold mb-2 text-black">Quem vai te atender?</h2>
-          <div className="grid grid-cols-2 gap-4">
-            {professionals.map((pro) => (
-              <div key={pro.id} onClick={() => handleProfessionalSelect(pro)} className="border border-gray-200 p-4 rounded-xl cursor-pointer hover:bg-gray-50 text-center transition-all hover:border-black group">
-                <div className="w-16 h-16 rounded-full bg-gray-100 mx-auto mb-3 flex items-center justify-center text-2xl overflow-hidden border-2 border-transparent group-hover:border-gray-300">
-                  {pro.photoUrl ? <img src={pro.photoUrl} alt={pro.name} className="w-full h-full object-cover"/> : "💈"}
-                </div>
-                <h3 className="font-bold text-sm text-black">{pro.name}</h3>
-              </div>
-            ))}
-          </div>
-          <button onClick={() => setStep(1)} className="text-sm text-gray-400 mt-4 underline w-full text-center">Voltar</button>
         </div>
       )}
 
@@ -199,40 +197,41 @@ export default function BookingSystem({ tenantId, services, professionals, prima
       {step === 4 && (
         <div className="animate-in fade-in slide-in-from-right-8 duration-300">
           <h2 className="text-xl font-bold mb-2 text-black">Horário de Início</h2>
-          <p className="text-xs text-gray-500 mb-4">Duração total estimada: <span className="font-bold">{totalDuration} min</span></p>
+          <p className="text-xs text-gray-500 mb-4">Duração total: <span className="font-bold">{totalDuration} min</span></p>
           
-          <div className="grid grid-cols-3 gap-3 mt-4">
-            {timeSlots.map((time) => {
-               // Verifica se o horário está na lista de ocupados
-               const isBusy = busyTimeSlots.includes(time)
-               
-               return (
-                 <button 
-                   key={time} 
-                   disabled={isBusy} 
-                   onClick={() => { setSelectedTime(time); setStep(5); }}
-                   className={`
-                     py-3 rounded-xl border text-sm font-semibold transition-all relative
-                     ${isBusy 
-                        ? 'bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed opacity-60' // ESTILO OCUPADO
-                        : 'bg-white hover:bg-black hover:text-white border-gray-200 text-black shadow-sm hover:shadow-md cursor-pointer' // ESTILO LIVRE
-                     }
-                   `}
-                   // Só aplica a cor da borda se estiver LIVRE
-                   style={!isBusy ? { borderColor: primaryColor } : {}}
-                 >
-                   {time}
-                   {/* Texto explicativo sobre o botão se estiver ocupado */}
-                   {isBusy && <span className="absolute inset-0 flex items-center justify-center text-gray-400 text-xs font-bold bg-gray-50/50">Ocupado</span>}
-                 </button>
-               )
-            })}
-          </div>
+          {loadingSlots ? (
+            <div className="text-center py-10 text-gray-400 animate-pulse">Verificando agenda...</div>
+          ) : (
+            <div className="grid grid-cols-4 gap-2 mt-4 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                {daySlots.length === 0 ? (
+                    <div className="col-span-4 text-center py-4 text-gray-400 text-sm">Nenhum horário disponível.</div>
+                ) : (
+                    daySlots.map((slot) => (
+                        <button 
+                        key={slot.time} 
+                        disabled={!slot.available} 
+                        onClick={() => { setSelectedTime(slot.time); setStep(5); }}
+                        className={`
+                            py-2 rounded-lg border text-sm font-semibold transition-all relative
+                            ${!slot.available
+                                ? 'bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed opacity-60' 
+                                : 'bg-white hover:bg-black hover:text-white border-gray-200 text-black shadow-sm cursor-pointer'
+                            }
+                        `}
+                        style={slot.available ? { borderColor: primaryColor } : {}}
+                        >
+                        {slot.time}
+                        </button>
+                    ))
+                )}
+            </div>
+          )}
+          
           <button onClick={() => setStep(3)} className="text-sm text-gray-400 mt-6 underline w-full text-center">Trocar Data</button>
         </div>
       )}
 
-      {/* 5. FINALIZAR */}
+      {/* 5. CONFIRMAR */}
       {step === 5 && (
         <div className="animate-in fade-in slide-in-from-right-8 duration-300">
           <h2 className="text-xl font-bold mb-6 text-black text-center">Confirmar Agendamento</h2>
@@ -260,23 +259,19 @@ export default function BookingSystem({ tenantId, services, professionals, prima
             <div>
                 <label className="text-xs font-bold text-gray-500 uppercase ml-1">Seu Nome</label>
                 <input 
-                  type="text" 
-                  placeholder="Ex: João Silva" 
+                  type="text" placeholder="Ex: João Silva" 
                   className="w-full p-4 border rounded-xl text-black bg-white focus:ring-2 focus:border-transparent outline-none" 
                   style={{ borderColor: primaryColor }} 
-                  value={customerName} 
-                  onChange={(e) => setCustomerName(e.target.value)} 
+                  value={customerName} onChange={(e) => setCustomerName(e.target.value)} 
                 />
             </div>
             <div>
                 <label className="text-xs font-bold text-gray-500 uppercase ml-1">Seu WhatsApp</label>
                 <input 
-                  type="tel" 
-                  placeholder="(00) 00000-0000" 
+                  type="tel" placeholder="(00) 00000-0000" 
                   className="w-full p-4 border rounded-xl text-black bg-white focus:ring-2 focus:border-transparent outline-none" 
                   style={{ borderColor: primaryColor }}
-                  value={customerPhone} 
-                  onChange={(e) => setCustomerPhone(e.target.value)} 
+                  value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} 
                 />
             </div>
           </div>
@@ -288,7 +283,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
         </div>
       )}
 
-      {/* 6. SUCESSO */}
+      {/* 6. SUCESSO (Com Marketing) */}
       {step === 6 && (
         <div className="text-center animate-in zoom-in duration-500 py-6">
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -299,7 +294,6 @@ export default function BookingSystem({ tenantId, services, professionals, prima
                 Prontinho, <strong>{customerName}</strong>. Já separamos seu horário com o <strong>{selectedPro?.name}</strong>.
             </p>
 
-            {/* PROPAGANDA */}
             <div className="relative group cursor-pointer overflow-hidden rounded-2xl bg-zinc-900 p-6 text-white shadow-xl transition-all hover:shadow-2xl hover:-translate-y-1 border border-zinc-800">
                 <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-blue-500 opacity-20 blur-2xl transition-opacity group-hover:opacity-40"></div>
                 <a href="/" target="_blank" className="relative z-10 flex flex-col items-center gap-3">

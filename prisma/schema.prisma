@@ -1,50 +1,46 @@
+// prisma/schema.prisma
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider  = "postgresql"
-  // Mantive suas variáveis originais da Vercel
   url       = env("POSTGRES_PRISMA_URL") 
   directUrl = env("POSTGRES_URL_NON_POOLING") 
 }
 
-// 🏢 O CLIENTE DO SAAS (A Barbearia/Salão)
+// 🏢 O CLIENTE DO SAAS
 model Tenant {
   id             String   @id @default(uuid())
   name           String
   slug           String   @unique
-  planTier       String   @default("SOLO") // SOLO, PRO
+  planTier       String   @default("SOLO")
   createdAt      DateTime @default(now())
   
-  // Configurações Visuais
   primaryColor   String   @default("#000000") 
   secondaryColor String   @default("#ffffff")
   logoUrl        String?
   coverUrl       String?
   themeVariant   String   @default("BARBER")
 
-  // --- NOVOS CAMPOS (PAGAMENTO STRIPE) ---
   stripeCustomerId   String?
-  subscriptionStatus String? // ACTIVE, PAST_DUE, CANCELED
-  // ----------------------------------------
+  subscriptionStatus String? 
 
   services       Service[]
   professionals  Professional[]
   customers      Customer[]
   appointments   Appointment[]
-  
-  // Relação com Usuários (Login)
   users          User[]
 }
 
-// 👤 USUÁRIOS DO SISTEMA (LOGIN DO DONO) - NOVO MODEL
+// 👤 USUÁRIOS (LOGIN)
 model User {
   id            String    @id @default(uuid())
   name          String?
   email         String    @unique
-  password      String    // Senha hash (Bcrypt)
-  role          String    @default("ADMIN") // ADMIN, STAFF
+  password      String    
+  role          String    @default("ADMIN") 
   
   tenantId      String
   tenant        Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
@@ -52,49 +48,52 @@ model User {
   createdAt     DateTime  @default(now())
 }
 
-// 💇‍♂️ OS PROFISSIONAIS
+// 💇‍♂️ PROFISSIONAIS
 model Professional {
   id            String   @id @default(uuid())
   name          String
   photoUrl      String?
   isActive      Boolean  @default(true)
   
-  // --- NOVOS CAMPOS (HORÁRIOS DE TRABALHO) ---
-  // Adicionamos como String simples para facilitar a edição no painel
   workStart     String   @default("09:00")
   workEnd       String   @default("18:00")
   lunchStart    String?  @default("12:00")
   lunchEnd      String?  @default("13:00")
-  workDays      String   @default("1,2,3,4,5,6") // 0=Dom, 1=Seg...
-  // -------------------------------------------
+  workDays      String   @default("1,2,3,4,5,6")
 
-  workHours     Json?    // Mantive seu campo Json caso queira usar lógica complexa no futuro
+  workHours     Json?    
 
   tenantId      String
   tenant        Tenant   @relation(fields: [tenantId], references: [id])
   appointments  Appointment[]
-}
-
-// ✂️ OS SERVIÇOS
-model Service {
-  id            String   @id @default(uuid())
-  name          String
-  price         Decimal
-  durationMin   Int
-  description   String?
-  tenantId      String
-  tenant        Tenant   @relation(fields: [tenantId], references: [id])
   
-  appointments  Appointment[] 
+  // VINCULO NOVO: O Profissional tem SEUS serviços
+  services      Service[] 
 }
 
-// 📅 OS AGENDAMENTOS
+// ✂️ SERVIÇOS (Agora vinculados ao Profissional)
+model Service {
+  id             String   @id @default(uuid())
+  name           String
+  price          Decimal
+  durationMin    Int
+  description    String?
+  
+  tenantId       String
+  tenant         Tenant   @relation(fields: [tenantId], references: [id])
+  
+  // VINCULO NOVO
+  professionalId String?  
+  professional   Professional? @relation(fields: [professionalId], references: [id])
+  
+  appointments   Appointment[] 
+}
+
+// 📅 AGENDAMENTOS
 model Appointment {
   id             String   @id @default(uuid())
-  date           DateTime
-  status         String   @default("SCHEDULED") // SCHEDULED, CANCELED, COMPLETED
-  
-  // Adicionei createdAt para ordenar no Admin (Novos primeiro)
+  date           DateTime 
+  status         String   @default("SCHEDULED") 
   createdAt      DateTime @default(now())
 
   tenantId       String
@@ -109,7 +108,7 @@ model Appointment {
   services       Service[]
 }
 
-// 👤 O CLIENTE FINAL
+// 👤 CLIENTE FINAL
 model Customer {
   id        String   @id @default(uuid())
   name      String
