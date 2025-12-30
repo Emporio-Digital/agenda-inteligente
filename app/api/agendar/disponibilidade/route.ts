@@ -26,17 +26,20 @@ export async function GET(request: Request) {
 
     if (!professional) return NextResponse.json({ error: 'Profissional não encontrado' }, { status: 404 })
 
-    // --- NOVO: FILTRO DE DIAS DE TRABALHO ---
-    // Verifica se o dia da semana da data escolhida está na lista de dias permitidos
-    const dateObj = new Date(dateParam + "T12:00:00") // Força meio dia para não ter erro de fuso na checagem do dia
-    const dayOfWeek = dateObj.getDay().toString() // 0=Dom, 1=Seg...
+    // --- 1.5 VERIFICA DIAS DE TRABALHO (ADICIONADO COM CUIDADO) ---
+    // Criamos uma data ao meio-dia para garantir que o fuso não jogue para o dia anterior/seguinte na checagem
+    const [ano, mes, dia] = dateParam.split('-').map(Number)
+    const checkDate = new Date(ano, mes - 1, dia, 12, 0, 0) 
+    const dayOfWeek = checkDate.getDay().toString() // 0=Dom, 1=Seg...
     
-    // Se workDays existir, verifica. Se não existir (legado), assume que trabalha todo dia.
-    if (professional.workDays && !professional.workDays.split(',').includes(dayOfWeek)) {
-        // Se hoje não é dia de trabalho, retorna lista vazia (sem horários)
-        return NextResponse.json([])
+    // Se existir configuração de dias, verifica se o dia atual é permitido
+    if (professional.workDays) {
+        const allowedDays = professional.workDays.split(',')
+        if (!allowedDays.includes(dayOfWeek)) {
+            return NextResponse.json([]) // Dia fechado
+        }
     }
-    // ----------------------------------------
+    // -------------------------------------------------------------
 
     const workStartMin = timeToMinutes(professional.workStart || "09:00")
     const workEndMin = timeToMinutes(professional.workEnd || "18:00")
@@ -48,8 +51,7 @@ export async function GET(request: Request) {
         lunchEndMin = timeToMinutes(professional.lunchEnd)
     }
 
-    // 2. Busca Agendamentos (QUERY CORRIGIDA COM FUSO BRASIL) 🇧🇷
-    // Criamos o início e fim do dia NO FUSO BRASIL e convertemos para UTC para buscar no banco
+    // 2. Busca Agendamentos (LÓGICA ORIGINAL RESTAURADA) 🇧🇷
     const startOfDayBR = new Date(`${dateParam}T00:00:00`)
     const endOfDayBR = new Date(`${dateParam}T23:59:59`)
     
@@ -65,13 +67,14 @@ export async function GET(request: Request) {
       include: { services: true }
     })
 
-    // 3. GERA OS SLOTS
+    // 3. GERA OS SLOTS (LÓGICA ORIGINAL DE 15 EM 15 MIN)
     const slots = []
     
+    // Loop de 15 em 15 minutos exatos
     for (let currentMin = workStartMin; currentMin < workEndMin; currentMin += 15) {
         const timeString = minutesToTime(currentMin)
         
-        // Fim deste atendimento
+        // Fim deste atendimento (baseado na duração do serviço escolhido)
         const serviceEndMin = currentMin + duration
 
         let isAvailable = true
@@ -83,18 +86,15 @@ export async function GET(request: Request) {
 
         // B. Colisão com Almoço
         if (isAvailable && lunchStartMin !== -1) {
-            // Se o serviço começa ANTES do almoço terminar E termina DEPOIS do almoço começar
-            // Ex: Almoço 12:00. Slot 11:45 (30min) -> Termina 12:15. Bateu? Sim. Bloqueia.
-            // Ex: Almoço 12:00. Slot 11:45 (15min) -> Termina 12:00. Bateu? Não. Libera.
             if (currentMin < lunchEndMin && serviceEndMin > lunchStartMin) {
                 isAvailable = false
             }
         }
 
-        // C. Colisão com Agendamentos
+        // C. Colisão com Agendamentos Existentes
         if (isAvailable) {
             const hasConflict = appointments.some(appt => {
-                // Converte a data do banco (UTC) para o horário REAL do Brasil
+                // Converte a data UTC do banco para o horário local (Brasil) para comparar minutos
                 const zonedDate = toZonedTime(appt.date, timeZone)
                 const horaString = format(zonedDate, 'HH:mm')
                 
@@ -102,8 +102,7 @@ export async function GET(request: Request) {
                 const apptDuration = appt.services.reduce((acc, s) => acc + s.durationMin, 0)
                 const apptEnd = apptStart + apptDuration
 
-                // Lógica de Sobreposição:
-                // Bloqueia se o meu horário proposto encavalar com o agendamento
+                // Lógica Matemática de Colisão
                 return (currentMin < apptEnd && serviceEndMin > apptStart)
             })
             
@@ -124,7 +123,7 @@ export async function GET(request: Request) {
   }
 }
 
-// Helpers
+// Helpers Matemáticos (INTOCÁVEIS)
 function timeToMinutes(timeStr: string) {
     const [h, m] = timeStr.split(':').map(Number)
     return h * 60 + m

@@ -47,24 +47,23 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     orderBy: { name: 'asc' }
   })
 
-  // 3. Busca Agendamentos
+  // 3. Busca Agendamentos (Lógica Padrão)
   const whereCondition: any = { 
     tenantId: tenantId, 
     date: { gte: new Date() } // Apenas futuros
   }
   
-  // Se tiver um ID selecionado na aba, filtra só ele. Se não, traz tudo.
   if (filterProId && filterProId !== 'all') {
     whereCondition.professionalId = filterProId
   }
 
   const rawAppointments = await prisma.appointment.findMany({
-    where: { ...whereCondition }, 
+    where: whereCondition,
     orderBy: { date: 'asc' },
     include: { customer: true, services: true, professional: true, tenant: true }
   })
 
-  // 4. CORREÇÃO DECIMAL (Preço para String)
+  // 4. Correção Decimal
   const appointments = rawAppointments.map(appt => ({
     ...appt,
     services: appt.services.map(s => ({
@@ -80,15 +79,13 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
   }, 0)
 
   const shareUrl = `${process.env.NEXT_PUBLIC_URL || 'https://agenda-inteligente.vercel.app'}/${tenantSlug}`
-  
-  // REGRA: Mostra abas sempre que houver profissionais cadastrados
   const showTabs = professionals.length > 0 
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:p-10 font-sans flex flex-col">
       <div className="max-w-7xl mx-auto w-full flex-grow">
         
-        {/* --- CARD DE UPGRADE / STATUS DO PLANO --- */}
+        {/* CARD UPGRADE */}
         <div className="bg-gradient-to-r from-zinc-900 to-zinc-800 text-white p-4 rounded-xl shadow-md mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-3">
                 <div className="bg-white/10 p-2 rounded-lg text-2xl">🚀</div>
@@ -113,7 +110,6 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                 <h1 className="text-2xl font-extrabold text-gray-900">Painel do Dono 🎩</h1>
                 <p className="text-sm text-gray-500">Bem-vindo, {tenantName}</p>
             </div>
-            
             <div className="flex flex-col items-end gap-2 w-full md:w-auto">
                 <span className="text-[10px] uppercase font-bold text-gray-400">Seu Link</span>
                 <div className="flex items-center gap-2 bg-gray-100 p-2 rounded-lg border border-gray-200 w-full md:w-auto">
@@ -124,23 +120,20 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
              <LogoutButton />
         </div>
 
-        {/* ATALHOS & KPI */}
+        {/* ATALHOS */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <Link href="/admin/servicos" className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-blue-500 transition-all flex flex-col items-center justify-center gap-2 group">
                 <span className="text-3xl">✂️</span>
                 <span className="font-bold text-gray-700">Serviços</span>
             </Link>
-            
             <Link href="/admin/profissionais" className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-green-500 transition-all flex flex-col items-center justify-center gap-2 group">
                 <span className="text-3xl">💈</span>
                 <span className="font-bold text-gray-700">Equipe</span>
             </Link>
-            
             <Link href="/admin/configuracoes" className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-500 transition-all flex flex-col items-center justify-center gap-2 group">
                 <span className="text-3xl">⚙️</span>
                 <span className="font-bold text-gray-700">Configurações</span>
             </Link>
-            
             <div className="bg-zinc-900 px-6 py-2 rounded-xl shadow-lg border border-gray-800 flex flex-col items-center justify-center text-white">
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Faturamento Previsto</span>
                 <div className="flex flex-col items-center">
@@ -155,27 +148,9 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
             <div className="mb-6">
                 <p className="text-xs font-bold text-gray-400 uppercase mb-2 ml-1">Filtrar Agenda por Profissional:</p>
                 <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar">
-                    <Link 
-                        href="/admin" 
-                        className={`px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all shadow-sm
-                        ${!filterProId || filterProId === 'all' 
-                            ? 'bg-black text-white ring-2 ring-black ring-offset-2' 
-                            : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 hover:border-gray-300'
-                        }`}
-                    >
-                        Todos
-                    </Link>
-
+                    <Link href="/admin" className={`px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all shadow-sm ${!filterProId || filterProId === 'all' ? 'bg-black text-white' : 'bg-white text-gray-600 border border-gray-200'}`}>Todos</Link>
                     {professionals.map(pro => (
-                        <Link 
-                            key={pro.id} 
-                            href={`/admin?proId=${pro.id}`}
-                            className={`px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all shadow-sm flex items-center gap-2
-                            ${filterProId === pro.id 
-                                ? 'bg-black text-white ring-2 ring-black ring-offset-2' 
-                                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 hover:border-gray-300'
-                            }`}
-                        >
+                        <Link key={pro.id} href={`/admin?proId=${pro.id}`} className={`px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all shadow-sm flex items-center gap-2 ${filterProId === pro.id ? 'bg-black text-white' : 'bg-white text-gray-600 border border-gray-200'}`}>
                             <span>{pro.name}</span>
                         </Link>
                     ))}
@@ -198,9 +173,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {appointments.length === 0 ? (
-                    <tr><td colSpan={5} className="p-10 text-center text-gray-400">
-                        {filterProId ? 'Nenhum agendamento para este profissional.' : 'Nenhum agendamento futuro encontrado.'}
-                    </td></tr>
+                    <tr><td colSpan={5} className="p-10 text-center text-gray-400">{filterProId ? 'Nenhum agendamento para este profissional.' : 'Nenhum agendamento futuro encontrado.'}</td></tr>
                 ) : (
                     appointments.map((appt) => <AppointmentRow key={appt.id} appt={appt} />)
                 )}
@@ -210,11 +183,9 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
         </div>
       </div>
       
-      {/* FOOTER CORRIGIDO */}
+      {/* FOOTER */}
       <footer className="mt-12 text-center border-t border-gray-200 pt-6 pb-2">
-         <p className="text-xs text-gray-400 font-medium">
-            Powered by <strong className="text-gray-600">EG Empório Digital</strong> © 2025
-         </p>
+         <p className="text-xs text-gray-400 font-medium">Powered by <strong className="text-gray-600">EG Empório Digital</strong> © 2025</p>
       </footer>
     </div>
   )
