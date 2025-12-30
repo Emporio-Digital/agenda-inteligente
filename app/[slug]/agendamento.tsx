@@ -81,8 +81,16 @@ export default function BookingSystem({ tenantId, services, professionals, prima
     if(selectedDate) setStep(4)
   }
 
+  // Helper para formatar data visualmente SEM erro de fuso (String pura)
+  function formatDateDisplay(dateString: string) {
+    if (!dateString) return ""
+    const [ano, mes, dia] = dateString.split('-')
+    return `${dia}/${mes}/${ano}`
+  }
+
   async function handleFinish() {
     setLoading(true)
+    // Cria a data combinada forçando o horário escolhido
     const dataFinal = new Date(`${selectedDate}T${selectedTime}:00`)
 
     try {
@@ -123,7 +131,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
         </div>
       )}
 
-      {/* 1. PROFISSIONAL (AGORA É O PRIMEIRO) */}
+      {/* 1. PROFISSIONAL */}
       {step === 1 && (
         <div className="space-y-4 animate-in fade-in slide-in-from-right-8 duration-300">
           <h2 className="text-xl font-bold mb-2 text-black">Quem vai te atender?</h2>
@@ -140,7 +148,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
         </div>
       )}
 
-      {/* 2. SERVIÇOS (FILTRADOS PELO PRO) */}
+      {/* 2. SERVIÇOS */}
       {step === 2 && (
         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
           <h2 className="text-xl font-bold mb-2 text-black">O que vamos fazer com {selectedPro?.name}?</h2>
@@ -245,7 +253,7 @@ export default function BookingSystem({ tenantId, services, professionals, prima
         </div>
       )}
 
-      {/* 5. CONFIRMAR */}
+      {/* 5. CONFIRMAR - CORRIGIDO O BUG VISUAL DA DATA */}
       {step === 5 && (
         <div className="animate-in fade-in slide-in-from-right-8 duration-300">
           <h2 className="text-xl font-bold mb-6 text-black text-center">Confirmar Agendamento</h2>
@@ -259,10 +267,13 @@ export default function BookingSystem({ tenantId, services, professionals, prima
                 <span className="text-gray-500">Profissional:</span>
                 <span className="font-bold">{selectedPro?.name}</span>
             </div>
+            
+            {/* CORREÇÃO AQUI: Usa a função formatDateDisplay para não ter erro de fuso */}
             <div className="flex justify-between">
                 <span className="text-gray-500">Data e Hora:</span>
-                <span className="font-bold">{new Date(selectedDate).toLocaleDateString('pt-BR')} às {selectedTime}</span>
+                <span className="font-bold">{formatDateDisplay(selectedDate)} às {selectedTime}</span>
             </div>
+            
             <div className="flex justify-between pt-2 text-base">
                 <span className="text-gray-900 font-bold">Total:</span>
                 <span className="text-green-600 font-black">R$ {totalPrice.toFixed(2)}</span>
