@@ -20,7 +20,6 @@ export default function GerenciarProfissionais() {
 
   async function loadProfessionals() {
     setLoading(true)
-    // Agora busca direto (o cookie autentica)
     const res = await fetch(`/api/professionals`, { cache: 'no-store' })
     if (res.ok) {
         const data = await res.json()
@@ -60,7 +59,7 @@ export default function GerenciarProfissionais() {
     try {
         const res = await fetch('/api/professionals', {
             method: 'PUT',
-            body: JSON.stringify(editingPro) // Envia o objeto editado completo
+            body: JSON.stringify(editingPro) // Envia o objeto editado completo (incluindo workDays)
         })
 
         if (res.ok) {
@@ -75,6 +74,23 @@ export default function GerenciarProfissionais() {
     } finally {
         setSaving(false)
     }
+  }
+
+  // Função para gerenciar os Dias de Trabalho
+  function toggleDay(dayValue: string) {
+    if(!editingPro) return
+
+    // Se workDays for nulo ou vazio, assume padrão.
+    const currentDays = editingPro.workDays ? editingPro.workDays.split(',') : []
+    
+    let newDays
+    if (currentDays.includes(dayValue)) {
+        newDays = currentDays.filter((d: string) => d !== dayValue)
+    } else {
+        newDays = [...currentDays, dayValue]
+    }
+    
+    setEditingPro({ ...editingPro, workDays: newDays.join(',') })
   }
 
   // DELETAR
@@ -92,6 +108,16 @@ export default function GerenciarProfissionais() {
         alert("Erro ao excluir.")
     }
   }
+
+  const daysMap = [
+      { label: "Dom", val: "0" },
+      { label: "Seg", val: "1" },
+      { label: "Ter", val: "2" },
+      { label: "Qua", val: "3" },
+      { label: "Qui", val: "4" },
+      { label: "Sex", val: "5" },
+      { label: "Sab", val: "6" },
+  ]
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8 font-sans relative">
@@ -189,13 +215,14 @@ export default function GerenciarProfissionais() {
       {/* --- MODAL DE EDIÇÃO --- */}
       {editingPro && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-lg">
+            <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-between items-center mb-6">
                     <h3 className="text-xl font-bold">Editar Profissional</h3>
                     <button onClick={() => setEditingPro(null)} className="text-gray-400 hover:text-black">✕</button>
                 </div>
                 
-                <div className="space-y-4">
+                <div className="space-y-6">
+                    {/* Nome */}
                     <div>
                         <label className="text-xs font-bold text-gray-500 uppercase">Nome</label>
                         <input 
@@ -206,6 +233,7 @@ export default function GerenciarProfissionais() {
                         />
                     </div>
                     
+                    {/* Horários */}
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="text-xs font-bold text-gray-500 uppercase">Início Expediente</label>
@@ -227,6 +255,30 @@ export default function GerenciarProfissionais() {
                         </div>
                     </div>
 
+                    {/* --- NOVO: Dias de Funcionamento --- */}
+                    <div>
+                        <label className="text-xs font-bold text-gray-500 uppercase mb-2 block">Dias de Trabalho</label>
+                        <div className="flex flex-wrap gap-2">
+                            {daysMap.map((day) => {
+                                const isSelected = editingPro.workDays?.split(',').includes(day.val)
+                                return (
+                                    <button
+                                        key={day.val}
+                                        onClick={() => toggleDay(day.val)}
+                                        className={`w-10 h-10 rounded-lg text-sm font-bold border transition-all
+                                            ${isSelected 
+                                                ? 'bg-black text-white border-black' 
+                                                : 'bg-white text-gray-400 border-gray-200 hover:border-gray-400'}
+                                        `}
+                                    >
+                                        {day.label}
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Almoço */}
                     <div className="bg-orange-50 p-4 rounded-lg border border-orange-100">
                         <p className="text-xs font-bold text-orange-600 uppercase mb-2">Horário de Almoço (Bloqueio)</p>
                         <div className="grid grid-cols-2 gap-4">

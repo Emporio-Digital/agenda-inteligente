@@ -94,7 +94,7 @@ export default async function BarbeariaPage({ params }: { params: Promise<{ slug
         </div>
 
         <div className="text-center mt-8 opacity-50 text-xs">
-            <p>Powered by Agenda Inteligente © 2025</p>
+            <p>Powered by <strong>EG Empório Digital</strong> © 2025</p>
         </div>
       </div>
 

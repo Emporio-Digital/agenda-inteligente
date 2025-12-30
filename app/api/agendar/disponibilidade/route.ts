@@ -26,6 +26,18 @@ export async function GET(request: Request) {
 
     if (!professional) return NextResponse.json({ error: 'Profissional não encontrado' }, { status: 404 })
 
+    // --- NOVO: FILTRO DE DIAS DE TRABALHO ---
+    // Verifica se o dia da semana da data escolhida está na lista de dias permitidos
+    const dateObj = new Date(dateParam + "T12:00:00") // Força meio dia para não ter erro de fuso na checagem do dia
+    const dayOfWeek = dateObj.getDay().toString() // 0=Dom, 1=Seg...
+    
+    // Se workDays existir, verifica. Se não existir (legado), assume que trabalha todo dia.
+    if (professional.workDays && !professional.workDays.split(',').includes(dayOfWeek)) {
+        // Se hoje não é dia de trabalho, retorna lista vazia (sem horários)
+        return NextResponse.json([])
+    }
+    // ----------------------------------------
+
     const workStartMin = timeToMinutes(professional.workStart || "09:00")
     const workEndMin = timeToMinutes(professional.workEnd || "18:00")
     

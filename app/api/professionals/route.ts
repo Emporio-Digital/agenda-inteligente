@@ -91,7 +91,7 @@ export async function POST(request: Request) {
         workEnd: '18:00',
         lunchStart: '12:00',
         lunchEnd: '13:00',
-        workDays: '1,2,3,4,5,6' 
+        workDays: '1,2,3,4,5,6' // Padrão
       }
     })
 
@@ -103,7 +103,7 @@ export async function POST(request: Request) {
   }
 }
 
-// 3. ATUALIZAR HORÁRIOS (PUT) - NOVO!
+// 3. ATUALIZAR HORÁRIOS (PUT) - CORRIGIDO AQUI!
 export async function PUT(request: Request) {
   try {
     const headerList = await headers()
@@ -114,7 +114,8 @@ export async function PUT(request: Request) {
     const { payload } = await jwtVerify(token, secret)
 
     const body = await request.json()
-    const { id, name, workStart, workEnd, lunchStart, lunchEnd } = body
+    // ADICIONEI O workDays NO DESTRUCTURING
+    const { id, name, workStart, workEnd, lunchStart, lunchEnd, workDays } = body
 
     if (!id) return NextResponse.json({ error: 'ID obrigatório' }, { status: 400 })
 
@@ -131,7 +132,8 @@ export async function PUT(request: Request) {
             workStart,
             workEnd,
             lunchStart,
-            lunchEnd
+            lunchEnd,
+            workDays // <--- ADICIONEI O CAMPO PARA SALVAR NO BANCO
         }
     })
 

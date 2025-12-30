@@ -22,6 +22,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
   let tenantId = ''
   let tenantName = ''
   let tenantSlug = ''
+  let planTier = 'SOLO'
   
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'segredo-padrao-mvp')
@@ -31,6 +32,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     const tenant = await prisma.tenant.findUnique({ where: { id: tenantId }})
     tenantName = tenant?.name || 'Sua Empresa'
     tenantSlug = tenant?.slug || ''
+    planTier = tenant?.planTier || 'SOLO'
   } catch (error) {
     redirect('/login')
   }
@@ -57,7 +59,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
   }
 
   const rawAppointments = await prisma.appointment.findMany({
-    where: whereCondition,
+    where: { ...whereCondition }, 
     orderBy: { date: 'asc' },
     include: { customer: true, services: true, professional: true, tenant: true }
   })
@@ -79,13 +81,32 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
 
   const shareUrl = `${process.env.NEXT_PUBLIC_URL || 'https://agenda-inteligente.vercel.app'}/${tenantSlug}`
   
-  // REGRA ATUALIZADA: Mostra abas sempre que houver profissionais cadastrados
+  // REGRA: Mostra abas sempre que houver profissionais cadastrados
   const showTabs = professionals.length > 0 
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 md:p-10 font-sans">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-50 p-6 md:p-10 font-sans flex flex-col">
+      <div className="max-w-7xl mx-auto w-full flex-grow">
         
+        {/* --- CARD DE UPGRADE / STATUS DO PLANO --- */}
+        <div className="bg-gradient-to-r from-zinc-900 to-zinc-800 text-white p-4 rounded-xl shadow-md mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-3">
+                <div className="bg-white/10 p-2 rounded-lg text-2xl">🚀</div>
+                <div>
+                    <h3 className="font-bold text-sm uppercase tracking-wide text-gray-300">Plano Atual</h3>
+                    <p className="text-xl font-black text-white">{planTier === 'FREE_TRIAL' ? 'Teste Grátis (Trial)' : planTier}</p>
+                </div>
+            </div>
+            {planTier === 'FREE_TRIAL' && (
+                <div className="flex items-center gap-4">
+                    <span className="text-sm text-yellow-400 font-medium hidden md:block">Seu teste acaba em breve!</span>
+                    <button className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg font-bold text-sm shadow-lg transition-all animate-pulse">
+                        Fazer Upgrade Agora 💎
+                    </button>
+                </div>
+            )}
+        </div>
+
         {/* HEADER */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
@@ -129,12 +150,11 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
             </div>
         </div>
 
-        {/* --- ABAS DE NAVEGAÇÃO POR PROFISSIONAL --- */}
+        {/* ABAS */}
         {showTabs && (
             <div className="mb-6">
                 <p className="text-xs font-bold text-gray-400 uppercase mb-2 ml-1">Filtrar Agenda por Profissional:</p>
                 <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar">
-                    {/* Botão TODOS */}
                     <Link 
                         href="/admin" 
                         className={`px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all shadow-sm
@@ -146,7 +166,6 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                         Todos
                     </Link>
 
-                    {/* Botões dos PROFISSIONAIS */}
                     {professionals.map(pro => (
                         <Link 
                             key={pro.id} 
@@ -190,6 +209,13 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
           </div>
         </div>
       </div>
+      
+      {/* FOOTER CORRIGIDO */}
+      <footer className="mt-12 text-center border-t border-gray-200 pt-6 pb-2">
+         <p className="text-xs text-gray-400 font-medium">
+            Powered by <strong className="text-gray-600">EG Empório Digital</strong> © 2025
+         </p>
+      </footer>
     </div>
   )
 }
