@@ -6,27 +6,27 @@ export default function LandingPage() {
       
       {/* --- NAVBAR --- */}
       <nav className="fixed top-0 w-full bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
           
           {/* LOGO + NOME + SLOGAN */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 relative flex items-center justify-center">
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="w-8 h-8 md:w-10 md:h-10 relative flex items-center justify-center">
                 <img src="/logo.png" alt="Logo Kairós" className="object-contain w-full h-full" />
             </div>
             <div className="flex flex-col">
-                <span className="text-xl font-bold tracking-tight text-white leading-none">Kairós</span>
-                <span className="text-[10px] text-gray-400 font-medium tracking-wide">mais controle, menos correria</span>
+                <span className="text-lg md:text-xl font-bold tracking-tight text-white leading-none">Kairós</span>
+                <span className="text-[9px] md:text-[10px] text-gray-400 font-medium tracking-wide">mais controle, menos correria</span>
             </div>
           </div>
 
-          {/* BOTÕES NAV */}
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="text-sm font-medium text-gray-400 hover:text-white transition-colors hidden md:block">
+          {/* BOTÕES NAV (Ajustado para Mobile) */}
+          <div className="flex items-center gap-3 md:gap-4">
+            <Link href="/login" className="text-xs md:text-sm font-medium text-gray-400 hover:text-white transition-colors block">
               Entrar
             </Link>
             <Link 
               href="/cadastro" 
-              className="bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-900/20"
+              className="bg-blue-600 text-white px-4 py-2 text-xs md:px-5 md:py-2.5 md:text-sm md:font-bold rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-900/20 font-bold"
             >
               Teste Grátis
             </Link>

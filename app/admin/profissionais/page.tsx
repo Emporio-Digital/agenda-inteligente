@@ -94,7 +94,7 @@ export default function GerenciarProfissionais() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8 font-sans relative">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8 font-sans relative">
       <div className="max-w-4xl mx-auto">
         
         {/* Header */}
@@ -103,7 +103,7 @@ export default function GerenciarProfissionais() {
                 <Link href="/admin" className="text-gray-500 hover:text-black font-medium">
                     ← Voltar
                 </Link>
-                <h1 className="text-3xl font-bold text-gray-900">Equipe 💈</h1>
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Equipe 💈</h1>
             </div>
         </div>
 
@@ -134,53 +134,55 @@ export default function GerenciarProfissionais() {
             <p className="text-xs text-gray-400 mt-2">* O limite depende do seu plano.</p>
         </div>
 
-        {/* --- LISTA --- */}
+        {/* --- LISTA (COM SCROLL MOBILE) --- */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <table className="w-full text-left">
-                <thead className="bg-gray-50 border-b">
-                    <tr>
-                        <th className="p-4 font-semibold text-gray-600">Profissional</th>
-                        <th className="p-4 font-semibold text-gray-600 text-center">Horário</th>
-                        <th className="p-4 font-semibold text-gray-600 text-center">Almoço</th>
-                        <th className="p-4 font-semibold text-gray-600 text-right">Ações</th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y text-gray-800">
-                    {professionals.map((pro) => (
-                        <tr key={pro.id} className="hover:bg-gray-50">
-                            <td className="p-4 flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-lg overflow-hidden">
-                                    {pro.photoUrl ? <img src={pro.photoUrl} className="w-full h-full object-cover" /> : "👤"}
-                                </div>
-                                <span className="font-bold">{pro.name}</span>
-                            </td>
-                            <td className="p-4 text-center text-sm">
-                                {pro.workStart} - {pro.workEnd}
-                            </td>
-                            <td className="p-4 text-center text-sm text-gray-500">
-                                {pro.lunchStart ? `${pro.lunchStart} - ${pro.lunchEnd}` : '-'}
-                            </td>
-                            <td className="p-4 text-right space-x-2">
-                                <button 
-                                    onClick={() => setEditingPro(pro)}
-                                    className="text-blue-600 hover:text-blue-800 text-sm font-bold px-3 py-1 hover:bg-blue-50 rounded"
-                                >
-                                    Configurar
-                                </button>
-                                <button 
-                                    onClick={() => handleDelete(pro.id)}
-                                    className="text-red-500 hover:text-red-700 text-sm font-medium px-3 py-1 hover:bg-red-50 rounded"
-                                >
-                                    🗑️
-                                </button>
-                            </td>
+            <div className="overflow-x-auto">
+                <table className="w-full text-left min-w-[600px]">
+                    <thead className="bg-gray-50 border-b">
+                        <tr>
+                            <th className="p-4 font-semibold text-gray-600">Profissional</th>
+                            <th className="p-4 font-semibold text-gray-600 text-center">Horário</th>
+                            <th className="p-4 font-semibold text-gray-600 text-center">Almoço</th>
+                            <th className="p-4 font-semibold text-gray-600 text-right">Ações</th>
                         </tr>
-                    ))}
-                    {professionals.length === 0 && !loading && (
-                        <tr><td colSpan={4} className="p-8 text-center text-gray-400">Ninguém na equipe ainda.</td></tr>
-                    )}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody className="divide-y text-gray-800">
+                        {professionals.map((pro) => (
+                            <tr key={pro.id} className="hover:bg-gray-50">
+                                <td className="p-4 flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-lg overflow-hidden shrink-0">
+                                        {pro.photoUrl ? <img src={pro.photoUrl} className="w-full h-full object-cover" /> : "👤"}
+                                    </div>
+                                    <span className="font-bold">{pro.name}</span>
+                                </td>
+                                <td className="p-4 text-center text-sm">
+                                    {pro.workStart} - {pro.workEnd}
+                                </td>
+                                <td className="p-4 text-center text-sm text-gray-500">
+                                    {pro.lunchStart ? `${pro.lunchStart} - ${pro.lunchEnd}` : '-'}
+                                </td>
+                                <td className="p-4 text-right space-x-2">
+                                    <button 
+                                        onClick={() => setEditingPro(pro)}
+                                        className="text-blue-600 hover:text-blue-800 text-sm font-bold px-3 py-1 hover:bg-blue-50 rounded"
+                                    >
+                                        Configurar
+                                    </button>
+                                    <button 
+                                        onClick={() => handleDelete(pro.id)}
+                                        className="text-red-500 hover:text-red-700 text-sm font-medium px-3 py-1 hover:bg-red-50 rounded"
+                                    >
+                                        🗑️
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                        {professionals.length === 0 && !loading && (
+                            <tr><td colSpan={4} className="p-8 text-center text-gray-400">Ninguém na equipe ainda.</td></tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
       </div>
 

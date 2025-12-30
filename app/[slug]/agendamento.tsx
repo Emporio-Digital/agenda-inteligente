@@ -71,9 +71,14 @@ export default function BookingSystem({ tenantId, services, professionals, prima
     }
   }
 
-  function handleDateSelect(date: string) {
+  // Apenas salva a data, não avança o passo automaticamente
+  function handleDateChange(date: string) {
     setSelectedDate(date)
-    setStep(4)
+  }
+  
+  // Função explícita para avançar
+  function confirmDate() {
+    if(selectedDate) setStep(4)
   }
 
   async function handleFinish() {
@@ -187,8 +192,17 @@ export default function BookingSystem({ tenantId, services, professionals, prima
             className="w-full p-4 border-2 rounded-xl text-lg font-bold text-center text-black bg-white focus:outline-none focus:ring-2"
             style={{ borderColor: primaryColor }}
             min={new Date().toISOString().split('T')[0]} 
-            onChange={(e) => handleDateSelect(e.target.value)}
+            value={selectedDate}
+            onChange={(e) => handleDateChange(e.target.value)}
           />
+          <button 
+              disabled={!selectedDate}
+              onClick={confirmDate}
+              className="w-full py-4 rounded-xl text-white font-bold text-lg shadow-lg disabled:opacity-50 transition-all mt-4"
+              style={{ backgroundColor: selectedDate ? primaryColor : '#ccc' }}
+          >
+              Ver Horários
+          </button>
           <button onClick={() => setStep(2)} className="text-sm text-gray-400 mt-4 underline w-full text-center">Voltar</button>
         </div>
       )}
