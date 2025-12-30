@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     const startDate = new Date(date)
     const endDate = addMinutes(startDate, totalDuration)
 
-    // 3. Verificar CONFLITO REAL
+    // 3. Verificar CONFLITO REAL (MANTIDA A SUA LÓGICA ORIGINAL)
     // Buscamos todos os agendamentos do profissional naquele DIA para checar na memória
     const dayStart = startOfDay(startDate)
     const dayEnd = endOfDay(startDate)
@@ -61,7 +61,8 @@ export async function POST(request: Request) {
         )
     }
 
-    // 4. Criar Cliente (Verifica se já existe pelo telefone no mesmo tenant)
+    // 4. Criar ou Atualizar Cliente (CORREÇÃO AQUI)
+    // Verifica se já existe pelo telefone no mesmo tenant
     let customer = await prisma.customer.findFirst({
         where: { 
             phone: customerPhone,
@@ -69,7 +70,14 @@ export async function POST(request: Request) {
         }
     })
 
-    if (!customer) {
+    if (customer) {
+        // SE JÁ EXISTE: Atualiza o nome para o mais recente digitado pelo cliente
+        customer = await prisma.customer.update({
+            where: { id: customer.id },
+            data: { name: customerName }
+        })
+    } else {
+        // SE NÃO EXISTE: Cria novo
         customer = await prisma.customer.create({
             data: {
                 name: customerName,
