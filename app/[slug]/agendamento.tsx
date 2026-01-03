@@ -138,8 +138,13 @@ export default function BookingSystem({ tenantId, services, professionals, prima
           <div className="grid grid-cols-2 gap-4">
             {professionals.map((pro) => (
               <div key={pro.id} onClick={() => handleProSelect(pro)} className="border border-gray-200 p-4 rounded-xl cursor-pointer hover:bg-gray-50 text-center transition-all hover:border-black group">
-                <div className="w-16 h-16 rounded-full bg-gray-100 mx-auto mb-3 flex items-center justify-center text-2xl overflow-hidden border-2 border-transparent group-hover:border-gray-300">
-                  {pro.photoUrl ? <img src={pro.photoUrl} alt={pro.name} className="w-full h-full object-cover"/> : "💈"}
+                <div className="w-20 h-20 rounded-full bg-gray-100 mx-auto mb-3 flex items-center justify-center text-2xl overflow-hidden border-2 border-transparent group-hover:border-gray-300 shadow-sm">
+                  {/* LÓGICA DA FOTO: Se tiver URL, mostra a imagem. Se não, mostra o Emoji. */}
+                  {pro.photoUrl ? (
+                    <img src={pro.photoUrl} alt={pro.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-3xl">💈</span>
+                  )}
                 </div>
                 <h3 className="font-bold text-sm text-black">{pro.name}</h3>
               </div>
@@ -151,7 +156,16 @@ export default function BookingSystem({ tenantId, services, professionals, prima
       {/* 2. SERVIÇOS */}
       {step === 2 && (
         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
-          <h2 className="text-xl font-bold mb-2 text-black">O que vamos fazer com {selectedPro?.name}?</h2>
+          <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden border border-gray-200">
+                  {selectedPro?.photoUrl ? (
+                      <img src={selectedPro.photoUrl} className="w-full h-full object-cover" />
+                  ) : (
+                      <div className="w-full h-full flex items-center justify-center text-lg">💈</div>
+                  )}
+              </div>
+              <h2 className="text-xl font-bold text-black">O que vamos fazer?</h2>
+          </div>
           
           <div className="space-y-3">
             {availableServices.length === 0 ? (
@@ -263,9 +277,14 @@ export default function BookingSystem({ tenantId, services, professionals, prima
                 <span className="text-gray-500">Serviços:</span>
                 <span className="font-bold text-right max-w-[60%]">{selectedServices.map(s => s.name).join(', ')}</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
                 <span className="text-gray-500">Profissional:</span>
-                <span className="font-bold">{selectedPro?.name}</span>
+                <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gray-200 overflow-hidden">
+                         {selectedPro?.photoUrl ? <img src={selectedPro.photoUrl} className="w-full h-full object-cover"/> : null}
+                    </div>
+                    <span className="font-bold">{selectedPro?.name}</span>
+                </div>
             </div>
             
             {/* CORREÇÃO AQUI: Usa a função formatDateDisplay para não ter erro de fuso */}

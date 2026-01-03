@@ -2,10 +2,20 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/app/lib/prisma'
 import bcrypt from 'bcryptjs'
 
+// Função auxiliar para limpar o nome (Slugify)
+function generateSlug(text: string) {
+  return text
+    .normalize("NFD") // Separa acentos das letras
+    .replace(/[\u0300-\u036f]/g, "") // Remove os acentos
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '') // Remove caracteres especiais
+    .replace(/[\s_-]+/g, '-') // Troca espaços por traço
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    // Agora recebemos também o 'plan' vindo do formulário
     const { barbershopName, name, email, password, theme, plan } = body
 
     // 1. Verifica se email já existe
@@ -14,9 +24,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Este email já está em uso.' }, { status: 400 })
     }
 
-    // 2. Gera Slug único (ex: barbearia-do-ze-1234)
-    const randomCode = Math.floor(1000 + Math.random() * 9000)
-    const slug = barbershopName.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-') + '-' + randomCode
+    // 2. Gera Slug Inteligente
+    let slug = generateSlug(barbershopName)
+    
+    // Verifica se esse slug já existe no banco
+    const slugCount = await prisma.tenant.count({ where: { slug: slug } })
+    
+    // Se já existe (ex: ja tem uma 'barbearia-do-ze'), adiciona um numero aleatorio no fim
+    if (slugCount > 0) {
+      slug = `${slug}-${Math.floor(100 + Math.random() * 900)}`
+    }
     
     // 3. Criptografa a senha
     const hashedPassword = await bcrypt.hash(password, 10)
@@ -27,9 +44,7 @@ export async function POST(request: Request) {
         data: {
           name: barbershopName,
           slug: slug,
-          // Salva o plano escolhido (SOLO, PRO, UNLIMITED)
           planTier: plan || 'SOLO', 
-          // Marca como Período de Testes
           subscriptionStatus: 'TRIAL', 
           themeVariant: theme || 'BARBER', 
           primaryColor: '#000000', 
