@@ -184,6 +184,53 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* --- ONDE COLOCAR SEU LINK (NOVA SEÇÃO 101%) --- */}
+      <section className="py-24 bg-zinc-900 border-t border-zinc-800">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-4 text-white">Onde divulgar seu link?</h2>
+            <p className="text-gray-400">Três lugares estratégicos para encher sua agenda sem esforço.</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            
+            {/* DICA 1 - INSTAGRAM/TIKTOK */}
+            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 text-center hover:border-pink-500 transition-all group">
+              <div className="w-12 h-12 bg-pink-500/10 text-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl group-hover:scale-110 transition-transform">
+                🔗
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Link na Bio (Instagram)</h3>
+              <p className="text-sm text-gray-400">
+                Coloque seu link Kairós na Bio do Instagram ou TikTok. Seu cliente entra no perfil e agenda sozinho.
+              </p>
+            </div>
+
+            {/* DICA 2 - WHATSAPP BUSINESS */}
+            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 text-center hover:border-green-500 transition-all group">
+              <div className="w-12 h-12 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl group-hover:scale-110 transition-transform">
+                💬
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Resposta Automática</h3>
+              <p className="text-sm text-gray-400">
+                No WhatsApp Business, crie uma saudação automática: "Olá! Para agendar, clique aqui: [Seu Link]".
+              </p>
+            </div>
+
+            {/* DICA 3 - GOOGLE MEU NEGÓCIO */}
+            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 text-center hover:border-blue-500 transition-all group">
+              <div className="w-12 h-12 bg-blue-500/10 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl group-hover:scale-110 transition-transform">
+                📍
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Botão do Google</h3>
+              <p className="text-sm text-gray-400">
+                Tem ficha no Google Maps? Adicione seu link no botão "Agendar". Apareça para quem busca na sua região.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* --- FOOTER --- */}
       <footer className="bg-zinc-950 py-12 border-t border-zinc-900">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
@@ -199,7 +246,7 @@ export default function LandingPage() {
         </div>
       </footer>
 
-      {/* --- BOTÃO WHATSAPP FLUTUANTE (NOVO) --- */}
+      {/* --- BOTÃO WHATSAPP FLUTUANTE --- */}
       <a 
         href="https://wa.me/5511916053292" 
         target="_blank" 
