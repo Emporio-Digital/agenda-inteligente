@@ -60,7 +60,8 @@ export async function POST(request: Request) {
     const tenantId = payload.tenantId as string 
 
     const body = await request.json()
-    const { name } = body 
+    // ADICIONADO: photoUrl no destructuring
+    const { name, photoUrl } = body 
 
     if (!name) return NextResponse.json({ error: 'Nome é obrigatório' }, { status: 400 })
 
@@ -91,7 +92,8 @@ export async function POST(request: Request) {
         workEnd: '18:00',
         lunchStart: '12:00',
         lunchEnd: '13:00',
-        workDays: '1,2,3,4,5,6' // Padrão
+        workDays: '1,2,3,4,5,6', // Padrão
+        photoUrl: photoUrl || null // <--- ADICIONADO: Salva a foto se vier
       }
     })
 
@@ -103,7 +105,7 @@ export async function POST(request: Request) {
   }
 }
 
-// 3. ATUALIZAR HORÁRIOS (PUT) - CORRIGIDO AQUI!
+// 3. ATUALIZAR HORÁRIOS E FOTO (PUT)
 export async function PUT(request: Request) {
   try {
     const headerList = await headers()
@@ -114,8 +116,8 @@ export async function PUT(request: Request) {
     const { payload } = await jwtVerify(token, secret)
 
     const body = await request.json()
-    // ADICIONEI O workDays NO DESTRUCTURING
-    const { id, name, workStart, workEnd, lunchStart, lunchEnd, workDays } = body
+    // ADICIONADO: photoUrl no destructuring
+    const { id, name, workStart, workEnd, lunchStart, lunchEnd, workDays, photoUrl } = body
 
     if (!id) return NextResponse.json({ error: 'ID obrigatório' }, { status: 400 })
 
@@ -133,7 +135,8 @@ export async function PUT(request: Request) {
             workEnd,
             lunchStart,
             lunchEnd,
-            workDays // <--- ADICIONEI O CAMPO PARA SALVAR NO BANCO
+            workDays,
+            photoUrl // <--- ADICIONADO: Atualiza a foto
         }
     })
 
