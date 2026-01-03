@@ -1,12 +1,12 @@
 'use server'
 
 import { MercadoPagoConfig, Preference } from 'mercadopago';
-import { redirect } from 'next/navigation';
+// Removido o import { redirect } para evitar o erro de falso-positivo
 import { prisma } from "@/app/lib/prisma";
 import { headers } from "next/headers";
 import { jwtVerify } from 'jose';
 
-// PREÇOS OFICIAIS (Conforme Tabela)
+// PREÇOS OFICIAIS
 const PRICES = {
     SOLO: {
         monthly: 49.90,
@@ -40,11 +40,11 @@ export async function createCheckoutSession(plan: 'SOLO' | 'PRO' | 'ILIMITADO', 
     const client = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN! });
     const preference = new Preference(client);
 
-    // 3. Define Preço e Nome
+    // 3. Define Preço
     const unitPrice = PRICES[plan][cycle];
     const title = `Plano ${plan} - Ciclo ${cycle === 'monthly' ? 'Mensal' : cycle === 'semestral' ? 'Semestral' : 'Anual'}`;
 
-    // 4. Cria a Preferência de Pagamento
+    // 4. Cria a Preferência
     const result = await preference.create({
         body: {
             items: [
@@ -56,7 +56,6 @@ export async function createCheckoutSession(plan: 'SOLO' | 'PRO' | 'ILIMITADO', 
                     currency_id: 'BRL'
                 }
             ],
-            // AQUI ESTÁ O SEGREDO DA AUTOMAÇÃO:
             external_reference: tenantId, 
             back_urls: {
                 success: `${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/admin/configuracoes?success=true`,
@@ -67,9 +66,9 @@ export async function createCheckoutSession(plan: 'SOLO' | 'PRO' | 'ILIMITADO', 
         }
     });
 
-    // 5. Redireciona o usuário para o Mercado Pago
+    // 5. Retorna a URL para o Frontend navegar (sem jogar erro)
     if (result.init_point) {
-        redirect(result.init_point);
+        return { url: result.init_point };
     } else {
         throw new Error("Falha ao criar checkout");
     }

@@ -23,6 +23,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
   let tenantName = ''
   let tenantSlug = ''
   let planTier = 'SOLO'
+  let subscriptionStatus = 'TRIAL' // Padrão
   
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'segredo-padrao-mvp')
@@ -33,9 +34,13 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     tenantName = tenant?.name || 'Sua Empresa'
     tenantSlug = tenant?.slug || ''
     planTier = tenant?.planTier || 'SOLO'
+    subscriptionStatus = tenant?.subscriptionStatus || 'TRIAL'
   } catch (error) {
     redirect('/login')
   }
+
+  // Lógica do Banner: Só mostra se NÃO estiver Ativo
+  const showUpgradeBanner = subscriptionStatus !== 'ACTIVE'
 
   // 2. Filtros (Abas)
   const params = await searchParams
@@ -85,24 +90,28 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     <div className="min-h-screen bg-gray-50 p-6 md:p-10 font-sans flex flex-col">
       <div className="max-w-7xl mx-auto w-full flex-grow">
         
-        {/* CARD UPGRADE */}
-        <div className="bg-gradient-to-r from-zinc-900 to-zinc-800 text-white p-4 rounded-xl shadow-md mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-3">
-                <div className="bg-white/10 p-2 rounded-lg text-2xl">🚀</div>
-                <div>
-                    <h3 className="font-bold text-sm uppercase tracking-wide text-gray-300">Plano Atual</h3>
-                    <p className="text-xl font-black text-white">{planTier === 'FREE_TRIAL' ? 'Teste Grátis (Trial)' : planTier}</p>
+        {/* CARD UPGRADE (SÓ APARECE SE NÃO FOR ACTIVE) */}
+        {showUpgradeBanner && (
+            <div className="bg-gradient-to-r from-zinc-900 to-zinc-800 text-white p-4 rounded-xl shadow-md mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="flex items-center gap-3">
+                    <div className="bg-white/10 p-2 rounded-lg text-2xl">🚀</div>
+                    <div>
+                        <h3 className="font-bold text-sm uppercase tracking-wide text-gray-300">Plano Atual</h3>
+                        <p className="text-xl font-black text-white">Período de Testes (Trial)</p>
+                    </div>
                 </div>
-            </div>
-            {planTier === 'FREE_TRIAL' && (
+                
                 <div className="flex items-center gap-4">
                     <span className="text-sm text-yellow-400 font-medium hidden md:block">Seu teste acaba em breve!</span>
-                    <button className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg font-bold text-sm shadow-lg transition-all animate-pulse">
-                        Fazer Upgrade Agora 💎
-                    </button>
+                    {/* Botão agora é um Link funcional para a tela de Planos */}
+                    <Link href="/admin/configuracoes">
+                        <button className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg font-bold text-sm shadow-lg transition-all animate-pulse cursor-pointer">
+                            Fazer Upgrade Agora 💎
+                        </button>
+                    </Link>
                 </div>
-            )}
-        </div>
+            </div>
+        )}
 
         {/* HEADER */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">

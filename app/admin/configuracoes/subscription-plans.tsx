@@ -15,8 +15,15 @@ export default function SubscriptionPlans({ currentPlan, status }: SubscriptionP
     const handleSubscribe = async (plan: 'SOLO' | 'PRO' | 'ILIMITADO') => {
         setLoading(true);
         try {
-            await createCheckoutSession(plan, cycle);
+            // Chama a Server Action e espera a URL
+            const response = await createCheckoutSession(plan, cycle);
+            
+            if (response && response.url) {
+                // Redireciona o navegador de forma limpa
+                window.location.href = response.url;
+            }
         } catch (error) {
+            console.error(error);
             alert("Erro ao iniciar pagamento. Tente novamente.");
             setLoading(false);
         }
