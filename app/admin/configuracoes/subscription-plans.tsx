@@ -79,12 +79,15 @@ export default function SubscriptionPlans({ currentPlan, status }: SubscriptionP
                     </button>
                 </div>
 
-                {/* PLANO PRO */}
+                {/* PLANO PRO (Texto Atualizado) */}
                 <div className={`border rounded-xl p-6 relative ${currentPlan === 'PRO' ? 'border-blue-500 bg-blue-50' : 'border-blue-100 bg-white ring-2 ring-blue-500 ring-offset-2'}`}>
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">
                         Mais Escolhido
                     </div>
-                    <h3 className="font-bold text-blue-600 text-sm uppercase">Pró</h3>
+                    <div className="flex items-center gap-2 mb-2">
+                        <h3 className="font-bold text-blue-600 text-sm uppercase">Pró</h3>
+                        <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">até 5 pessoas</span>
+                    </div>
                     <div className="mt-2 mb-4">
                         <span className="text-3xl font-black text-gray-900">
                             {cycle === 'monthly' && 'R$ 119,90'}
