@@ -15,7 +15,7 @@ export default function LandingPage() {
             </div>
             <div className="flex flex-col">
                 <span className="text-lg md:text-xl font-bold tracking-tight text-white leading-none">Kairós</span>
-                <span className="text-[9px] md:text-[10px] text-gray-400 font-medium tracking-wide">mais controle, menos correria</span>
+                <span className="text-[9px] md:text-[10px] text-gray-400 font-medium tracking-wide">sua agenda inteligente</span>
             </div>
           </div>
 
@@ -125,7 +125,7 @@ export default function LandingPage() {
             {/* SOLO */}
             <div className="border border-zinc-800 bg-zinc-900 rounded-3xl p-8 hover:border-zinc-700 transition-colors">
               <h3 className="font-bold text-gray-500 uppercase tracking-widest text-sm mb-2">Solo</h3>
-              <div className="text-4xl font-black mb-4 text-white">R$ 29<span className="text-lg text-gray-500 font-medium">/mês</span></div>
+              <div className="text-4xl font-black mb-4 text-white">R$ 49,90<span className="text-lg text-gray-500 font-medium">/mês</span></div>
               <p className="text-sm text-gray-400 mb-8 border-b border-zinc-800 pb-8">
                 Ideal para autônomos que querem organização.
               </p>
@@ -145,13 +145,13 @@ export default function LandingPage() {
                 Recomendado
               </div>
               <h3 className="font-bold text-blue-400 uppercase tracking-widest text-sm mb-2">Pró</h3>
-              <div className="text-4xl font-black mb-4 text-white">R$ 59<span className="text-lg text-gray-500 font-medium">/mês</span></div>
+              <div className="text-4xl font-black mb-4 text-white">R$ 119,90<span className="text-lg text-gray-500 font-medium">/mês</span></div>
               <p className="text-sm text-gray-400 mb-8 border-b border-zinc-800 pb-8">
                 Para negócios com equipe em crescimento.
               </p>
               <ul className="space-y-3 mb-8 text-sm text-white">
                 <li className="flex gap-2">🚀 Até 5 Profissionais</li>
-                <li className="flex gap-2">✅ Agenda Separada por Pro</li>
+                <li className="flex gap-2">✅ agenda separada por profissional</li>
                 <li className="flex gap-2">✅ Dashboard Financeiro</li>
                 <li className="flex gap-2">✅ Tudo do plano Solo</li>
               </ul>
@@ -163,13 +163,13 @@ export default function LandingPage() {
             {/* ILIMITADO */}
             <div className="border border-zinc-800 bg-zinc-900 rounded-3xl p-8 hover:border-zinc-700 transition-colors">
               <h3 className="font-bold text-gray-500 uppercase tracking-widest text-sm mb-2">Ilimitado</h3>
-              <div className="text-4xl font-black mb-4 text-white">R$ 99<span className="text-lg text-gray-500 font-medium">/mês</span></div>
+              <div className="text-4xl font-black mb-4 text-white">R$ 229,90<span className="text-lg text-gray-500 font-medium">/mês</span></div>
               <p className="text-sm text-gray-400 mb-8 border-b border-zinc-800 pb-8">
                 Para grandes redes e franquias. Sem limites.
               </p>
               <ul className="space-y-3 mb-8 text-sm text-gray-300">
                 <li className="flex gap-2">🔥 Profissionais Ilimitados</li>
-                <li className="flex gap-2">✅ Múltiplos Admin</li>
+                <li className="flex gap-2">✅ Tudo do plano Pró</li>
                 <li className="flex gap-2">✅ Suporte Prioritário</li>
                 <li className="flex gap-2">✅ Gestão Completa</li>
               </ul>
