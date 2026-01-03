@@ -52,6 +52,25 @@ export default function GerenciarProfissionais() {
     }
   }
 
+  // LÓGICA DE UPLOAD DE FOTO (Mesma do SettingsForm)
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file && editingPro) {
+      // Limite de 2MB
+      if (file.size > 2 * 1024 * 1024) {
+        alert("A imagem deve ter no máximo 2MB")
+        return
+      }
+
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        // Atualiza o estado visual instantaneamente
+        setEditingPro({ ...editingPro, photoUrl: reader.result as string })
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
   // ATUALIZAR (SALVAR EDIÇÃO)
   async function handleUpdate() {
     if (!editingPro) return
@@ -59,7 +78,7 @@ export default function GerenciarProfissionais() {
     try {
         const res = await fetch('/api/professionals', {
             method: 'PUT',
-            body: JSON.stringify(editingPro) // Envia o objeto editado completo (incluindo workDays)
+            body: JSON.stringify(editingPro) // Envia o objeto completo com a foto nova
         })
 
         if (res.ok) {
@@ -157,7 +176,7 @@ export default function GerenciarProfissionais() {
                     {saving ? "..." : "Contratar (+)"}
                 </button>
             </div>
-            <p className="text-xs text-gray-400 mt-2">* O limite depende do seu plano.</p>
+            <p className="text-xs text-gray-400 mt-2">* O limite depende do seu plano. Configure foto e horários clicando em Configurar.</p>
         </div>
 
         {/* --- LISTA (COM SCROLL MOBILE) --- */}
@@ -175,11 +194,12 @@ export default function GerenciarProfissionais() {
                     <tbody className="divide-y text-gray-800">
                         {professionals.map((pro) => (
                             <tr key={pro.id} className="hover:bg-gray-50">
-                                <td className="p-4 flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-lg overflow-hidden shrink-0">
+                                <td className="p-4 flex items-center gap-4">
+                                    {/* FOTO NA LISTA (AUMENTADA) */}
+                                    <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-xl overflow-hidden shrink-0 border border-gray-300 shadow-sm">
                                         {pro.photoUrl ? <img src={pro.photoUrl} className="w-full h-full object-cover" /> : "👤"}
                                     </div>
-                                    <span className="font-bold">{pro.name}</span>
+                                    <span className="font-bold text-lg">{pro.name}</span>
                                 </td>
                                 <td className="p-4 text-center text-sm">
                                     {pro.workStart} - {pro.workEnd}
@@ -222,6 +242,31 @@ export default function GerenciarProfissionais() {
                 </div>
                 
                 <div className="space-y-6">
+                    
+                    {/* ÁREA DA FOTO (NOVO) */}
+                    <div className="flex flex-col items-center justify-center mb-6">
+                        <div className="relative w-24 h-24 rounded-full bg-gray-100 border-2 border-gray-200 mb-3 overflow-hidden shadow-inner group">
+                            {editingPro.photoUrl ? (
+                                <img src={editingPro.photoUrl} className="w-full h-full object-cover" />
+                            ) : (
+                                <div className="w-full h-full flex items-center justify-center text-4xl text-gray-300">👤</div>
+                            )}
+                            {/* Overlay Hover */}
+                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span className="text-white text-xs font-bold">Alterar</span>
+                            </div>
+                        </div>
+                        <label className="cursor-pointer bg-black text-white px-4 py-2 rounded-full text-xs font-bold hover:bg-gray-800 transition-all shadow-md">
+                            Escolher Foto da Galeria
+                            <input 
+                                type="file" 
+                                className="hidden" 
+                                accept="image/*"
+                                onChange={handleFileChange}
+                            />
+                        </label>
+                    </div>
+
                     {/* Nome */}
                     <div>
                         <label className="text-xs font-bold text-gray-500 uppercase">Nome</label>
@@ -255,7 +300,7 @@ export default function GerenciarProfissionais() {
                         </div>
                     </div>
 
-                    {/* --- NOVO: Dias de Funcionamento --- */}
+                    {/* Dias de Funcionamento */}
                     <div>
                         <label className="text-xs font-bold text-gray-500 uppercase mb-2 block">Dias de Trabalho</label>
                         <div className="flex flex-wrap gap-2">
