@@ -23,7 +23,8 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
   let tenantName = ''
   let tenantSlug = ''
   let planTier = 'SOLO'
-  let subscriptionStatus = 'TRIAL' // Padrão
+  let subscriptionStatus = 'TRIAL'
+  let createdAt = new Date()
   
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'segredo-padrao-mvp')
@@ -31,15 +32,50 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     tenantId = payload.tenantId as string
     
     const tenant = await prisma.tenant.findUnique({ where: { id: tenantId }})
-    tenantName = tenant?.name || 'Sua Empresa'
-    tenantSlug = tenant?.slug || ''
-    planTier = tenant?.planTier || 'SOLO'
-    subscriptionStatus = tenant?.subscriptionStatus || 'TRIAL'
+    if (!tenant) throw new Error("Tenant not found")
+
+    tenantName = tenant.name
+    tenantSlug = tenant.slug
+    planTier = tenant.planTier
+    subscriptionStatus = tenant.subscriptionStatus || 'TRIAL'
+    createdAt = new Date(tenant.createdAt)
   } catch (error) {
     redirect('/login')
   }
 
-  // Lógica do Banner: Só mostra se NÃO estiver Ativo
+  // --- LÓGICA DE BLOQUEIO (TRAVA DE SEGURANÇA) ---
+  const now = new Date()
+  const diffTime = Math.abs(now.getTime() - createdAt.getTime())
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  const isExpired = subscriptionStatus !== 'ACTIVE' && diffDays > 3
+
+  // SE ESTIVER EXPIRADO, MOSTRA TELA DE BLOQUEIO E MATA O RESTO DO SITE
+  if (isExpired) {
+    return (
+      <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center p-6 text-center font-sans">
+        <div className="bg-zinc-900 border border-zinc-800 p-8 rounded-2xl max-w-md w-full shadow-2xl">
+          <div className="text-5xl mb-6">🔒</div>
+          <h1 className="text-2xl font-bold text-white mb-2">Seu período de teste acabou</h1>
+          <p className="text-gray-400 mb-8">
+            Esperamos que tenha gostado do Kairós! Para continuar agendando e gerenciando seu negócio, escolha um plano.
+          </p>
+          
+          <div className="space-y-4">
+            <Link href="/admin/configuracoes" className="block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-green-900/20">
+              Escolher um Plano Agora 🚀
+            </Link>
+            <LogoutButton />
+          </div>
+          
+          <p className="mt-8 text-xs text-gray-600">
+            Dúvidas? Entre em contato com o suporte.
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  // --- SE NÃO ESTIVER EXPIRADO, SEGUE O BAILE ---
   const showUpgradeBanner = subscriptionStatus !== 'ACTIVE'
 
   // 2. Filtros (Abas)
@@ -90,23 +126,21 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     <div className="min-h-screen bg-gray-50 p-6 md:p-10 font-sans flex flex-col">
       <div className="max-w-7xl mx-auto w-full flex-grow">
         
-        {/* CARD UPGRADE (SÓ APARECE SE NÃO FOR ACTIVE) */}
+        {/* CARD UPGRADE (Aparece se estiver no Trial mas ainda dentro dos 3 dias) */}
         {showUpgradeBanner && (
             <div className="bg-gradient-to-r from-zinc-900 to-zinc-800 text-white p-4 rounded-xl shadow-md mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
                 <div className="flex items-center gap-3">
-                    <div className="bg-white/10 p-2 rounded-lg text-2xl">🚀</div>
+                    <div className="bg-white/10 p-2 rounded-lg text-2xl">⏳</div>
                     <div>
-                        <h3 className="font-bold text-sm uppercase tracking-wide text-gray-300">Plano Atual</h3>
-                        <p className="text-xl font-black text-white">Período de Testes (Trial)</p>
+                        <h3 className="font-bold text-sm uppercase tracking-wide text-gray-300">Período de Testes</h3>
+                        <p className="text-xl font-black text-white">Dia {diffDays} de 3</p>
                     </div>
                 </div>
                 
                 <div className="flex items-center gap-4">
-                    <span className="text-sm text-yellow-400 font-medium hidden md:block">Seu teste acaba em breve!</span>
-                    {/* Botão agora é um Link funcional para a tela de Planos */}
                     <Link href="/admin/configuracoes">
                         <button className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg font-bold text-sm shadow-lg transition-all animate-pulse cursor-pointer">
-                            Fazer Upgrade Agora 💎
+                            Assinar Agora 💎
                         </button>
                     </Link>
                 </div>
