@@ -132,7 +132,6 @@ export default function LandingPage() {
               <ul className="space-y-3 mb-8 text-sm text-gray-300">
                 <li className="flex gap-2">✅ 1 Profissional</li>
                 <li className="flex gap-2">✅ Agendamentos Ilimitados</li>
-                <li className="flex gap-2">✅ Link Personalizado</li>
               </ul>
               <Link href="/cadastro" className="block w-full py-3 rounded-xl border border-white text-white font-bold text-center hover:bg-white hover:text-black transition-all">
                 Testar Grátis
