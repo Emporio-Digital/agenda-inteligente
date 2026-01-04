@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma" // Ajustei para @/lib/prisma que é o padrão mais seguro, mas se der erro volte para ../lib/prisma
+import { prisma } from "../lib/prisma"
 import BookingSystem from "./agendamento"
 
 const THEMES: any = {
@@ -63,7 +63,6 @@ export default async function TenantPage({ params }: { params: Promise<{ slug: s
     price: Number(service.price)
   }))
 
-  // CORREÇÃO AQUI: Usamos (tenant as any) para evitar o erro de build se o campo não existir no Type
   const tenantLimpo = {
     id: tenant.id,
     name: tenant.name,
@@ -72,8 +71,8 @@ export default async function TenantPage({ params }: { params: Promise<{ slug: s
     coverUrl: tenant.coverUrl,
     primaryColor: tenant.primaryColor,
     themeVariant: tenant.themeVariant,
-    phone: (tenant as any).phone || "",     // Fix: Evita erro se phone for null/undefined
-    address: (tenant as any).address || ""  // Fix: Evita erro se address for null/undefined
+    phone: (tenant as any).phone || "",     // Mantendo a correção de segurança
+    address: (tenant as any).address || ""  // Mantendo a correção de segurança
   }
 
   const themeVariant = tenant.themeVariant || 'BARBER'
