@@ -1,27 +1,50 @@
 import { prisma } from "../lib/prisma"
 import BookingSystem from "./agendamento"
 
-// --- MOTOR DE TEMAS ---
 const THEMES: any = {
   BARBER: {
     bg: "bg-zinc-950",           
-    text: "text-zinc-100",       
-    card: "bg-zinc-900 border-zinc-800", 
+    text: "text-zinc-100",
     rounded: "rounded-none",     
-    button: "uppercase tracking-widest font-black", 
-    iconStyle: "grayscale"       
   },
   BEAUTY: {
     bg: "bg-rose-50",            
-    text: "text-rose-950",       
-    card: "bg-white border-rose-100", 
+    text: "text-rose-950",
     rounded: "rounded-3xl",      
-    button: "capitalize font-medium tracking-wide", 
-    iconStyle: ""                
+  },
+  TATTOO: {
+    bg: "bg-slate-950",
+    text: "text-slate-200",
+    rounded: "rounded-sm",
+  },
+  CLINIC: {
+    bg: "bg-slate-50",
+    text: "text-slate-700",
+    rounded: "rounded-xl",
+  },
+  PHOTOGRAPHY: {
+    bg: "bg-neutral-900",
+    text: "text-neutral-100",
+    rounded: "rounded-lg",
+  },
+  PROFESSIONAL: {
+    bg: "bg-gray-50",
+    text: "text-gray-800",
+    rounded: "rounded-md",
   }
 }
 
-export default async function BarbeariaPage({ params }: { params: Promise<{ slug: string }> }) {
+// --- IMAGENS ATUALIZADAS (Com os links novos) ---
+const SPLASH_IMAGES: any = {
+  BEAUTY: "https://i.ibb.co/hRXVnd7Z/9cd0d93b-e561-47bc-8cf2-b23fd8bcd58a.jpg",
+  CLINIC: "https://i.ibb.co/fV5QcdFf/969c80ee-8648-4043-b9de-349001073a05.jpg",
+  BARBER: "https://i.ibb.co/FbVJNmq6/d5d6204b-6ad5-4507-8fc1-43df0bc6e453.jpg",
+  TATTOO: "https://i.ibb.co/bjbSC92V/Chat-GPT-Image-4-de-jan-de-2026-00-00-36.png",
+  PHOTOGRAPHY: "https://i.ibb.co/KcrP0mYM/Chat-GPT-Image-4-de-jan-de-2026-01-48-16.png",
+  PROFESSIONAL: "https://i.ibb.co/dhZg8cy/Chat-GPT-Image-4-de-jan-de-2026-01-38-28.png"
+}
+
+export default async function TenantPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
 
   const tenant = await prisma.tenant.findUnique({
@@ -32,72 +55,40 @@ export default async function BarbeariaPage({ params }: { params: Promise<{ slug
     }
   })
 
-  if (!tenant) return <h1 className="text-center mt-10 text-2xl font-bold">Barbearia não encontrada 😕</h1>
+  if (!tenant) return <div className="min-h-screen flex items-center justify-center bg-gray-100 text-gray-500 font-bold">Estabelecimento não encontrado.</div>
 
-  // Limpeza do Decimal para Number
+  // Limpeza de Segurança
   const servicosLimpos = tenant.services.map(service => ({
     ...service,
     price: Number(service.price)
   }))
 
-  // Seleciona o tema atual
-  const currentTheme = THEMES[tenant.themeVariant] || THEMES.BARBER
+  const tenantLimpo = {
+    id: tenant.id,
+    name: tenant.name,
+    slug: tenant.slug,
+    logoUrl: tenant.logoUrl,
+    coverUrl: tenant.coverUrl,
+    primaryColor: tenant.primaryColor,
+    themeVariant: tenant.themeVariant,
+    phone: tenant.phone, 
+    address: tenant.address
+  }
+
+  const themeVariant = tenant.themeVariant || 'BARBER'
+  const currentTheme = THEMES[themeVariant] || THEMES.BARBER
+  const splashUrl = SPLASH_IMAGES[themeVariant] || SPLASH_IMAGES.BARBER
 
   return (
-    <div className={`min-h-screen ${currentTheme.bg} ${currentTheme.text} pb-20 font-sans`}>
-      
-      {/* --- ÁREA DA CAPA (HERO SECTION) --- */}
-      <div className="relative w-full h-64 md:h-80 overflow-hidden">
-        {tenant.coverUrl ? (
-           <div 
-             className="absolute inset-0 bg-cover bg-center"
-             style={{ backgroundImage: `url(${tenant.coverUrl})` }}
-           >
-             <div className={`absolute inset-0 bg-gradient-to-t from-${currentTheme.bg.split('-')[1]}-950/90 to-transparent`}></div>
-           </div>
-        ) : (
-           <div className="absolute inset-0 bg-gray-300"></div>
-        )}
-
-        {/* Logo e Nome sobre a capa */}
-        <div className="absolute bottom-0 left-0 w-full p-6 text-center z-10">
-            {tenant.logoUrl ? (
-                <img 
-                  src={tenant.logoUrl} 
-                  className={`w-24 h-24 mx-auto mb-4 border-4 border-white shadow-xl object-cover ${currentTheme.rounded}`} 
-                  alt="Logo"
-                />
-            ) : (
-                <div className={`w-24 h-24 mx-auto mb-4 flex items-center justify-center bg-white text-black font-bold text-3xl border-4 border-white shadow-xl ${currentTheme.rounded}`}>
-                    {tenant.name.charAt(0)}
-                </div>
-            )}
-            
-            <h1 className="text-3xl md:text-5xl font-black drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] tracking-tight">
-                {tenant.name}
-            </h1>
-            
-            <p className="opacity-90 text-sm md:text-base mt-2 font-light drop-shadow-md">Agendamento Oficial</p>
-        </div>
-      </div>
-
-      {/* --- CONTEÚDO --- */}
-      <div className="max-w-md mx-auto px-4 -mt-6 relative z-20">
-        
-        <div className={`${currentTheme.card} p-1 shadow-2xl ${currentTheme.rounded}`}>
-            <BookingSystem 
-                tenantId={tenant.id}
-                services={servicosLimpos} 
-                professionals={tenant.professionals}
-                primaryColor={tenant.primaryColor}
-            />
-        </div>
-
-        <div className="text-center mt-8 opacity-50 text-xs">
-            <p>Powered by <strong>EG Empório Digital</strong> © 2025</p>
-        </div>
-      </div>
-
+    <div className={`min-h-screen ${currentTheme.bg} ${currentTheme.text} font-sans selection:bg-blue-500 selection:text-white`}>
+      <BookingSystem 
+          tenant={tenantLimpo}
+          services={servicosLimpos} 
+          professionals={tenant.professionals}
+          themeConfig={currentTheme}
+          themeVariant={themeVariant}
+          splashUrl={splashUrl}
+      />
     </div>
   )
 }

@@ -4,8 +4,8 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white font-sans selection:bg-blue-500 selection:text-white">
       
-      {/* --- NAVBAR --- */}
-      <nav className="fixed top-0 w-full bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800 z-50">
+      {/* --- NAVBAR (Glassmorphism Aprimorado) --- */}
+      <nav className="fixed top-0 w-full bg-zinc-950/60 backdrop-blur-xl border-b border-white/5 z-50 transition-all">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
           
           {/* LOGO + NOME + SLOGAN */}
@@ -26,7 +26,7 @@ export default function LandingPage() {
             </Link>
             <Link 
               href="/cadastro" 
-              className="bg-blue-600 text-white px-4 py-2 text-xs md:px-5 md:py-2.5 md:text-sm md:font-bold rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-900/20 font-bold"
+              className="bg-blue-600/90 backdrop-blur-sm text-white px-4 py-2 text-xs md:px-5 md:py-2.5 md:text-sm md:font-bold rounded-full hover:bg-blue-600 transition-all shadow-lg hover:shadow-blue-500/30 font-bold border border-blue-500/20"
             >
               Teste Grátis
             </Link>
@@ -42,7 +42,7 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto text-center space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
           
           {/* FRASE TOPO AJUSTADA (Nº 1) */}
-          <div className="inline-flex items-center gap-2 bg-zinc-900 text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-zinc-800">
+          <div className="inline-flex items-center gap-2 bg-zinc-900/50 backdrop-blur-md text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-zinc-800/50 shadow-inner">
             <span>🚀</span>
             <span>O sistema de agendamento Nº 1 do mercado</span>
           </div>
@@ -61,7 +61,7 @@ export default function LandingPage() {
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-4">
             <Link 
               href="/cadastro" 
-              className="w-full md:w-auto bg-white text-black px-8 py-4 rounded-full text-lg font-bold hover:bg-gray-200 transition-all shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2"
+              className="w-full md:w-auto bg-white text-black px-8 py-4 rounded-full text-lg font-bold hover:bg-gray-200 transition-all shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] hover:-translate-y-1 flex items-center justify-center gap-2"
             >
               Começar Agora 🚀
             </Link>
@@ -83,8 +83,8 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* PASSO 1 - ÍCONE NEUTRO (USUÁRIO) */}
-            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 relative overflow-hidden group hover:border-blue-900 transition-all">
-              <span className="relative text-4xl mb-4 block">👤</span>
+            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 relative overflow-hidden group hover:border-blue-900 transition-all duration-300 hover:-translate-y-1">
+              <span className="relative text-4xl mb-4 block transform group-hover:scale-110 transition-transform duration-300">👤</span>
               <h3 className="relative text-xl font-bold mb-2 text-white">1. Escolhe o Profissional</h3>
               <p className="relative text-gray-400 text-sm">
                  Escolha o especialista de sua preferência.
@@ -92,8 +92,8 @@ export default function LandingPage() {
             </div>
 
             {/* PASSO 2 - ÍCONE NEUTRO (PRANCHETA/LISTA) */}
-            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 relative overflow-hidden group hover:border-purple-900 transition-all">
-              <span className="relative text-4xl mb-4 block">📋</span>
+            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 relative overflow-hidden group hover:border-purple-900 transition-all duration-300 hover:-translate-y-1">
+              <span className="relative text-4xl mb-4 block transform group-hover:scale-110 transition-transform duration-300">📋</span>
               <h3 className="relative text-xl font-bold mb-2 text-white">2. Escolhe o Serviço</h3>
               <p className="relative text-gray-400 text-sm">
                 Lista de serviços personalizada para aquele profissional escolhido.
@@ -101,8 +101,8 @@ export default function LandingPage() {
             </div>
 
             {/* PASSO 3 - ÍCONE NEUTRO (CALENDÁRIO) */}
-            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 relative overflow-hidden group hover:border-green-900 transition-all">
-              <span className="relative text-4xl mb-4 block">📅</span>
+            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 relative overflow-hidden group hover:border-green-900 transition-all duration-300 hover:-translate-y-1">
+              <span className="relative text-4xl mb-4 block transform group-hover:scale-110 transition-transform duration-300">📅</span>
               <h3 className="relative text-xl font-bold mb-2 text-white">3. Data e Hora</h3>
               <p className="relative text-gray-400 text-sm">
                 Visualização clara dos horários livres reais, sem conflitos.
@@ -154,7 +154,7 @@ export default function LandingPage() {
                 <li className="flex gap-2">✅ Dashboard Financeiro</li>
                 <li className="flex gap-2">✅ Tudo do plano Solo</li>
               </ul>
-              <Link href="/cadastro" className="block w-full py-3 rounded-xl bg-blue-600 text-white font-bold text-center hover:bg-blue-700 transition-all">
+              <Link href="/cadastro" className="block w-full py-3 rounded-xl bg-blue-600 text-white font-bold text-center hover:bg-blue-700 transition-all hover:shadow-[0_0_30px_-5px_rgba(37,99,235,0.4)]">
                 Testar Grátis Agora
               </Link>
             </div>
@@ -184,7 +184,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* --- ONDE COLOCAR SEU LINK (NOVA SEÇÃO 101%) --- */}
+      {/* --- ONDE COLOCAR SEU LINK (COM ANIMAÇÃO DE ENTRADA) --- */}
       <section className="py-24 bg-zinc-900 border-t border-zinc-800">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
@@ -192,10 +192,10 @@ export default function LandingPage() {
             <p className="text-gray-400">Três lugares estratégicos para encher sua agenda sem esforço.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-forwards">
             
             {/* DICA 1 - INSTAGRAM/TIKTOK */}
-            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 text-center hover:border-pink-500 transition-all group">
+            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 text-center hover:border-pink-500 transition-all group hover:-translate-y-2">
               <div className="w-12 h-12 bg-pink-500/10 text-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl group-hover:scale-110 transition-transform">
                 🔗
               </div>
@@ -206,7 +206,7 @@ export default function LandingPage() {
             </div>
 
             {/* DICA 2 - WHATSAPP BUSINESS */}
-            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 text-center hover:border-green-500 transition-all group">
+            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 text-center hover:border-green-500 transition-all group hover:-translate-y-2 delay-150">
               <div className="w-12 h-12 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl group-hover:scale-110 transition-transform">
                 💬
               </div>
@@ -217,7 +217,7 @@ export default function LandingPage() {
             </div>
 
             {/* DICA 3 - GOOGLE MEU NEGÓCIO */}
-            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 text-center hover:border-blue-500 transition-all group">
+            <div className="bg-zinc-950 p-8 rounded-2xl border border-zinc-800 text-center hover:border-blue-500 transition-all group hover:-translate-y-2 delay-300">
               <div className="w-12 h-12 bg-blue-500/10 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl group-hover:scale-110 transition-transform">
                 📍
               </div>

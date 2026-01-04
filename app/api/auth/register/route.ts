@@ -16,7 +16,8 @@ function generateSlug(text: string) {
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { barbershopName, name, email, password, theme, plan } = body
+    // Adicionei 'phone' na desestruturação
+    const { barbershopName, name, email, password, theme, plan, phone } = body
 
     // 1. Verifica se email já existe
     const existingUser = await prisma.user.findUnique({ where: { email } })
@@ -47,7 +48,8 @@ export async function POST(request: Request) {
           planTier: plan || 'SOLO', 
           subscriptionStatus: 'TRIAL', 
           themeVariant: theme || 'BARBER', 
-          primaryColor: '#000000', 
+          primaryColor: '#000000',
+          phone: phone || '', // Salva o WhatsApp aqui
         }
       })
 

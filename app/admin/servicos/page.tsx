@@ -5,69 +5,54 @@ import Link from "next/link"
 
 export default function GerenciarServicos() {
   const [services, setServices] = useState<any[]>([])
-  const [professionals, setProfessionals] = useState<any[]>([]) // Lista para o dropdown
+  const [professionals, setProfessionals] = useState<any[]>([]) 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
 
-  // Form
   const [name, setName] = useState("")
   const [price, setPrice] = useState("")
   const [duration, setDuration] = useState("30")
-  const [selectedProId, setSelectedProId] = useState("") // Novo campo
+  const [selectedProId, setSelectedProId] = useState("")
 
-  useEffect(() => {
-    loadData()
-  }, [])
+  useEffect(() => { loadData() }, [])
 
   async function loadData() {
     setLoading(true)
-    // Busca Serviços
     const resServices = await fetch('/api/admin/services')
     const dataServices = await resServices.json()
     if (resServices.ok) setServices(dataServices)
 
-    // Busca Profissionais (para o select)
     const resPros = await fetch('/api/professionals')
     const dataPros = await resPros.json()
     if (resPros.ok) {
         setProfessionals(dataPros)
-        if (dataPros.length > 0) setSelectedProId(dataPros[0].id) // Seleciona o primeiro por padrão
+        if (dataPros.length > 0) setSelectedProId(dataPros[0].id)
     }
-    
     setLoading(false)
   }
 
   async function handleCreate() {
     if (!selectedProId) {
-        alert("Você precisa cadastrar um profissional antes de criar serviços.")
+        alert("Cadastre um profissional antes.")
         return
     }
-
     setSaving(true)
     try {
         const res = await fetch('/api/admin/services', {
             method: 'POST',
-            body: JSON.stringify({
-                name,
-                price,
-                duration,
-                professionalId: selectedProId // Envia o dono
-            })
+            body: JSON.stringify({ name, price, duration, professionalId: selectedProId })
         })
 
         if (res.ok) {
-            await loadData() // Recarrega tudo
+            await loadData()
             setName("")
             setPrice("")
             setDuration("30")
         } else {
             alert("Erro ao salvar")
         }
-    } catch (error) {
-        alert("Erro de conexão")
-    } finally {
-        setSaving(false)
-    }
+    } catch (error) { alert("Erro de conexão") } 
+    finally { setSaving(false) }
   }
 
   async function handleDelete(id: string) {
@@ -77,38 +62,53 @@ export default function GerenciarServicos() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8 font-sans">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-slate-950 p-6 md:p-12 font-sans">
+      <div className="max-w-5xl mx-auto">
         
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-            <Link href="/admin" className="text-gray-500 hover:text-black font-medium">← Voltar</Link>
-            <h1 className="text-3xl font-bold text-gray-900">Catálogo de Serviços ✂️</h1>
+            <Link href="/admin" className="text-slate-400 hover:text-white font-bold bg-slate-900 px-3 py-1 rounded-lg border border-slate-800 transition-colors">← Voltar</Link>
+            <div>
+                 <h1 className="text-3xl font-black text-white">Catálogo de Serviços</h1>
+                 <p className="text-slate-500">Defina os preços e durações.</p>
+            </div>
         </div>
 
-        {/* Form */}
-        <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 mb-10">
-            <h2 className="text-xl font-bold mb-4 text-gray-800">Novo Serviço</h2>
+        {/* Form Create DARK */}
+        <div className="bg-slate-900 p-8 rounded-3xl shadow-lg border border-slate-800 mb-10">
+            <h2 className="text-lg font-bold mb-6 text-white flex items-center gap-2">
+                <span className="bg-blue-600 w-2 h-6 rounded-full"></span>
+                Novo Serviço
+            </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                    <label className="text-xs font-bold text-gray-500 uppercase">Nome do Serviço</label>
-                    <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Ex: Corte Degrade" className="w-full p-3 border rounded-lg mt-1" />
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Nome do Serviço</label>
+                    {/* CORREÇÃO AQUI: Placeholder Genérico */}
+                    <input 
+                        type="text" 
+                        value={name} 
+                        onChange={e => setName(e.target.value)} 
+                        placeholder="Ex: Serviço Premium" 
+                        className="w-full p-4 border border-slate-700 rounded-xl mt-1 bg-slate-800 text-white focus:ring-2 focus:ring-blue-600 outline-none" 
+                    />
                 </div>
-                <div>
-                    <label className="text-xs font-bold text-gray-500 uppercase">Preço (R$)</label>
-                    <input type="number" value={price} onChange={e => setPrice(e.target.value)} placeholder="0.00" className="w-full p-3 border rounded-lg mt-1" />
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Preço (R$)</label>
+                        <input type="number" value={price} onChange={e => setPrice(e.target.value)} placeholder="0.00" className="w-full p-4 border border-slate-700 rounded-xl mt-1 bg-slate-800 text-white focus:ring-2 focus:ring-blue-600 outline-none" />
+                    </div>
+                    <div>
+                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Minutos</label>
+                        <input type="number" value={duration} onChange={e => setDuration(e.target.value)} step="5" className="w-full p-4 border border-slate-700 rounded-xl mt-1 bg-slate-800 text-white focus:ring-2 focus:ring-blue-600 outline-none" />
+                    </div>
                 </div>
-                <div>
-                    <label className="text-xs font-bold text-gray-500 uppercase">Duração (min)</label>
-                    <input type="number" value={duration} onChange={e => setDuration(e.target.value)} step="5" className="w-full p-3 border rounded-lg mt-1" />
-                </div>
-                <div>
-                    <label className="text-xs font-bold text-blue-600 uppercase">Realizado por:</label>
+                <div className="md:col-span-2">
+                    <label className="text-xs font-bold text-blue-400 uppercase tracking-wider ml-1">Realizado por:</label>
                     <select 
                         value={selectedProId} 
                         onChange={e => setSelectedProId(e.target.value)}
-                        className="w-full p-3 border-2 border-blue-100 bg-blue-50 rounded-lg mt-1 font-bold text-gray-700"
+                        className="w-full p-4 border border-slate-700 bg-slate-800 rounded-xl mt-1 font-bold text-white focus:ring-2 focus:ring-blue-600 outline-none cursor-pointer"
                     >
                         {professionals.map(p => (
                             <option key={p.id} value={p.id}>{p.name}</option>
@@ -117,32 +117,36 @@ export default function GerenciarServicos() {
                 </div>
             </div>
 
-            <button onClick={handleCreate} disabled={!name || !price || saving} className="w-full py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition-colors">
-                {saving ? "Salvando..." : "Adicionar ao Catálogo"}
+            <button onClick={handleCreate} disabled={!name || !price || saving} className="w-full py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-500 transition-all shadow-lg shadow-blue-900/20 text-lg">
+                {saving ? "Salvando..." : "Adicionar ao Catálogo +"}
             </button>
         </div>
 
-        {/* Lista */}
-        <div className="space-y-3">
+        {/* Lista DARK */}
+        <div className="space-y-4">
             {services.map(s => (
-                <div key={s.id} className="bg-white p-4 rounded-xl border border-gray-200 flex justify-between items-center shadow-sm">
-                    <div>
-                        <h3 className="font-bold text-lg">{s.name}</h3>
-                        <div className="flex gap-3 text-sm text-gray-500">
-                            <span>⏱ {s.durationMin} min</span>
-                            <span className="text-green-600 font-bold">R$ {Number(s.price).toFixed(2)}</span>
-                        </div>
-                        {/* Mostra de quem é o serviço */}
-                        <div className="mt-1">
-                             <span className="text-[10px] uppercase font-bold bg-gray-100 px-2 py-0.5 rounded text-gray-600">
-                                Feito por: {s.professional?.name || 'Todos'}
-                             </span>
+                <div key={s.id} className="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex justify-between items-center shadow-sm hover:border-slate-700 transition-colors">
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center text-xl">✂️</div>
+                        <div>
+                            <h3 className="font-bold text-lg text-white">{s.name}</h3>
+                            <div className="flex gap-3 text-sm text-slate-400 mt-1">
+                                <span className="flex items-center gap-1">⏱ {s.durationMin} min</span>
+                                <span className="text-green-400 font-bold bg-green-900/20 px-2 rounded">R$ {Number(s.price).toFixed(2)}</span>
+                            </div>
                         </div>
                     </div>
-                    <button onClick={() => handleDelete(s.id)} className="text-red-400 hover:text-red-600 p-2">🗑️</button>
+                    
+                    <div className="flex items-center gap-4">
+                        <div className="text-right hidden md:block">
+                             <p className="text-[10px] uppercase font-bold text-slate-500">Profissional</p>
+                             <p className="text-sm font-bold text-slate-300">{s.professional?.name || 'Todos'}</p>
+                        </div>
+                        <button onClick={() => handleDelete(s.id)} className="w-10 h-10 rounded-lg bg-red-900/20 text-red-500 hover:bg-red-600 hover:text-white flex items-center justify-center transition-all">🗑️</button>
+                    </div>
                 </div>
             ))}
-            {services.length === 0 && !loading && <p className="text-center text-gray-400 py-10">Nenhum serviço cadastrado.</p>}
+            {services.length === 0 && !loading && <div className="text-center text-slate-500 py-10 bg-slate-900 rounded-2xl border border-slate-800">Nenhum serviço cadastrado ainda.</div>}
         </div>
 
       </div>
