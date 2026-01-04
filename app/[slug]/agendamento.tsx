@@ -11,14 +11,68 @@ interface BookingProps {
   splashUrl: string
 }
 
-// --- O DICIONÁRIO INTELIGENTE ---
+// --- O DICIONÁRIO INTELIGENTE (TEXTO + ÍCONES VISUAIS) ---
 const TEXT_LABELS: any = {
-  BARBER: { pro: "Profissional", service: "Serviço", emoji: "💈", action: "Cortar com", welcome: "Estilo & Tradição" },
-  BEAUTY: { pro: "Especialista", service: "Procedimento", emoji: "💅", action: "Agendar com", welcome: "Realce sua beleza" },
-  TATTOO: { pro: "Tatuador(a)", service: "Sessão", emoji: "🐉", action: "Riscar com", welcome: "Arte na pele" },
-  CLINIC: { pro: "Doutor(a)", service: "Exame/Consulta", emoji: "⚕️", action: "Consulta com", welcome: "Sua saúde em dia" },
-  PHOTOGRAPHY: { pro: "Fotógrafo(a)", service: "Ensaio", emoji: "📸", action: "Fotografar com", welcome: "Eternize momentos" },
-  PROFESSIONAL: { pro: "Consultor(a)", service: "Serviço", emoji: "💼", action: "Reunião com", welcome: "Soluções Profissionais" }
+  BARBER: { 
+    pro: "Profissional", 
+    service: "Serviço", 
+    emoji: "💈", 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+    ),
+    action: "Cortar com", 
+    welcome: "Estilo & Tradição" 
+  },
+  BEAUTY: { 
+    pro: "Especialista", 
+    service: "Procedimento", 
+    emoji: "💅", 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13.5 13.5L19 19"/><path d="M21 21L15.5 15.5"/><path d="M9 4a5 5 0 1 0 5 5v5H9V4Z"/><path d="M12 9h.01"/><path d="M4.5 16.5c-1 1-2.5 1-2.5 1s.5-1.5 1-2.5 1-2.5 2.5-1 2.5-1S7.5 15.5 4.5 16.5Z"/></svg>
+    ),
+    action: "Agendar com", 
+    welcome: "Realce sua beleza" 
+  },
+  TATTOO: { 
+    pro: "Tatuador(a)", 
+    service: "Sessão", 
+    emoji: "🐉", 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 15 2 2"/><path d="m14 13 2 2"/><path d="m2 2 20 20"/><path d="m9 7 2 2"/><path d="m7 9 2 2"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+    ),
+    action: "Riscar com", 
+    welcome: "Arte na pele" 
+  },
+  CLINIC: { 
+    pro: "Doutor(a)", 
+    service: "Exame/Consulta", 
+    emoji: "⚕️", 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.8 2.3A.3.3 0 0 0 5 2h14a.3.3 0 0 0 .2.3l-2 2a.3.3 0 0 0-.2.3v11.8a.3.3 0 0 0 .2.3l2 2a.3.3 0 0 0-.2.3H5a.3.3 0 0 0-.2-.3l2-2a.3.3 0 0 0 .2-.3V4.6a.3.3 0 0 0-.2-.3l-2-2Z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+    ),
+    action: "Consulta com", 
+    welcome: "Sua saúde em dia" 
+  },
+  PHOTOGRAPHY: { 
+    pro: "Fotógrafo(a)", 
+    service: "Ensaio", 
+    emoji: "📸", 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+    ),
+    action: "Fotografar com", 
+    welcome: "Eternize momentos" 
+  },
+  PROFESSIONAL: { 
+    pro: "Consultor(a)", 
+    service: "Serviço", 
+    emoji: "💼", 
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+    ),
+    action: "Reunião com", 
+    welcome: "Soluções Profissionais" 
+  }
 }
 
 export default function BookingSystem({ tenant, services, professionals, themeConfig, themeVariant, splashUrl }: BookingProps) {
@@ -188,7 +242,8 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                 {step === 1 && (
                     <div className="animate-in slide-in-from-right-4 duration-500">
                         <h2 className="text-lg font-bold mb-6 flex items-center justify-center gap-2 text-center text-slate-800">
-                           <span className="text-2xl">{labels.emoji}</span> Escolha o {labels.pro}
+                           <span className="text-primary opacity-80">{labels.icon}</span> 
+                           <span>Escolha o {labels.pro}</span>
                         </h2>
                         <div className="grid grid-cols-2 gap-4">
                             {professionals.map((pro) => (
@@ -220,7 +275,10 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                             </div>
                         </div>
                         
-                        <h2 className="text-lg font-bold mb-4 text-center text-slate-800">Selecione o {labels.service}</h2>
+                        <h2 className="text-lg font-bold mb-4 text-center text-slate-800 flex items-center justify-center gap-2">
+                             <span className="text-primary opacity-80 w-5 h-5">{labels.icon}</span>
+                             <span>Selecione o {labels.service}</span>
+                        </h2>
                         <div className="space-y-3 mb-24">
                             {availableServices.map((service) => {
                                 const isSelected = selectedServices.find(s => s.id === service.id)
