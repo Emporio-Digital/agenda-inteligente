@@ -11,7 +11,6 @@ export default function AppointmentRow({ appt }: { appt: any }) {
 
   // CÁLCULO DE SEGURANÇA (String -> Number)
   const totalPrice = appt.services.reduce((acc: number, s: any) => {
-    // Garante que o preço seja tratado como número, mesmo vindo como string
     return acc + Number(s.price)
   }, 0)
 
@@ -41,33 +40,34 @@ export default function AppointmentRow({ appt }: { appt: any }) {
   const firstName = appt.customer.name.split(' ')[0]
   const serviceNames = appt.services.map((s: any) => s.name).join(', ')
   
-  // Mensagem pré-definida formatada
+  // Mensagem pré-definida formatada com Negrito (*)
+  // Ajustei para garantir quebras de linha com %0A se necessário, mas mantendo simples e direto
   const message = `Olá ${firstName}, tudo bem? Passando para confirmar seu horário: *${serviceNames}* dia *${dia}* às *${hora}* com *${appt.professional.name}*. Confirmado?`
   
-  // Link completo com mensagem codificada
+  // Link seguro
   const zapLink = `https://wa.me/55${cleanPhone(appt.customer.phone)}?text=${encodeURIComponent(message)}`
 
   return (
     <tr className="group transition-all duration-300 hover:scale-[1.005]">
       
-      {/* CÉLULAS DARK */}
+      {/* CÉLULAS DARK - REDUZIDO PADDING NO MOBILE (p-3 md:p-5) */}
       
-      <td className="bg-slate-900 p-5 rounded-l-2xl border-y border-l border-slate-800 shadow-sm group-hover:border-slate-700">
+      <td className="bg-slate-900 p-3 md:p-5 rounded-l-2xl border-y border-l border-slate-800 shadow-sm group-hover:border-slate-700">
         <div className="flex flex-col">
-          <span className="font-bold text-2xl text-white">{hora}</span>
-          <span className="text-slate-500 text-xs font-bold uppercase tracking-wide">{dia}</span>
+          <span className="font-bold text-lg md:text-2xl text-white">{hora}</span>
+          <span className="text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-wide">{dia}</span>
         </div>
       </td>
       
-      <td className="bg-slate-900 p-5 border-y border-slate-800 shadow-sm group-hover:border-slate-700">
-        <div className="font-bold text-slate-200">{appt.customer.name}</div>
+      <td className="bg-slate-900 p-3 md:p-5 border-y border-slate-800 shadow-sm group-hover:border-slate-700">
+        <div className="font-bold text-slate-200 text-sm md:text-base">{appt.customer.name}</div>
         <div className="text-xs text-slate-500 font-mono mt-0.5">{appt.customer.phone}</div>
       </td>
       
-      <td className="bg-slate-900 p-5 border-y border-slate-800 shadow-sm group-hover:border-slate-700">
+      <td className="bg-slate-900 p-3 md:p-5 border-y border-slate-800 shadow-sm group-hover:border-slate-700 min-w-[140px]">
         <div className="flex flex-wrap gap-1">
           {appt.services.map((s: any) => (
-            <span key={s.id} className="bg-slate-800 text-slate-300 px-2 py-1 rounded-md text-[10px] font-bold uppercase border border-slate-700">
+            <span key={s.id} className="bg-slate-800 text-slate-300 px-2 py-1 rounded-md text-[10px] font-bold uppercase border border-slate-700 whitespace-nowrap">
               {s.name}
             </span>
           ))}
@@ -75,17 +75,17 @@ export default function AppointmentRow({ appt }: { appt: any }) {
         <div className="mt-2 font-bold text-green-400 text-xs">R$ {totalPrice.toFixed(2)}</div>
       </td>
       
-      <td className="bg-slate-900 p-5 border-y border-slate-800 shadow-sm group-hover:border-slate-700">
+      <td className="bg-slate-900 p-3 md:p-5 border-y border-slate-800 shadow-sm group-hover:border-slate-700">
          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-xs border border-slate-700 overflow-hidden text-slate-400">
+            <div className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-xs border border-slate-700 overflow-hidden text-slate-400 shrink-0">
                 {appt.professional.photoUrl ? <img src={appt.professional.photoUrl} className="w-full h-full object-cover"/> : "👤"}
             </div>
-            <span className="text-sm font-medium text-slate-400">{appt.professional.name}</span>
+            <span className="text-sm font-medium text-slate-400 whitespace-nowrap">{appt.professional.name}</span>
          </div>
       </td>
       
-      <td className="bg-slate-900 p-5 rounded-r-2xl border-y border-r border-slate-800 shadow-sm group-hover:border-slate-700 text-right">
-        <div className="flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+      <td className="bg-slate-900 p-3 md:p-5 rounded-r-2xl border-y border-r border-slate-800 shadow-sm group-hover:border-slate-700 text-right">
+        <div className="flex items-center justify-end gap-2 md:opacity-60 md:group-hover:opacity-100 transition-opacity">
             <a href={zapLink} target="_blank" className="bg-green-900/30 text-green-400 border border-green-900 w-8 h-8 rounded-lg flex items-center justify-center hover:bg-green-500 hover:text-white transition-colors" title="Chamar no WhatsApp">
                 💬
             </a>

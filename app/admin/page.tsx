@@ -108,30 +108,37 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
 
   const shareUrl = `${process.env.NEXT_PUBLIC_URL || 'https://agenda-inteligente.vercel.app'}/${tenantSlug}`
 
+  // Determina o nome do profissional selecionado para o Label do Dropdown
+  const currentProName = filterProId && filterProId !== 'all' 
+    ? professionals.find(p => p.id === filterProId)?.name.split(' ')[0] 
+    : 'Todos';
+
   return (
     <div className="min-h-screen bg-slate-950 p-6 md:p-12 font-sans">
       <div className="max-w-7xl mx-auto">
         
         {/* HEADER */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
-            <div>
+            <div className="w-full md:w-auto">
                 <h1 className="text-3xl font-black text-white tracking-tight">Dashboard</h1>
                 <p className="text-slate-400 font-medium">Gestão &bull; {tenantName}</p>
             </div>
-            <div className="flex gap-4 items-center bg-slate-900 p-2 rounded-2xl shadow-lg border border-slate-800">
+            <div className="flex gap-4 items-center bg-slate-900 p-2 rounded-2xl shadow-lg border border-slate-800 w-full md:w-auto justify-between md:justify-start">
                  <div className="px-4 py-2">
                     <p className="text-[10px] font-bold uppercase text-slate-500">Link Público</p>
                     <p className="text-blue-400 font-bold text-xs truncate max-w-[150px]">{shareUrl}</p>
                  </div>
-                 <a href={`/${tenantSlug}`} target="_blank" className="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-500 transition-colors">
-                    Ver Site ↗
-                 </a>
-                 <LogoutButton />
+                 <div className="flex gap-2">
+                    <a href={`/${tenantSlug}`} target="_blank" className="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-500 transition-colors flex items-center h-10">
+                        Ver Site ↗
+                    </a>
+                    <LogoutButton />
+                 </div>
             </div>
         </div>
 
         {/* CARDS NAVEGAÇÃO DINÂMICOS */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-10">
             <Link href="/admin/servicos" className="bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-800 hover:border-blue-500/50 transition-all group hover:-translate-y-1 relative overflow-hidden">
                 <div className="absolute right-0 top-0 w-24 h-24 bg-blue-500/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
                 <div className="w-12 h-12 bg-slate-800 text-blue-400 rounded-2xl flex items-center justify-center text-2xl mb-4 relative z-10 border border-slate-700">
@@ -165,20 +172,41 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
             </div>
         </div>
 
-        {/* TABELA */}
+        {/* TABELA E FILTROS */}
         <div>
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-6 relative z-30">
                 <h2 className="text-xl font-bold text-white">Agenda Futura</h2>
                 
+                {/* CORREÇÃO MOBILE: Dropdown Estilizado em vez de lista horizontal */}
                 {professionals.length > 0 && (
-                    <div className="flex gap-2 bg-slate-900 p-1 rounded-xl shadow-sm border border-slate-800">
-                        <Link href="/admin" className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${!filterProId || filterProId === 'all' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:bg-slate-800'}`}>Todos</Link>
-                        {professionals.map(pro => (
-                            <Link key={pro.id} href={`/admin?proId=${pro.id}`} className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${filterProId === pro.id ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:bg-slate-800'}`}>
-                                {pro.name.split(' ')[0]}
+                    <details className="relative group">
+                        <summary className="list-none bg-slate-900 text-white border border-slate-800 px-4 py-2 rounded-xl flex items-center gap-2 cursor-pointer shadow-lg hover:border-blue-500/50 transition-all">
+                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider hidden sm:inline">Filtrar:</span>
+                            <span className="font-bold text-sm text-blue-400">{currentProName}</span>
+                            <span className="text-xs text-slate-500 group-open:rotate-180 transition-transform">▼</span>
+                        </summary>
+                        
+                        {/* JANELINHA FLUTUANTE (DROPDOWN) */}
+                        <div className="absolute right-0 top-full mt-2 w-48 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl overflow-hidden flex flex-col z-50 animate-in fade-in slide-in-from-top-2">
+                            <Link 
+                                href="/admin" 
+                                className={`px-4 py-3 text-sm font-bold border-b border-slate-800 hover:bg-slate-800 transition-colors flex items-center justify-between ${!filterProId || filterProId === 'all' ? 'text-blue-400' : 'text-slate-400'}`}
+                            >
+                                Todos
+                                {(!filterProId || filterProId === 'all') && <span>✓</span>}
                             </Link>
-                        ))}
-                    </div>
+                            {professionals.map(pro => (
+                                <Link 
+                                    key={pro.id} 
+                                    href={`/admin?proId=${pro.id}`} 
+                                    className={`px-4 py-3 text-sm font-bold border-b border-slate-800 last:border-0 hover:bg-slate-800 transition-colors flex items-center justify-between ${filterProId === pro.id ? 'text-blue-400' : 'text-slate-400'}`}
+                                >
+                                    {pro.name.split(' ')[0]}
+                                    {filterProId === pro.id && <span>✓</span>}
+                                </Link>
+                            ))}
+                        </div>
+                    </details>
                 )}
             </div>
 

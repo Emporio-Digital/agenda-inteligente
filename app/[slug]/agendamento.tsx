@@ -11,7 +11,7 @@ interface BookingProps {
   splashUrl: string
 }
 
-// --- O DICIONÁRIO INTELIGENTE (TEXTO + ÍCONES VISUAIS) ---
+// --- O DICIONÁRIO INTELIGENTE ---
 const TEXT_LABELS: any = {
   BARBER: { 
     pro: "Profissional", 
@@ -90,9 +90,8 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
   const [customerPhone, setCustomerPhone] = useState("")
   const [loading, setLoading] = useState(false)
 
-  const primaryColor = tenant.primaryColor || "#0f172a" // Fallback para azul escuro se não tiver cor
+  const primaryColor = tenant.primaryColor || "#0f172a" 
 
-  // Labels dinâmicas baseadas no tema
   const labels = TEXT_LABELS[themeVariant] || TEXT_LABELS.BARBER
 
   useEffect(() => {
@@ -202,7 +201,6 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
        <div className="relative w-full h-64 overflow-hidden shadow-2xl">
          {tenant.coverUrl ? (
             <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${tenant.coverUrl})` }}>
-              {/* CORREÇÃO AQUI: Removido 'backdrop-blur-[2px]' para máxima nitidez */}
               <div className="absolute inset-0 bg-black/60"></div>
             </div>
          ) : (
@@ -239,7 +237,7 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
              )}
 
              <div className="p-6 text-gray-800">
-                {/* 1. PROFISSIONAIS (DINÂMICO) */}
+                {/* 1. PROFISSIONAIS */}
                 {step === 1 && (
                     <div className="animate-in slide-in-from-right-4 duration-500">
                         <h2 className="text-lg font-bold mb-6 flex items-center justify-center gap-2 text-center text-slate-800">
@@ -265,7 +263,7 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                     </div>
                 )}
 
-                {/* 2. SERVIÇOS (DINÂMICO) */}
+                {/* 2. SERVIÇOS */}
                 {step === 2 && (
                     <div className="animate-in slide-in-from-right-4 duration-500">
                         <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
@@ -444,7 +442,7 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                     </div>
                 )}
 
-                {/* 6. SUCESSO */}
+                {/* 6. SUCESSO - CORREÇÃO TEXTO EG */}
                 {step === 6 && (
                     <div className="text-center animate-in zoom-in duration-500 py-6">
                         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-green-200 shadow-xl border-4 border-white">
@@ -478,9 +476,10 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                             </div>
                         </div>
 
+                        {/* CORREÇÃO AQUI: EG EMPÓRIO DIGITAL */}
                         <div className="bg-zinc-900 text-white p-5 rounded-2xl shadow-2xl relative overflow-hidden group border border-zinc-700">
                              <div className="absolute top-0 right-0 w-24 h-24 bg-blue-600 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                             <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">Empório Digital</p>
+                             <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">EG Empório Digital</p>
                              <h3 className="text-lg font-bold mb-4">Gostou da experiência?</h3>
                              <a href="/" className="inline-block bg-white text-black text-xs font-bold px-6 py-3 rounded-xl hover:scale-105 transition-transform shadow-lg shadow-white/10">
                                  Testar Grátis Agora

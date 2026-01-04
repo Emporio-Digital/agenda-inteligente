@@ -114,14 +114,14 @@ export default function GerenciarProfissionais() {
                     ← Voltar
                 </Link>
                 <div>
-                     <h1 className="text-3xl font-black text-white">Equipe</h1>
-                     <p className="text-slate-500">Gerencie quem atende em seu negócio.</p>
+                     <h1 className="text-2xl md:text-3xl font-black text-white">Equipe</h1>
+                     <p className="text-slate-500 text-sm md:text-base">Gerencie quem atende em seu negócio.</p>
                 </div>
             </div>
         </div>
 
         {/* CREATE CARD DARK */}
-        <div className="bg-slate-900 p-8 rounded-3xl shadow-lg border border-slate-800 mb-10">
+        <div className="bg-slate-900 p-6 md:p-8 rounded-3xl shadow-lg border border-slate-800 mb-10">
             <h2 className="text-lg font-bold mb-4 text-white flex items-center gap-2">
                 <span className="bg-purple-600 w-2 h-6 rounded-full"></span>
                 Adicionar Novo Membro
@@ -134,13 +134,15 @@ export default function GerenciarProfissionais() {
                         value={newName}
                         onChange={e => setNewName(e.target.value)}
                         placeholder="Ex: Ana Silva"
-                        className="w-full p-4 border border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-600 outline-none bg-slate-800 text-white placeholder-slate-600"
+                        // CORREÇÃO: Padding reduzido no mobile
+                        className="w-full p-3 md:p-4 border border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-600 outline-none bg-slate-800 text-white placeholder-slate-600"
                     />
                 </div>
                 <button 
                     onClick={handleCreate}
                     disabled={!newName || saving}
-                    className={`h-[60px] px-8 rounded-xl font-bold transition-all w-full md:w-auto text-sm
+                    // CORREÇÃO: Altura e largura ajustadas para mobile
+                    className={`h-[50px] md:h-[60px] px-8 rounded-xl font-bold transition-all w-full md:w-auto text-sm
                         ${saving || !newName ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-purple-600 text-white hover:bg-purple-500 shadow-lg'}
                     `}
                 >
@@ -152,9 +154,9 @@ export default function GerenciarProfissionais() {
         {/* LISTA DARK */}
         <div className="grid grid-cols-1 gap-4">
              {professionals.map((pro) => (
-                 <div key={pro.id} className="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 hover:border-slate-700 transition-colors">
-                      <div className="flex items-center gap-4">
-                           <div className="w-16 h-16 rounded-full bg-slate-800 border border-slate-700 overflow-hidden flex items-center justify-center text-2xl text-slate-500">
+                 <div key={pro.id} className="bg-slate-900 p-5 md:p-6 rounded-2xl border border-slate-800 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 hover:border-slate-700 transition-colors">
+                      <div className="flex items-center gap-4 w-full md:w-auto">
+                           <div className="w-16 h-16 rounded-full bg-slate-800 border border-slate-700 overflow-hidden flex items-center justify-center text-2xl text-slate-500 shrink-0">
                                 {pro.photoUrl ? <img src={pro.photoUrl} className="w-full h-full object-cover" /> : "👤"}
                            </div>
                            <div>
@@ -178,9 +180,10 @@ export default function GerenciarProfissionais() {
       {/* MODAL CONFIGURAÇÃO DARK */}
       {editingPro && (
         <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="bg-slate-900 rounded-3xl shadow-2xl p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto border border-slate-800">
-                <div className="flex justify-between items-center mb-8 border-b border-slate-800 pb-4">
-                    <h3 className="text-2xl font-black text-white">Editar Perfil</h3>
+            {/* CORREÇÃO: Modal com max-height e scroll para telas pequenas */}
+            <div className="bg-slate-900 rounded-3xl shadow-2xl p-6 md:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto border border-slate-800 custom-scrollbar">
+                <div className="flex justify-between items-center mb-6 md:mb-8 border-b border-slate-800 pb-4">
+                    <h3 className="text-xl md:text-2xl font-black text-white">Editar Perfil</h3>
                     <button onClick={() => setEditingPro(null)} className="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center hover:bg-slate-700">✕</button>
                 </div>
                 
