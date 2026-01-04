@@ -28,14 +28,24 @@ export default function AppointmentRow({ appt }: { appt: any }) {
 
   if (status === 'CANCELED') return null 
 
+  // --- LÓGICA DE DATA E HORA ---
   const timeZone = 'America/Sao_Paulo'
   const dataObj = toZonedTime(appt.date, timeZone)
   
   const dia = format(dataObj, "dd 'de' MMM", { locale: ptBR })
   const hora = format(dataObj, "HH:mm", { locale: ptBR })
   
+  // --- LÓGICA WHATSAPP (CORRIGIDA) ---
   const cleanPhone = (phone: string) => phone.replace(/\D/g, '')
-  const zapLink = `https://wa.me/55${cleanPhone(appt.customer.phone)}`
+  
+  const firstName = appt.customer.name.split(' ')[0]
+  const serviceNames = appt.services.map((s: any) => s.name).join(', ')
+  
+  // Mensagem pré-definida formatada
+  const message = `Olá ${firstName}, tudo bem? Passando para confirmar seu horário: *${serviceNames}* dia *${dia}* às *${hora}* com *${appt.professional.name}*. Confirmado?`
+  
+  // Link completo com mensagem codificada
+  const zapLink = `https://wa.me/55${cleanPhone(appt.customer.phone)}?text=${encodeURIComponent(message)}`
 
   return (
     <tr className="group transition-all duration-300 hover:scale-[1.005]">
