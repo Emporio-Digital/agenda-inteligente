@@ -22,6 +22,12 @@ model Tenant {
   secondaryColor String   @default("#ffffff")
   logoUrl        String?
   coverUrl       String?
+  
+  // --- NOVOS CAMPOS ADICIONADOS ---
+  phone          String?  // WhatsApp do Estabelecimento
+  address        String?  // Endereço (para evitar erros na page publica)
+  // -------------------------------
+
   themeVariant   String   @default("BARBER")
 
   stripeCustomerId   String?
