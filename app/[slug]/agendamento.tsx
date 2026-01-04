@@ -202,7 +202,8 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
        <div className="relative w-full h-64 overflow-hidden shadow-2xl">
          {tenant.coverUrl ? (
             <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${tenant.coverUrl})` }}>
-              <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>
+              {/* CORREÇÃO AQUI: Removido 'backdrop-blur-[2px]' para máxima nitidez */}
+              <div className="absolute inset-0 bg-black/60"></div>
             </div>
          ) : (
             <div className="absolute inset-0 bg-gradient-to-br from-slate-900 to-black"></div>
