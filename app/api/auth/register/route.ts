@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma' // Garanti o import correto @/lib/prisma
+import { prisma } from '../../../lib/prisma' // CORREÇÃO: Subindo 3 níveis para achar a pasta lib
 import bcrypt from 'bcryptjs'
 
 // Função auxiliar para limpar o nome (Slugify)
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
           subscriptionStatus: 'TRIAL', 
           themeVariant: theme || 'BARBER', 
           primaryColor: '#000000',
-          phone: phone || '', // Agora isso vai funcionar pois criamos o campo no schema!
+          phone: phone || '', // Agora o banco aceita isso!
         }
       })
 
