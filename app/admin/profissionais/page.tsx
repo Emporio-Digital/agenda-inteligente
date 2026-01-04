@@ -105,7 +105,7 @@ export default function GerenciarProfissionais() {
   ]
 
   return (
-    <div className="min-h-screen bg-slate-950 p-6 md:p-12 font-sans relative">
+    <div className="min-h-[100dvh] bg-slate-950 p-6 md:p-12 font-sans relative overflow-x-hidden">
       <div className="max-w-5xl mx-auto">
         
         <div className="flex items-center justify-between mb-10">
@@ -134,25 +134,24 @@ export default function GerenciarProfissionais() {
                         value={newName}
                         onChange={e => setNewName(e.target.value)}
                         placeholder="Ex: Ana Silva"
-                        // CORREÇÃO: Padding reduzido no mobile
                         className="w-full p-3 md:p-4 border border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-600 outline-none bg-slate-800 text-white placeholder-slate-600"
                     />
                 </div>
                 <button 
                     onClick={handleCreate}
                     disabled={!newName || saving}
-                    // CORREÇÃO: Altura e largura ajustadas para mobile
+                    // CORREÇÃO: "Contratar +"
                     className={`h-[50px] md:h-[60px] px-8 rounded-xl font-bold transition-all w-full md:w-auto text-sm
                         ${saving || !newName ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-purple-600 text-white hover:bg-purple-500 shadow-lg'}
                     `}
                 >
-                    {saving ? "..." : "Adicionar +"}
+                    {saving ? "..." : "Contratar +"}
                 </button>
             </div>
         </div>
 
         {/* LISTA DARK */}
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 gap-4 pb-20">
              {professionals.map((pro) => (
                  <div key={pro.id} className="bg-slate-900 p-5 md:p-6 rounded-2xl border border-slate-800 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 hover:border-slate-700 transition-colors">
                       <div className="flex items-center gap-4 w-full md:w-auto">
@@ -180,7 +179,6 @@ export default function GerenciarProfissionais() {
       {/* MODAL CONFIGURAÇÃO DARK */}
       {editingPro && (
         <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-200">
-            {/* CORREÇÃO: Modal com max-height e scroll para telas pequenas */}
             <div className="bg-slate-900 rounded-3xl shadow-2xl p-6 md:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto border border-slate-800 custom-scrollbar">
                 <div className="flex justify-between items-center mb-6 md:mb-8 border-b border-slate-800 pb-4">
                     <h3 className="text-xl md:text-2xl font-black text-white">Editar Perfil</h3>
@@ -203,18 +201,19 @@ export default function GerenciarProfissionais() {
                     </div>
 
                     <div>
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Nome</label>
-                        <input type="text" value={editingPro.name} onChange={(e) => setEditingPro({...editingPro, name: e.target.value})} className="w-full p-3 border border-slate-700 rounded-xl mt-1 bg-slate-800 font-bold text-white focus:ring-1 focus:ring-blue-500 outline-none" />
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Nome</label>
+                        <input type="text" value={editingPro.name} onChange={(e) => setEditingPro({...editingPro, name: e.target.value})} className="w-full p-3 border border-slate-700 rounded-xl bg-slate-800 font-bold text-white focus:ring-1 focus:ring-blue-500 outline-none relative z-10" />
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Entrada</label>
-                            <input type="time" value={editingPro.workStart} onChange={(e) => setEditingPro({...editingPro, workStart: e.target.value})} className="w-full p-3 border border-slate-700 rounded-xl mt-1 bg-slate-800 text-white" />
+                    <div className="grid grid-cols-2 gap-6">
+                        <div className="relative">
+                            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Entrada</label>
+                            {/* CORREÇÃO: Limpeza de placeholder e texto fantasma */}
+                            <input type="time" placeholder="" value={editingPro.workStart} onChange={(e) => setEditingPro({...editingPro, workStart: e.target.value})} className="w-full p-3 border border-slate-700 rounded-xl bg-slate-800 text-white relative z-10" />
                         </div>
-                        <div>
-                            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Saída</label>
-                            <input type="time" value={editingPro.workEnd} onChange={(e) => setEditingPro({...editingPro, workEnd: e.target.value})} className="w-full p-3 border border-slate-700 rounded-xl mt-1 bg-slate-800 text-white" />
+                        <div className="relative">
+                            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Saída</label>
+                            <input type="time" placeholder="" value={editingPro.workEnd} onChange={(e) => setEditingPro({...editingPro, workEnd: e.target.value})} className="w-full p-3 border border-slate-700 rounded-xl bg-slate-800 text-white relative z-10" />
                         </div>
                     </div>
 

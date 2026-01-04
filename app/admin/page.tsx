@@ -62,7 +62,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
 
   if (isExpired) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 text-center font-sans">
+      <div className="min-h-[100dvh] bg-slate-950 flex flex-col items-center justify-center p-6 text-center font-sans">
         <div className="bg-slate-900 border border-slate-800 p-8 rounded-2xl max-w-md w-full shadow-2xl">
           <div className="text-5xl mb-6">🔒</div>
           <h1 className="text-2xl font-bold text-white mb-2">Acesso Expirado</h1>
@@ -108,13 +108,13 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
 
   const shareUrl = `${process.env.NEXT_PUBLIC_URL || 'https://agenda-inteligente.vercel.app'}/${tenantSlug}`
 
-  // Determina o nome do profissional selecionado para o Label do Dropdown
   const currentProName = filterProId && filterProId !== 'all' 
     ? professionals.find(p => p.id === filterProId)?.name.split(' ')[0] 
     : 'Todos';
 
   return (
-    <div className="min-h-screen bg-slate-950 p-6 md:p-12 font-sans">
+    // CORREÇÃO SCROLL: min-h-[100dvh] e overflow-x-hidden para evitar scroll lateral e borda branca
+    <div className="min-h-[100dvh] bg-slate-950 p-6 md:p-12 font-sans overflow-x-hidden">
       <div className="max-w-7xl mx-auto">
         
         {/* HEADER */}
@@ -177,16 +177,15 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
             <div className="flex items-center justify-between mb-6 relative z-30">
                 <h2 className="text-xl font-bold text-white">Agenda Futura</h2>
                 
-                {/* CORREÇÃO MOBILE: Dropdown Estilizado em vez de lista horizontal */}
                 {professionals.length > 0 && (
-                    <details className="relative group">
-                        <summary className="list-none bg-slate-900 text-white border border-slate-800 px-4 py-2 rounded-xl flex items-center gap-2 cursor-pointer shadow-lg hover:border-blue-500/50 transition-all">
+                    /* CORREÇÃO DROPDOWN: key={filterProId} força o React a recriar o elemento ao mudar a URL, fechando o menu automaticamente */
+                    <details className="relative group" key={filterProId || 'default'}>
+                        <summary className="list-none bg-slate-900 text-white border border-slate-800 px-4 py-2 rounded-xl flex items-center gap-2 cursor-pointer shadow-lg hover:border-blue-500/50 transition-all select-none">
                             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider hidden sm:inline">Filtrar:</span>
                             <span className="font-bold text-sm text-blue-400">{currentProName}</span>
                             <span className="text-xs text-slate-500 group-open:rotate-180 transition-transform">▼</span>
                         </summary>
                         
-                        {/* JANELINHA FLUTUANTE (DROPDOWN) */}
                         <div className="absolute right-0 top-full mt-2 w-48 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl overflow-hidden flex flex-col z-50 animate-in fade-in slide-in-from-top-2">
                             <Link 
                                 href="/admin" 
@@ -210,7 +209,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                 )}
             </div>
 
-            <div className="overflow-x-auto pb-10">
+            <div className="overflow-x-auto pb-20">
                 <table className="w-full border-separate border-spacing-y-3">
                     <thead className="text-left">
                         <tr>

@@ -15,7 +15,6 @@ import {
   Layers 
 } from "lucide-react"
 
-// --- LÓGICA DE ÍCONES ---
 const getServiceIcon = (theme: string) => {
   const map: Record<string, any> = {
     barber: Scissors,       
@@ -51,13 +50,10 @@ export default function GerenciarServicos() {
 
   async function loadData() {
     setLoading(true)
-    
-    // 1. Busca Serviços
     const resServices = await fetch('/api/admin/services')
     const dataServices = await resServices.json()
     if (resServices.ok) setServices(dataServices)
 
-    // 2. Busca Profissionais
     const resPros = await fetch('/api/professionals')
     const dataPros = await resPros.json()
     if (resPros.ok) {
@@ -65,17 +61,13 @@ export default function GerenciarServicos() {
         if (dataPros.length > 0) setSelectedProId(dataPros[0].id)
     }
 
-    // 3. Busca Tema
     try {
         const resTenant = await fetch('/api/admin/tenant') 
         if (resTenant.ok) {
             const dataTenant = await resTenant.json()
             if (dataTenant.theme) setTheme(dataTenant.theme)
         }
-    } catch (error) {
-        console.log("Usando ícone padrão")
-    }
-
+    } catch (error) { console.log("Usando ícone padrão") }
     setLoading(false)
   }
 
@@ -112,10 +104,10 @@ export default function GerenciarServicos() {
   const ThemeIcon = getServiceIcon(theme)
 
   return (
-    <div className="min-h-screen bg-slate-950 p-6 md:p-12 font-sans">
+    // CORREÇÃO: min-h-[100dvh] para evitar borda branca
+    <div className="min-h-[100dvh] bg-slate-950 p-6 md:p-12 font-sans overflow-x-hidden">
       <div className="max-w-5xl mx-auto">
         
-        {/* Header */}
         <div className="flex items-center gap-4 mb-8">
             <Link href="/admin" className="text-slate-400 hover:text-white font-bold bg-slate-900 px-3 py-1 rounded-lg border border-slate-800 transition-colors">← Voltar</Link>
             <div>
@@ -127,7 +119,6 @@ export default function GerenciarServicos() {
             </div>
         </div>
 
-        {/* Form Create DARK */}
         <div className="bg-slate-900 p-6 md:p-8 rounded-3xl shadow-lg border border-slate-800 mb-10">
             <h2 className="text-lg font-bold mb-6 text-white flex items-center gap-2">
                 <span className="bg-blue-600 w-2 h-6 rounded-full"></span>
@@ -142,7 +133,6 @@ export default function GerenciarServicos() {
                         value={name} 
                         onChange={e => setName(e.target.value)} 
                         placeholder="Ex: Serviço Premium" 
-                        // CORREÇÃO: p-3 no mobile para não cortar texto
                         className="w-full p-3 md:p-4 border border-slate-700 rounded-xl mt-1 bg-slate-800 text-white focus:ring-2 focus:ring-blue-600 outline-none" 
                     />
                 </div>
@@ -170,35 +160,35 @@ export default function GerenciarServicos() {
                 </div>
             </div>
 
-            {/* CORREÇÃO: Botão com texto menor no mobile (text-sm) e padding ajustado */}
+            {/* CORREÇÃO: Botão "Adicionar +" */}
             <button onClick={handleCreate} disabled={!name || !price || saving} className="w-full py-3 md:py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-500 transition-all shadow-lg shadow-blue-900/20 text-sm md:text-lg">
-                {saving ? "Salvando..." : "Adicionar ao Catálogo +"}
+                {saving ? "Salvando..." : "Adicionar +"}
             </button>
         </div>
 
-        {/* Lista DARK */}
-        <div className="space-y-4">
+        <div className="space-y-4 pb-20">
             {services.map(s => (
                 <div key={s.id} className="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex justify-between items-center shadow-sm hover:border-slate-700 transition-colors">
                     <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center text-blue-400">
+                        <div className="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center text-blue-400 shrink-0">
                             <ThemeIcon className="w-6 h-6" />
                         </div>
                         <div>
                             <h3 className="font-bold text-lg text-white">{s.name}</h3>
-                            <div className="flex gap-3 text-sm text-slate-400 mt-1">
+                            <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3 text-sm text-slate-400 mt-1">
                                 <span className="flex items-center gap-1">⏱ {s.durationMin} min</span>
-                                <span className="text-green-400 font-bold bg-green-900/20 px-2 rounded">R$ {Number(s.price).toFixed(2)}</span>
+                                <span className="text-green-400 font-bold bg-green-900/20 px-2 rounded w-fit">R$ {Number(s.price).toFixed(2)}</span>
                             </div>
                         </div>
                     </div>
                     
                     <div className="flex items-center gap-4">
-                        <div className="text-right hidden md:block">
-                             <p className="text-[10px] uppercase font-bold text-slate-500">Profissional</p>
-                             <p className="text-sm font-bold text-slate-300">{s.professional?.name || 'Todos'}</p>
+                        {/* CORREÇÃO: Mostrando nome do Profissional no mobile também */}
+                        <div className="text-right">
+                             <p className="text-[8px] md:text-[10px] uppercase font-bold text-slate-500">Profissional</p>
+                             <p className="text-xs md:text-sm font-bold text-slate-300 max-w-[80px] md:max-w-none truncate">{s.professional?.name || 'Todos'}</p>
                         </div>
-                        <button onClick={() => handleDelete(s.id)} className="w-10 h-10 rounded-lg bg-red-900/20 text-red-500 hover:bg-red-600 hover:text-white flex items-center justify-center transition-all">🗑️</button>
+                        <button onClick={() => handleDelete(s.id)} className="w-10 h-10 rounded-lg bg-red-900/20 text-red-500 hover:bg-red-600 hover:text-white flex items-center justify-center transition-all shrink-0">🗑️</button>
                     </div>
                 </div>
             ))}
