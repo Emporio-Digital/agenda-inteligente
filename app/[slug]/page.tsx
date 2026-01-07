@@ -31,17 +31,25 @@ const THEMES: any = {
     bg: "bg-gray-50",
     text: "text-gray-800",
     rounded: "rounded-md",
+  },
+  // NOVO TEMA ADICIONADO: RESTAURANTES
+  RESTAURANT: {
+    bg: "bg-stone-950", // Dark Warm (Elegante para gastronomia)
+    text: "text-stone-100",
+    rounded: "rounded-2xl",
   }
 }
 
-// --- IMAGENS ATUALIZADAS (Com os links novos) ---
+// --- IMAGENS ATUALIZADAS ---
 const SPLASH_IMAGES: any = {
   BEAUTY: "https://i.ibb.co/hRXVnd7Z/9cd0d93b-e561-47bc-8cf2-b23fd8bcd58a.jpg",
   CLINIC: "https://i.ibb.co/fV5QcdFf/969c80ee-8648-4043-b9de-349001073a05.jpg",
   BARBER: "https://i.ibb.co/FbVJNmq6/d5d6204b-6ad5-4507-8fc1-43df0bc6e453.jpg",
   TATTOO: "https://i.ibb.co/bjbSC92V/Chat-GPT-Image-4-de-jan-de-2026-00-00-36.png",
   PHOTOGRAPHY: "https://i.ibb.co/KcrP0mYM/Chat-GPT-Image-4-de-jan-de-2026-01-48-16.png",
-  PROFESSIONAL: "https://i.ibb.co/dhZg8cy/Chat-GPT-Image-4-de-jan-de-2026-01-38-28.png"
+  PROFESSIONAL: "https://i.ibb.co/dhZg8cy/Chat-GPT-Image-4-de-jan-de-2026-01-38-28.png",
+  // NOVA IMAGEM ADICIONADA: RESTAURANTES
+  RESTAURANT: "https://i.ibb.co/S7dYpCWH/772eff75-287c-4a77-97cf-8de8e458efaa.jpg"
 }
 
 export default async function TenantPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -57,7 +65,7 @@ export default async function TenantPage({ params }: { params: Promise<{ slug: s
 
   if (!tenant) return <div className="min-h-screen flex items-center justify-center bg-gray-100 text-gray-500 font-bold">Estabelecimento não encontrado.</div>
 
-  // Limpeza de Segurança
+  // Limpeza de Segurança (Decimal -> Number)
   const servicosLimpos = tenant.services.map(service => ({
     ...service,
     price: Number(service.price)
