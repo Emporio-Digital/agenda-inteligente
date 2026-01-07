@@ -94,6 +94,8 @@ export default function SettingsForm({ tenant }: { tenant: any }) {
                         <option value="CLINIC">⚕️ Clínica / Saúde (White & Blue)</option>
                         <option value="PHOTOGRAPHY">📸 Fotografia (Minimal Dark)</option>
                         <option value="PROFESSIONAL">💼 Serviços / Escritório (Corporate)</option>
+                        {/* NOVO TEMA ADICIONADO AQUI */}
+                        <option value="RESTAURANT">🍽️ Restaurante (Reserva de Mesas)</option>
                     </select>
                     <p className="text-[10px] text-slate-400 mt-2">Isso adapta automaticamente os textos (ex: "Barbeiro" vira "Fotógrafo") e o visual.</p>
                 </div>

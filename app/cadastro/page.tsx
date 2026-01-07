@@ -27,6 +27,8 @@ export default function RegisterPage() {
     { id: 'CLINIC', label: 'Clínica', icon: '⚕️' },
     { id: 'PHOTOGRAPHY', label: 'Fotografia', icon: '📸' },
     { id: 'PROFESSIONAL', label: 'Escritório', icon: '💼' },
+    // NOVO TEMA ADICIONADO: RESTAURANTES
+    { id: 'RESTAURANT', label: 'Restaurante', icon: '🍽️' },
   ]
 
   // 2. Opções de Planos
