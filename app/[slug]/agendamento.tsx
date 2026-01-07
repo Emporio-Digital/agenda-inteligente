@@ -73,11 +73,12 @@ const TEXT_LABELS: any = {
     action: "Reunião com", 
     welcome: "Soluções Profissionais" 
   },
-  // NOVO TEMA ADICIONADO: RESTAURANTES
+  // NOVO TEMA: RESTAURANTES (Com ajuste gramatical "article: a")
   RESTAURANT: { 
-    pro: "Mesa/Ambiente", 
+    pro: "Unidade", 
     service: "Reserva", 
     emoji: "🍽️", 
+    article: "a", // Define que deve usar "a" em vez de "o"
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
     ),
@@ -104,6 +105,8 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
   const primaryColor = tenant.primaryColor || "#0f172a" 
 
   const labels = TEXT_LABELS[themeVariant] || TEXT_LABELS.BARBER
+  // Ajuste gramatical seguro: se tiver article definido usa ele, senão usa 'o'
+  const article = labels.article || 'o'
 
   useEffect(() => {
     const timer1 = setTimeout(() => setFadeSplash(true), 2500)
@@ -253,7 +256,7 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                     <div className="animate-in slide-in-from-right-4 duration-500">
                         <h2 className="text-lg font-bold mb-6 flex items-center justify-center gap-2 text-center text-slate-800">
                            <span className="text-primary opacity-80">{labels.icon}</span> 
-                           <span>Escolha o {labels.pro}</span>
+                           <span>Escolha {article} {labels.pro}</span>
                         </h2>
                         <div className="grid grid-cols-2 gap-4">
                             {professionals.map((pro) => (
@@ -287,7 +290,7 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                         
                         <h2 className="text-lg font-bold mb-4 text-center text-slate-800 flex items-center justify-center gap-2">
                              <span className="text-primary opacity-80 w-5 h-5">{labels.icon}</span>
-                             <span>Selecione o {labels.service}</span>
+                             <span>Selecione {article} {labels.service}</span>
                         </h2>
                         <div className="space-y-3 mb-24">
                             {availableServices.map((service) => {
