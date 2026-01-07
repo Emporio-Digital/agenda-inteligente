@@ -15,7 +15,9 @@ const ADMIN_THEMES: any = {
   TATTOO: { serviceIcon: "🐉", serviceName: "Sessões", proIcon: "🎨", proName: "Tatuadores", bgGradient: "from-purple-900 to-slate-900" },
   CLINIC: { serviceIcon: "⚕️", serviceName: "Exames", proIcon: "🩺", proName: "Doutores", bgGradient: "from-teal-900 to-slate-900" },
   PHOTOGRAPHY: { serviceIcon: "📸", serviceName: "Ensaios", proIcon: "📷", proName: "Fotógrafos", bgGradient: "from-neutral-800 to-slate-950" },
-  PROFESSIONAL: { serviceIcon: "💼", serviceName: "Consultorias", proIcon: "👔", proName: "Consultores", bgGradient: "from-slate-800 to-slate-950" }
+  PROFESSIONAL: { serviceIcon: "💼", serviceName: "Consultorias", proIcon: "👔", proName: "Consultores", bgGradient: "from-slate-800 to-slate-950" },
+  // NOVO TEMA ADICIONADO: RESTAURANTES
+  RESTAURANT: { serviceIcon: "📅", serviceName: "Reservas", proIcon: "🍽️", proName: "Mesas/Setores", bgGradient: "from-stone-800 to-stone-950" }
 }
 
 interface AdminPageProps {
