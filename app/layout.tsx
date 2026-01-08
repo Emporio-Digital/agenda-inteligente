@@ -14,17 +14,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Kairós",
-    default: "Kairós - Sua Agenda Inteligente", // Título padrão se não houver um específico
+    template: "%s | Kairós", // Ex: "Barbearia do Zé | Kairós"
+    default: "Sua agenda inteligente", // Ex: Apenas "Sua agenda inteligente" na home
   },
-  description: "O sistema de agendamento mais simples e poderoso do mercado. Teste grátis.",
-  icons: {
-    icon: "/logo.png", // Usa o arquivo que já existe na sua pasta public
-    shortcut: "/logo.png",
-    apple: "/logo.png",
-  },
+  description: "Agendamento online simples e rápido. Teste grátis.",
+  // REMOVIDO O BLOCO "icons" PARA PERMITIR QUE O NEXT.JS USE OS ARQUIVOS app/icon.png E app/apple-icon.png AUTOMATICAMENTE
   openGraph: {
-    title: "Kairós",
+    title: "Sua agenda inteligente",
     description: "Sua agenda cheia, sua vida tranquila.",
     siteName: "Kairós",
     locale: "pt_BR",

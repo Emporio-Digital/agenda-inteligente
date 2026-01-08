@@ -1,8 +1,9 @@
 import Link from "next/link"
 import { Metadata } from "next"
 
+// --- METADATA (SEO) ATUALIZADO ---
 export const metadata: Metadata = {
-  title: "Kairós - O Sistema de Agendamento Nº 1",
+  title: "Sua agenda inteligente",
   description: "Agendamento online automático para Barbearias, Clínicas e Salões. Teste grátis agora.",
 }
 
@@ -47,7 +48,7 @@ export default function LandingPage() {
 
         <div className="max-w-4xl mx-auto text-center space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
           
-          {/* FRASE TOPO AJUSTADA (Nº 1) */}
+          {/* FRASE TOPO AJUSTADA (Nº 1) - MANTIDA VISUALMENTE CONFORME SOLICITADO */}
           <div className="inline-flex items-center gap-2 bg-zinc-900/50 backdrop-blur-md text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-zinc-800/50 shadow-inner">
             <span>🚀</span>
             <span>O sistema de agendamento Nº 1 do mercado</span>
