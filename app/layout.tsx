@@ -14,13 +14,18 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Kairós", // Ex: "Barbearia do Zé | Kairós"
-    default: "Sua agenda inteligente", // Ex: Apenas "Sua agenda inteligente" na home
+    template: "%s | Kairós", 
+    default: "Kairós - Sua Agenda Inteligente",
   },
-  description: "Agendamento online simples e rápido. Teste grátis.",
-  // REMOVIDO O BLOCO "icons" PARA PERMITIR QUE O NEXT.JS USE OS ARQUIVOS app/icon.png E app/apple-icon.png AUTOMATICAMENTE
+  description: "O sistema de agendamento mais simples e poderoso do mercado. Teste grátis.",
+  // FORÇANDO ÍCONES MANUALMENTE (Estratégia Força Bruta para iPhone)
+  icons: {
+    icon: "/logo.png", 
+    shortcut: "/logo.png",
+    apple: "/logo.png", 
+  },
   openGraph: {
-    title: "Sua agenda inteligente",
+    title: "Kairós - Sua Agenda Inteligente",
     description: "Sua agenda cheia, sua vida tranquila.",
     siteName: "Kairós",
     locale: "pt_BR",

@@ -14,13 +14,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!tenant) {
     return {
-      title: "Sua agenda inteligente",
+      title: "Kairós - Sua Agenda Inteligente",
     }
   }
 
   return {
     title: tenant.name, // Aparece: "Barbearia do Zé | Kairós" (devido ao template no layout)
-    description: `Agende seu horário com ${tenant.name} - Sua agenda inteligente.`,
+    description: `Agende seu horário com ${tenant.name}. Gerenciado por Kairós - Sua Agenda Inteligente.`,
     openGraph: {
       title: tenant.name,
       description: `Agendamento online - ${tenant.name}`,
