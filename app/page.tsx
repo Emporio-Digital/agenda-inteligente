@@ -1,4 +1,10 @@
 import Link from "next/link"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Kairós - O Sistema de Agendamento Nº 1",
+  description: "Agendamento online automático para Barbearias, Clínicas e Salões. Teste grátis agora.",
+}
 
 export default function LandingPage() {
   return (

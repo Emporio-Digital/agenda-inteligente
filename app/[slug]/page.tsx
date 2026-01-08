@@ -1,5 +1,33 @@
 import { prisma } from "../lib/prisma"
 import BookingSystem from "./agendamento"
+import { Metadata } from "next"
+
+// --- GERAR METADATA DINÂMICA (NOME NA ABA) ---
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  
+  // Busca leve apenas para pegar o nome e logo para SEO
+  const tenant = await prisma.tenant.findUnique({
+    where: { slug },
+    select: { name: true, logoUrl: true }
+  })
+
+  if (!tenant) {
+    return {
+      title: "Kairós",
+    }
+  }
+
+  return {
+    title: tenant.name, // Aparece: "Barbearia do Zé | Kairós" (devido ao template no layout)
+    description: `Agende seu horário com ${tenant.name} de forma rápida e online.`,
+    openGraph: {
+      title: tenant.name,
+      description: `Agendamento online - ${tenant.name}`,
+      images: tenant.logoUrl ? [tenant.logoUrl] : []
+    }
+  }
+}
 
 const THEMES: any = {
   BARBER: {
