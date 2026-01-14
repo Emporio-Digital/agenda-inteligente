@@ -74,8 +74,8 @@ export default function SettingsForm({ tenant }: { tenant: any }) {
                 <div>
                     <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Cor Principal</label>
                     <div className="flex items-center gap-3">
+                        {/* REMOVIDO O SPAN AQUI */}
                         <input type="color" name="primaryColor" value={data.primaryColor} onChange={handleChange} className="h-10 w-10 rounded-lg cursor-pointer border border-slate-200 shadow-sm" />
-                        <span className="text-sm font-mono bg-slate-100 px-2 py-1 rounded text-slate-600">{data.primaryColor}</span>
                     </div>
                 </div>
             </div>

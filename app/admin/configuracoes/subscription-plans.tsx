@@ -11,6 +11,11 @@ interface SubscriptionPlansProps {
 export default function SubscriptionPlans({ currentPlan, status }: SubscriptionPlansProps) {
     const [cycle, setCycle] = useState<'monthly' | 'semestral' | 'annual'>('monthly');
     const [loading, setLoading] = useState(false);
+    
+    // Novo estado para controlar a visualização do upgrade
+    const [showUpgrade, setShowUpgrade] = useState(false);
+
+    const isTrial = !status || status === 'TRIAL' || status === 'PENDING';
 
     const handleSubscribe = async (plan: 'SOLO' | 'PRO' | 'ILIMITADO') => {
         setLoading(true);
@@ -29,6 +34,36 @@ export default function SubscriptionPlans({ currentPlan, status }: SubscriptionP
         }
     }
 
+    // LÓGICA DE EXIBIÇÃO: Se já pagou e não clicou em upgrade, mostra o painel reduzido
+    if (!isTrial && !showUpgrade) {
+        return (
+            <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
+                <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                        <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                        <p className="text-sm font-bold text-green-400 uppercase tracking-widest">Assinatura Ativa</p>
+                    </div>
+                    <h3 className="text-3xl font-black text-white mb-1">Plano {currentPlan}</h3>
+                    <p className="text-slate-400 text-sm">Obrigado por ser nosso parceiro.</p>
+                </div>
+                
+                <div className="w-full md:w-auto bg-slate-800 p-6 rounded-2xl border border-slate-700 text-center">
+                    <h4 className="text-white font-bold mb-2">Deseja mais recursos?</h4>
+                    <p className="text-xs text-slate-400 mb-4 max-w-[200px] mx-auto">
+                        Você pode alterar seu plano a qualquer momento para desbloquear novas funcionalidades.
+                    </p>
+                    <button 
+                        onClick={() => setShowUpgrade(true)}
+                        className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-bold text-sm transition-all w-full"
+                    >
+                        Fazer Upgrade 🚀
+                    </button>
+                </div>
+            </div>
+        )
+    }
+
+    // Se for Trial OU se clicou em Upgrade, mostra os planos originais
     return (
         <div className="space-y-6">
             

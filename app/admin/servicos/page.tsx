@@ -72,7 +72,8 @@ export default function GerenciarServicos() {
   }
 
   async function handleCreate() {
-    if (!selectedProId) {
+    // AJUSTE OBRIGATORIO: Se selectedProId for vazio (Todos), permitimos passar se houver profissionais cadastrados na conta.
+    if (professionals.length === 0) {
         alert("Cadastre um profissional antes.")
         return
     }
@@ -80,7 +81,8 @@ export default function GerenciarServicos() {
     try {
         const res = await fetch('/api/admin/services', {
             method: 'POST',
-            body: JSON.stringify({ name, price, duration, professionalId: selectedProId })
+            // AJUSTE OBRIGATORIO: Envia null se for vazio
+            body: JSON.stringify({ name, price, duration, professionalId: selectedProId || null })
         })
 
         if (res.ok) {
@@ -153,6 +155,8 @@ export default function GerenciarServicos() {
                         onChange={e => setSelectedProId(e.target.value)}
                         className="w-full p-3 md:p-4 border border-slate-700 bg-slate-800 rounded-xl mt-1 font-bold text-white focus:ring-2 focus:ring-blue-600 outline-none cursor-pointer"
                     >
+                        {/* OPÇÃO TODOS ADICIONADA AQUI */}
+                        <option value="">Todos</option>
                         {professionals.map(p => (
                             <option key={p.id} value={p.id}>{p.name}</option>
                         ))}
