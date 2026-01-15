@@ -43,8 +43,9 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { name, price, duration, professionalId } = body 
 
-    if (!name || !price || !duration || !professionalId) {
-        return NextResponse.json({ error: 'Todos os campos são obrigatórios, incluindo o profissional.' }, { status: 400 })
+    // ALTERAÇÃO AQUI: Removida a exigência de '!professionalId' para aceitar salvar como "Todos"
+    if (!name || !price || !duration) {
+        return NextResponse.json({ error: 'Todos os campos principais são obrigatórios.' }, { status: 400 })
     }
 
     const newService = await prisma.service.create({
@@ -53,7 +54,7 @@ export async function POST(request: Request) {
         price: Number(price),
         durationMin: Number(duration),
         tenantId,
-        professionalId // O vínculo mágico
+        professionalId // Se vier null, o Prisma salva como null (sem vinculo)
       }
     })
 
