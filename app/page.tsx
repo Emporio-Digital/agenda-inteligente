@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: "Kairós | Sistema de Agendamento Online e Gestão",
   description: "Organize sua agenda automaticamente. Sistema ideal para Barbearias, Salões, Restaurantes, Clínicas e Fotógrafos. Teste grátis.",
   keywords: ["agendamento online", "sistema para barbearia", "agenda salão de beleza", "software de gestão", "kairós", "agendamento whatsapp"],
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
   openGraph: {
     title: "Kairós - Sua Agenda Inteligente",
     description: "Pare de perder tempo no WhatsApp. Deixe seu cliente agendar sozinho.",
