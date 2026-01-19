@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
 }
 
-// --- SCHEMA MARKUP ---
+// --- SCHEMA MARKUP (JSON-LD) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -43,15 +43,17 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen text-white font-sans selection:bg-blue-500 selection:text-white relative overflow-x-hidden">
       
-      {/* --- ESTILOS GLOBAIS --- */}
+      {/* --- ESTILOS E ANIMAÇÕES --- */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes scroll {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
+        /* Texto Rápido (20s) */
         .animate-scroll {
-          animation: scroll 40s linear infinite;
+          animation: scroll 20s linear infinite;
         }
+        /* Imagens Lentas (80s) */
         .animate-scroll-slow {
           animation: scroll 80s linear infinite;
         }
@@ -106,7 +108,7 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* --- MAIN CONTENT --- */}
+      {/* --- CONTEÚDO PRINCIPAL --- */}
       <main className="relative z-10">
 
         {/* --- HERO SECTION --- */}
@@ -141,7 +143,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* MARQUEE */}
+            {/* MARQUEE (TEXTO) - VELOCIDADE 20s */}
             <div className="w-full overflow-hidden py-8 border-y border-white/5 bg-black/20 backdrop-blur-sm mt-8 hover-pause">
               <div className="flex w-[200%] animate-scroll">
                 {[1, 2].map((i) => (
@@ -197,7 +199,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* --- CARROSSEL DE MOCKUPS --- */}
+        {/* --- CARROSSEL DE MOCKUPS (IMAGENS LENTAS) --- */}
         <section className="py-24 bg-gradient-to-b from-black/20 to-zinc-900/40 border-y border-white/5 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="text-center mb-12">
@@ -208,8 +210,8 @@ export default function LandingPage() {
                 <div className="w-full overflow-hidden hover-pause">
                     <div className="flex w-max animate-scroll-slow">
                         {[...themes, ...themes].map((theme, index) => (
-                            <div key={index} className="min-w-[280px] md:min-w-[300px] flex flex-col items-center group mx-4 md:mx-6">
-                                <div className="relative bg-zinc-900 rounded-[2.5rem] border-[8px] border-zinc-800 overflow-hidden shadow-2xl h-[550px] w-full transition-transform duration-300 group-hover:scale-[1.02]">
+                            <div key={index} className="min-w-[220px] md:min-w-[300px] flex flex-col items-center group mx-4 md:mx-6">
+                                <div className="relative bg-zinc-900 rounded-[2rem] md:rounded-[2.5rem] border-[4px] md:border-[8px] border-zinc-800 overflow-hidden shadow-2xl h-[400px] md:h-[550px] w-full transition-transform duration-300 group-hover:scale-[1.02]">
                                      <div className="w-full h-full bg-zinc-800 flex items-center justify-center relative">
                                         <img src={theme.img} alt={theme.label} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all" />
                                      </div>
@@ -348,7 +350,7 @@ export default function LandingPage() {
             </div>
         </section>
 
-        {/* --- VÍDEO TUTORIAL (AJUSTE VERTICAL) --- */}
+        {/* --- VÍDEO TUTORIAL (PWA) --- */}
         <section className="py-24 bg-gradient-to-t from-black to-zinc-950/20 border-t border-white/5">
             <div className="max-w-4xl mx-auto px-6 text-center">
                 <div className="inline-block bg-blue-500/10 text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-blue-500/20 mb-6">
@@ -359,8 +361,7 @@ export default function LandingPage() {
                     Não precisa baixar nada na loja de aplicativos. Veja como adicionar o ícone na sua tela inicial em menos de 10 segundos.
                 </p>
 
-                {/* Container do Vídeo - MOLDURA DE CELULAR */}
-                {/* Mudamos para vertical (aspect-[9/19]) e limitamos a largura (max-w-[320px]) */}
+                {/* Container do Vídeo (VERTICAL 9:16) */}
                 <div className="relative rounded-[2.5rem] overflow-hidden border-[8px] border-zinc-800 shadow-2xl bg-black aspect-[9/19] max-w-[320px] mx-auto group">
                     <video 
                       src="/video-tutorial.mp4" 
@@ -389,7 +390,7 @@ export default function LandingPage() {
           </div>
         </footer>
 
-      </main>
+      </main> {/* Fim do Main */}
 
       {/* --- BOTÃO WHATSAPP --- */}
       <a 
