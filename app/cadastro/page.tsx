@@ -108,7 +108,7 @@ export default function RegisterPage() {
         <div className="text-center mb-10">
           <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg shadow-blue-900/20">🚀</div>
           <h1 className="text-3xl font-black text-white tracking-tight">Crie sua Conta Grátis</h1>
-          <p className="text-slate-400 text-sm mt-2">Teste todas as funcionalidades por 3 dias. Sem compromisso.</p>
+          <p className="text-slate-300 text-sm mt-2">Teste todas as funcionalidades por 3 dias. Sem compromisso.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
@@ -122,23 +122,23 @@ export default function RegisterPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                    <label className="block text-xs font-bold text-slate-400 mb-1 uppercase">Nome do Estabelecimento <span className="text-red-500">*</span></label>
-                    <input name="barbershopName" type="text" required placeholder="Ex: Studio Elite" className="w-full p-4 border border-slate-700 rounded-xl bg-slate-800 text-white focus:ring-2 focus:ring-blue-600 outline-none transition-all placeholder-slate-600 font-bold" onChange={handleChange} />
+                    <label className="block text-xs font-bold text-slate-200 mb-1 uppercase">Nome do Estabelecimento <span className="text-red-500">*</span></label>
+                    <input name="barbershopName" type="text" required placeholder="Ex: Studio Elite" className="w-full p-4 border border-slate-700 rounded-xl bg-black text-white focus:ring-2 focus:ring-blue-600 outline-none transition-all placeholder-slate-500 font-bold" onChange={handleChange} />
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-slate-400 mb-1 uppercase">Seu Nome <span className="text-red-500">*</span></label>
-                    <input name="name" type="text" required placeholder="Ex: Ana Souza" className="w-full p-4 border border-slate-700 rounded-xl bg-slate-800 text-white focus:ring-2 focus:ring-blue-600 outline-none transition-all placeholder-slate-600" onChange={handleChange} />
+                    <label className="block text-xs font-bold text-slate-200 mb-1 uppercase">Seu Nome <span className="text-red-500">*</span></label>
+                    <input name="name" type="text" required placeholder="Ex: Ana Souza" className="w-full p-4 border border-slate-700 rounded-xl bg-black text-white focus:ring-2 focus:ring-blue-600 outline-none transition-all placeholder-slate-500" onChange={handleChange} />
                 </div>
             </div>
 
             {/* CAMPO WHATSAPP OBRIGATÓRIO */}
             <div>
-                <label className="block text-xs font-bold text-slate-400 mb-1 uppercase">WhatsApp (Contato) <span className="text-red-500">*</span></label>
-                <input name="phone" type="tel" required placeholder="(00) 00000-0000" className="w-full p-4 border border-slate-700 rounded-xl bg-slate-800 text-white focus:ring-2 focus:ring-blue-600 outline-none transition-all placeholder-slate-600" onChange={handleChange} />
+                <label className="block text-xs font-bold text-slate-200 mb-1 uppercase">WhatsApp (Contato) <span className="text-red-500">*</span></label>
+                <input name="phone" type="tel" required placeholder="(00) 00000-0000" className="w-full p-4 border border-slate-700 rounded-xl bg-black text-white focus:ring-2 focus:ring-blue-600 outline-none transition-all placeholder-slate-500" onChange={handleChange} />
             </div>
 
             <div>
-                <label className="block text-xs font-bold text-slate-400 mb-3 uppercase">Qual seu ramo de atuação?</label>
+                <label className="block text-xs font-bold text-slate-200 mb-3 uppercase">Qual seu ramo de atuação?</label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {themes.map((t) => (
                     <div 
@@ -147,7 +147,7 @@ export default function RegisterPage() {
                     className={`cursor-pointer border rounded-xl p-4 text-center transition-all hover:scale-105
                         ${formData.theme === t.id 
                             ? 'border-blue-500 bg-blue-600 text-white shadow-lg shadow-blue-900/50' 
-                            : 'border-slate-700 bg-slate-800 text-slate-400 hover:border-slate-500 hover:bg-slate-750'
+                            : 'border-slate-700 bg-slate-800 text-slate-300 hover:border-slate-500 hover:bg-slate-750'
                         }
                     `}
                     >
@@ -173,14 +173,14 @@ export default function RegisterPage() {
                         className={`cursor-pointer border-2 rounded-2xl p-5 relative transition-all hover:scale-[1.02]
                             ${formData.plan === p.id 
                                 ? 'border-blue-500 bg-blue-900/20 shadow-xl shadow-blue-900/10' 
-                                : 'border-slate-800 bg-slate-800/50 text-slate-500 hover:border-slate-600'
+                                : 'border-slate-800 bg-slate-800/50 text-slate-400 hover:border-slate-600'
                             }
                         `}
                     >
                         {p.popular && <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-wide shadow-lg">Recomendado</span>}
-                        <h4 className={`font-black text-lg ${formData.plan === p.id ? 'text-white' : 'text-slate-400'}`}>{p.label}</h4>
-                        <p className={`text-sm font-bold mt-1 ${formData.plan === p.id ? 'text-blue-400' : 'text-slate-500'}`}>{p.limit}</p>
-                        <p className="text-xs mt-3 opacity-60">{p.price}</p>
+                        <h4 className={`font-black text-lg ${formData.plan === p.id ? 'text-white' : 'text-slate-200'}`}>{p.label}</h4>
+                        <p className={`text-sm font-bold mt-1 ${formData.plan === p.id ? 'text-blue-400' : 'text-slate-400'}`}>{p.limit}</p>
+                        <p className={`text-xs mt-3 ${formData.plan === p.id ? 'text-blue-200' : 'text-slate-300'}`}>{p.price}</p>
                     </div>
                 ))}
              </div>
@@ -194,18 +194,18 @@ export default function RegisterPage() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                    <label className="block text-xs font-bold text-slate-400 mb-1 uppercase">Email <span className="text-red-500">*</span></label>
-                    <input name="email" type="email" required placeholder="admin@seunegocio.com" className="w-full p-4 border border-slate-700 rounded-xl bg-slate-800 text-white focus:ring-2 focus:ring-blue-600 outline-none transition-all placeholder-slate-600" onChange={handleChange} />
+                    <label className="block text-xs font-bold text-slate-200 mb-1 uppercase">Email <span className="text-red-500">*</span></label>
+                    <input name="email" type="email" required placeholder="admin@seunegocio.com" className="w-full p-4 border border-slate-700 rounded-xl bg-black text-white focus:ring-2 focus:ring-blue-600 outline-none transition-all placeholder-slate-500" onChange={handleChange} />
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-slate-400 mb-1 uppercase">Senha <span className="text-red-500">*</span></label>
+                    <label className="block text-xs font-bold text-slate-200 mb-1 uppercase">Senha <span className="text-red-500">*</span></label>
                     <div className="relative">
                         <input 
                             name="password" 
                             type={showPassword ? "text" : "password"} // Alterna o tipo
                             required 
                             placeholder="Mínimo 6 caracteres" 
-                            className="w-full p-4 pr-12 border border-slate-700 rounded-xl bg-slate-800 text-white focus:ring-2 focus:ring-blue-600 outline-none transition-all placeholder-slate-600" 
+                            className="w-full p-4 pr-12 border border-slate-700 rounded-xl bg-black text-white focus:ring-2 focus:ring-blue-600 outline-none transition-all placeholder-slate-500" 
                             onChange={handleChange} 
                         />
                         {/* BOTÃO OLHINHO */}

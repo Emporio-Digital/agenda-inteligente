@@ -370,14 +370,13 @@ export default function LandingPage() {
 
                 {/* Container do Vídeo (VERTICAL 9:16) */}
                 <div className="relative rounded-[2.5rem] overflow-hidden border-[8px] border-zinc-800 shadow-2xl bg-black aspect-[9/19] max-w-[320px] mx-auto group">
-                    <video 
-                      src="/video-tutorial.mp4" 
-                      controls 
-                      className="w-full h-full object-cover" 
-                      playsInline
-                    >
-                      Seu navegador não suporta o player de vídeo.
-                    </video>
+                    <iframe 
+                      src="https://www.youtube.com/embed/Bs-fStk-X9E" 
+                      title="Tutorial Kairós"
+                      className="w-full h-full" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
                 </div>
             </div>
         </section>
