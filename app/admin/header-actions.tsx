@@ -19,46 +19,42 @@ export default function HeaderActions({ shareUrl, tenantSlug }: HeaderActionsPro
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const handlePrint = () => {
-    const printContent = document.getElementById('printable-qr')
-    const windowUrl = 'about:blank'
-    const uniqueName = new Date().getTime()
-    const windowName = 'Print' + uniqueName
-    const printWindow = window.open(windowUrl, windowName, 'left=50000,top=50000,width=0,height=0')
+  // NOVA LÓGICA: Salvar Imagem na Galeria em vez de Imprimir
+  const handleSaveImage = () => {
+    const svg = document.getElementById('qr-wrapper')?.querySelector('svg')
+    
+    if (svg) {
+        // Serializa o SVG para converter em imagem
+        const svgData = new XMLSerializer().serializeToString(svg)
+        const canvas = document.createElement('canvas')
+        const ctx = canvas.getContext('2d')
+        const img = new Image()
 
-    if (printWindow && printContent) {
-      printWindow.document.write(`
-        <html>
-          <head>
-            <title>QR Code - ${tenantSlug}</title>
-            <style>
-              body { 
-                display: flex; 
-                flex-direction: column; 
-                align-items: center; 
-                justify-content: center; 
-                font-family: sans-serif;
-                height: 100vh;
-                margin: 0;
-              }
-              h1 { margin-bottom: 20px; font-size: 24px; }
-              p { margin-top: 10px; color: #555; }
-            </style>
-          </head>
-          <body>
-            <h1>Agende seu Horário</h1>
-            ${printContent.innerHTML}
-            <p>${shareUrl}</p>
-            <script>
-              window.onload = function() {
-                window.print();
-                window.close();
-              }
-            </script>
-          </body>
-        </html>
-      `)
-      printWindow.document.close()
+        // Definimos uma resolução alta para a imagem ficar nítida na impressão (1000x1000)
+        const size = 1000
+        canvas.width = size
+        canvas.height = size
+
+        img.onload = () => {
+            if (ctx) {
+                // Fundo Branco (importante para não ficar transparente na galeria do celular)
+                ctx.fillStyle = '#ffffff'
+                ctx.fillRect(0, 0, size, size)
+                
+                // Desenha o QR Code
+                ctx.drawImage(img, 0, 0, size, size)
+                
+                // Converte para PNG e força o download
+                const pngUrl = canvas.toDataURL('image/png')
+                const downloadLink = document.createElement('a')
+                downloadLink.download = `Kairós-QR-${tenantSlug}.png`
+                downloadLink.href = pngUrl
+                downloadLink.click()
+            }
+        }
+
+        // Truque para carregar SVG no Canvas
+        img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)))
     }
   }
 
@@ -124,10 +120,11 @@ export default function HeaderActions({ shareUrl, tenantSlug }: HeaderActionsPro
 
                 <div className="text-center mb-6">
                     <h3 className="text-xl font-bold text-white">QR Code de Balcão</h3>
-                    <p className="text-sm text-slate-400 mt-2">Imprima e cole na recepção para clientes agendarem sozinhos.</p>
+                    <p className="text-sm text-slate-400 mt-2">Use na recepção para clientes agendarem sozinhos.</p>
                 </div>
 
-                <div className="bg-white p-4 rounded-2xl mx-auto w-fit mb-6 shadow-inner" id="printable-qr">
+                {/* ID Adicionado aqui para captura */}
+                <div className="bg-white p-4 rounded-2xl mx-auto w-fit mb-6 shadow-inner" id="qr-wrapper">
                     <QRCode 
                         value={shareUrl}
                         size={200}
@@ -137,15 +134,17 @@ export default function HeaderActions({ shareUrl, tenantSlug }: HeaderActionsPro
                 </div>
 
                 <div className="flex flex-col gap-3">
+                    {/* BOTÃO ALTERADO PARA SALVAR */}
                     <button 
-                        onClick={handlePrint}
+                        onClick={handleSaveImage}
                         className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
                     >
-                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
-                        Imprimir QR Code
+                        {/* Ícone de Download */}
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        Salvar QR Code
                     </button>
                     <p className="text-xs text-center text-slate-500">
-                        Este QR Code aponta permanentemente para o seu link atual.
+                        A imagem será salva na sua galeria.
                     </p>
                 </div>
             </div>
