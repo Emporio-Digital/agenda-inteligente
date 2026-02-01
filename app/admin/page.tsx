@@ -5,6 +5,7 @@ import { jwtVerify } from 'jose'
 import { redirect } from "next/navigation"
 import LogoutButton from "./logout-button"
 import AppointmentRow from "./appointment-row"
+import HeaderActions from "./header-actions" // Novo componente
 
 export const dynamic = 'force-dynamic'
 
@@ -16,7 +17,6 @@ const ADMIN_THEMES: any = {
   CLINIC: { serviceIcon: "⚕️", serviceName: "Exames", proIcon: "🩺", proName: "Doutores", bgGradient: "from-teal-900 to-slate-900" },
   PHOTOGRAPHY: { serviceIcon: "📸", serviceName: "Ensaios", proIcon: "📷", proName: "Fotógrafos", bgGradient: "from-neutral-800 to-slate-950" },
   PROFESSIONAL: { serviceIcon: "💼", serviceName: "Consultorias", proIcon: "👔", proName: "Consultores", bgGradient: "from-slate-800 to-slate-950" },
-  // NOVO TEMA: RESTAURANTES (Atualizado: Unidades)
   RESTAURANT: { serviceIcon: "📅", serviceName: "Reservas", proIcon: "🍽️", proName: "Unidades", bgGradient: "from-stone-800 to-stone-950" }
 }
 
@@ -108,6 +108,8 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     return total + appt.services.reduce((sum, s) => sum + Number(s.price), 0)
   }, 0)
 
+  // VOLTANDO PARA A LÓGICA ORIGINAL E SEGURA
+  // Agora que seu .env local terá o link correto, isso funcionará perfeitamente.
   const shareUrl = `${process.env.NEXT_PUBLIC_URL || 'https://agenda-inteligente.vercel.app'}/${tenantSlug}`
 
   const currentProName = filterProId && filterProId !== 'all' 
@@ -115,25 +117,20 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     : 'Todos';
 
   return (
-    // CORREÇÃO SCROLL: min-h-[100dvh] e overflow-x-hidden para evitar scroll lateral e borda branca
     <div className="min-h-[100dvh] bg-slate-950 p-6 md:p-12 font-sans overflow-x-hidden">
       <div className="max-w-7xl mx-auto">
         
-        {/* HEADER */}
+        {/* HEADER ATUALIZADO */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
-            <div className="w-full md:w-auto">
+            <div className="w-full md:w-auto text-center md:text-left">
                 <h1 className="text-3xl font-black text-white tracking-tight">Dashboard</h1>
                 <p className="text-slate-400 font-medium">Gestão &bull; {tenantName}</p>
             </div>
-            <div className="flex gap-4 items-center bg-slate-900 p-2 rounded-2xl shadow-lg border border-slate-800 w-full md:w-auto justify-between md:justify-start">
-                 <div className="px-4 py-2">
-                    <p className="text-[10px] font-bold uppercase text-slate-500">Link Público</p>
-                    <p className="text-blue-400 font-bold text-xs truncate max-w-[150px]">{shareUrl}</p>
-                 </div>
-                 <div className="flex gap-2">
-                    <a href={`/${tenantSlug}`} target="_blank" className="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-500 transition-colors flex items-center h-10">
-                        Ver Site ↗
-                    </a>
+            
+            {/* Barra de Ações Unificada (QR Code + Link) */}
+            <div className="flex gap-3 items-center w-full md:w-auto justify-center md:justify-end">
+                 <HeaderActions shareUrl={shareUrl} tenantSlug={tenantSlug} />
+                 <div className="pl-2 border-l border-slate-800">
                     <LogoutButton />
                  </div>
             </div>
@@ -180,7 +177,6 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                 <h2 className="text-xl font-bold text-white">Agenda Futura</h2>
                 
                 {professionals.length > 0 && (
-                    /* CORREÇÃO DROPDOWN: key={filterProId} força o React a recriar o elemento ao mudar a URL, fechando o menu automaticamente */
                     <details className="relative group" key={filterProId || 'default'}>
                         <summary className="list-none bg-slate-900 text-white border border-slate-800 px-4 py-2 rounded-xl flex items-center gap-2 cursor-pointer shadow-lg hover:border-blue-500/50 transition-all select-none">
                             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider hidden sm:inline">Filtrar:</span>
