@@ -108,8 +108,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     return total + appt.services.reduce((sum, s) => sum + Number(s.price), 0)
   }, 0)
 
-  // VOLTANDO PARA A LÓGICA ORIGINAL E SEGURA
-  // Agora que seu .env local terá o link correto, isso funcionará perfeitamente.
+  // URL segura para compartilhamento
   const shareUrl = `${process.env.NEXT_PUBLIC_URL || 'https://agenda-inteligente.vercel.app'}/${tenantSlug}`
 
   const currentProName = filterProId && filterProId !== 'all' 
@@ -136,40 +135,68 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
             </div>
         </div>
 
-        {/* CARDS NAVEGAÇÃO DINÂMICOS */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-10">
-            <Link href="/admin/servicos" className="bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-800 hover:border-blue-500/50 transition-all group hover:-translate-y-1 relative overflow-hidden">
-                <div className="absolute right-0 top-0 w-24 h-24 bg-blue-500/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
-                <div className="w-12 h-12 bg-slate-800 text-blue-400 rounded-2xl flex items-center justify-center text-2xl mb-4 relative z-10 border border-slate-700">
-                    {themeConfig.serviceIcon}
-                </div>
-                <h3 className="font-bold text-white relative z-10">{themeConfig.serviceName}</h3>
-                <p className="text-xs text-slate-400 mt-1 relative z-10">Editar preços</p>
-            </Link>
+        {/* --- INÍCIO DO SISTEMA DE MENU EXPANSÍVEL (VERSÃO SEGURA SEM LOGO) --- */}
+        <div className="mb-8">
+            {/* Checkbox invisível que controla o estado (Sem JavaScript) */}
+            <input type="checkbox" id="toggle-dashboard-menu" className="peer sr-only" />
             
-            <Link href="/admin/profissionais" className="bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-800 hover:border-purple-500/50 transition-all group hover:-translate-y-1 relative overflow-hidden">
-                <div className="absolute right-0 top-0 w-24 h-24 bg-purple-500/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
-                <div className="w-12 h-12 bg-slate-800 text-purple-400 rounded-2xl flex items-center justify-center text-2xl mb-4 relative z-10 border border-slate-700">
-                    {themeConfig.proIcon}
+            {/* Botão para Ativar o Menu */}
+            <label 
+                htmlFor="toggle-dashboard-menu" 
+                className="inline-flex items-center gap-3 px-6 py-4 bg-slate-900 text-white font-bold rounded-2xl cursor-pointer hover:bg-slate-800 hover:text-blue-400 transition-all border border-slate-800 shadow-lg select-none group w-full md:w-auto justify-center md:justify-start"
+            >
+                {/* Ícone Padrão do Menu */}
+                <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 group-hover:border-blue-500/50 transition-colors overflow-hidden relative">
+                    <span className="text-xl group-hover:rotate-90 transition-transform duration-300">❖</span>
                 </div>
-                <h3 className="font-bold text-white relative z-10">{themeConfig.proName}</h3>
-                <p className="text-xs text-slate-400 mt-1 relative z-10">Gestão de equipe</p>
-            </Link>
+                
+                <div className="flex flex-col text-left">
+                    <span className="leading-tight">Menu de Gestão</span>
+                    <span className="text-[10px] text-slate-500 font-medium uppercase tracking-wider group-hover:text-blue-400 transition-colors">Clique para expandir</span>
+                </div>
+            </label>
 
-            <Link href="/admin/configuracoes" className="bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-800 hover:border-orange-500/50 transition-all group hover:-translate-y-1 relative overflow-hidden">
-                <div className="absolute right-0 top-0 w-24 h-24 bg-orange-500/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
-                <div className="w-12 h-12 bg-slate-800 text-orange-400 rounded-2xl flex items-center justify-center text-2xl mb-4 relative z-10 border border-slate-700">⚙️</div>
-                <h3 className="font-bold text-white relative z-10">Configurações</h3>
-                <p className="text-xs text-slate-400 mt-1 relative z-10">Dados e Assinatura</p>
-            </Link>
+            {/* ENVELOPE DOS CARDS (Animação CSS Pura) */}
+            <div className="grid grid-cols-1 overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] max-h-0 opacity-0 peer-checked:max-h-[1000px] peer-checked:opacity-100 peer-checked:mt-8">
+                
+                {/* CARDS NAVEGAÇÃO DINÂMICOS (CÓDIGO ORIGINAL MANTIDO 100%) */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-2">
+                    <Link href="/admin/servicos" className="bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-800 hover:border-blue-500/50 transition-all group hover:-translate-y-1 relative overflow-hidden">
+                        <div className="absolute right-0 top-0 w-24 h-24 bg-blue-500/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
+                        <div className="w-12 h-12 bg-slate-800 text-blue-400 rounded-2xl flex items-center justify-center text-2xl mb-4 relative z-10 border border-slate-700">
+                            {themeConfig.serviceIcon}
+                        </div>
+                        <h3 className="font-bold text-white relative z-10">{themeConfig.serviceName}</h3>
+                        <p className="text-xs text-slate-400 mt-1 relative z-10">Editar preços</p>
+                    </Link>
+                    
+                    <Link href="/admin/profissionais" className="bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-800 hover:border-purple-500/50 transition-all group hover:-translate-y-1 relative overflow-hidden">
+                        <div className="absolute right-0 top-0 w-24 h-24 bg-purple-500/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
+                        <div className="w-12 h-12 bg-slate-800 text-purple-400 rounded-2xl flex items-center justify-center text-2xl mb-4 relative z-10 border border-slate-700">
+                            {themeConfig.proIcon}
+                        </div>
+                        <h3 className="font-bold text-white relative z-10">{themeConfig.proName}</h3>
+                        <p className="text-xs text-slate-400 mt-1 relative z-10">Gestão de equipe</p>
+                    </Link>
 
-            <div className={`bg-gradient-to-br ${themeConfig.bgGradient} p-6 rounded-3xl shadow-lg shadow-blue-900/20 text-white relative overflow-hidden border border-white/10`}>
-                <div className="absolute -right-6 -top-6 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
-                <p className="text-xs font-bold opacity-70 uppercase tracking-widest mb-2">Faturamento Previsto</p>
-                <p className="text-3xl font-black text-white">R$ {totalRevenue.toFixed(2)}</p>
-                <p className="text-xs text-slate-400 mt-2 border-t border-white/10 pt-2 inline-block">{appointments.length} agendamentos</p>
+                    <Link href="/admin/configuracoes" className="bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-800 hover:border-orange-500/50 transition-all group hover:-translate-y-1 relative overflow-hidden">
+                        <div className="absolute right-0 top-0 w-24 h-24 bg-orange-500/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
+                        <div className="w-12 h-12 bg-slate-800 text-orange-400 rounded-2xl flex items-center justify-center text-2xl mb-4 relative z-10 border border-slate-700">⚙️</div>
+                        <h3 className="font-bold text-white relative z-10">Configurações</h3>
+                        <p className="text-xs text-slate-400 mt-1 relative z-10">Dados e Assinatura</p>
+                    </Link>
+
+                    <div className={`bg-gradient-to-br ${themeConfig.bgGradient} p-6 rounded-3xl shadow-lg shadow-blue-900/20 text-white relative overflow-hidden border border-white/10`}>
+                        <div className="absolute -right-6 -top-6 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
+                        <p className="text-xs font-bold opacity-70 uppercase tracking-widest mb-2">Faturamento Previsto</p>
+                        <p className="text-3xl font-black text-white">R$ {totalRevenue.toFixed(2)}</p>
+                        <p className="text-xs text-slate-400 mt-2 border-t border-white/10 pt-2 inline-block">{appointments.length} agendamentos</p>
+                    </div>
+                </div>
+
             </div>
         </div>
+        {/* --- FIM DO SISTEMA DE MENU --- */}
 
         {/* TABELA E FILTROS */}
         <div>
