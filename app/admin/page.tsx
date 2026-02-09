@@ -119,25 +119,18 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     <div className="min-h-[100dvh] bg-slate-950 p-6 md:p-12 font-sans overflow-x-hidden">
       <div className="max-w-7xl mx-auto">
         
-        {/* HEADER ATUALIZADO */}
+        {/* HEADER ATUALIZADO: APENAS TÍTULO E SUBTÍTULO */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
             <div className="w-full md:w-auto text-center md:text-left">
-                <h1 className="text-3xl font-black text-white tracking-tight">Dashboard</h1>
-                <p className="text-slate-400 font-medium">Gestão &bull; {tenantName}</p>
+                <h1 className="text-3xl font-black text-white tracking-tight capitalize">{tenantName}</h1>
+                <p className="text-slate-400 font-medium">Painel de Controle</p>
             </div>
-            
-            {/* Barra de Ações Unificada (QR Code + Link) */}
-            <div className="flex gap-3 items-center w-full md:w-auto justify-center md:justify-end">
-                 <HeaderActions shareUrl={shareUrl} tenantSlug={tenantSlug} />
-                 <div className="pl-2 border-l border-slate-800">
-                    <LogoutButton />
-                 </div>
-            </div>
+            {/* Botões removidos daqui para entrar no menu abaixo */}
         </div>
 
-        {/* --- INÍCIO DO SISTEMA DE MENU EXPANSÍVEL (VERSÃO SEGURA SEM LOGO) --- */}
+        {/* --- INÍCIO DO SISTEMA DE MENU EXPANSÍVEL --- */}
         <div className="mb-8">
-            {/* Checkbox invisível que controla o estado (Sem JavaScript) */}
+            {/* Checkbox invisível que controla o estado */}
             <input type="checkbox" id="toggle-dashboard-menu" className="peer sr-only" />
             
             {/* Botão para Ativar o Menu */}
@@ -156,10 +149,18 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                 </div>
             </label>
 
-            {/* ENVELOPE DOS CARDS (Animação CSS Pura) */}
+            {/* ENVELOPE DOS CONTEÚDOS DO MENU */}
             <div className="grid grid-cols-1 overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] max-h-0 opacity-0 peer-checked:max-h-[1000px] peer-checked:opacity-100 peer-checked:mt-8">
                 
-                {/* CARDS NAVEGAÇÃO DINÂMICOS (CÓDIGO ORIGINAL MANTIDO 100%) */}
+                {/* 1. LINK PÚBLICO E SAIR (AGORA AQUI DENTRO, NO TOPO) */}
+                <div className="flex gap-3 items-center mb-6 pb-6 border-b border-slate-800 w-full md:w-auto">
+                     <HeaderActions shareUrl={shareUrl} tenantSlug={tenantSlug} />
+                     <div className="pl-2 border-l border-slate-800">
+                        <LogoutButton />
+                     </div>
+                </div>
+
+                {/* 2. CARDS DE NAVEGAÇÃO */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-2">
                     <Link href="/admin/servicos" className="bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-800 hover:border-blue-500/50 transition-all group hover:-translate-y-1 relative overflow-hidden">
                         <div className="absolute right-0 top-0 w-24 h-24 bg-blue-500/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
