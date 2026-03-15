@@ -191,7 +191,7 @@ export default function LandingPage() {
               <div className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/5 relative overflow-hidden group hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-1">
                 <span className="relative text-4xl mb-4 block transform group-hover:scale-110 transition-transform duration-300">📋</span>
                 <h3 className="relative text-xl font-bold mb-2 text-white">2. Escolhe o Serviço</h3>
-                <p className="relative text-gray-400 text-sm">Lista de serviços personalizada para aquele profissional escolhido.</p>
+                <p className="relative text-gray-400 text-sm">Lista de serviços personalizada paraquele profissional escolhido.</p>
               </div>
 
               <div className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/5 relative overflow-hidden group hover:border-green-500/50 transition-all duration-300 hover:-translate-y-1">
@@ -381,7 +381,7 @@ export default function LandingPage() {
             </div>
         </section>
 
-        {/* --- FOOTER --- */}
+        {/* --- FOOTER (ATUALIZADO COM LINK DO HUB) --- */}
         <footer className="bg-black/60 backdrop-blur-xl py-12 border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-2 opacity-50">
@@ -390,6 +390,12 @@ export default function LandingPage() {
               </div>
               <span className="font-bold text-gray-400">Kairós</span>
             </div>
+
+            {/* LINK PARA O HUB REGIONAL */}
+            <Link href="/sistema-de-gestao" className="text-xs font-bold text-blue-500/60 hover:text-blue-400 transition-colors flex items-center gap-2 uppercase tracking-widest">
+              <span className="text-lg">📍</span> Nossas Áreas Atendidas
+            </Link>
+
             <div className="text-sm text-gray-600">
               © 2025 Kairós - Sistema de Agendamento Online.
             </div>

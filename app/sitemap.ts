@@ -49,6 +49,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 1, // Prioridade máxima
   }))
 
+  // 3. Mapeia as Páginas de SEO Local (Hub e Cidades)
+  const locaisRoutes = [
+    '/sistema-de-gestao', // O Hub Principal
+    '/sistema-de-gestao/sao-paulo',
+    '/sistema-de-gestao/tatuape',
+    '/sistema-de-gestao/carrao',
+    '/sistema-de-gestao/vila-formosa',
+    '/sistema-de-gestao/vila-prudente',
+    '/sistema-de-gestao/sao-bernardo',
+    '/sistema-de-gestao/santo-andre',
+    '/sistema-de-gestao/sao-caetano',
+    '/sistema-de-gestao/campinas',
+    '/sistema-de-gestao/minas-gerais',
+  ].map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date().toISOString(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.9, // Prioridade alta para dominação local
+  }))
+
   // Junta tudo e entrega para o Google
-  return [...routes, ...blogs]
+  return [...routes, ...blogs, ...locaisRoutes]
 }
