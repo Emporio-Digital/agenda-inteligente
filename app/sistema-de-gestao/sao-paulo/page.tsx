@@ -111,7 +111,7 @@ export default function SaoPauloPage() {
             </div>
 
             <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.1] text-white drop-shadow-2xl">
-              Domine a Gestão do seu negócio em <br/>
+              Sistema de gestão em <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-[length:200%_auto] animate-gradient">
                 São Paulo.
               </span>

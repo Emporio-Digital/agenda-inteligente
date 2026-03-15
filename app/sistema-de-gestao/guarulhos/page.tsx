@@ -1,13 +1,13 @@
 import Link from "next/link"
 import { Metadata } from "next"
 
-// --- METADATA (SEO DE ALTA DENSIDADE PARA VILA FORMOSA) ---
+// --- METADATA (SEO DE ALTA DENSIDADE PARA GUARULHOS) ---
 export const metadata: Metadata = {
-  title: "Sistema de Gestão e Agendamento na Vila Formosa | Kairós",
-  description: "O melhor sistema de gestão e agendamento online para negócios na Vila Formosa. Automatize sua agenda via WhatsApp, controle seu financeiro e escale seu negócio na Zona Leste. Teste grátis!",
-  keywords:["sistema de gestão vila formosa", "agendamento online vila formosa", "software para barbearia vila formosa", "agenda salão de beleza vila formosa", "gestão de clínicas eduardo cotching", "automação comercial zona leste sp"],
+  title: "Sistema de Gestão e Agendamento em Guarulhos | Kairós",
+  description: "O melhor sistema de gestão e agendamento online para negócios em Guarulhos. Automatize sua agenda via WhatsApp, controle seu financeiro e escale seu negócio na região da Paulo Faccini e Bosque Maia. Teste grátis!",
+  keywords:["sistema de gestão guarulhos", "agendamento online guarulhos", "software para barbearia guarulhos", "agenda salão de beleza guarulhos", "gestão de clínicas paulo faccini", "automação comercial guarulhos sp", "sistema para pet shop guarulhos", "agendamento whatsapp guarulhos"],
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao/vila-formosa"
+    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao/guarulhos"
   },
   icons: {
     icon: "/logo.png",
@@ -15,21 +15,21 @@ export const metadata: Metadata = {
   },
 }
 
-// --- SCHEMA MARKUP GEO-NICHADO (OFERTA LOCAL VILA FORMOSA) ---
+// --- SCHEMA MARKUP GEO-NICHADO (OFERTA LOCAL GUARULHOS) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Kairós - Sistema de Gestão Vila Formosa",
+  "name": "Kairós - Sistema de Gestão Guarulhos",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web, Android, iOS",
   "offers": {
     "@type": "Offer",
     "price": "0",
     "priceCurrency": "BRL",
-    "description": "Teste Grátis de 3 dias sem cartão para negócios na Vila Formosa",
+    "description": "Teste Grátis de 3 dias sem cartão para negócios em Guarulhos",
     "eligibleRegion": {
       "@type": "Place",
-      "name": "Vila Formosa, São Paulo, SP"
+      "name": "Guarulhos, São Paulo, SP"
     }
   }
 }
@@ -43,7 +43,7 @@ const themes =[
   { name: "Tattoo", img: "https://i.ibb.co/7Jh8hN6s/IMG-2247.jpg", label: "Tema Studio Tattoo" },
 ]
 
-export default function VilaFormosaPage() {
+export default function GuarulhosPage() {
   return (
     <div className="min-h-screen text-white font-sans selection:bg-blue-500 selection:text-white relative overflow-x-hidden bg-[#050505]">
       
@@ -87,7 +87,7 @@ export default function VilaFormosaPage() {
             </div>
             <div className="flex flex-col">
                 <span className="text-lg md:text-xl font-bold tracking-tight text-white leading-none">Kairós</span>
-                <span className="text-[9px] md:text-[10px] text-gray-400 font-medium tracking-wide uppercase">Vila Formosa Edition</span>
+                <span className="text-[9px] md:text-[10px] text-gray-400 font-medium tracking-wide uppercase">Guarulhos City Edition</span>
             </div>
           </Link>
           <div className="flex items-center gap-3 md:gap-4">
@@ -107,40 +107,40 @@ export default function VilaFormosaPage() {
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-white/10 shadow-inner">
               <span>📍</span>
-              <span>Inovação em Gestão Digital na Vila Formosa</span>
+              <span>Liderança em Gestão Digital em Guarulhos</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.1] text-white drop-shadow-2xl">
-              Sistema de gestão na <br/>
+              Sistema de gestão em <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-[length:200%_auto] animate-gradient">
-                Vila Formosa.
+                Guarulhos.
               </span>
             </h1>
             
             <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed font-light">
-              Na Zona Leste que valoriza a tradição, a tecnologia é o seu maior diferencial. Automatize sua agenda, elimine o vaivém do WhatsApp e fature mais na região da Sampaio Vidal.
+              Na segunda maior cidade de São Paulo, a velocidade é o que separa o lucro do prejuízo. Automatize sua agenda, elimine o caos do WhatsApp e domine a região da Paulo Faccini.
             </p>
 
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-4">
               <Link href="/cadastro" className="w-full md:w-auto bg-white text-black px-8 py-4 rounded-full text-lg font-bold hover:bg-blue-50 transition-all shadow-[0_0_50px_-10px_rgba(255,255,255,0.4)] hover:-translate-y-1 flex items-center justify-center gap-2">
-                Começar Teste Grátis na Vila Formosa 🚀
+                Começar Teste Grátis em Guarulhos 🚀
               </Link>
             </div>
           </div>
         </section>
 
-        {/* --- OS 30% EXCLUSIVO LOCAL (HOOK VILA FORMOSA) --- */}
+        {/* --- OS 30% EXCLUSIVO LOCAL (HOOK GUARULHOS) --- */}
         <section className="py-12 px-6">
             <div className="max-w-5xl mx-auto bg-[#080b11] border border-blue-900/30 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
                 
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 uppercase tracking-wide">Tradição e modernidade precisam de uma gestão inteligente.</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 uppercase tracking-wide">O comércio de Guarulhos exige uma gestão de nível global.</h2>
                 <div className="space-y-4 text-gray-400 leading-relaxed text-sm md:text-base">
                     <p>
-                        Se o seu negócio está localizado no coração da <strong>Avenida Dr. Eduardo Cotching</strong>, nas imediações da <strong>Praça Sampaio Vidal</strong> ou próximo à <strong>Avenida João XXIII</strong>, você faz parte de um dos bairros mais nobres e tradicionais da Zona Leste. 
+                        Se o seu negócio está localizado no coração da <strong>Avenida Paulo Faccini</strong>, nas proximidades do <strong>Bosque Maia</strong> ou na vibrante <strong>Vila Augusta</strong>, você sabe que o público de Guarulhos não tolera esperas. Como um dos maiores polos econômicos do país, a cidade respira agilidade.
                     </p>
                     <p>
-                        No entanto, a concorrência na Vila Formosa está mudando. Com a chegada de novos empreendimentos de alto padrão, o morador local não quer mais depender de respostas lentas ou agendas de papel. Ele busca a conveniência de agendar um serviço enquanto está no trabalho ou no trânsito. O <strong>Kairós</strong> foi desenhado para blindar o seu faturamento, oferecendo um <strong>sistema de gestão</strong> completo que transforma seu link da bio em uma recepção digital 24 horas, garantindo profissionalismo e escala para o seu negócio.
+                        Depender de agenda de papel ou responder o WhatsApp manualmente entre um atendimento e outro é o caminho mais rápido para perder clientes para a concorrência. O <strong>Kairós</strong> foi desenhado para blindar o seu faturamento, oferecendo um <strong>sistema de gestão</strong> completo que transforma seu link da bio em uma recepção digital 24 horas. Garanta o profissionalismo que o morador de Guarulhos busca e tenha o controle total do seu negócio na palma da mão.
                     </p>
                 </div>
             </div>
@@ -162,7 +162,7 @@ export default function VilaFormosaPage() {
             </div>
         </section>
 
-        {/* --- O SEO ACCORDION TITÂNIO (12 PILARES DENSOS VILA FORMOSA) --- */}
+        {/* --- O SEO ACCORDION TITÂNIO (12 PILARES DENSOS GUARULHOS) --- */}
         <section className="py-24 px-6 relative z-20">
             <div className="max-w-6xl mx-auto">
                 
@@ -179,10 +179,10 @@ export default function VilaFormosaPage() {
                             </div>
                             <div className="flex flex-col">
                                 <h2 className="text-lg md:text-2xl font-bold uppercase tracking-wide text-white leading-tight">
-                                    Tese de Autoridade: Sistema de Gestão na Vila Formosa
+                                    Tese de Autoridade: Sistema de Gestão em Guarulhos
                                 </h2>
                                 <p className="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1">
-                                    Estratégia de Performance para o Comércio da Zona Leste
+                                    Estratégia de Alta Performance para o Empreendedor de Guarulhos
                                 </p>
                             </div>
                         </div>
@@ -197,7 +197,7 @@ export default function VilaFormosaPage() {
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-blue-900/5 blur-[100px] pointer-events-none"></div>
 
                         <p className="text-gray-400 leading-relaxed mb-12 text-sm md:text-base max-w-4xl relative z-10">
-                            No comércio pulsante da Vila Formosa, a agilidade de resposta é o que define o sucesso do empreendedor local. O <strong>Kairós</strong> entrega 12 pilares fundamentais de tecnologia, garantindo que o seu negócio na Zona Leste opere com a máxima eficiência operacional e controle absoluto de faturamento.
+                            No comércio pulsante de Guarulhos, a agilidade de resposta é o que define o sucesso do empreendedor local. O <strong>Kairós</strong> entrega 12 pilares fundamentais de tecnologia, garantindo que o seu negócio na Grande SP opere com a máxima eficiência operacional e controle absoluto de faturamento.
                         </p>
 
                         <div className="flex flex-col gap-10 max-w-4xl relative z-10">
@@ -206,10 +206,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">1. Sistema de Gestão para Barbearias na Vila Formosa</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">1. Sistema de Gestão para Barbearias em Guarulhos</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Para as barbearias localizadas na <strong>Eduardo Cotching</strong> ou próximas ao Mercado Municipal da Vila Formosa, a organização é o diferencial. Nosso <strong>sistema de gestão para barbearias</strong> permite que o cliente agende cortes e barbas em segundos via link. Você controla as comissões dos barbeiros automaticamente, gerencia o estoque de produtos e monitora o faturamento diário em tempo real, garantindo uma recepção livre de filas e um caixa sempre em ordem.
+                                    Para as barbearias localizadas na <strong>Paulo Faccini</strong> ou na Timóteo Penteado, a organização é o diferencial competitivo. Nosso <strong>sistema de gestão para barbearias</strong> permite que o cliente de Guarulhos agende cortes e barbas em segundos via link. Você controla as comissões dos barbeiros automaticamente, gerencia o estoque de produtos e monitora o faturamento diário em tempo real, garantindo uma recepção livre de filas.
                                 </p>
                             </div>
 
@@ -217,10 +217,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">2. Sistema de Gestão para Salões de Beleza e Estética</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">2. Sistema de Gestão para Salões de Beleza em Guarulhos</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Gerenciar um salão de beleza na Vila Formosa exige precisão absoluta com horários de químicas e manicures. O <strong>sistema de gestão para salão de beleza</strong> do Kairós organiza agendas individuais para cada profissional, enviando lembretes automáticos via WhatsApp para as clientes. Isso reduz drasticamente o número de faltas (No-Show) e profissionaliza o fluxo de caixa, permitindo que você foque na qualidade dos serviços enquanto a tecnologia cuida da recepção.
+                                    Gerenciar um salão de beleza em Guarulhos exige precisão absoluta com horários de químicas e manicures. O <strong>sistema de gestão para salão de beleza</strong> do Kairós organiza agendas individuais para cada profissional, enviando lembretes automáticos via WhatsApp para as clientes. Isso reduz drasticamente o No-Show e profissionaliza o fluxo de caixa, permitindo que você foque na qualidade dos serviços.
                                 </p>
                             </div>
 
@@ -228,10 +228,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">3. Sistema de Gestão para Clínicas e Consultórios</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">3. Sistema de Gestão para Clínicas e Consultórios em Guarulhos</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Para os consultórios médicos e odontológicos da Vila Formosa, a pontualidade transmite confiança. Com nosso <strong>sistema de gestão para clínicas</strong>, o paciente realiza o agendamento de consultas de forma autônoma e silenciosa. O software centraliza o histórico de marcações, profissionaliza o atendimento da recepção e garante que sua agenda esteja sempre otimizada, refletindo o alto padrão de cuidado que seu negócio oferece aos pacientes da Zona Leste.
+                                    Para os consultórios médicos e odontológicos próximos ao <strong>Bosque Maia</strong>, a pontualidade transmite confiança. Com nosso <strong>sistema de gestão para clínicas</strong>, o paciente de Guarulhos realiza o agendamento de consultas de forma autônoma. O software centraliza o histórico de marcações e profissionaliza o atendimento da recepção, refletindo o alto padrão de cuidado que seu negócio oferece.
                                 </p>
                             </div>
 
@@ -239,10 +239,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">4. Sistema de Gestão para Restaurantes (Reservas)</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">4. Sistema de Gestão para Restaurantes (Reservas em Guarulhos)</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Aproveite o crescimento gastronômico ao redor da <strong>Sampaio Vidal</strong> com gestão profissional. Nosso <strong>sistema de gestão para restaurantes</strong> permite que seus clientes reservem mesas online de forma rápida. Isso evita filas desordenadas na porta, organiza o salão para horários de pico e permite que sua equipe esteja preparada para a demanda real. Melhore a experiência do seu cliente e tenha controle total sobre a ocupação do seu estabelecimento.
+                                    Aproveite o crescimento gastronômico de Guarulhos com gestão profissional. Nosso <strong>sistema de gestão para restaurantes</strong> permite que seus clientes reservem mesas online de forma rápida. Isso evita filas desordenadas na porta, organiza o salão para horários de pico e permite que sua equipe esteja preparada para a demanda real da Paulo Faccini ou do Shopping Maia.
                                 </p>
                             </div>
 
@@ -250,10 +250,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">5. Sistema de Gestão para Studios de Tattoo e Piercing</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">5. Sistema de Gestão para Studios de Tattoo em Guarulhos</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Sessões de tatuagem longas exigem um controle de pauta cirúrgico na Vila Formosa. Com o <strong>sistema de gestão para tatuadores</strong>, seu estúdio pode organizar blocos de horários para artes complexas e agendamentos rápidos para orçamentos. O cliente envia referências direto no ato da reserva, você organiza sua agenda de forma visual e mantém a gestão financeira do estúdio totalmente transparente, separando custos de material do lucro real.
+                                    Sessões de tatuagem longas exigem um controle de pauta cirúrgico. Com o <strong>sistema de gestão para tatuadores</strong> em Guarulhos, seu estúdio pode organizar blocos de horários para artes complexas e agendamentos rápidos para orçamentos. O cliente envia referências direto no ato da reserva e você mantém a gestão financeira do estúdio totalmente transparente.
                                 </p>
                             </div>
 
@@ -264,7 +264,7 @@ export default function VilaFormosaPage() {
                                     <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">6. Sistema de Gestão para Estúdios de Fotografia</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Organize ensaios externos na Praça Sampaio Vidal ou sessões em estúdio com total previsibilidade. O <strong>sistema de gestão para fotógrafos</strong> centraliza a escolha de pacotes fotográficos e a reserva de horários. Isso elimina o conflito de agendas e permite que você envie lembretes automáticos sobre locação e vestimentas. Tenha um fluxo de trabalho profissional onde cada clique é planejado e seu faturamento é monitorado automaticamente no painel.
+                                    Organize ensaios no Bosque Maia ou sessões em estúdio com total previsibilidade. O <strong>sistema de gestão para fotógrafos</strong> centraliza a escolha de pacotes fotográficos e a reserva de horários em Guarulhos. Isso elimina o conflito de agendas e permite que você envie lembretes automáticos sobre locação e vestimentas aos seus clientes.
                                 </p>
                             </div>
 
@@ -272,10 +272,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">7. Sistema de Gestão para Autônomos e Serviços Gerais</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">7. Sistema de Gestão para Autônomos em Guarulhos</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Seja para pet shops na Vila Formosa, serviços de estética automotiva ou escolas de idiomas. Se o seu modelo de negócio vende horas de serviço, nosso <strong>sistema de gestão para serviços</strong> é a ferramenta certa. Ele organiza sua semana, centraliza pagamentos e gera um link profissional que substitui a necessidade de sites complexos, garantindo que você tenha um fluxo constante de clientes agendados sem esforço manual.
+                                    Seja para pet shops na Vila Augusta, serviços de estética automotiva ou escolas de idiomas em Guarulhos. Se o seu modelo de negócio vende horas de serviço, nosso <strong>sistema de gestão</strong> é a ferramenta certa. Ele organiza sua semana e gera um link profissional que substitui a necessidade de sites complexos, garantindo faturamento sem esforço manual.
                                 </p>
                             </div>
 
@@ -283,10 +283,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">8. Sistema de Gestão com Agendamento 24 Horas Inteligente</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">8. Sistema de Gestão com Agendamento 24 Horas em Guarulhos</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    O público da Vila Formosa não para, e sua agenda também não deveria. Com este <strong>sistema de gestão</strong>, o cliente agendar às 23h voltando do trabalho ou da faculdade, visualiza sua disponibilidade real e confirma o horário instantaneamente. Pare de perder dinheiro nos momentos de descanso; deixe sua recepção digital trabalhar e faturar por você 24 horas por dia, 7 dias por semana, com total segurança.
+                                    O público de Guarulhos não para, e sua agenda também não deveria. Com este <strong>sistema de gestão</strong>, o cliente agenda às 23h voltando do trabalho ou da faculdade, visualiza sua disponibilidade real e confirma o horário instantaneamente. Pare de perder dinheiro nos momentos de descanso; deixe sua recepção digital trabalhar e faturar por você 24 horas por dia.
                                 </p>
                             </div>
 
@@ -297,7 +297,7 @@ export default function VilaFormosaPage() {
                                     <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">9. Sistema de Gestão para Fim do "Vaivém" no WhatsApp</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Elimine de vez o ciclo improdutivo de "qual horário fica melhor?" pelo WhatsApp na Vila Formosa. O <strong>sistema de gestão</strong> Kairós oferece um painel visual e intuitivo onde o cliente escolhe o serviço e o horário em segundos. Isso economiza até 4 horas semanais de digitação e atendimento repetitivo, permitindo que você ou sua recepção foquem na qualidade técnica e no atendimento presencial aos seus clientes.
+                                    Elimine de vez o ciclo improdutivo de "qual horário fica melhor?" pelo WhatsApp em Guarulhos. O <strong>sistema de gestão</strong> Kairós oferece um painel visual onde o cliente escolhe o serviço em segundos. Isso economiza horas semanais de digitação, permitindo que você ou sua recepção foquem na qualidade técnica e no atendimento presencial.
                                 </p>
                             </div>
 
@@ -305,10 +305,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">10. Sistema de Gestão Multi-Profissional com Financeiro</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">10. Sistema de Gestão Financeira para Negócios em Guarulhos</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Para negócios com vários colaboradores na Vila Formosa, o controle financeiro é o alicerce do crescimento. Nosso <strong>sistema de gestão</strong> gerencia as agendas de toda a equipe, emite relatórios de comissões automáticos e mantém seu fluxo de caixa transparente. Tenha acesso a dados sobre ticket médio e performance profissional em tempo real, permitindo decisões estratégicas baseadas em números reais para o seu negócio.
+                                    Para negócios com vários colaboradores em Guarulhos, o controle financeiro é o alicerce do crescimento. Nosso <strong>sistema de gestão</strong> gerencia as agendas de toda a equipe, emite relatórios de comissões automáticos e mantém seu fluxo de caixa transparente. Tenha acesso a dados sobre performance profissional em tempo real para tomar decisões estratégicas.
                                 </p>
                             </div>
 
@@ -316,10 +316,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">11. Sistema de Gestão Mobile-First (Direto no Celular)</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">11. Sistema de Gestão Mobile-First (Otimizado para Guarulhos)</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Sua gestão precisa ser tão móvel quanto a rotina da Zona Leste. Nossa arquitetura opera 100% em nuvem e é otimizada para smartphones. Gerencie seu <strong>sistema de gestão</strong> pelo celular enquanto se desloca entre um atendimento e outro. Interface intuitiva, carregamento ultra-rápido e controle total na palma da mão, sem a necessidade de um computador fixo atrapalhando a estética da sua recepção.
+                                    Sua gestão precisa ser tão móvel quanto a rotina da Grande SP. Nossa arquitetura opera 100% em nuvem e é otimizada para smartphones. Gerencie seu <strong>sistema de gestão</strong> em Guarulhos pelo celular enquanto se desloca. Interface intuitiva, carregamento ultra-rápido e controle total na palma da mão, sem necessidade de computador fixo.
                                 </p>
                             </div>
 
@@ -327,10 +327,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">12. Sistema de Gestão White-label com Teste Grátis</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">12. Sistema de Gestão White-label com Teste Grátis em Guarulhos</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Sua autoridade local na Vila Formosa é reforçada por uma tecnologia que carrega sua própria marca. O <strong>sistema de gestão</strong> Kairós permite customização básica para que a página de agendamento seja uma extensão do seu negócio. Experimente nossa plataforma por 3 dias completos de forma gratuita, sem necessidade de cartão de crédito, e veja na prática como a automação vai transformar seu lucro e sua organização.
+                                    Sua autoridade local em Guarulhos é reforçada por uma tecnologia que carrega sua própria marca. O <strong>sistema de gestão</strong> Kairós permite customização básica para que a página de agendamento seja uma extensão do seu negócio. Experimente nossa plataforma por 3 dias completos de forma gratuita e veja como a automação vai transformar seu lucro.
                                 </p>
                             </div>
 
@@ -338,7 +338,7 @@ export default function VilaFormosaPage() {
                         
                         <div className="mt-14 flex justify-center md:justify-start relative z-10">
                             <Link href="/cadastro" className="bg-blue-600 text-white px-8 py-4 rounded-full text-base md:text-lg font-bold hover:bg-blue-700 transition-all shadow-[0_0_30px_-5px_rgba(37,99,235,0.4)]">
-                                Iniciar Teste Gratuito na Vila Formosa
+                                Iniciar Teste Gratuito em Guarulhos
                             </Link>
                         </div>
 
@@ -352,27 +352,27 @@ export default function VilaFormosaPage() {
         <section className="py-24 border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold mb-4 text-white">Domine a Vila Formosa Digitalmente</h2>
-              <p className="text-gray-400">Transforme acessos em faturamento real na Zona Leste.</p>
+              <h2 className="text-3xl font-bold mb-4 text-white">Domine Guarulhos Digitalmente</h2>
+              <p className="text-gray-400">Transforme acessos em faturamento real na Grande São Paulo.</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               <div className="bg-[#080b11] border border-blue-900/30 p-8 rounded-2xl text-center hover:border-pink-500 transition-all group hover:-translate-y-2">
                 <div className="text-3xl mb-4">🔗</div>
-                <h3 className="text-xl font-bold text-white mb-2">Instagram (Bio)</h3>
-                <p className="text-sm text-gray-400">O público da Vila Formosa é conectado. Tenha seu link Kairós sempre na bio para converter seguidores em agendamentos reais.</p>
+                <h3 className="text-xl font-bold text-white mb-2">Instagram Regional</h3>
+                <p className="text-sm text-gray-400">O público de Guarulhos é extremamente ativo. Tenha seu link Kairós sempre na bio para converter seguidores em agendamentos reais.</p>
               </div>
 
               <div className="bg-[#080b11] border border-blue-900/30 p-8 rounded-2xl text-center hover:border-green-500 transition-all group hover:-translate-y-2">
                 <div className="text-3xl mb-4">💬</div>
                 <h3 className="text-xl font-bold text-white mb-2">WhatsApp Business</h3>
-                <p className="text-sm text-gray-400">Configure sua saudação: "Olá! Para agendar agora na nossa unidade Vila Formosa, clique aqui: [Link da Agenda]".</p>
+                <p className="text-sm text-gray-400">Configure sua saudação: "Olá! Para agendar agora em nossa unidade Guarulhos, clique aqui: [Link da Agenda]".</p>
               </div>
 
               <div className="bg-[#080b11] border border-blue-900/30 p-8 rounded-2xl text-center hover:border-blue-500 transition-all group hover:-translate-y-2">
                 <div className="text-3xl mb-4">📍</div>
-                <h3 className="text-xl font-bold text-white mb-2">Google Maps</h3>
-                <p className="text-sm text-gray-400">Apareça no topo das buscas do Google Maps na Vila Formosa com um botão de agendamento direto pelo seu link.</p>
+                <h3 className="text-xl font-bold text-white mb-2">Google Maps Guarulhos</h3>
+                <p className="text-sm text-gray-400">Apareça no topo das buscas do Google Maps em Guarulhos com um botão de agendamento direto pelo seu link Kairós.</p>
               </div>
             </div>
           </div>
@@ -382,11 +382,11 @@ export default function VilaFormosaPage() {
         <section className="py-24 bg-gradient-to-t from-black to-[#050505] border-t border-white/5">
             <div className="max-w-4xl mx-auto px-6 text-center">
                 <div className="inline-block bg-blue-500/10 text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-blue-500/20 mb-6">
-                    Tecnologia de Ponta
+                    Tecnologia Mobile
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Tenha o Kairós como App no celular</h2>
                 <p className="text-gray-400 mb-10 max-w-2xl mx-auto">
-                    Acompanhe sua agenda da Vila Formosa em tempo real, de qualquer lugar. Instale o Kairós na tela inicial em menos de 10 segundos.
+                    Acompanhe sua agenda de Guarulhos em tempo real, de qualquer lugar. Instale o Kairós na tela inicial em menos de 10 segundos.
                 </p>
 
                 <div className="relative rounded-[2.5rem] overflow-hidden border-[8px] border-zinc-800 shadow-2xl bg-black aspect-[9/19] max-w-[320px] mx-auto group">
@@ -409,7 +409,7 @@ export default function VilaFormosaPage() {
               <span className="font-bold text-gray-400">Kairós</span>
             </div>
             <div className="text-sm text-gray-600">
-              © 2025 Kairós - Sistema de Gestão Vila Formosa.
+              © 2025 Kairós - Sistema de Gestão Guarulhos.
             </div>
           </div>
         </footer>

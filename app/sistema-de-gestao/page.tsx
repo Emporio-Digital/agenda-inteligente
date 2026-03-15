@@ -38,14 +38,26 @@ const locations = [
     { name: "Carrão", slug: "carrao" },
     { name: "Vila Formosa", slug: "vila-formosa" },
     { name: "Vila Prudente", slug: "vila-prudente" },
+    { name: "Itaquera", slug: "itaquera" }, // ADICIONADO
+  ]},
+  { group: "Grande São Paulo", items: [
+    { name: "Guarulhos", slug: "guarulhos" }, // ADICIONADO
+    { name: "Arujá", slug: "aruja" }, // ADICIONADO
+    { name: "Ferraz de Vasconcelos", slug: "ferraz-de-vasconcelos" }, // ADICIONADO
   ]},
   { group: "Grande ABC", items: [
     { name: "São Bernardo do Campo", slug: "sao-bernardo" },
     { name: "Santo André", slug: "santo-andre" },
     { name: "São Caetano do Sul", slug: "sao-caetano" },
   ]},
+  { group: "Litoral Paulista", items: [
+    { name: "Santos", slug: "santos" }, // ADICIONADO
+  ]},
   { group: "Interior de SP", items: [
     { name: "Campinas", slug: "campinas" },
+  ]},
+  { group: "Rio de Janeiro", items: [
+    { name: "Rio de Janeiro - Geral", slug: "rio-de-janeiro" }, // ADICIONADO
   ]},
   { group: "Minas Gerais", items: [
     { name: "Minas Gerais - Geral", slug: "minas-gerais" },
@@ -123,7 +135,7 @@ export default function GestaoHubPage() {
           </div>
         </section>
 
-        {/* --- SEÇÃO 1: TESE DE AUTORIDADE (VEM PRIMEIRO AGORA) --- */}
+        {/* --- SEÇÃO 1: TESE DE AUTORIDADE --- */}
         <section className="py-24 bg-white/[0.01]">
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -161,14 +173,12 @@ export default function GestaoHubPage() {
           </div>
         </section>
 
-        {/* --- SEÇÃO 2: O CARD HUB (ACCORDION DE LOCAIS - VEM DEPOIS E COMEÇA FECHADO) --- */}
+        {/* --- SEÇÃO 2: O CARD HUB --- */}
         <section className="py-24 px-6 relative z-20 border-t border-white/5">
             <div className="max-w-4xl mx-auto">
                 
-                {/* O GRANDE CARD EXPANSÍVEL (Removido o atributo 'open') */}
                 <details className="group bg-[#080b11] border border-blue-900/30 rounded-2xl shadow-2xl overflow-hidden cursor-pointer transition-all duration-300">
                     
-                    {/* O HEADER DO CARD */}
                     <summary className="flex items-center justify-between p-6 md:p-10 outline-none hover:bg-white/[0.02] transition-colors">
                         <div className="flex items-center gap-4 md:gap-6">
                             <div className="bg-blue-500/10 text-blue-400 p-3 rounded-lg border border-blue-500/20 shrink-0">

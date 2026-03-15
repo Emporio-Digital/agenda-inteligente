@@ -62,6 +62,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/sistema-de-gestao/sao-caetano',
     '/sistema-de-gestao/campinas',
     '/sistema-de-gestao/minas-gerais',
+    '/sistema-de-gestao/aruja',
+    '/sistema-de-gestao/ferraz-de-vasconcelos',
+    '/sistema-de-gestao/guarulhos',
+    '/sistema-de-gestao/itaquera',
+    '/sistema-de-gestao/rio-de-janeiro',
+    '/sistema-de-gestao/santos',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),

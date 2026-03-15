@@ -1,13 +1,13 @@
 import Link from "next/link"
 import { Metadata } from "next"
 
-// --- METADATA (SEO DE ALTA DENSIDADE PARA VILA FORMOSA) ---
+// --- METADATA (SEO DE ALTA DENSIDADE PARA FERRAZ DE VASCONCELOS) ---
 export const metadata: Metadata = {
-  title: "Sistema de Gestão e Agendamento na Vila Formosa | Kairós",
-  description: "O melhor sistema de gestão e agendamento online para negócios na Vila Formosa. Automatize sua agenda via WhatsApp, controle seu financeiro e escale seu negócio na Zona Leste. Teste grátis!",
-  keywords:["sistema de gestão vila formosa", "agendamento online vila formosa", "software para barbearia vila formosa", "agenda salão de beleza vila formosa", "gestão de clínicas eduardo cotching", "automação comercial zona leste sp"],
+  title: "Sistema de Gestão e Agendamento em Ferraz de Vasconcelos | Kairós",
+  description: "O melhor sistema de gestão e agendamento online para negócios em Ferraz de Vasconcelos. Automatize sua agenda via WhatsApp, controle seu financeiro e escale seu negócio no Alto Tietê. Teste grátis!",
+  keywords:["sistema de gestão ferraz de vasconcelos", "agendamento online ferraz de vasconcelos", "software para barbearia ferraz", "agenda salão de beleza ferraz de vasconcelos", "gestão de clínicas ferraz", "automação comercial avenida brasil ferraz", "sistema para pet shop ferraz", "agendamento whatsapp ferraz de vasconcelos"],
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao/vila-formosa"
+    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao/ferraz-de-vasconcelos"
   },
   icons: {
     icon: "/logo.png",
@@ -15,21 +15,21 @@ export const metadata: Metadata = {
   },
 }
 
-// --- SCHEMA MARKUP GEO-NICHADO (OFERTA LOCAL VILA FORMOSA) ---
+// --- SCHEMA MARKUP GEO-NICHADO (OFERTA LOCAL FERRAZ DE VASCONCELOS) ---
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Kairós - Sistema de Gestão Vila Formosa",
+  "name": "Kairós - Sistema de Gestão Ferraz de Vasconcelos",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web, Android, iOS",
   "offers": {
     "@type": "Offer",
     "price": "0",
     "priceCurrency": "BRL",
-    "description": "Teste Grátis de 3 dias sem cartão para negócios na Vila Formosa",
+    "description": "Teste Grátis de 3 dias sem cartão para negócios em Ferraz de Vasconcelos",
     "eligibleRegion": {
       "@type": "Place",
-      "name": "Vila Formosa, São Paulo, SP"
+      "name": "Ferraz de Vasconcelos, São Paulo, SP"
     }
   }
 }
@@ -43,7 +43,7 @@ const themes =[
   { name: "Tattoo", img: "https://i.ibb.co/7Jh8hN6s/IMG-2247.jpg", label: "Tema Studio Tattoo" },
 ]
 
-export default function VilaFormosaPage() {
+export default function FerrazPage() {
   return (
     <div className="min-h-screen text-white font-sans selection:bg-blue-500 selection:text-white relative overflow-x-hidden bg-[#050505]">
       
@@ -87,7 +87,7 @@ export default function VilaFormosaPage() {
             </div>
             <div className="flex flex-col">
                 <span className="text-lg md:text-xl font-bold tracking-tight text-white leading-none">Kairós</span>
-                <span className="text-[9px] md:text-[10px] text-gray-400 font-medium tracking-wide uppercase">Vila Formosa Edition</span>
+                <span className="text-[9px] md:text-[10px] text-gray-400 font-medium tracking-wide uppercase">Ferraz de Vasconcelos Edition</span>
             </div>
           </Link>
           <div className="flex items-center gap-3 md:gap-4">
@@ -107,40 +107,40 @@ export default function VilaFormosaPage() {
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-white/10 shadow-inner">
               <span>📍</span>
-              <span>Inovação em Gestão Digital na Vila Formosa</span>
+              <span>Modernização Comercial em Ferraz de Vasconcelos</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.1] text-white drop-shadow-2xl">
-              Sistema de gestão na <br/>
+              Sistema de gestão em <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-[length:200%_auto] animate-gradient">
-                Vila Formosa.
+                Ferraz de Vasconcelos.
               </span>
             </h1>
             
             <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed font-light">
-              Na Zona Leste que valoriza a tradição, a tecnologia é o seu maior diferencial. Automatize sua agenda, elimine o vaivém do WhatsApp e fature mais na região da Sampaio Vidal.
+              No coração do Alto Tietê, a tecnologia é a chave para o crescimento. Automatize seu atendimento, elimine falhas na agenda e escale seu negócio na região da Avenida Brasil.
             </p>
 
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-4">
               <Link href="/cadastro" className="w-full md:w-auto bg-white text-black px-8 py-4 rounded-full text-lg font-bold hover:bg-blue-50 transition-all shadow-[0_0_50px_-10px_rgba(255,255,255,0.4)] hover:-translate-y-1 flex items-center justify-center gap-2">
-                Começar Teste Grátis na Vila Formosa 🚀
+                Começar Teste Grátis em Ferraz 🚀
               </Link>
             </div>
           </div>
         </section>
 
-        {/* --- OS 30% EXCLUSIVO LOCAL (HOOK VILA FORMOSA) --- */}
+        {/* --- OS 30% EXCLUSIVO LOCAL (HOOK FERRAZ) --- */}
         <section className="py-12 px-6">
             <div className="max-w-5xl mx-auto bg-[#080b11] border border-blue-900/30 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
                 
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 uppercase tracking-wide">Tradição e modernidade precisam de uma gestão inteligente.</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 uppercase tracking-wide">O comércio de Ferraz de Vasconcelos não pode mais depender do papel.</h2>
                 <div className="space-y-4 text-gray-400 leading-relaxed text-sm md:text-base">
                     <p>
-                        Se o seu negócio está localizado no coração da <strong>Avenida Dr. Eduardo Cotching</strong>, nas imediações da <strong>Praça Sampaio Vidal</strong> ou próximo à <strong>Avenida João XXIII</strong>, você faz parte de um dos bairros mais nobres e tradicionais da Zona Leste. 
+                        Se o seu negócio está localizado no centro comercial de Ferraz, próximo à <strong>Avenida Brasil</strong>, nas imediações da <strong>Estação Ferraz da CPTM</strong> ou atendendo bairros como <strong>Vila Romanópolis</strong> e <strong>Tanquinho</strong>, você sabe que o fluxo de pessoas é intenso.
                     </p>
                     <p>
-                        No entanto, a concorrência na Vila Formosa está mudando. Com a chegada de novos empreendimentos de alto padrão, o morador local não quer mais depender de respostas lentas ou agendas de papel. Ele busca a conveniência de agendar um serviço enquanto está no trabalho ou no trânsito. O <strong>Kairós</strong> foi desenhado para blindar o seu faturamento, oferecendo um <strong>sistema de gestão</strong> completo que transforma seu link da bio em uma recepção digital 24 horas, garantindo profissionalismo e escala para o seu negócio.
+                        No entanto, a agilidade no atendimento é o que define quem fideliza o cliente. Em Ferraz de Vasconcelos, o consumidor busca praticidade: ele quer agendar o serviço pelo celular enquanto está no trem ou no trabalho. O <strong>Kairós</strong> entrega um <strong>sistema de gestão</strong> robusto que profissionaliza seu negócio, automatiza o agendamento via WhatsApp e garante que sua agenda esteja sempre lotada e organizada, sem esforço manual.
                     </p>
                 </div>
             </div>
@@ -162,7 +162,7 @@ export default function VilaFormosaPage() {
             </div>
         </section>
 
-        {/* --- O SEO ACCORDION TITÂNIO (12 PILARES DENSOS VILA FORMOSA) --- */}
+        {/* --- O SEO ACCORDION TITÂNIO (12 PILARES DENSOS FERRAZ) --- */}
         <section className="py-24 px-6 relative z-20">
             <div className="max-w-6xl mx-auto">
                 
@@ -179,10 +179,10 @@ export default function VilaFormosaPage() {
                             </div>
                             <div className="flex flex-col">
                                 <h2 className="text-lg md:text-2xl font-bold uppercase tracking-wide text-white leading-tight">
-                                    Tese de Autoridade: Sistema de Gestão na Vila Formosa
+                                    Tese de Autoridade: Sistema de Gestão em Ferraz de Vasconcelos
                                 </h2>
                                 <p className="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1">
-                                    Estratégia de Performance para o Comércio da Zona Leste
+                                    Estratégia de Performance para o Comércio do Alto Tietê
                                 </p>
                             </div>
                         </div>
@@ -197,7 +197,7 @@ export default function VilaFormosaPage() {
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-blue-900/5 blur-[100px] pointer-events-none"></div>
 
                         <p className="text-gray-400 leading-relaxed mb-12 text-sm md:text-base max-w-4xl relative z-10">
-                            No comércio pulsante da Vila Formosa, a agilidade de resposta é o que define o sucesso do empreendedor local. O <strong>Kairós</strong> entrega 12 pilares fundamentais de tecnologia, garantindo que o seu negócio na Zona Leste opere com a máxima eficiência operacional e controle absoluto de faturamento.
+                            No comércio de Ferraz de Vasconcelos, a agilidade é o que define o sucesso. O <strong>Kairós</strong> entrega 12 pilares fundamentais de tecnologia, garantindo que o seu negócio opere com a máxima eficiência operacional e controle financeiro.
                         </p>
 
                         <div className="flex flex-col gap-10 max-w-4xl relative z-10">
@@ -206,10 +206,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">1. Sistema de Gestão para Barbearias na Vila Formosa</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">1. Sistema de Gestão para Barbearias em Ferraz de Vasconcelos</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Para as barbearias localizadas na <strong>Eduardo Cotching</strong> ou próximas ao Mercado Municipal da Vila Formosa, a organização é o diferencial. Nosso <strong>sistema de gestão para barbearias</strong> permite que o cliente agende cortes e barbas em segundos via link. Você controla as comissões dos barbeiros automaticamente, gerencia o estoque de produtos e monitora o faturamento diário em tempo real, garantindo uma recepção livre de filas e um caixa sempre em ordem.
+                                    Para as barbearias localizadas no centro de Ferraz ou próximas à Estação, a organização é essencial. Nosso <strong>sistema de gestão para barbearias</strong> permite que o cliente agende cortes em segundos via link. Você controla comissões, gerencia estoque e monitora o faturamento diário, garantindo uma recepção moderna e livre de filas.
                                 </p>
                             </div>
 
@@ -217,10 +217,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">2. Sistema de Gestão para Salões de Beleza e Estética</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">2. Sistema de Gestão para Salões de Beleza em Ferraz</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Gerenciar um salão de beleza na Vila Formosa exige precisão absoluta com horários de químicas e manicures. O <strong>sistema de gestão para salão de beleza</strong> do Kairós organiza agendas individuais para cada profissional, enviando lembretes automáticos via WhatsApp para as clientes. Isso reduz drasticamente o número de faltas (No-Show) e profissionaliza o fluxo de caixa, permitindo que você foque na qualidade dos serviços enquanto a tecnologia cuida da recepção.
+                                    Gerenciar um salão em Ferraz exige controle de horários. O <strong>sistema de gestão para salão de beleza</strong> do Kairós organiza agendas individuais, envia lembretes automáticos via WhatsApp e profissionaliza o fluxo de caixa, permitindo que você foque na qualidade dos serviços e no atendimento às clientes.
                                 </p>
                             </div>
 
@@ -228,10 +228,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">3. Sistema de Gestão para Clínicas e Consultórios</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">3. Sistema de Gestão para Clínicas em Ferraz de Vasconcelos</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Para os consultórios médicos e odontológicos da Vila Formosa, a pontualidade transmite confiança. Com nosso <strong>sistema de gestão para clínicas</strong>, o paciente realiza o agendamento de consultas de forma autônoma e silenciosa. O software centraliza o histórico de marcações, profissionaliza o atendimento da recepção e garante que sua agenda esteja sempre otimizada, refletindo o alto padrão de cuidado que seu negócio oferece aos pacientes da Zona Leste.
+                                    Para os consultórios médicos e odontológicos da região, a pontualidade transmite confiança. Com nosso <strong>sistema de gestão para clínicas</strong>, o paciente agenda consultas de forma autônoma. O software centraliza o histórico e profissionaliza a recepção, refletindo o alto padrão de cuidado do seu negócio.
                                 </p>
                             </div>
 
@@ -239,10 +239,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">4. Sistema de Gestão para Restaurantes (Reservas)</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">4. Sistema de Gestão para Restaurantes (Reservas em Ferraz)</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Aproveite o crescimento gastronômico ao redor da <strong>Sampaio Vidal</strong> com gestão profissional. Nosso <strong>sistema de gestão para restaurantes</strong> permite que seus clientes reservem mesas online de forma rápida. Isso evita filas desordenadas na porta, organiza o salão para horários de pico e permite que sua equipe esteja preparada para a demanda real. Melhore a experiência do seu cliente e tenha controle total sobre a ocupação do seu estabelecimento.
+                                    Otimize o fluxo do seu restaurante em Ferraz. Nosso <strong>sistema de gestão para restaurantes</strong> permite que seus clientes reservem mesas online rapidamente. Isso evita filas desordenadas, organiza o salão para horários de pico e melhora a experiência gastronômica dos seus clientes.
                                 </p>
                             </div>
 
@@ -250,10 +250,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">5. Sistema de Gestão para Studios de Tattoo e Piercing</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">5. Sistema de Gestão para Studios de Tattoo em Ferraz</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Sessões de tatuagem longas exigem um controle de pauta cirúrgico na Vila Formosa. Com o <strong>sistema de gestão para tatuadores</strong>, seu estúdio pode organizar blocos de horários para artes complexas e agendamentos rápidos para orçamentos. O cliente envia referências direto no ato da reserva, você organiza sua agenda de forma visual e mantém a gestão financeira do estúdio totalmente transparente, separando custos de material do lucro real.
+                                    Organize suas sessões de tatuagem com precisão. Com o <strong>sistema de gestão para tatuadores</strong>, seu estúdio em Ferraz organiza blocos de horários e orçamentos. O cliente envia referências no ato da reserva, e você mantém a gestão financeira e de materiais totalmente controlada.
                                 </p>
                             </div>
 
@@ -264,7 +264,7 @@ export default function VilaFormosaPage() {
                                     <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">6. Sistema de Gestão para Estúdios de Fotografia</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Organize ensaios externos na Praça Sampaio Vidal ou sessões em estúdio com total previsibilidade. O <strong>sistema de gestão para fotógrafos</strong> centraliza a escolha de pacotes fotográficos e a reserva de horários. Isso elimina o conflito de agendas e permite que você envie lembretes automáticos sobre locação e vestimentas. Tenha um fluxo de trabalho profissional onde cada clique é planejado e seu faturamento é monitorado automaticamente no painel.
+                                    Planeje ensaios em Ferraz com total previsibilidade. O <strong>sistema de gestão para fotógrafos</strong> centraliza a reserva de horários e pacotes. Isso elimina conflitos de agenda e permite que você envie lembretes automáticos sobre locações e vestimentas aos seus clientes.
                                 </p>
                             </div>
 
@@ -272,10 +272,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">7. Sistema de Gestão para Autônomos e Serviços Gerais</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">7. Sistema de Gestão para Autônomos em Ferraz de Vasconcelos</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Seja para pet shops na Vila Formosa, serviços de estética automotiva ou escolas de idiomas. Se o seu modelo de negócio vende horas de serviço, nosso <strong>sistema de gestão para serviços</strong> é a ferramenta certa. Ele organiza sua semana, centraliza pagamentos e gera um link profissional que substitui a necessidade de sites complexos, garantindo que você tenha um fluxo constante de clientes agendados sem esforço manual.
+                                    Para pet shops, serviços automotivos ou aulas particulares. Se você vende horas de serviço em Ferraz, nosso <strong>sistema de gestão</strong> é a ferramenta ideal. Ele organiza sua semana e gera um link profissional que facilita o agendamento direto pelo cliente, sem burocracia.
                                 </p>
                             </div>
 
@@ -283,10 +283,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">8. Sistema de Gestão com Agendamento 24 Horas Inteligente</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">8. Sistema de Gestão com Agendamento 24 Horas em Ferraz</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    O público da Vila Formosa não para, e sua agenda também não deveria. Com este <strong>sistema de gestão</strong>, o cliente agendar às 23h voltando do trabalho ou da faculdade, visualiza sua disponibilidade real e confirma o horário instantaneamente. Pare de perder dinheiro nos momentos de descanso; deixe sua recepção digital trabalhar e faturar por você 24 horas por dia, 7 dias por semana, com total segurança.
+                                    Seu cliente em Ferraz quer agendar quando for conveniente para ele. Com este <strong>sistema de gestão</strong>, ele visualiza sua disponibilidade real e confirma o horário a qualquer hora do dia ou da noite. Pare de perder vendas fora do horário comercial; sua recepção digital nunca dorme.
                                 </p>
                             </div>
 
@@ -297,7 +297,7 @@ export default function VilaFormosaPage() {
                                     <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">9. Sistema de Gestão para Fim do "Vaivém" no WhatsApp</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Elimine de vez o ciclo improdutivo de "qual horário fica melhor?" pelo WhatsApp na Vila Formosa. O <strong>sistema de gestão</strong> Kairós oferece um painel visual e intuitivo onde o cliente escolhe o serviço e o horário em segundos. Isso economiza até 4 horas semanais de digitação e atendimento repetitivo, permitindo que você ou sua recepção foquem na qualidade técnica e no atendimento presencial aos seus clientes.
+                                    Elimine o cansaço de digitar horários disponíveis no WhatsApp. O <strong>sistema de gestão</strong> Kairós oferece um painel onde o cliente escolhe o serviço e o horário em segundos. Isso economiza horas da sua semana em Ferraz de Vasconcelos, permitindo foco total na execução do serviço.
                                 </p>
                             </div>
 
@@ -305,10 +305,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">10. Sistema de Gestão Multi-Profissional com Financeiro</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">10. Sistema de Gestão Financeira para Negócios locais</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Para negócios com vários colaboradores na Vila Formosa, o controle financeiro é o alicerce do crescimento. Nosso <strong>sistema de gestão</strong> gerencia as agendas de toda a equipe, emite relatórios de comissões automáticos e mantém seu fluxo de caixa transparente. Tenha acesso a dados sobre ticket médio e performance profissional em tempo real, permitindo decisões estratégicas baseadas em números reais para o seu negócio.
+                                    Controle o faturamento do seu negócio em Ferraz com facilidade. Nosso <strong>sistema de gestão</strong> gerencia agendas da equipe, emite relatórios de comissões automáticos e mantém seu fluxo de caixa transparente. Tome decisões estratégicas baseadas em números reais e performance.
                                 </p>
                             </div>
 
@@ -319,7 +319,7 @@ export default function VilaFormosaPage() {
                                     <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">11. Sistema de Gestão Mobile-First (Direto no Celular)</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Sua gestão precisa ser tão móvel quanto a rotina da Zona Leste. Nossa arquitetura opera 100% em nuvem e é otimizada para smartphones. Gerencie seu <strong>sistema de gestão</strong> pelo celular enquanto se desloca entre um atendimento e outro. Interface intuitiva, carregamento ultra-rápido e controle total na palma da mão, sem a necessidade de um computador fixo atrapalhando a estética da sua recepção.
+                                    Gerencie seu negócio em Ferraz de Vasconcelos de qualquer lugar. Nossa arquitetura opera 100% em nuvem e é otimizada para smartphones. Interface intuitiva, carregamento ultra-rápido e controle total na palma da sua mão, sem precisar de computadores caros.
                                 </p>
                             </div>
 
@@ -327,10 +327,10 @@ export default function VilaFormosaPage() {
                             <div>
                                 <div className="flex items-center gap-3 mb-3">
                                     <div className="w-1.5 h-6 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
-                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">12. Sistema de Gestão White-label com Teste Grátis</h3>
+                                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wide">12. Sistema de Gestão com Teste Grátis em Ferraz</h3>
                                 </div>
                                 <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                                    Sua autoridade local na Vila Formosa é reforçada por uma tecnologia que carrega sua própria marca. O <strong>sistema de gestão</strong> Kairós permite customização básica para que a página de agendamento seja uma extensão do seu negócio. Experimente nossa plataforma por 3 dias completos de forma gratuita, sem necessidade de cartão de crédito, e veja na prática como a automação vai transformar seu lucro e sua organização.
+                                    Sua marca em Ferraz de Vasconcelos merece uma tecnologia que a valorize. O <strong>sistema de gestão</strong> Kairós permite customizar sua página de agendamento. Experimente nossa plataforma por 3 dias de forma gratuita, sem necessidade de cartão de crédito, e mude o nível do seu negócio.
                                 </p>
                             </div>
 
@@ -338,7 +338,7 @@ export default function VilaFormosaPage() {
                         
                         <div className="mt-14 flex justify-center md:justify-start relative z-10">
                             <Link href="/cadastro" className="bg-blue-600 text-white px-8 py-4 rounded-full text-base md:text-lg font-bold hover:bg-blue-700 transition-all shadow-[0_0_30px_-5px_rgba(37,99,235,0.4)]">
-                                Iniciar Teste Gratuito na Vila Formosa
+                                Iniciar Teste Gratuito em Ferraz
                             </Link>
                         </div>
 
@@ -352,27 +352,27 @@ export default function VilaFormosaPage() {
         <section className="py-24 border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold mb-4 text-white">Domine a Vila Formosa Digitalmente</h2>
-              <p className="text-gray-400">Transforme acessos em faturamento real na Zona Leste.</p>
+              <h2 className="text-3xl font-bold mb-4 text-white">Domine Ferraz Digitalmente</h2>
+              <p className="text-gray-400">Transforme acessos em faturamento real no Alto Tietê.</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               <div className="bg-[#080b11] border border-blue-900/30 p-8 rounded-2xl text-center hover:border-pink-500 transition-all group hover:-translate-y-2">
                 <div className="text-3xl mb-4">🔗</div>
                 <h3 className="text-xl font-bold text-white mb-2">Instagram (Bio)</h3>
-                <p className="text-sm text-gray-400">O público da Vila Formosa é conectado. Tenha seu link Kairós sempre na bio para converter seguidores em agendamentos reais.</p>
+                <p className="text-sm text-gray-400">O público de Ferraz é conectado. Tenha seu link Kairós sempre visível para converter seguidores em clientes reais na bio.</p>
               </div>
 
               <div className="bg-[#080b11] border border-blue-900/30 p-8 rounded-2xl text-center hover:border-green-500 transition-all group hover:-translate-y-2">
                 <div className="text-3xl mb-4">💬</div>
                 <h3 className="text-xl font-bold text-white mb-2">WhatsApp Business</h3>
-                <p className="text-sm text-gray-400">Configure sua saudação: "Olá! Para agendar agora na nossa unidade Vila Formosa, clique aqui: [Link da Agenda]".</p>
+                <p className="text-sm text-gray-400">Automatize sua saudação em Ferraz: "Para agendar agora, clique aqui e escolha seu horário: [Link da Agenda]".</p>
               </div>
 
               <div className="bg-[#080b11] border border-blue-900/30 p-8 rounded-2xl text-center hover:border-blue-500 transition-all group hover:-translate-y-2">
                 <div className="text-3xl mb-4">📍</div>
-                <h3 className="text-xl font-bold text-white mb-2">Google Maps</h3>
-                <p className="text-sm text-gray-400">Apareça no topo das buscas do Google Maps na Vila Formosa com um botão de agendamento direto pelo seu link.</p>
+                <h3 className="text-xl font-bold text-white mb-2">Google Maps Ferraz</h3>
+                <p className="text-sm text-gray-400">Apareça no topo das buscas de Ferraz de Vasconcelos com um botão de agendamento direto na sua ficha do Google.</p>
               </div>
             </div>
           </div>
@@ -382,11 +382,11 @@ export default function VilaFormosaPage() {
         <section className="py-24 bg-gradient-to-t from-black to-[#050505] border-t border-white/5">
             <div className="max-w-4xl mx-auto px-6 text-center">
                 <div className="inline-block bg-blue-500/10 text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-blue-500/20 mb-6">
-                    Tecnologia de Ponta
+                    Tecnologia Mobile
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Tenha o Kairós como App no celular</h2>
                 <p className="text-gray-400 mb-10 max-w-2xl mx-auto">
-                    Acompanhe sua agenda da Vila Formosa em tempo real, de qualquer lugar. Instale o Kairós na tela inicial em menos de 10 segundos.
+                    Acompanhe sua agenda em tempo real, direto da tela inicial. Instale o Kairós em Ferraz de Vasconcelos em menos de 10 segundos.
                 </p>
 
                 <div className="relative rounded-[2.5rem] overflow-hidden border-[8px] border-zinc-800 shadow-2xl bg-black aspect-[9/19] max-w-[320px] mx-auto group">
@@ -409,7 +409,7 @@ export default function VilaFormosaPage() {
               <span className="font-bold text-gray-400">Kairós</span>
             </div>
             <div className="text-sm text-gray-600">
-              © 2025 Kairós - Sistema de Gestão Vila Formosa.
+              © 2025 Kairós - Sistema de Gestão Ferraz de Vasconcelos.
             </div>
           </div>
         </footer>
