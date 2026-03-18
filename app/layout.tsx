@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -12,13 +12,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Configuração de Visualização e Cor do Tema (O que o Android exige para mostrar o logo)
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#000000", // Define a identidade do app para o Chrome
+};
+
 export const metadata: Metadata = {
   title: {
     template: "%s | Kairós", 
     default: "Kairós - Sua Agenda Inteligente",
   },
   description: "O sistema de agendamento mais simples e poderoso do mercado. Teste grátis.",
-  // FORÇANDO ÍCONES MANUALMENTE (Estratégia Força Bruta para iPhone)
+  // FORÇANDO ÍCONES MANUALMENTE (Estratégia Força Bruta para iPhone e Android)
   icons: {
     icon: "/logo.png", 
     shortcut: "/logo.png",

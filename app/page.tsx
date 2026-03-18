@@ -1,21 +1,4 @@
 import Link from "next/link"
-import { Metadata } from "next"
-
-// --- METADATA (SEO OTIMIZADO) ---
-export const metadata: Metadata = {
-  title: "Kairós | Sistema de Agendamento Online e Gestão",
-  description: "Organize sua agenda automaticamente. Sistema ideal para Barbearias, Salões, Restaurantes, Clínicas e Fotógrafos. Teste grátis.",
-  keywords: ["agendamento online", "sistema para barbearia", "agenda salão de beleza", "software de gestão", "kairós", "agendamento whatsapp"],
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-  },
-  openGraph: {
-    title: "Kairós - Sua Agenda Inteligente",
-    description: "Pare de perder tempo no WhatsApp. Deixe seu cliente agendar sozinho.",
-    images: ["/logo.png"],
-  },
-}
 
 // --- SCHEMA MARKUP ---
 const jsonLd = {
@@ -92,7 +75,8 @@ export default function LandingPage() {
       <nav className="fixed top-0 w-full bg-black/60 backdrop-blur-xl border-b border-white/5 z-50 transition-all">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2 md:gap-3">
-            <div className="w-8 h-8 md:w-10 md:h-10 relative flex items-center justify-center">
+            {/* LOGO COM EVIDÊNCIA MÁXIMA: w-14 (celular) e md:w-16 (computador) */}
+            <div className="w-14 h-14 md:w-16 md:h-16 relative flex items-center justify-center">
                 <img src="/logo.png" alt="Logo Kairós" className="object-contain w-full h-full drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]" />
             </div>
             <div className="flex flex-col">
