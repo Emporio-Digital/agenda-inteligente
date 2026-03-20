@@ -9,8 +9,19 @@ export default function GerenciarProfissionais() {
   const [saving, setSaving] = useState(false)
   const [newName, setNewName] = useState("")
   const [editingPro, setEditingPro] = useState<any>(null)
+  
+  // ESTADOS APENAS PARA A NOTIFICAÇÃO (SEM MUDAR O DESIGN)
+  const [notification, setNotification] = useState<{message: string, type: 'success' | 'error'} | null>(null)
+  const [showConfirmDelete, setShowConfirmDelete] = useState<string | null>(null)
 
   useEffect(() => { loadProfessionals() }, [])
+
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => setNotification(null), 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [notification])
 
   async function loadProfessionals() {
     setLoading(true)
@@ -33,10 +44,11 @@ export default function GerenciarProfissionais() {
         if (res.ok) {
             setProfessionals(prev => [...prev, data])
             setNewName("")
+            setNotification({ message: "Salvo com sucesso!", type: 'success' })
         } else {
-            alert(data.error || "Erro ao salvar")
+            setNotification({ message: data.error || "Erro ao salvar", type: 'error' })
         }
-    } catch (error) { alert("Erro de conexão") } 
+    } catch (error) { setNotification({ message: "Erro de conexão", type: 'error' }) } 
     finally { setSaving(false) }
   }
 
@@ -44,7 +56,7 @@ export default function GerenciarProfissionais() {
     const file = e.target.files?.[0]
     if (file && editingPro) {
       if (file.size > 2 * 1024 * 1024) {
-        alert("A imagem deve ter no máximo 2MB")
+        setNotification({ message: "A imagem deve ter no máximo 2MB", type: 'error' })
         return
       }
       const reader = new FileReader()
@@ -67,10 +79,11 @@ export default function GerenciarProfissionais() {
             const updated = await res.json()
             setProfessionals(prev => prev.map(p => p.id === updated.id ? updated : p))
             setEditingPro(null)
+            setNotification({ message: "Atualizado com sucesso!", type: 'success' })
         } else {
-            alert("Erro ao atualizar")
+            setNotification({ message: "Erro ao atualizar", type: 'error' })
         }
-    } catch (error) { alert("Erro de conexão") } 
+    } catch (error) { setNotification({ message: "Erro de conexão", type: 'error' }) } 
     finally { setSaving(false) }
   }
 
@@ -86,16 +99,19 @@ export default function GerenciarProfissionais() {
     setEditingPro({ ...editingPro, workDays: newDays.join(',') })
   }
 
-  async function handleDelete(id: string) {
-    if(!confirm("Tem certeza? Isso apagará os agendamentos deste profissional.")) return
+  async function handleDelete() {
+    if(!showConfirmDelete) return
+    const id = showConfirmDelete
     const backup = [...professionals]
     setProfessionals(prev => prev.filter(p => p.id !== id))
+    setShowConfirmDelete(null)
     try {
         const res = await fetch(`/api/professionals?id=${id}`, { method: 'DELETE' })
         if (!res.ok) throw new Error("Erro")
+        setNotification({ message: "Excluído com sucesso!", type: 'success' })
     } catch (error) {
         setProfessionals(backup)
-        alert("Erro ao excluir.")
+        setNotification({ message: "Erro ao excluir.", type: 'error' })
     }
   }
 
@@ -106,8 +122,33 @@ export default function GerenciarProfissionais() {
 
   return (
     <div className="min-h-[100dvh] bg-slate-950 p-6 md:p-12 font-sans relative overflow-x-hidden">
+      
+      {/* NOTIFICAÇÃO TOAST (DESIGN MODERNO) */}
+      {notification && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[10000] animate-in slide-in-from-top-4">
+          <div className={`px-6 py-3 rounded-2xl shadow-2xl border flex items-center gap-3 backdrop-blur-xl ${
+            notification.type === 'success' ? 'bg-green-500/20 border-green-500/50 text-green-400' : 'bg-red-500/20 border-red-500/50 text-red-400'
+          }`}>
+            <span className="text-xs font-bold uppercase tracking-widest">{notification.message}</span>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE CONFIRMAÇÃO (DESIGN DARK) */}
+      {showConfirmDelete && (
+        <div className="fixed inset-0 z-[10001] flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm">
+          <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-xs w-full shadow-2xl text-center">
+            <h3 className="text-white font-bold mb-2">Tem certeza?</h3>
+            <p className="text-slate-400 text-xs mb-8 text-center">Isso apagará os agendamentos deste profissional.</p>
+            <div className="flex flex-col gap-2">
+              <button onClick={handleDelete} className="w-full bg-red-600 text-white font-bold py-3 rounded-xl hover:bg-red-500 transition-colors uppercase text-[10px] tracking-widest">Confirmar Exclusão</button>
+              <button onClick={() => setShowConfirmDelete(null)} className="w-full text-slate-500 font-bold py-3 uppercase text-[10px] tracking-widest">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-5xl mx-auto">
-        
         <div className="flex items-center justify-between mb-10">
             <div className="flex items-center gap-4">
                 <Link href="/admin" className="text-slate-400 hover:text-white font-bold bg-slate-900 px-3 py-1 rounded-lg border border-slate-800 transition-colors">
@@ -120,7 +161,7 @@ export default function GerenciarProfissionais() {
             </div>
         </div>
 
-        {/* CREATE CARD DARK */}
+        {/* CREATE CARD DARK - REESTABELECIDO DESIGN ORIGINAL */}
         <div className="bg-slate-900 p-6 md:p-8 rounded-3xl shadow-lg border border-slate-800 mb-10">
             <h2 className="text-lg font-bold mb-4 text-white flex items-center gap-2">
                 <span className="bg-purple-600 w-2 h-6 rounded-full"></span>
@@ -140,7 +181,6 @@ export default function GerenciarProfissionais() {
                 <button 
                     onClick={handleCreate}
                     disabled={!newName || saving}
-                    // CORREÇÃO: "Contratar +"
                     className={`h-[50px] md:h-[60px] px-8 rounded-xl font-bold transition-all w-full md:w-auto text-sm
                         ${saving || !newName ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-purple-600 text-white hover:bg-purple-500 shadow-lg'}
                     `}
@@ -150,7 +190,7 @@ export default function GerenciarProfissionais() {
             </div>
         </div>
 
-        {/* LISTA DARK */}
+        {/* LISTA DARK - REESTABELECIDO DESIGN ORIGINAL */}
         <div className="grid grid-cols-1 gap-4 pb-20">
              {professionals.map((pro) => (
                  <div key={pro.id} className="bg-slate-900 p-5 md:p-6 rounded-2xl border border-slate-800 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 hover:border-slate-700 transition-colors">
@@ -166,7 +206,7 @@ export default function GerenciarProfissionais() {
                       
                       <div className="flex gap-3 w-full md:w-auto">
                            <button onClick={() => setEditingPro(pro)} className="flex-1 md:flex-none px-4 py-2 bg-blue-900/20 text-blue-400 border border-blue-900/50 font-bold rounded-lg hover:bg-blue-900/40 transition-colors text-sm">Configurar</button>
-                           <button onClick={() => handleDelete(pro.id)} className="px-4 py-2 bg-red-900/20 text-red-400 border border-red-900/50 font-bold rounded-lg hover:bg-red-900/40 transition-colors text-sm">Excluir</button>
+                           <button onClick={() => setShowConfirmDelete(pro.id)} className="px-4 py-2 bg-red-900/20 text-red-400 border border-red-900/50 font-bold rounded-lg hover:bg-red-900/40 transition-colors text-sm">Excluir</button>
                       </div>
                  </div>
              ))}
@@ -176,7 +216,7 @@ export default function GerenciarProfissionais() {
         </div>
       </div>
 
-      {/* MODAL CONFIGURAÇÃO DARK */}
+      {/* MODAL CONFIGURAÇÃO DARK - REESTABELECIDO DESIGN ORIGINAL */}
       {editingPro && (
         <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-200">
             <div className="bg-slate-900 rounded-3xl shadow-2xl p-6 md:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto border border-slate-800 custom-scrollbar">
@@ -208,12 +248,11 @@ export default function GerenciarProfissionais() {
                     <div className="grid grid-cols-2 gap-6">
                         <div className="relative">
                             <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Entrada</label>
-                            {/* CORREÇÃO: Limpeza de placeholder e texto fantasma */}
-                            <input type="time" placeholder="" value={editingPro.workStart} onChange={(e) => setEditingPro({...editingPro, workStart: e.target.value})} className="w-full p-3 border border-slate-700 rounded-xl bg-slate-800 text-white relative z-10" />
+                            <input type="time" value={editingPro.workStart} onChange={(e) => setEditingPro({...editingPro, workStart: e.target.value})} className="w-full p-3 border border-slate-700 rounded-xl bg-slate-800 text-white relative z-10" />
                         </div>
                         <div className="relative">
                             <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Saída</label>
-                            <input type="time" placeholder="" value={editingPro.workEnd} onChange={(e) => setEditingPro({...editingPro, workEnd: e.target.value})} className="w-full p-3 border border-slate-700 rounded-xl bg-slate-800 text-white relative z-10" />
+                            <input type="time" value={editingPro.workEnd} onChange={(e) => setEditingPro({...editingPro, workEnd: e.target.value})} className="w-full p-3 border border-slate-700 rounded-xl bg-slate-800 text-white relative z-10" />
                         </div>
                     </div>
 

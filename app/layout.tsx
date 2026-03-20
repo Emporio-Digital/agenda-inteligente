@@ -12,11 +12,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Configuração de Visualização e Cor do Tema (O que o Android exige para mostrar o logo)
+// Configuração de Visualização (Igual ao original)
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#000000", // Define a identidade do app para o Chrome
+  themeColor: "#000000",
 };
 
 export const metadata: Metadata = {
@@ -25,7 +25,10 @@ export const metadata: Metadata = {
     default: "Kairós - Sua Agenda Inteligente",
   },
   description: "O sistema de agendamento mais simples e poderoso do mercado. Teste grátis.",
-  // FORÇANDO ÍCONES MANUALMENTE (Estratégia Força Bruta para iPhone e Android)
+  
+  // ESSA É A ÚNICA ADIÇÃO: Aponta para o arquivo que criamos na public
+  manifest: "/manifest.json", 
+
   icons: {
     icon: "/logo.png", 
     shortcut: "/logo.png",
