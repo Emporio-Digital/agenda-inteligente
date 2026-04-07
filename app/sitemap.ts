@@ -50,24 +50,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }))
 
   // 3. Mapeia as Páginas de SEO Local (Hub e Cidades)
+  // Links atualizados para o novo padrão: sistema-de-gestao-para-barbearias
   const locaisRoutes = [
-    '/sistema-de-gestao', // O Hub Principal
-    '/sistema-de-gestao/sao-paulo',
-    '/sistema-de-gestao/tatuape',
-    '/sistema-de-gestao/carrao',
-    '/sistema-de-gestao/vila-formosa',
-    '/sistema-de-gestao/vila-prudente',
-    '/sistema-de-gestao/sao-bernardo',
-    '/sistema-de-gestao/santo-andre',
-    '/sistema-de-gestao/sao-caetano',
-    '/sistema-de-gestao/campinas',
-    '/sistema-de-gestao/minas-gerais',
-    '/sistema-de-gestao/aruja',
-    '/sistema-de-gestao/ferraz-de-vasconcelos',
-    '/sistema-de-gestao/guarulhos',
-    '/sistema-de-gestao/itaquera',
-    '/sistema-de-gestao/rio-de-janeiro',
-    '/sistema-de-gestao/santos',
+    '/sistema-de-gestao-para-barbearias', // O Hub Principal
+    '/sistema-de-gestao-para-barbearias/sao-paulo',
+    '/sistema-de-gestao-para-barbearias/tatuape',
+    '/sistema-de-gestao-para-barbearias/carrao',
+    '/sistema-de-gestao-para-barbearias/vila-formosa',
+    '/sistema-de-gestao-para-barbearias/vila-prudente',
+    '/sistema-de-gestao-para-barbearias/sao-bernardo',
+    '/sistema-de-gestao-para-barbearias/santo-andre',
+    '/sistema-de-gestao-para-barbearias/sao-caetano',
+    '/sistema-de-gestao-para-barbearias/campinas',
+    '/sistema-de-gestao-para-barbearias/belo-horizonte',
+    '/sistema-de-gestao-para-barbearias/aruja',
+    '/sistema-de-gestao-para-barbearias/ferraz-de-vasconcelos',
+    '/sistema-de-gestao-para-barbearias/guarulhos',
+    '/sistema-de-gestao-para-barbearias/itaquera',
+    '/sistema-de-gestao-para-barbearias/rio-de-janeiro',
+    '/sistema-de-gestao-para-barbearias/santos',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import React from "react"; // Adicionado para garantir compatibilidade de tipos
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +27,6 @@ export const metadata: Metadata = {
   },
   description: "O sistema de agendamento mais simples e poderoso do mercado. Teste grátis.",
   
-  // ESSA É A ÚNICA ADIÇÃO: Aponta para o arquivo que criamos na public
   manifest: "/manifest.json", 
 
   icons: {
@@ -45,9 +45,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="pt-BR" className="scroll-smooth">
       <body

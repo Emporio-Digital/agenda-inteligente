@@ -26,6 +26,34 @@ const themes = [
   { name: "Serviços", img: "https://i.ibb.co/1fXMcxcS/IMG-2241.jpg", label: "Tema Serviços" },
 ]
 
+// --- COMPONENTE DE DEPOIMENTOS ---
+const GoogleReviewCard = ({ name, text, img, location }: any) => (
+  <div className="bg-white p-5 rounded-2xl shadow-xl flex flex-col gap-3 border border-gray-100 transition-all hover:scale-[1.02]">
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-3">
+        <img src={img} alt={name} className="w-10 h-10 rounded-full object-cover border border-gray-100" />
+        <div className="flex flex-col">
+          <span className="text-gray-900 font-bold text-sm leading-none">{name}</span>
+          <span className="text-gray-400 text-[10px] uppercase font-bold tracking-tighter mt-1">{location}</span>
+        </div>
+      </div>
+      <span className="text-blue-500 font-black text-lg opacity-20">G</span>
+    </div>
+    <div className="flex text-yellow-400 text-xs">{"★".repeat(5)}</div>
+    <p className="text-gray-600 text-[11px] leading-relaxed italic">"{text}"</p>
+    <div className="pt-2 border-t border-gray-50 flex justify-between items-center text-[9px] font-extrabold uppercase text-blue-500">
+       Ver no Maps
+    </div>
+  </div>
+)
+
+const testimonials = [
+  { name: "Felipe R.", location: "Barbearia Elite", img: "https://i.pravatar.cc/150?u=41", text: "O Kairós organizou minha vida. O pessoal agenda sozinho pelo link e eu foco no atendimento." },
+  { name: "Lya M.", location: "Studio Beauty", img: "https://i.pravatar.cc/150?u=42", text: "Meus clientes adoraram. Não precisa de app nem login, é o sistema mais rápido que já testei." },
+  { name: "Alex T.", location: "Vila Carrão", img: "https://i.pravatar.cc/150?u=43", text: "O controle de equipe é o melhor. Cada barbeiro cuida da sua grade e eu acompanho o faturamento." },
+  { name: "Sandra L.", location: "Jardim Têxtil", img: "https://i.pravatar.cc/150?u=44", text: "A confirmação pelo WhatsApp reduziu demais as faltas. Sistema essencial pra profissionalizar." },
+]
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen text-white font-sans selection:bg-blue-500 selection:text-white relative overflow-x-hidden">
@@ -36,11 +64,9 @@ export default function LandingPage() {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
-        /* AJUSTE VELOCIDADE TEXTO: 10s (Muito rápido) */
         .animate-scroll {
           animation: scroll 10s linear infinite;
         }
-        /* AJUSTE VELOCIDADE IMAGENS: 60s (Fluido) */
         .animate-scroll-slow {
           animation: scroll 60s linear infinite;
         }
@@ -55,6 +81,10 @@ export default function LandingPage() {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: fadeInDown 0.5s ease-out forwards; }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
       `}} />
 
       {/* --- INJEÇÃO DO SCHEMA SEO --- */}
@@ -75,7 +105,6 @@ export default function LandingPage() {
       <nav className="fixed top-0 w-full bg-black/60 backdrop-blur-xl border-b border-white/5 z-50 transition-all">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2 md:gap-3">
-            {/* LOGO COM EVIDÊNCIA MÁXIMA: w-14 (celular) e md:w-16 (computador) */}
             <div className="w-14 h-14 md:w-16 md:h-16 relative flex items-center justify-center">
                 <img src="/logo.png" alt="Logo Kairós" className="object-contain w-full h-full drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]" />
             </div>
@@ -86,7 +115,7 @@ export default function LandingPage() {
           </div>
 
           <div className="flex items-center gap-3 md:gap-4">
-            <Link href="/login" className="text-xs md:text-sm font-medium text-gray-400 hover:text-white transition-colors block">
+            <Link href="/login" className="bg-white text-black px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold hover:bg-white/90 transition-all uppercase tracking-widest whitespace-nowrap shadow-lg">
               Entrar
             </Link>
             <Link href="/cadastro" className="bg-blue-600/90 backdrop-blur-sm text-white px-4 py-2 text-xs md:px-5 md:py-2.5 md:text-sm md:font-bold rounded-full hover:bg-blue-600 transition-all shadow-lg hover:shadow-blue-500/30 font-bold border border-blue-500/20">
@@ -157,37 +186,70 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* --- COMO FUNCIONA --- */}
-        <section className="py-24 relative">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold mb-4 text-white">Simples como deve ser.</h2>
-              <p className="text-gray-400">Tudo automático, 24 horas por dia.</p>
+        {/* --- COMO FUNCIONA (AJUSTADO PARA PADRÃO SEO) --- */}
+        <section className="py-24 px-6 relative overflow-hidden">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-600/10 blur-[120px] rounded-full z-0 pointer-events-none"></div>
+
+            <div className="max-w-7xl mx-auto relative z-10">
+                <div className="text-center mb-16 space-y-4">
+                    <h2 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter uppercase leading-none">
+                        Simples como deve ser
+                    </h2>
+                    <p className="text-gray-400 text-sm md:text-lg font-medium tracking-wide">
+                        Tudo automático, 24 horas por dia.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {/* CARD 1 - EQUIPE E AGENDAS */}
+                    <div className="group relative bg-[#111111]/40 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] flex flex-col gap-6 hover:border-blue-500/40 transition-all duration-500">
+                        <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-3xl border border-white/5 group-hover:scale-110 transition-transform">
+                            👤
+                        </div>
+                        <div className="space-y-3">
+                            <h3 className="text-2xl font-bold text-white leading-tight tracking-tight">
+                                1. Equipe e Agendas <br /> Individuais
+                            </h3>
+                            <p className="text-gray-400 text-base leading-relaxed font-medium">
+                                Cada profissional tem sua própria agenda com serviços, preços e tempos de execução específicos. Organize seu time com liberdade total e zero conflitos.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* CARD 2 - AGENDAMENTO RÁPIDO */}
+                    <div className="group relative bg-[#111111]/40 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] flex flex-col gap-6 hover:border-blue-500/40 transition-all duration-500">
+                        <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-3xl border border-white/5 group-hover:scale-110 transition-transform">
+                            ⚡
+                        </div>
+                        <div className="space-y-3">
+                            <h3 className="text-2xl font-bold text-white leading-tight tracking-tight">
+                                2. Agendamento em <br /> Menos de 1 Minuto
+                            </h3>
+                            <p className="text-gray-400 text-base leading-relaxed font-medium">
+                                Seu cliente agenda sem precisar baixar aplicativos ou criar contas chatas. O caminho mais rápido entre o desejo do cliente e a sua cadeira de atendimento.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* CARD 3 - BRANDING E WHATSAPP */}
+                    <div className="group relative bg-[#111111]/40 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] flex flex-col gap-6 hover:border-blue-500/40 transition-all duration-500">
+                        <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-3xl border border-white/5 group-hover:scale-110 transition-transform">
+                            🎨
+                        </div>
+                        <div className="space-y-3">
+                            <h3 className="text-2xl font-bold text-white leading-tight tracking-tight">
+                                3. Sua Marca e WhatsApp <br /> Num Clique
+                            </h3>
+                            <p className="text-gray-400 text-base leading-relaxed font-medium">
+                                Link exclusivo com sua logo, capa e URL própria. Reduza faltas enviando confirmações profissionais pelo WhatsApp com apenas um toque rápido e simples.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/5 relative overflow-hidden group hover:border-blue-500/50 transition-all duration-300 hover:-translate-y-1">
-                <span className="relative text-4xl mb-4 block transform group-hover:scale-110 transition-transform duration-300">👤</span>
-                <h3 className="relative text-xl font-bold mb-2 text-white">1. Escolhe o Profissional</h3>
-                <p className="relative text-gray-400 text-sm">Escolha o especialista de sua preferência.</p>
-              </div>
-
-              <div className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/5 relative overflow-hidden group hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-1">
-                <span className="relative text-4xl mb-4 block transform group-hover:scale-110 transition-transform duration-300">📋</span>
-                <h3 className="relative text-xl font-bold mb-2 text-white">2. Escolhe o Serviço</h3>
-                <p className="relative text-gray-400 text-sm">Lista de serviços personalizada paraquele profissional escolhido.</p>
-              </div>
-
-              <div className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/5 relative overflow-hidden group hover:border-green-500/50 transition-all duration-300 hover:-translate-y-1">
-                <span className="relative text-4xl mb-4 block transform group-hover:scale-110 transition-transform duration-300">📅</span>
-                <h3 className="relative text-xl font-bold mb-2 text-white">3. Data e Hora</h3>
-                <p className="relative text-gray-400 text-sm">Visualização clara dos horários livres reais, sem conflitos.</p>
-              </div>
-            </div>
-          </div>
         </section>
 
-        {/* --- CARROSSEL DE MOCKUPS (CORRIGIDO PARA MOBILE) --- */}
+        {/* --- CARROSSEL DE MOCKUPS --- */}
         <section className="py-24 bg-gradient-to-b from-black/20 to-zinc-900/40 border-y border-white/5 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="text-center mb-12">
@@ -198,10 +260,7 @@ export default function LandingPage() {
                 <div className="w-full overflow-hidden hover-pause">
                     <div className="flex w-max animate-scroll-slow gap-6 px-4">
                         {[...themes, ...themes].map((theme, index) => (
-                            // AJUSTE CRÍTICO: Removi w-full e usei dimensões fixas com flex-shrink-0
-                            // Mobile: largura 200px. PC: largura 300px.
                             <div key={index} className="flex-shrink-0 flex flex-col items-center group w-[200px] md:w-[300px]">
-                                {/* MOLDURA: Aspect Ratio 9/19 (Vertical) para não cortar */}
                                 <div className="relative bg-zinc-900 rounded-[2rem] md:rounded-[2.5rem] border-[4px] md:border-[8px] border-zinc-800 overflow-hidden shadow-2xl w-full aspect-[9/19] transition-transform duration-300 group-hover:scale-[1.02]">
                                      <div className="w-full h-full bg-zinc-800 flex items-center justify-center relative">
                                         <img src={theme.img} alt={theme.label} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all" />
@@ -248,7 +307,7 @@ export default function LandingPage() {
                   <li className="flex gap-2">🚀 Até 5 Profissionais</li>
                   <li className="flex gap-2">✅ agenda separada por profissional</li>
                   <li className="flex gap-2">✅ Dashboard Financeiro</li>
-                  <li className="flex gap-2">✅ Tudo do plano Solo</li>
+                  <li className="flex gap-2">✅ Agendamentos Ilimitados</li>
                 </ul>
                 <Link href="/cadastro" className="block w-full py-3 rounded-xl bg-blue-600 text-white font-bold text-center hover:bg-blue-700 transition-all hover:shadow-[0_0_30px_-5px_rgba(37,99,235,0.4)]">
                   Testar Grátis Agora
@@ -262,9 +321,9 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-400 mb-8 border-b border-white/10 pb-8">Para grandes redes e franquias. Sem limites.</p>
                 <ul className="space-y-3 mb-8 text-sm text-gray-300">
                   <li className="flex gap-2">🔥 Profissionais Ilimitados</li>
-                  <li className="flex gap-2">✅ Tudo do plano Pró</li>
                   <li className="flex gap-2">✅ Suporte Prioritário</li>
                   <li className="flex gap-2">✅ Gestão Completa</li>
+                  <li className="flex gap-2">✅ Agendamentos Ilimitados</li>
                 </ul>
                 <Link href="/cadastro" className="block w-full py-3 rounded-xl border border-white text-white font-bold text-center hover:bg-white hover:text-black transition-all">
                   Testar Grátis
@@ -305,6 +364,137 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* --- DOSSIÊ DE PILARES (NOVIDADE NA HOME) --- */}
+        <section className="py-24 px-6 relative z-20">
+            <div className="max-w-6xl mx-auto">
+                <details className="group bg-[#080b11]/80 backdrop-blur-xl border border-blue-900/30 rounded-2xl shadow-2xl overflow-hidden cursor-pointer">
+                    <summary className="flex items-center justify-between p-6 md:p-8 outline-none hover:bg-white/[0.02] transition-colors">
+                        <span className="flex items-center gap-4 md:gap-6">
+                            <span className="bg-blue-500/10 text-blue-400 p-2.5 rounded-md border border-blue-500/20 shrink-0 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                            </span>
+                            <span className="flex flex-col text-left">
+                                <span className="text-lg md:text-2xl font-bold uppercase tracking-wide text-white leading-tight block">Tese de Autoridade: Kairós Gestão Inteligente</span>
+                                <span className="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1 italic block">Clique para ver os 15 pilares de gestão para seu nicho</span>
+                            </span>
+                        </span>
+                        <span className="w-10 h-10 md:w-12 md:h-12 border border-gray-700 rounded-full flex items-center justify-center shrink-0 group-open:rotate-180 transition-transform duration-500 bg-black/50 text-gray-400">▼</span>
+                    </summary>
+
+                    <div className="px-6 md:px-12 py-10 bg-[#030407] border-t border-white/5 relative">
+                        <div className="grid grid-cols-1 gap-12 max-w-4xl relative z-10 text-gray-400 text-sm md:text-base leading-relaxed">
+                            
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 1. SISTEMA DE GESTÃO PARA BARBEARIAS com link personalizado, logo e capa exclusivos.</h3>
+                                <p className="mt-2 text-left">Crie uma vitrine digital de alto padrão que carrega a identidade visual completa da sua marca em um link de agendamento profissional. Esse posicionamento economiza horas de atendimento manual ao apresentar seus serviços de forma automática para o seu público local. Enquanto outros sistemas são genéricos, o Kairós destaca sua marca com elegância e exclusividade para atrair clientes de alto valor. Garanta que a primeira impressão do seu negócio seja a de uma empresa organizada, tecnológica e pronta para liderar o mercado.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 2. SISTEMA DE GESTÃO PARA SALÕES DE BELEZA com agendas individuais para cada profissional.</h3>
+                                <p className="mt-2 text-left">Organize seu time de especialistas com calendários independentes que eliminam qualquer risco de confusão ou sobreposição de horários na sua recepção. O benefício prático é a economia de tempo real que seria perdido confirmando a disponibilidade de cada colaborador manualmente por telefone ou mensagem. No Kairós, cada profissional tem sua grade sincronizada em tempo real, permitindo uma gestão de equipe fluida e extremamente eficiente. Mantenha a ordem absoluta na sua operação e aumente a produtividade do seu salão com um controle de agenda moderno e intuitivo.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 3. SISTEMA DE GESTÃO PARA CLÍNICAS com personalização máxima de serviços, valores e tempos.</h3>
+                                <p className="mt-2 text-left">Adapte seu cardápio de procedimentos com precisão total, definindo preços e tempos de execução exatos para cada tipo de consulta ou tratamento. O controle total da sua margem de lucro permite gerenciar o fluxo de caixa com a segurança que uma clínica profissional exige no dia a dia. O Kairós oferece flexibilidade total para reajustar valores e durações instantaneamente, sem precisar enfrentar burocracias técnicas ou chamados de suporte demorados. Domine sua estratégia comercial oferecendo uma jornada de agendamento que reflete com exatidão a realidade operacional do seu negócio.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 4. SISTEMA DE GESTÃO PARA ESTÚDIOS DE TATTOO sem necessidade de cadastro, login ou download.</h3>
+                                <p className="mt-2 text-left">O maior diferencial competitivo para o seu estúdio é a velocidade absoluta no acesso ao agendamento sem nenhuma barreira técnica chata. Sabemos que seus clientes não querem perder tempo criando contas, memorizando senhas ou baixando aplicativos pesados só para marcar uma sessão. Com o Kairós, o cliente acessa seu link, escolhe o tatuador e finaliza o processo em segundos, sem burocracia alguma pelo próprio navegador. Essa facilidade extrema garante uma taxa de conversão muito maior, assegurando que sua agenda esteja sempre preenchida com praticidade.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 5. SISTEMA DE GESTÃO PARA ESMALTERIAS com agendamento finalizado em menos de 1 minuto.</h3>
+                                <p className="mt-2 text-left">Proporcione às suas clientes a agilidade que a rotina moderna exige, permitindo que o agendamento seja concluído em menos de 60 segundos de forma intuitiva. Esse ganho de eficiência libera sua recepção para focar no atendimento presencial de qualidade, enquanto o sistema trabalha no piloto automático 24 horas. Enquanto outras plataformas pedem formulários longos, o Kairós foca em apenas três cliques certeiros para garantir a reserva do serviço desejado. Destaque seu negócio como o mais veloz e eficiente da região, conquistando a fidelidade do público que valoriza o próprio tempo.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 6. SISTEMA DE GESTÃO PARA CLÍNICAS DE ESTÉTICA com agenda inteligente que evita conflitos.</h3>
+                                <p className="mt-2 text-left">Acabe definitivamente com o erro humano de agendar dois procedimentos no mesmo horário com nossa tecnologia de trava automática inteligente. O benefício direto é a eliminação de situações constrangedoras de atrasos ou remarcações por falhas de agenda manual em papel ou planilhas. O Kairós atualiza a disponibilidade no exato milissegundo em que o agendamento é realizado, garantindo uma segurança operacional absoluta para o dono do negócio. Mantenha a reputação da sua clínica impecável e evite qualquer perda de faturamento por falhas operacionais básicas de organização.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 7. SISTEMA DE GESTÃO PARA ESTÚDIOS DE FOTOGRAFIA com fotos reais da equipe no agendamento.</h3>
+                                <p className="mt-2 text-left">Humanize a experiência digital do seu estúdio permitindo que o cliente escolha o profissional através da visualização de sua foto real no ato do agendamento. Isso gera uma conexão imediata de confiança e profissionalismo, transmitindo autoridade antes mesmo do cliente chegar ao local para o ensaio. O Kairós valoriza o marketing pessoal do seu time, sendo muito mais atrativo do que sistemas genéricos que usam apenas nomes ou ícones frios. Fortaleça a marca visual do seu negócio e conquiste os clientes mais exigentes através de uma interface de agendamento moderna e transparente.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 8. SISTEMA DE GESTÃO PARA BARBEARIAS com dashboard intuitivo para uso dos funcionários.</h3>
+                                <p className="mt-2 text-left">Simplifique a rotina diária do seu time com um painel de controle que dispensa treinamentos longos ou manuais técnicos complexos para ser operado. Seus barbeiros visualizam a agenda do dia com clareza absoluta, otimizando o fluxo de trabalho e os intervalos entre um atendimento e outro. O Kairós foca na usabilidade prática, removendo menus desnecessários que apenas poluem e confundem o uso em softwares tradicionais de gestão de mercado. Garanta que sua operação seja fluida e que sua equipe foque 100% na técnica e no excelente atendimento ao cliente final.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 9. SISTEMA DE GESTÃO PARA SALÕES DE BELEZA com atalho de acesso rápido no celular do dono.</h3>
+                                <p className="mt-2 text-left">Tenha o controle total do seu faturamento e da agenda do seu salão na palma da mão, acessando o sistema com apenas um toque rápido. Economize tempo precioso abrindo a gestão instantaneamente, sem a necessidade de buscar links em conversas de WhatsApp ou favoritos do seu navegador. O Kairós opera como um Web App extremamente leve e veloz, garantindo que você monitore o movimento do seu negócio de onde estiver em tempo real. Esteja sempre no comando da sua operação com a tecnologia que acompanha o ritmo acelerado de um empreendedor de sucesso atual.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full"></span> 10. SISTEMA DE GESTÃO PARA CLÍNICAS com histórico detalhado de cada serviço realizado.</h3>
+                                <p className="mt-2 text-left">Entenda com precisão quais procedimentos são os motores do seu faturamento e quais pacientes são os mais fiéis à sua clínica de saúde ou estética. O benefício estratégico é poder planejar promoções e novos investimentos baseados em dados reais de produtividade, e não em meras suposições vagas. Enquanto softwares antigos dificultam o acesso aos dados, o Kairós entrega relatórios detalhados de cada atendimento realizado na sua unidade de forma simples. Tome decisões inteligentes para o crescimento do seu negócio utilizando informações financeiras seguras e extremamente organizadas no painel.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 11. SISTEMA DE GESTÃO PARA STUDIOS DE TATTOO com confirmação de agenda via WhatsApp em um clique.</h3>
+                                <p className="mt-2 text-left">Reduza drasticamente o número de faltas enviando lembretes profissionais de agendamento de forma rápida e eficiente diretamente para o WhatsApp do cliente. Essa funcionalidade diminui o No-Show em até 40%, protegendo o seu lucro diário contra esquecimentos de clientes que possuem rotinas agitadas. O Kairós simplifica o processo operacional: você clica no ícone e a mensagem de confirmação já sai formatada para o contato do seu cliente em segundos. Profissionalize sua comunicação e garanta que sua agenda de tatuagens esteja sempre confirmada e altamente lucrativa todos os dias.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 12. SISTEMA DE GESTÃO PARA ESMALTERIAS focado em experiência Mobile-First de alta velocidade.</h3>
+                                <p className="mt-2 text-left">Otimizamos cada detalhe do sistema para que sua cliente tenha uma experiência perfeita realizando o agendamento através do próprio smartphone com rapidez. O benefício é uma interface que carrega instantaneamente, mesmo em conexões de internet móvel oscilantes ou redes 4G saturadas em áreas comerciais densas. Diferente de plataformas desenhadas apenas para computadores, o Kairós foi pensado primeiro para o celular do cliente, onde a maioria das reservas ocorre. Ofereça a melhor jornada tecnológica de agendamento do seu nicho e fidelize o público que busca modernidade e facilidade total.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 13. SISTEMA DE GESTÃO PARA CLÍNICAS DE ESTÉTICA para eliminar o vaivém de mensagens no WhatsApp.</h3>
+                                <p className="mt-2 text-left">Recupere horas valiosas do seu dia automatizando a marcação de horários e acabe com as interrupções constantes para responder disponibilidade de agenda. Centralizar as reservas no link inteligente do Kairós permite que você e sua equipe foquem no que realmente traz retorno: o atendimento impecável na sala. Nosso sistema é a solução definitiva contra a burocracia de áudios e textos manuais intermináveis que travam a produtividade da sua equipe em horários de pico. Recupere sua paz mental e deixe que a tecnologia gerencie suas reservas 24 horas por dia, 7 dias por semana, sem falhas.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 14. SISTEMA DE GESTÃO PARA ESTÚDIOS DE FOTOGRAFIA com relatórios financeiros de controle total.</h3>
+                                <p className="mt-2 text-left">Tenha uma visão transparente do fluxo de caixa do seu estúdio com filtros financeiros que demonstram o crescimento real do seu faturamento mês a mês. Controle entradas e analise a performance de cada serviço oferecido sem a necessidade de planilhas de Excel complicadas ou anotações confusas em papel. O diferencial do Kairós é traduzir números frios em informações estratégicas simples para o dono, facilitando o planejamento de novos investimentos em equipamentos. Mantenha as finanças do seu negócio fotográfico sob controle absoluto com relatórios intuitivos, seguros e extremamente rápidos de acessar.</p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 15. SISTEMA DE GESTÃO PARA SERVIÇOS EM GERAL para modernizar e profissionalizar o seu negócio.</h3>
+                                <p className="mt-2 text-left">Posicione sua marca como a maior referência tecnológica do seu setor e conquiste os clientes que buscam modernidade, exclusividade e rapidez no atendimento. O ganho de autoridade local é instantâneo quando o público percebe que você utiliza um sistema de gestão de elite para organizar sua prestação de serviço. O Kairós remove definitivamente o amadorismo das anotações manuais e insere sua empresa na era da automação digital completa, eficiente e profissional. Seja o líder incontestável do mercado no seu nicho de atuação e veja sua base de clientes crescer com a força da nossa tecnologia inteligente.</p>
+                            </div>
+
+                        </div>
+                        <div className="mt-14 flex justify-center md:justify-start">
+                            <Link href="/cadastro" className="bg-blue-600 text-white px-6 py-4 rounded-2xl md:rounded-full font-bold hover:bg-blue-700 transition-all shadow-[0_0_30px_rgba(37,99,235,0.4)] text-center text-sm md:text-base leading-snug max-w-full">
+                                Quero modernizar meu negócio agora
+                            </Link>
+                        </div>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+{/* --- SEÇÃO DE DEPOIMENTOS (PROVA SOCIAL) --- */}
+        <section className="py-24 px-6 bg-black/40 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+              <div className="space-y-2">
+                <h2 className="text-3xl md:text-5xl font-black text-white italic tracking-tighter uppercase leading-tight">
+                  Quem já usa e <span className="text-blue-500">aprova:</span>
+                </h2>
+                <p className="text-gray-400 text-sm md:text-base font-medium tracking-wide">
+                  Junte-se a centenas de negócios que automatizaram a agenda.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10 text-yellow-400 font-black shadow-xl">
+                4.9 ★★★★★
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              {testimonials.map((item, index) => (
+                <GoogleReviewCard key={index} {...item} />
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* --- FAQ --- */}
         <section className="py-20 px-6 max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-center mb-8 text-white">Dúvidas Frequentes</h2>
@@ -314,7 +504,7 @@ export default function LandingPage() {
                         Para qual tipo de negócio o sistema serve?
                         <span className="transform group-open:rotate-180 transition-transform">▼</span>
                     </summary>
-                    <div className="px-4 pb-4 text-sm text-gray-400 border-t border-white/5 pt-2">
+                    <div className="px-4 pb-4 text-sm text-gray-400 border-t border-white/5 pt-2 text-left">
                         O Kairós é versátil e atende diversos nichos. É perfeito para: Barbearias, Salões de Beleza, Restaurantes, Clínicas, Tattoo, Studio de Fotografia e Profissionais Liberais.
                     </div>
                 </details>
@@ -324,7 +514,7 @@ export default function LandingPage() {
                         Consigo usar no celular?
                         <span className="transform group-open:rotate-180 transition-transform">▼</span>
                     </summary>
-                    <div className="px-4 pb-4 text-sm text-gray-400 border-t border-white/5 pt-2">
+                    <div className="px-4 pb-4 text-sm text-gray-400 border-t border-white/5 pt-2 text-left">
                         Sim! O Kairós é 100% online e responsivo. Funciona perfeitamente no navegador do seu celular (Android ou iPhone), tablet ou computador.
                     </div>
                 </details>
@@ -334,7 +524,7 @@ export default function LandingPage() {
                         Preciso cadastrar cartão para testar?
                         <span className="transform group-open:rotate-180 transition-transform">▼</span>
                     </summary>
-                    <div className="px-4 pb-4 text-sm text-gray-400 border-t border-white/5 pt-2">
+                    <div className="px-4 pb-4 text-sm text-gray-400 border-t border-white/5 pt-2 text-left">
                         Não! O teste de 3 dias é totalmente livre. Você só escolhe um plano se gostar do sistema.
                     </div>
                 </details>
@@ -355,7 +545,7 @@ export default function LandingPage() {
                 {/* Container do Vídeo (VERTICAL 9:16) */}
                 <div className="relative rounded-[2.5rem] overflow-hidden border-[8px] border-zinc-800 shadow-2xl bg-black aspect-[9/19] max-w-[320px] mx-auto group">
                     <iframe 
-                      src="https://www.youtube.com/embed/Bs-fStk-X9E" 
+                      src="https://www.youtube.com/embed/qPyu76KGlmw" 
                       title="Tutorial Kairós"
                       className="w-full h-full" 
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -368,20 +558,20 @@ export default function LandingPage() {
         {/* --- FOOTER (ATUALIZADO COM LINK DO HUB) --- */}
         <footer className="bg-black/60 backdrop-blur-xl py-12 border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-2 opacity-50">
+            <div className="flex items-center gap-2 opacity-90">
               <div className="w-6 h-6 relative">
                   <img src="/logo.png" alt="Logo Kairós" className="object-contain w-full h-full grayscale" />
               </div>
-              <span className="font-bold text-gray-400">Kairós</span>
+              <span className="font-bold text-gray-200">Kairós</span>
             </div>
 
             {/* LINK PARA O HUB REGIONAL */}
-            <Link href="/sistema-de-gestao" className="text-xs font-bold text-blue-500/60 hover:text-blue-400 transition-colors flex items-center gap-2 uppercase tracking-widest">
-              <span className="text-lg">📍</span> Nossas Áreas Atendidas
+            <Link href="/sistema-de-gestao-para-barbearias" className="text-xs font-bold text-blue-500/60 hover:text-blue-400 transition-colors flex items-center gap-2 uppercase tracking-widest">
+              <span className="text-lg">📍</span>
             </Link>
 
             <div className="text-sm text-gray-600">
-              © 2025 Kairós - Sistema de Agendamento Online.
+              © Kairós - Sistema de Agendamento Online.
             </div>
           </div>
         </footer>
