@@ -337,19 +337,90 @@ return (
                 </div>
             </section>
 
-            {/* --- FOOTER --- */}
-            <footer className="bg-black/80 backdrop-blur-xl py-12 border-t border-white/5">
-                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-600">
-                    <div className="flex items-center gap-2 opacity-50">
-                        <img src="/logo.png" alt="Logo Kairós" className="w-6 h-6 object-contain grayscale" />
-                        <span className="font-bold text-gray-400 uppercase tracking-widest">Kairós Carrão</span>
-                    </div>
-                    <div className="flex gap-4">
-                        <Link href="/sistema-de-gestao-para-barbearias" className="text-gray-400 font-bold hover:underline">Home do Nicho</Link>
-                        <Link href="/" className="text-gray-400 font-bold hover:underline">Página Principal</Link>
+            {/* --- FOOTER (ATUALIZADO) --- */}
+        <footer className="bg-zinc-950/80 backdrop-blur-xl pt-16 pb-8 border-t border-white/5 relative z-20">
+          <div className="max-w-7xl mx-auto px-6">
+            
+            {/* CABEÇALHO DO RODAPÉ - LOGOS */}
+            <div className="flex flex-col md:flex-row items-center md:items-end gap-4 mb-12 pb-12 border-b border-white/5">
+                <div className="flex items-center gap-3">
+                    <img src="/logo.png" alt="Logo Kairós" className="w-12 h-12 object-contain" />
+                    <div className="flex flex-col">
+                        <span className="text-2xl font-black tracking-tighter text-white uppercase leading-none">Kairós</span>
+                        <span className="text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em]">Sua agenda inteligente</span>
                     </div>
                 </div>
-            </footer>
+                <div className="hidden md:block w-[1px] h-8 bg-white/10 mx-4"></div>
+                <div className="flex flex-col items-center md:items-start opacity-70">
+                    <span className="text-[10px] text-gray-300 uppercase font-bold tracking-widest mb-1">Uma solução do grupo</span>
+                    <Link href="https://egemporiodigital.com.br" target="_blank" className="text-sm font-bold text-white hover:text-blue-400 transition-colors">
+                        EG EMPÓRIO DIGITAL
+                    </Link>
+                </div>
+            </div>
+
+            {/* GRID DE CONTEÚDO (ESTILO TRINKS) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 text-center md:text-left">
+                
+                {/* COLUNA 1 - INSTITUCIONAL */}
+                <div className="flex flex-col gap-4">
+                    <h4 className="text-blue-500 font-black uppercase text-xs tracking-widest">Institucional</h4>
+                    <ul className="flex flex-col gap-3 text-sm text-gray-400 font-medium">
+                        <li><Link href="https://egemporiodigital.com.br/sobre" target="_blank" className="hover:text-white transition-colors">Sobre a EG Empório Digital</Link></li>
+                        <li><Link href="https://egemporiodigital.com.br/servicos" target="_blank" className="hover:text-white transition-colors">Nossos Serviços</Link></li>
+                        <li><Link href="https://egemporiodigital.com.br/saas" target="_blank" className="hover:text-white transition-colors">Outras Automações</Link></li>
+                        <li><Link href="#" className="hover:text-white transition-colors">Política de Privacidade</Link></li>
+                    </ul>
+                </div>
+
+                {/* COLUNA 2 - HUB DE SOLUÇÕES */}
+                <div className="flex flex-col gap-4">
+                    <h4 className="text-blue-500 font-black uppercase text-xs tracking-widest">Conheça</h4>
+                    <ul className="flex flex-col gap-3 text-sm text-gray-400 font-medium">
+                        <li><Link href="/sistema-de-gestao-para-barbearias" className="hover:text-white transition-colors text-white font-bold tracking-tight">💈 Gestão de Barbearias</Link></li>
+                    </ul>
+                </div>
+
+                {/* COLUNA 3 - COMERCIAL E REDES */}
+                <div className="flex flex-col gap-4">
+                    <h4 className="text-blue-500 font-black uppercase text-xs tracking-widest">Comercial</h4>
+                    <ul className="flex flex-col gap-3 text-sm text-gray-400 font-medium mb-4">
+                        <li><Link href="/cadastro" className="hover:text-white transition-colors font-bold text-blue-400">Teste Grátis</Link></li>
+                        <li><Link href="#planos" className="hover:text-white transition-colors">Planos e Preços</Link></li>
+                    </ul>
+                    
+                    <h4 className="text-blue-500 font-black uppercase text-[10px] tracking-widest mb-2">Siga-nos</h4>
+                    <div className="flex justify-center md:justify-start gap-4">
+                        <Link href="https://instagram.com/eg.emporio.digital" target="_blank" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-blue-600 transition-all group">
+                            <svg className="w-5 h-5 text-gray-400 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </Link>
+                    </div>
+                </div>
+
+                {/* COLUNA 4 - APP / STATUS */}
+                <div className="flex flex-col gap-4">
+                    <h4 className="text-blue-500 font-black uppercase text-xs tracking-widest">Tecnologia</h4>
+                    <div className="bg-white/5 border border-white/5 p-4 rounded-2xl mt-2">
+                        <span className="text-[10px] font-bold text-gray-400 uppercase block mb-1">Sistema</span>
+                        <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <span className="text-xs font-bold text-white">Kairós</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* RODAPÉ FINAL - COPYRIGHT */}
+            <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+                <p className="text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em]">
+                    © EG EMPÓRIO DIGITAL
+                </p>
+            </div>
+
+          </div>
+        </footer>
 
         </main>
 
