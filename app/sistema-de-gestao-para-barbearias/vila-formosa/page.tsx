@@ -124,15 +124,14 @@ details[open] summary ~ * { animation: fadeInDown 0.5s ease-out forwards; }
             </div>
         </section>
 
-        {/* --- SEÇÃO DE DIFERENCIAIS (DESIGN GLASSMORPHISM IDENTICO AO EXEMPLO) --- */}
+        {/* --- COMO FUNCIONA (AJUSTADO PARA PADRÃO SEO) --- */}
         <section className="py-24 px-6 relative overflow-hidden">
-            {/* Elemento de fundo para dar o efeito de transparência (Blur que aparece atrás dos cards) */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-600/10 blur-[120px] rounded-full z-0 pointer-events-none"></div>
 
             <div className="max-w-7xl mx-auto relative z-10">
                 <div className="text-center mb-16 space-y-4">
                     <h2 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter uppercase leading-none">
-                        Simples como deve ser.
+                        Simples como deve ser
                     </h2>
                     <p className="text-gray-400 text-sm md:text-lg font-medium tracking-wide">
                         Tudo automático, 24 horas por dia.
@@ -147,10 +146,10 @@ details[open] summary ~ * { animation: fadeInDown 0.5s ease-out forwards; }
                         </div>
                         <div className="space-y-3">
                             <h3 className="text-2xl font-bold text-white leading-tight tracking-tight">
-                                1. Equipe e Agendas <br /> Individuais
+                                1. Serviços e Agendas <br /> Individuais
                             </h3>
                             <p className="text-gray-400 text-base leading-relaxed font-medium">
-                                Cada barbeiro tem sua própria agenda com serviços, preços e tempos de execução específicos. Organize seu time com liberdade total e zero conflitos.
+                                Cada profissional tem sua própria agenda com serviços, preços e tempos de execução diferentes. Organize seu time com liberdade total e zero conflitos.
                             </p>
                         </div>
                     </div>
@@ -165,7 +164,7 @@ details[open] summary ~ * { animation: fadeInDown 0.5s ease-out forwards; }
                                 2. Agendamento em <br /> Menos de 1 Minuto
                             </h3>
                             <p className="text-gray-400 text-base leading-relaxed font-medium">
-                                Seu cliente agenda sem precisar baixar aplicativos ou criar contas chatas. O caminho mais rápido entre o desejo do cliente e a sua cadeira.
+                                Seu cliente agenda sem precisar baixar aplicativos ou criar contas chatas. O caminho mais rápido entre o desejo do cliente e a sua cadeira de atendimento.
                             </p>
                         </div>
                     </div>
@@ -180,7 +179,7 @@ details[open] summary ~ * { animation: fadeInDown 0.5s ease-out forwards; }
                                 3. Sua Marca e WhatsApp <br /> Num Clique
                             </h3>
                             <p className="text-gray-400 text-base leading-relaxed font-medium">
-                                Link exclusivo com sua logo, capa e URL própria. Reduza faltas enviando confirmações pelo WhatsApp com apenas um toque rápido.
+                                Link exclusivo com sua logo, capa e URL própria. Reduza faltas enviando confirmações profissionais pelo WhatsApp com apenas um toque rápido e simples.
                             </p>
                         </div>
                     </div>

@@ -48,8 +48,8 @@ const GoogleReviewCard = ({ name, text, img, location }: any) => (
 )
 
 const testimonials = [
-    { name: "Felipe R.", location: "Barbearia Elite", img: "https://i.pravatar.cc/150?u=41", text: "O Kairós organizou minha vida. O pessoal agenda sozinho pelo link e eu foco no atendimento." },
-    { name: "Lya M.", location: "Studio Beauty", img: "https://i.pravatar.cc/150?u=42", text: "Meus clientes adoraram. Não precisa de app nem login, é o sistema mais rápido que já testei." },
+    { name: "Felipe R.", location: "Morumbi", img: "https://i.pravatar.cc/150?u=41", text: "O Kairós organizou minha vida. O pessoal agenda sozinho pelo link e eu foco no atendimento." },
+    { name: "Lya M.", location: "São Gonçalo", img: "https://i.pravatar.cc/150?u=42", text: "Meus clientes adoraram. Não precisa de app nem login, é o sistema mais rápido que já testei." },
     { name: "Alex T.", location: "Vila Carrão", img: "https://i.pravatar.cc/150?u=43", text: "O controle de equipe é o melhor. Cada barbeiro cuida da sua grade e eu acompanho o faturamento." },
     { name: "Sandra L.", location: "Jardim Têxtil", img: "https://i.pravatar.cc/150?u=44", text: "A confirmação pelo WhatsApp reduziu demais as faltas. Sistema essencial pra profissionalizar." },
 ]
@@ -168,23 +168,21 @@ export default function GestaoHubPage() {
           </div>
         </section>
 
-        {/* --- COMO FUNCIONA (SIMPLES COMO DEVE SER) --- */}
+        {/* --- COMO FUNCIONA (AJUSTADO PARA PADRÃO SEO) --- */}
         <section className="py-24 px-6 relative overflow-hidden">
-            {/* Brilho de fundo */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-600/10 blur-[120px] rounded-full z-0 pointer-events-none"></div>
 
             <div className="max-w-7xl mx-auto relative z-10">
-                {/* TÍTULO DA SEÇÃO */}
                 <div className="text-center mb-16 space-y-4">
                     <h2 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter uppercase leading-none">
-                        Simples como deve ser.
+                        Simples como deve ser
                     </h2>
                     <p className="text-gray-400 text-sm md:text-lg font-medium tracking-wide">
                         Tudo automático, 24 horas por dia.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* CARD 1 - EQUIPE E AGENDAS */}
                     <div className="group relative bg-[#111111]/40 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] flex flex-col gap-6 hover:border-blue-500/40 transition-all duration-500">
                         <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-3xl border border-white/5 group-hover:scale-110 transition-transform">
@@ -192,10 +190,10 @@ export default function GestaoHubPage() {
                         </div>
                         <div className="space-y-3">
                             <h3 className="text-2xl font-bold text-white leading-tight tracking-tight">
-                                1. Equipe e Agendas <br /> Individuais
+                                1. Serviços e Agendas <br /> Individuais
                             </h3>
                             <p className="text-gray-400 text-base leading-relaxed font-medium">
-                                Cada profissional tem sua própria agenda com serviços, preços e tempos de execução específicos. Organize seu time com liberdade total e zero conflitos.
+                                Cada profissional tem sua própria agenda com serviços, preços e tempos de execução diferentes. Organize seu time com liberdade total e zero conflitos.
                             </p>
                         </div>
                     </div>
@@ -292,105 +290,106 @@ export default function GestaoHubPage() {
             </div>
         </section>
 
-        {/* --- DOSSIÊ DE PILARES (TESE DE AUTORIDADE NACIONAL) --- */}
+        {/* --- SEÇÃO DE PILARES SEO (ESTRUTURA CARD CLICÁVEL - HUB BARBER) --- */}
         <section className="py-24 px-6 relative z-20">
             <div className="max-w-6xl mx-auto">
+                
                 <details className="group bg-[#080b11]/80 backdrop-blur-xl border border-blue-900/30 rounded-2xl shadow-2xl overflow-hidden cursor-pointer">
                     <summary className="flex items-center justify-between p-6 md:p-8 outline-none hover:bg-white/[0.02] transition-colors">
                         <span className="flex items-center gap-4 md:gap-6">
                             <span className="bg-blue-500/10 text-blue-400 p-2.5 rounded-md border border-blue-500/20 shrink-0 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                                💈
                             </span>
                             <span className="flex flex-col text-left">
-                                <span className="text-lg md:text-2xl font-bold uppercase tracking-wide text-white leading-tight block">Dossiê de Dominação: Kairós Gestão Inteligente</span>
-                                <span className="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1 italic block">Clique para ver os 15 pilares de gestão para o seu negócio</span>
+                                <span className="text-lg md:text-2xl font-bold uppercase tracking-wide text-white leading-tight block">Tese de Autoridade: Kairós Barber Shop</span>
+                                <span className="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1 italic block">Clique para ver os 15 pilares de gestão para barbearias</span>
                             </span>
                         </span>
                         <span className="w-10 h-10 md:w-12 md:h-12 border border-gray-700 rounded-full flex items-center justify-center shrink-0 group-open:rotate-180 transition-transform duration-500 bg-black/50 text-gray-400">▼</span>
                     </summary>
 
                     <div className="px-6 md:px-12 py-10 bg-[#030407] border-t border-white/5 relative">
-                        <div className="grid grid-cols-1 gap-12 max-w-4xl relative z-10 text-gray-400 text-sm md:text-base leading-relaxed text-left">
+                        <div className="grid grid-cols-1 gap-12 max-w-4xl relative z-10 text-gray-400 text-sm md:text-base leading-relaxed">
                             
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 1. SISTEMA DE GESTÃO PARA BARBEARIAS com link personalizado, logo e capa exclusivos.</h3>
-                                <p className="mt-2">Estabeleça uma presença digital de elite com um link de agendamento que reflete a identidade visual da sua barbearia. O Kairós transforma seu link em uma extensão da sua vitrine, passando confiança imediata para o cliente premium que busca agilidade e profissionalismo.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 1. SISTEMA DE GESTÃO PARA BARBEARIAS com link personalizado para agendamento de degradê e barba.</h3>
+                                <p className="mt-2 text-left">O Kairós transforma a presença digital da sua barbearia ao oferecer um link de agendamento que é a cara do seu negócio. Personalize com sua logo e fotos dos seus melhores cortes para criar um ambiente de elite onde o cliente se sente na poltrona antes mesmo de sair de casa. Ter um sistema de gestão para barbearias que prioriza o seu branding ajuda a elevar o preço do seu serviço e a atrair um público que valoriza a estética e a exclusividade. Domine o mercado local com uma interface que vende o seu talento 24 horas por dia.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 2. SISTEMA DE GESTÃO PARA SALÕES DE BELEZA com agendas individuais para cada profissional.</h3>
-                                <p className="mt-2">Organize sua equipe de especialistas com calendários independentes e sincronizados. Acabe com o caos na recepção e garanta que cada cabeleireiro ou manicure tenha controle total da sua própria grade, eliminando conflitos de horários permanentemente.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 2. SISTEMA DE GESTÃO PARA BARBEARIAS com agendas independentes para cada barbeiro da sua equipe.</h3>
+                                <p className="mt-2 text-left">Organize sua barbearia com maestria ao oferecer calendários individuais para cada profissional, desde o mestre barbeiro até os iniciantes. O Kairós permite que cada cadeira funcione como uma unidade de negócio independente, com serviços e horários sincronizados para evitar qualquer confusão no salão. Essa separação clara de agendas aumenta a produtividade da equipe e garante que o fluxo de clientes seja constante e sem gargalos na recepção. Profissionalize a gestão do seu time com uma ferramenta desenhada para o ritmo intenso de uma barbearia de sucesso.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 3. SISTEMA DE GESTÃO PARA CLÍNICAS com personalização máxima de serviços, valores e tempos.</h3>
-                                <p className="mt-2">Ajuste cada procedimento com precisão cirúrgica, definindo preços e durações exatas. O Kairós permite uma gestão financeira e operacional sob medida para clínicas que buscam otimizar o fluxo de pacientes e a rentabilidade por sala de atendimento.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 3. SISTEMA DE GESTÃO PARA BARBEARIAS com personalização de combos, barboterapia e cortes técnicos.</h3>
+                                <p className="mt-2 text-left">Configure seu cardápio de serviços com total liberdade, definindo preços e tempos de execução precisos para cada especialidade da casa. Seja para um corte clássico na tesoura, um degradê moderno ou um ritual de barboterapia com toalha quente, o Kairós adapta a agenda à realidade técnica do seu trabalho. Ter um sistema de gestão para barbearias flexível permite que você maximize o faturamento ao oferecer combos que incentivam o cliente a consumir mais serviços em uma única visita. Tome o controle absoluto da sua lucratividade com uma gestão de serviços estratégica.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 4. SISTEMA DE GESTÃO PARA ESTÚDIOS DE TATTOO sem necessidade de cadastro, login ou download.</h3>
-                                <p className="mt-2">Remova todas as barreiras entre o seu cliente e a sessão de tattoo. Nosso sistema permite o agendamento direto pelo navegador, sem exigir que o cliente baixe aplicativos pesados ou decore senhas, garantindo a maior taxa de conversão do mercado.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 4. SISTEMA DE GESTÃO PARA BARBEARIAS sem burocracia de login ou cadastro para agendar o corte.</h3>
+                                <p className="mt-2 text-left">Remova todas as barreiras que fazem o homem moderno desistir de marcar um horário: o Kairós não pede senhas, logins ou downloads de aplicativos. O agendamento é feito de forma direta e intuitiva pelo navegador do celular, respeitando a pressa de quem precisa garantir o visual da semana em poucos cliques. Esse diferencial tecnológico garante que sua barbearia tenha a maior taxa de conversão do mercado, transformando seguidores do Instagram em clientes na cadeira em tempo recorde. Simplifique o acesso ao seu talento e veja sua agenda lotar sem esforço.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 5. SISTEMA DE GESTÃO PARA ESMALTERIAS com agendamento finalizado em menos de 1 minuto.</h3>
-                                <p className="mt-2">Ofereça conveniência máxima para suas clientes com um processo de reserva ultra-veloz. Otimize o giro das suas cadeiras e permita que a cliente escolha o serviço e a profissional favorita em poucos segundos, de forma totalmente intuitiva.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 5. SISTEMA DE GESTÃO PARA BARBEARIAS com reserva de horário concluída em menos de 1 minuto.</h3>
+                                <p className="mt-2 text-left">Proporcione a experiência de agendamento mais veloz do setor, permitindo que o cliente reserve o corte de cabelo ou a barba em menos de 60 segundos. A interface do Kairós foi otimizada para o comportamento masculino, focando na escolha rápida do profissional e da data disponível sem enrolação. Velocidade é um pilar fundamental para barbearias de alto movimento que não podem perder tempo com processos lentos ou manuais. Automatize sua recepção com uma tecnologia que acompanha a velocidade do seu negócio e entrega conveniência real para o seu público fidelizado.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 6. SISTEMA DE GESTÃO PARA CLÍNICAS DE ESTÉTICA com agenda inteligente que evita conflitos.</h3>
-                                <p className="mt-2">Zere os erros de marcação dupla com nossa tecnologia de trava automática. Proteja a reputação do seu negócio e garanta que seus equipamentos e salas estejam sempre otimizados, sem buracos na agenda ou clientes esperando por falha manual.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 6. SISTEMA DE GESTÃO PARA BARBEARIAS com agenda inteligente que elimina o erro de horários duplicados.</h3>
+                                <p className="mt-2 text-left">Acabe definitivamente com o estresse de dois clientes chegarem ao mesmo tempo para o mesmo barbeiro através da nossa trava de segurança automática. O Kairós monitora a ocupação de cada cadeira em milissegundos, garantindo uma organização impecável que preserva a sua autoridade profissional perante o cliente. Evitar conflitos de agenda é essencial para manter o ambiente da barbearia tranquilo e focado na excelência do atendimento técnico. Tenha a paz mental de uma gestão digital que blinda sua operação contra falhas humanas comuns em agendas de papel ou mensagens soltas.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 7. SISTEMA DE GESTÃO PARA ESTÚDIOS DE FOTOGRAFIA com fotos reais da equipe no agendamento.</h3>
-                                <p className="mt-2">Humanize seu atendimento digital permitindo que o cliente escolha o fotógrafo pela foto real. Isso gera conexão e autoridade imediata, elevando o valor percebido do seu trabalho antes mesmo do primeiro clique no estúdio.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 7. SISTEMA DE GESTÃO PARA BARBEARIAS com fotos dos barbeiros para escolha do profissional preferido.</h3>
+                                <p className="mt-2 text-left">Dê rosto ao seu time e permita que o cliente escolha o barbeiro de confiança através de fotos reais integradas ao sistema de agendamento. No mundo das barbearias, a conexão entre cliente e barbeiro é sagrada, e o Kairós facilita esse vínculo desde o primeiro contato digital. Mostrar a equipe valoriza o marketing pessoal dos seus profissionais e ajuda a vender a experiência completa que sua barbearia oferece. Transforme seu link de agendamento em uma ferramenta de branding poderosa que destaca a especialidade e o estilo de cada talento da sua casa.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 8. SISTEMA DE GESTÃO PARA BARBEARIAS com dashboard intuitivo para uso dos funcionários.</h3>
-                                <p className="mt-2">Simplifique a vida do seu time com um painel administrativo que não exige treinamento. Seus barbeiros gerenciam o dia a dia com facilidade, focando no que realmente importa: a qualidade do corte e a experiência do cliente.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 8. SISTEMA DE GESTÃO PARA BARBEARIAS com painel intuitivo para acompanhamento dos barbeiros.</h3>
+                                <p className="mt-2 text-left">Entregue para sua equipe uma ferramenta de trabalho que não exige treinamento e que facilita a visualização dos próximos cortes em poucos segundos. O dashboard do Kairós foi desenhado para ser consultado entre um degradê e outro, garantindo que o barbeiro esteja sempre preparado para o próximo cliente. A facilidade de uso do sistema reduz a resistência da equipe à tecnologia e mantém os dados da barbearia sempre organizados e atualizados. Simplifique a rotina operacional do seu negócio e deixe que seus profissionais foquem no que realmente importa: a perfeição na navalha.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 9. SISTEMA DE GESTÃO PARA SALÕES DE BELEZA com atalho de acesso rápido no celular do dono.</h3>
-                                <p className="mt-2">Monitore o movimento do seu salão de qualquer lugar. O Kairós funciona como um app na sua tela inicial, permitindo que você acompanhe agendamentos e faturamento em tempo real com apenas um toque no smartphone.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 9. SISTEMA DE GESTÃO PARA BARBEARIAS com atalho de acesso rápido no smartphone do dono.</h3>
+                                <p className="mt-2 text-left">Monitore o movimento da sua barbearia de onde estiver, com a agilidade de um aplicativo e sem precisar estar presente fisicamente o tempo todo. O Kairós funciona como um Web App de alta performance, permitindo que você confira a ocupação das cadeiras e o faturamento do dia com apenas um toque na tela do celular. Essa mobilidade é um diferencial para o gestor que precisa tomar decisões rápidas sobre escalas e estoque sem perder tempo com processos burocráticos. Tenha o controle estratégico da sua barbearia na palma da mão com nossa tecnologia de acesso instantâneo.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full"></span> 10. SISTEMA DE GESTÃO PARA CLÍNICAS com histórico detalhado de cada serviço realizado.</h3>
-                                <p className="mt-2">Tenha em mãos os dados estratégicos do seu negócio. Entenda quais procedimentos performam melhor e fidelize pacientes com base em um histórico de atendimento organizado e fácil de consultar no sistema.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 10. SISTEMA DE GESTÃO PARA BARBEARIAS com gestão completa de faturamento e comissões da equipe.</h3>
+                                <p className="mt-2 text-left">Entenda com precisão quais barbeiros são os motores do seu faturamento e quais serviços são os mais procurados pelos clientes da sua região. O Kairós oferece um histórico detalhado que facilita o cálculo de comissões e a análise da produtividade de cada profissional da equipe. Abandone as planilhas complexas e os cadernos de anotações que podem gerar erros de cálculo e descontentamento no time. Gerencie sua barbearia com base em dados reais e tome decisões seguras para o crescimento do seu negócio através de uma gestão financeira profissional e transparente.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 11. SISTEMA DE GESTÃO PARA STUDIOS DE TATTOO com confirmação de agenda via WhatsApp em um clique.</h3>
-                                <p className="mt-2">Reduza o No-Show enviando lembretes profissionais direto para o WhatsApp do cliente. Proteja seu tempo e garanta que sua agenda de tatuagens esteja sempre confirmada, evitando perdas financeiras por esquecimento do cliente.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 11. SISTEMA DE GESTÃO PARA BARBEARIAS com lembrete via WhatsApp para reduzir faltas e no-show.</h3>
+                                <p className="mt-2 text-left">Proteja o seu lucro diário e garanta que suas cadeiras nunca fiquem vazias enviando confirmações profissionais direto para o WhatsApp do cliente. Esta funcionalidade do Kairós é a arma definitiva contra o esquecimento de clientes, reduzindo as faltas em até 40% no dia a dia da barbearia. Com um clique rápido, o sistema envia todos os dados do agendamento, gerando um compromisso real e profissionalizando a sua comunicação. Mantenha o fluxo de caixa estável e a produtividade máxima da sua equipe com um processo de confirmação de horários que realmente funciona e converte.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 12. SISTEMA DE GESTÃO PARA ESMALTERIAS focado em experiência Mobile-First de alta velocidade.</h3>
-                                <p className="mt-2">Proporcione o agendamento mais fluido do mercado pelo celular. Nossa interface é otimizada para carregar instantaneamente, garantindo que suas clientes agendem de onde estiverem, com a praticidade que o dia a dia exige.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 12. SISTEMA DE GESTÃO PARA BARBEARIAS focado em experiência mobile-first para o público masculino.</h3>
+                                <p className="mt-2 text-left">Ofereça a melhor jornada de agendamento mobile do setor de barbearias nacional, com um sistema que carrega instantaneamente e funciona com perfeição em qualquer celular. O Kairós foi desenhado para ser visualmente limpo e tecnicamente impecável no smartphone, local onde ocorre a imensa maioria das buscas por serviços de barba e cabelo atualmente. Proporcionar uma experiência de uso fluida e sem erros é um diferencial que eleva a percepção de valor do seu serviço e fideliza clientes exigentes. Coloque sua barbearia no topo da tecnologia com uma plataforma pensada para o futuro da beleza masculina.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 13. SISTEMA DE GESTÃO PARA CLÍNICAS DE ESTÉTICA para eliminar o vaivém de mensagens no WhatsApp.</h3>
-                                <p className="mt-2">Recupere horas do seu dia automatizando a marcação de horários. Deixe de ser um "atendente de WhatsApp" e torne-se um gestor estratégico, enquanto o Kairós cuida das reservas 24 horas por dia para você.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 13. SISTEMA DE GESTÃO PARA BARBEARIAS para eliminar definitivamente o vaivém de mensagens no WhatsApp.</h3>
+                                <p className="mt-2 text-left">Recupere horas valiosas do seu dia e acabe com as interrupções constantes para responder "você tem horário livre para hoje?". Ao centralizar suas reservas no Kairós, você permite que o cliente veja sua disponibilidade em tempo real e agende sozinho, sem que você precise parar o corte para digitar mensagens. Isso garante um ambiente de trabalho muito mais focado e produtivo para você e para os outros barbeiros do estúdio. Deixe que nossa automação gerencie sua agenda 24 horas por dia, garantindo que sua barbearia nunca pare de vender horários, mesmo enquanto você dorme.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 14. SISTEMA DE GESTÃO PARA ESTÚDIOS DE FOTOGRAFIA com relatórios financeiros de controle total.</h3>
-                                <p className="mt-2">Visualize seu lucro real com relatórios intuitivos. Controle entradas, analise a produtividade do estúdio e tome decisões baseadas em números, abandonando as planilhas manuais e as anotações confusas.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 14. SISTEMA DE GESTÃO PARA BARBEARIAS com controle financeiro simplificado e relatórios de metas.</h3>
+                                <p className="mt-2 text-left">Tenha uma visão transparente do crescimento do seu negócio através de relatórios automáticos que demonstram o desempenho financeiro da sua barbearia mês a mês. O Kairós facilita a análise do seu lucro líquido, permitindo identificar oportunidades de investimento em novos produtos ou reformas na loja com total segurança. Abandone o amadorismo da falta de dados e tenha o controle total do seu fluxo de caixa em poucos cliques. Mantenha sua gestão financeira organizada e segura, facilitando a tomada de decisões estratégicas para que sua barbearia se torne uma referência de sucesso no mercado.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 15. SISTEMA DE GESTÃO PARA SERVIÇOS EM GERAL para modernizar e profissionalizar o seu negócio.</h3>
-                                <p className="mt-2">Eleve o patamar da sua empresa com a tecnologia de agendamento Nº 1 do mercado. O Kairós é o motor que profissionaliza sua gestão e posiciona sua marca como referência de inovação e excelência em qualquer nicho.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 15. SISTEMA DE GESTÃO PARA BARBEARIAS para modernizar e liderar o mercado de barbearias de elite.</h3>
+                                <p className="mt-2 text-left">Posicione sua barbearia como a maior referência em tecnologia e organização da sua região e conquiste a confiança dos clientes que buscam exclusividade e agilidade. Utilizar um sistema de gestão de elite como o Kairós é um sinal claro de que sua marca valoriza a inovação e o tempo do cliente em todos os níveis do atendimento. Saia definitivamente do modelo de gestão tradicional e obsoleto e insira sua empresa na era da automação digital inteligente e altamente lucrativa. Seja o líder incontestável do mercado de barbearias e veja sua autoridade ser acompanhada por uma gestão profissional impecável.</p>
                             </div>
 
                         </div>
                         <div className="mt-14 flex justify-center md:justify-start">
-                            <Link href="/cadastro" className="bg-blue-600 text-white px-6 py-4 rounded-2xl md:rounded-full font-bold hover:bg-blue-700 transition-all shadow-[0_0_30px_rgba(37,99,235,0.4)] text-center text-sm md:text-base leading-snug max-w-full">
-                                Quero modernizar meu negócio agora
+                            <Link href="/cadastro" className="bg-blue-600 text-white px-6 py-4 rounded-2xl md:rounded-full font-bold hover:bg-blue-700 transition-all shadow-[0_0_30px_rgba(37,99,235,0.4)] text-center text-sm md:text-base leading-snug">
+                                Quero modernizar minha barbearia agora
                             </Link>
                         </div>
                     </div>

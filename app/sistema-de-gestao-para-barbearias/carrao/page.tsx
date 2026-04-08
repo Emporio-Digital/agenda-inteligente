@@ -124,47 +124,68 @@ return (
                 </div>
             </section>
 
-            {/* --- SEÇÃO DE DIFERENCIAIS --- */}
-            <section className="py-24 px-6 relative overflow-hidden">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-600/10 blur-[120px] rounded-full z-0 pointer-events-none"></div>
+            {/* --- COMO FUNCIONA (AJUSTADO PARA PADRÃO SEO) --- */}
+        <section className="py-24 px-6 relative overflow-hidden">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-600/10 blur-[120px] rounded-full z-0 pointer-events-none"></div>
 
-                <div className="max-w-7xl mx-auto relative z-10">
-                    <div className="text-center mb-16 space-y-4">
-                        <h2 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter uppercase leading-none">
-                            Simples como deve ser.
-                        </h2>
-                        <p className="text-gray-400 text-sm md:text-lg font-medium tracking-wide">
-                            Tudo automático, 24 horas por dia.
-                        </p>
+            <div className="max-w-7xl mx-auto relative z-10">
+                <div className="text-center mb-16 space-y-4">
+                    <h2 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter uppercase leading-none">
+                        Simples como deve ser
+                    </h2>
+                    <p className="text-gray-400 text-sm md:text-lg font-medium tracking-wide">
+                        Tudo automático, 24 horas por dia.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {/* CARD 1 - EQUIPE E AGENDAS */}
+                    <div className="group relative bg-[#111111]/40 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] flex flex-col gap-6 hover:border-blue-500/40 transition-all duration-500">
+                        <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-3xl border border-white/5 group-hover:scale-110 transition-transform">
+                            👤
+                        </div>
+                        <div className="space-y-3">
+                            <h3 className="text-2xl font-bold text-white leading-tight tracking-tight">
+                                1. Serviços e Agendas <br /> Individuais
+                            </h3>
+                            <p className="text-gray-400 text-base leading-relaxed font-medium">
+                                Cada profissional tem sua própria agenda com serviços, preços e tempos de execução diferentes. Organize seu time com liberdade total e zero conflitos.
+                            </p>
+                        </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="group relative bg-[#111111]/40 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] flex flex-col gap-6 hover:border-blue-500/40 transition-all duration-500">
-                            <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-3xl border border-white/5 group-hover:scale-110 transition-transform">👤</div>
-                            <div className="space-y-3">
-                                <h3 className="text-2xl font-bold text-white leading-tight tracking-tight">1. Equipe e Agendas <br /> Individuais</h3>
-                                <p className="text-gray-400 text-base leading-relaxed font-medium">Cada profissional do seu time tem controle total da sua própria grade, horários e especialidades de forma organizada.</p>
-                            </div>
+                    {/* CARD 2 - AGENDAMENTO RÁPIDO */}
+                    <div className="group relative bg-[#111111]/40 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] flex flex-col gap-6 hover:border-blue-500/40 transition-all duration-500">
+                        <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-3xl border border-white/5 group-hover:scale-110 transition-transform">
+                            ⚡
                         </div>
-
-                        <div className="group relative bg-[#111111]/40 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] flex flex-col gap-6 hover:border-blue-500/40 transition-all duration-500">
-                            <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-3xl border border-white/5 group-hover:scale-110 transition-transform">⚡</div>
-                            <div className="space-y-3">
-                                <h3 className="text-2xl font-bold text-white leading-tight tracking-tight">2. Agendamento em <br /> Menos de 1 Minuto</h3>
-                                <p className="text-gray-400 text-base leading-relaxed font-medium">Seu cliente agenda o corte de cabelo ou barba sem precisar baixar apps ou preencher cadastros infinitos.</p>
-                            </div>
+                        <div className="space-y-3">
+                            <h3 className="text-2xl font-bold text-white leading-tight tracking-tight">
+                                2. Agendamento em <br /> Menos de 1 Minuto
+                            </h3>
+                            <p className="text-gray-400 text-base leading-relaxed font-medium">
+                                Seu cliente agenda sem precisar baixar aplicativos ou criar contas chatas. O caminho mais rápido entre o desejo do cliente e a sua cadeira de atendimento.
+                            </p>
                         </div>
+                    </div>
 
-                        <div className="group relative bg-[#111111]/40 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] flex flex-col gap-6 hover:border-blue-500/40 transition-all duration-500">
-                            <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-3xl border border-white/5 group-hover:scale-110 transition-transform">🎨</div>
-                            <div className="space-y-3">
-                                <h3 className="text-2xl font-bold text-white leading-tight tracking-tight">3. Sua Marca e WhatsApp <br /> Num Clique</h3>
-                                <p className="text-gray-400 text-base leading-relaxed font-medium">Link exclusivo com sua logo e cores. Confirme agendamentos via WhatsApp com um toque e reduza o no-show.</p>
-                            </div>
+                    {/* CARD 3 - BRANDING E WHATSAPP */}
+                    <div className="group relative bg-[#111111]/40 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] flex flex-col gap-6 hover:border-blue-500/40 transition-all duration-500">
+                        <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-3xl border border-white/5 group-hover:scale-110 transition-transform">
+                            🎨
+                        </div>
+                        <div className="space-y-3">
+                            <h3 className="text-2xl font-bold text-white leading-tight tracking-tight">
+                                3. Sua Marca e WhatsApp <br /> Num Clique
+                            </h3>
+                            <p className="text-gray-400 text-base leading-relaxed font-medium">
+                                Link exclusivo com sua logo, capa e URL própria. Reduza faltas enviando confirmações profissionais pelo WhatsApp com apenas um toque rápido e simples.
+                            </p>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
             {/* --- CARROSSEL DE MOCKUPS --- */}
             <section className="py-16 overflow-hidden">
