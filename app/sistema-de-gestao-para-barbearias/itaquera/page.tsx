@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Sistema de Gestão para Barbearias em Itaquera | Kairós Agendamentos",
   description: "O mais robusto sistema de gestão e agendamento em Itaquera. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe na Zona Leste. Teste grátis!",
   keywords:["sistema de gestão para barbearias", "agendamento online itaquera", "software para barbearia zona leste", "agenda barbearia radial leste", "gestão de barbearias neo química arena", "Kairós agendamentos"],
+  openGraph: { siteName: "Kairós" },
   alternates: {
     canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/itaquera"
   },

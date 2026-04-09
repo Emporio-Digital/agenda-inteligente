@@ -26,7 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: "Sistema Kairós",
       locale: "pt_BR",
     },
-    alternates: {
+    openGraph: { siteName: "Kairós" },
+  alternates: {
       canonical: `https://kairos.egemporiodigital.com.br/blog/${slug}`,
     }
   }

@@ -6,7 +6,8 @@ export const metadata: Metadata = {
 title: "Sistema de Gestão para Barbearias na Vila Formosa | Kairós Agendamentos",
 description: "O mais robusto sistema de gestão e agendamento na Vila Formosa. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe. Teste grátis!",
 keywords: ["sistema de gestão para barbearias", "agendamento online vila formosa", "software para barbearia vila formosa", "agenda barbearia zona leste", "gestão de barbearias sampaio vidal", "Kairós agendamentos"],
-alternates: {
+openGraph: { siteName: "Kairós" },
+  alternates: {
 canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/vila-formosa"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },

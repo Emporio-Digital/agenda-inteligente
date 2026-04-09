@@ -6,7 +6,8 @@ export const metadata: Metadata = {
 title: "Sistema de Gestão para Barbearias em São Bernardo do Campo | Kairós Agendamentos",
 description: "O mais robusto sistema de gestão e agendamento em São Bernardo do Campo. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe. Teste grátis!",
 keywords: ["sistema de gestão para barbearias", "agendamento online são bernardo", "software para barbearia sbc", "agenda barbearia rudge ramos", "gestão de barbearias avenida kennedy", "Kairós agendamentos"],
-alternates: {
+openGraph: { siteName: "Kairós" },
+  alternates: {
     canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/sao-bernardo-do-campo"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },

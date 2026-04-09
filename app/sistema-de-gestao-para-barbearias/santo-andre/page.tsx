@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Sistema de Gestão para Barbearias em São Caetano do Sul | Kairós Agendamentos",
   description: "O mais robusto sistema de gestão e agendamento em São Caetano do Sul. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe no ABC. Teste grátis!",
   keywords:["sistema de gestão para barbearias", "agendamento online são caetano", "software para barbearia bairro santa paula", "agenda barbearia avenida goiás", "gestão de barbearias barcelona", "Kairós agendamentos"],
+  openGraph: { siteName: "Kairós" },
   alternates: {
     canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/sao-caetano-do-sul"
   },

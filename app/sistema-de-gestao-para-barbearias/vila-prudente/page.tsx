@@ -6,7 +6,8 @@ export const metadata: Metadata = {
 title: "Sistema de Gestão para Barbearias na Vila Prudente | Kairós Agendamentos",
 description: "O mais robusto sistema de gestão e agendamento na Vila Prudente. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe. Teste grátis!",
 keywords: ["sistema de gestão para barbearias", "agendamento online vila prudente", "software para barbearia vila prudente", "agenda barbearia jardim avelino", "gestão de barbearias vila ema", "Kairós agendamentos"],
-alternates: {
+openGraph: { siteName: "Kairós" },
+  alternates: {
     canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/vila-prudente"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },

@@ -93,6 +93,19 @@ export default function LandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
+      {/* --- NOVO SCHEMA PARA NOME DO SITE (NÃO ALTERA O ANTERIOR) --- */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Kairós",
+            "url": "https://kairos.egemporiodigital.com.br"
+          })
+        }}
+      />
+
       {/* --- BACKGROUND FIXO --- */}
       <div className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden bg-black">
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] opacity-60">

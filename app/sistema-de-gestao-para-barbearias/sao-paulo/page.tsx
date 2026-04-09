@@ -6,7 +6,8 @@ export const metadata: Metadata = {
 title: "Sistema de Gestão para Barbearias em São Paulo | Kairós Agendamentos",
 description: "O mais robusto sistema de gestão e agendamento em São Paulo. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe para negócios paulistanos. Teste grátis!",
 keywords: ["sistema de gestão para barbearias", "agendamento online sp", "software para barbearia sp", "agenda barbearia são paulo", "gestão de barbearias sp", "Kairós agendamentos"],
-alternates: {
+openGraph: { siteName: "Kairós" },
+  alternates: {
   canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/sao-paulo"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },

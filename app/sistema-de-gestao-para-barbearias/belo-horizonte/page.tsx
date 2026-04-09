@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Sistema de Gestão para Barbearias em Belo Horizonte | Kairós Agendamentos",
   description: "O mais robusto sistema de gestão e agendamento em Belo Horizonte. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe. Teste grátis!",
   keywords:["sistema de gestão para barbearias", "agendamento online belo horizonte", "software para barbearia savassi", "agenda barbearia pampulha", "gestão de barbearias lourdes", "Kairós agendamentos"],
+  openGraph: { siteName: "Kairós" },
   alternates: {
     canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/belo-horizonte"
   },

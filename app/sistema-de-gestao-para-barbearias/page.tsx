@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Áreas de Atendimento | Sistema de Gestão Kairós",
   description: "Encontre o Kairós na sua região. O melhor sistema de gestão e agendamento online presente em São Paulo, ABC, Interior e Minas Gerais. Escolha sua localidade.",
   keywords:["sistema de gestão regional", "agendamento online por cidade", "kairós unidades", "sistema para barbearia sp", "gestão de clínicas abc"],
+  openGraph: { siteName: "Kairós" },
   alternates: {
     canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao"
   },

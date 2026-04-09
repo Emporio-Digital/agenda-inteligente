@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Sistema de Gestão para Barbearias no Rio de Janeiro | Kairós Agendamentos",
   description: "O mais robusto sistema de gestão e agendamento no Rio de Janeiro. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe. Teste grátis!",
   keywords:["sistema de gestão para barbearias", "agendamento online rio de janeiro", "software para barbearia barra da tijuca", "agenda barbearia ipanema", "gestão de barbearias recreio", "Kairós agendamentos"],
+  openGraph: { siteName: "Kairós" },
   alternates: {
     canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/rio-de-janeiro"
   },

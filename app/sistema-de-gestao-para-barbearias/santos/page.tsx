@@ -6,7 +6,8 @@ export const metadata: Metadata = {
 title: "Sistema de Gestão para Barbearias em Santos | Kairós Agendamentos",
 description: "O mais robusto sistema de gestão e agendamento em Santos. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe. Teste grátis!",
 keywords: ["sistema de gestão para barbearias", "agendamento online santos", "software para barbearia gonzaga", "agenda barbearia boqueirão", "gestão de barbearias avenida ana costa", "Kairós agendamentos"],
-alternates: {
+openGraph: { siteName: "Kairós" },
+  alternates: {
 canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/santos"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },

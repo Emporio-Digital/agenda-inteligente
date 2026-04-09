@@ -6,7 +6,8 @@ export const metadata: Metadata = {
 title: "Sistema de Gestão para Barbearias no Carrão | Kairós Agendamentos",
 description: "O mais robusto sistema de gestão e agendamento no Carrão. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe. Teste grátis!",
 keywords: ["sistema de gestão para barbearias", "agendamento online carrão", "software para barbearia carrão", "agenda barbearia zona leste", "gestão de barbearias conselheiro carrão", "Kairós agendamentos"],
-alternates: {
+openGraph: { siteName: "Kairós" },
+  alternates: {
     canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/carrao"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },

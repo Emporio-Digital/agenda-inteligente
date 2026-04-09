@@ -6,7 +6,8 @@ export const metadata: Metadata = {
 title: "Sistema de Gestão para Barbearias em Campinas | Kairós Agendamentos",
 description: "O mais robusto sistema de gestão e agendamento em Campinas. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe. Teste grátis!",
 keywords: ["sistema de gestão para barbearias", "agendamento online campinas", "software para barbearia campinas", "agenda barbearia cambuí", "gestão de barbearias norte-sul campinas", "Kairós agendamentos"],
-alternates: {
+openGraph: { siteName: "Kairós" },
+  alternates: {
     canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/campinas"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },

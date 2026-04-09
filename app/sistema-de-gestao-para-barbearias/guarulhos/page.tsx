@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Sistema de Gestão para Barbearias em Guarulhos | Kairós Agendamentos",
   description: "O mais robusto sistema de gestão e agendamento em Guarulhos. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe. Teste grátis!",
   keywords:["sistema de gestão para barbearias", "agendamento online guarulhos", "software para barbearia paulo faccini", "agenda barbearia vila augusta", "gestão de barbearias bosque maia", "Kairós agendamentos"],
+  openGraph: { siteName: "Kairós" },
   alternates: {
     canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/guarulhos"
   },

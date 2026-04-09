@@ -20,6 +20,7 @@ export const metadata: Metadata = {
     "escritório",
     "agenda rápida online"
   ],
+  openGraph: { siteName: "Kairós" },
   alternates: {
     canonical: "https://kairos.egemporiodigital.com.br/blog",
   },
