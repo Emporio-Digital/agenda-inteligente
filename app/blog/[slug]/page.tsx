@@ -23,10 +23,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: post.excerpt,
       type: "article",
       url: `https://kairos.egemporiodigital.com.br/blog/${slug}`,
-      siteName: "Sistema Kairós",
+      siteName: "Kairós",
       locale: "pt_BR",
     },
-    openGraph: { siteName: "Kairós" },
   alternates: {
       canonical: `https://kairos.egemporiodigital.com.br/blog/${slug}`,
     }
