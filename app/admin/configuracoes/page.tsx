@@ -81,7 +81,7 @@ export default async function SettingsPage() {
                     </div>
                 </div>
                 <a 
-                    href="https://wa.me/5511916053292" 
+                    href="https://wa.me/5511952835361" 
                     target="_blank"
                     // CORREÇÃO: Button text-sm e padding ajustado para não quebrar
                     className="bg-green-600 text-white px-4 py-3 md:px-6 md:py-3 rounded-xl font-bold hover:bg-green-500 transition-all shadow-lg text-sm md:text-base text-center"

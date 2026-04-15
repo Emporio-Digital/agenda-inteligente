@@ -1274,7 +1274,7 @@ export default function LandingPage() {
 
       {/* --- BOTÃO WHATSAPP --- */}
       <a 
-        href="https://wa.me/5511916053292" 
+        href="https://wa.me/5511952835361" 
         target="_blank" 
         className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-xl shadow-green-900/30 z-50 transition-all hover:-translate-y-1 flex items-center gap-2 border border-white/10"
       >
