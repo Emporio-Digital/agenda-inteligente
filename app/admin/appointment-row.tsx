@@ -194,7 +194,7 @@ export default function AppointmentRow({ appt }: { appt: any }) {
                       <p className="text-[13px] text-white font-black truncate tracking-tight">{appt.professional.name}</p>
                   </div>
                   <div className="bg-slate-900 p-4 rounded-2xl border border-slate-800/50 text-center">
-                      <p className="text-[9px] font-bold text-slate-600 uppercase mb-1">Data/Hora</p>
+                      <p className="text-[9px] font-bold text-slate-600 uppercase mb-1">Hora/Data</p>
                       <p className="text-[11px] text-white font-bold">{hora} - {dia}</p>
                   </div>
                 </div>

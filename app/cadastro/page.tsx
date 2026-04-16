@@ -163,7 +163,7 @@ export default function RegisterPage() {
           <div className="space-y-5">
              <h3 className="text-xs font-bold text-blue-400 uppercase tracking-widest border-b border-slate-800 pb-2 flex items-center gap-2">
                 <span className="bg-blue-900/30 w-5 h-5 rounded flex items-center justify-center text-[10px]">2</span>
-                Escolha sua Meta
+                Escolha seu Plano
              </h3>
              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {plans.map((p) => (
