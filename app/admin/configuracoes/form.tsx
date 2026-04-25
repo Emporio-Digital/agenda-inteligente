@@ -22,9 +22,9 @@ export default function SettingsForm({ tenant }: { tenant: any }) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     const file = e.target.files?.[0]
     if (file) {
-      if (file.size > 2 * 1024 * 1024) {
+      if (file.size > 4 * 1024 * 1024) {
         // Mantido apenas este alerta por ser uma trava de erro de segurança/upload
-        alert("A imagem deve ter no máximo 2MB")
+        alert("A imagem deve ter no máximo 4MB")
         return
       }
       const reader = new FileReader()

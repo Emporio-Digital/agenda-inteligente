@@ -75,6 +75,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
 
   const params = await searchParams
   const filterProId = typeof params.proId === 'string' ? params.proId : undefined
+  const showPast = params.showPast === 'true'
 
   const professionals = await prisma.professional.findMany({
     where: { tenantId },
@@ -85,9 +86,13 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
   const todayRef = new Date()
   todayRef.setHours(0, 0, 0, 0)
 
+  const pendingPastCount = await prisma.appointment.count({
+    where: { tenantId, status: 'SCHEDULED', date: { lt: todayRef } }
+  })
+
   const whereCondition: any = { 
     tenantId: tenantId, 
-    date: { gte: todayRef },
+    date: showPast ? { lt: todayRef } : { gte: todayRef },
     status: 'SCHEDULED'
   }
   
@@ -158,7 +163,15 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                         <span className="text-white text-xl">🚀</span>
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-white font-black uppercase tracking-tighter text-lg leading-none">Central de Comando</span>
+                        <div className="flex items-center md:gap-2">
+                            <span className="text-white font-black uppercase tracking-tighter text-lg leading-none">Central de Comando</span>
+                            {pendingPastCount > 0 && (
+                                <span className="flex h-3 w-3 absolute right-16 top-1/2 -translate-y-1/2 md:relative md:right-auto md:top-auto md:translate-y-0">
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                  <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+                                </span>
+                            )}
+                        </div>
                         <span className="text-blue-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-1">Gerenciamento</span>
                     </div>
                 </div>
@@ -212,6 +225,22 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                         <p className="text-xs text-white/60 mt-2 border-t border-white/10 pt-2 inline-block">Ver Extrato Detalhado →</p>
                     </Link>
                 </div>
+
+                {pendingPastCount > 0 && (
+                    <div className="mt-4 bg-amber-900/10 border border-amber-900/30 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div className="flex items-center gap-3 text-left w-full">
+                            <div className="w-8 h-8 rounded-full bg-amber-900/50 flex items-center justify-center border border-amber-800 text-amber-500 shrink-0">⚠️</div>
+                            <div>
+                                <h4 className="text-amber-500 font-bold text-sm tracking-tight">Faturamento Retido</h4>
+                                <p className="text-xs text-slate-400 mt-0.5">Você tem {pendingPastCount} atendimento(s) no passado sem confirmação.</p>
+                            </div>
+                        </div>
+                        <Link href="/admin?showPast=true" className="w-full md:w-auto text-center px-6 py-2.5 bg-amber-600/10 hover:bg-amber-600/20 border border-amber-600/30 text-amber-500 text-xs font-bold uppercase tracking-wider rounded-xl transition-all whitespace-nowrap">
+                            Revisar
+                        </Link>
+                    </div>
+                )}
+
             </div>
         </div>
 
@@ -219,7 +248,14 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
         <div>
             <div className="flex items-center justify-between mb-8">
                 <div className="flex flex-col">
-                  <h2 className="text-xl font-bold text-white uppercase italic tracking-tighter">Agenda Futura</h2>
+                  <h2 className={`text-xl font-bold uppercase italic tracking-tighter ${showPast ? 'text-amber-500' : 'text-white'}`}>
+                      {showPast ? 'Pendentes (Passado)' : 'Agenda Futura'}
+                  </h2>
+                  {showPast && (
+                      <Link href="/admin" className="text-[10px] text-slate-400 bg-slate-900 border border-slate-800 hover:bg-slate-800 hover:text-white px-3 py-1.5 rounded-lg uppercase tracking-widest mt-2 flex items-center gap-2 transition-all w-max shadow-sm">
+                          ← Voltar para Agenda
+                      </Link>
+                  )}
                 </div>
                 
                 {professionals.length > 0 && (

@@ -55,8 +55,8 @@ export default function GerenciarProfissionais() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file && editingPro) {
-      if (file.size > 2 * 1024 * 1024) {
-        setNotification({ message: "A imagem deve ter no máximo 2MB", type: 'error' })
+      if (file.size > 4 * 1024 * 1024) {
+        setNotification({ message: "A imagem deve ter no máximo 4MB", type: 'error' })
         return
       }
       const reader = new FileReader()
@@ -112,6 +112,35 @@ export default function GerenciarProfissionais() {
     } catch (error) {
         setProfessionals(backup)
         setNotification({ message: "Erro ao excluir.", type: 'error' })
+    }
+  }
+
+  async function handleMove(index: number, direction: 'up' | 'down') {
+    const newPros = [...professionals]
+    const targetIndex = direction === 'up' ? index - 1 : index + 1
+    
+    if (targetIndex < 0 || targetIndex >= newPros.length) return
+
+    // Troca os objetos de lugar no array local
+    const [movedItem] = newPros.splice(index, 1)
+    newPros.splice(targetIndex, 0, movedItem)
+
+    // Atualiza o estado local para resposta imediata na UI
+    setProfessionals(newPros)
+
+    try {
+      // Salva a nova posição de todos os afetados no banco
+      // Enviamos apenas o ID e a nova Position
+      await Promise.all(
+        newPros.map((pro, idx) => 
+          fetch('/api/professionals', {
+            method: 'PUT',
+            body: JSON.stringify({ id: pro.id, position: idx })
+          })
+        )
+      )
+    } catch (error) {
+      setNotification({ message: "Erro ao salvar nova ordem", type: 'error' })
     }
   }
 
@@ -190,16 +219,35 @@ export default function GerenciarProfissionais() {
             </div>
         </div>
 
-        {/* LISTA DARK - REESTABELECIDO DESIGN ORIGINAL */}
+        {/* LISTA DARK - CORRIGIDA E SEM DUPLICAÇÃO */}
         <div className="grid grid-cols-1 gap-4 pb-20">
-             {professionals.map((pro) => (
+             {professionals.map((pro, index) => (
                  <div key={pro.id} className="bg-slate-900 p-5 md:p-6 rounded-2xl border border-slate-800 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 hover:border-slate-700 transition-colors">
                       <div className="flex items-center gap-4 w-full md:w-auto">
+                           
+                           {/* BOTÕES DE ORDENAÇÃO */}
+                           <div className="flex flex-col gap-1 pr-2">
+                                <button 
+                                    onClick={() => handleMove(index, 'up')}
+                                    disabled={index === 0}
+                                    className="p-1 hover:bg-slate-800 rounded disabled:opacity-20 text-slate-400 transition-colors"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path></svg>
+                                </button>
+                                <button 
+                                    onClick={() => handleMove(index, 'down')}
+                                    disabled={index === professionals.length - 1}
+                                    className="p-1 hover:bg-slate-800 rounded disabled:opacity-20 text-slate-400 transition-colors"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                           </div>
+
                            <div className="w-16 h-16 rounded-full bg-slate-800 border border-slate-700 overflow-hidden flex items-center justify-center text-2xl text-slate-500 shrink-0">
                                 {pro.photoUrl ? <img src={pro.photoUrl} className="w-full h-full object-cover" /> : "👤"}
                            </div>
                            <div>
-                                <h3 className="font-bold text-lg text-white">{pro.name}</h3>
+                                <h3 className="font-bold text-lg text-white">{index + 1}. {pro.name}</h3>
                                 <p className="text-sm text-slate-400">{pro.workStart} às {pro.workEnd}</p>
                            </div>
                       </div>
@@ -210,11 +258,12 @@ export default function GerenciarProfissionais() {
                       </div>
                  </div>
              ))}
+             
              {professionals.length === 0 && !loading && (
                  <div className="text-center py-10 text-slate-500 bg-slate-900 rounded-2xl border border-slate-800">Nenhum profissional cadastrado.</div>
              )}
         </div>
-      </div>
+        </div> {/* <--- ADICIONE ESTA LINHA EXATAMENTE AQUI */}
 
       {/* MODAL CONFIGURAÇÃO DARK - REESTABELECIDO DESIGN ORIGINAL */}
       {editingPro && (
@@ -282,7 +331,7 @@ export default function GerenciarProfissionais() {
                 <button onClick={handleUpdate} className="w-full mt-8 py-4 bg-blue-600 text-white hover:bg-blue-500 rounded-xl font-bold shadow-xl shadow-blue-900/20 text-lg transition-colors">
                     {saving ? "Salvando..." : "Salvar Alterações"}
                 </button>
-            </div>
+                </div>
         </div>
       )}
     </div>

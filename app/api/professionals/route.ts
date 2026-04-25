@@ -38,7 +38,10 @@ export async function GET(request: Request) {
 
     const professionals = await prisma.professional.findMany({
       where: { tenantId },
-      orderBy: { name: 'asc' }
+      orderBy: [
+        { position: 'asc' },
+        { name: 'asc' }
+      ]
     })
 
     return NextResponse.json(professionals)
@@ -93,7 +96,8 @@ export async function POST(request: Request) {
         lunchStart: '12:00',
         lunchEnd: '13:00',
         workDays: '1,2,3,4,5,6', // Padrão
-        photoUrl: photoUrl || null // <--- ADICIONADO: Salva a foto se vier
+        photoUrl: photoUrl || null,
+        position: currentCount // Aproveita a variável currentCount que já existe na linha 83
       }
     })
 
@@ -117,7 +121,7 @@ export async function PUT(request: Request) {
 
     const body = await request.json()
     // ADICIONADO: photoUrl no destructuring
-    const { id, name, workStart, workEnd, lunchStart, lunchEnd, workDays, photoUrl } = body
+    const { id, name, workStart, workEnd, lunchStart, lunchEnd, workDays, photoUrl, position } = body
 
     if (!id) return NextResponse.json({ error: 'ID obrigatório' }, { status: 400 })
 
@@ -136,7 +140,8 @@ export async function PUT(request: Request) {
             lunchStart,
             lunchEnd,
             workDays,
-            photoUrl // <--- ADICIONADO: Atualiza a foto
+            photoUrl,
+            position: position !== undefined ? position : undefined
         }
     })
 

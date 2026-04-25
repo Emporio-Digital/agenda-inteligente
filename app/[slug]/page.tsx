@@ -1,6 +1,7 @@
 import { prisma } from "../lib/prisma"
 import BookingSystem from "./agendamento"
 import { Metadata } from "next"
+export const dynamic = 'force-dynamic'
 
 // --- GERAR METADATA DINÂMICA (NOME NA ABA) ---
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -87,7 +88,12 @@ export default async function TenantPage({ params }: { params: Promise<{ slug: s
     where: { slug: slug },
     include: {
       services: true,
-      professionals: true
+      professionals: {
+        orderBy: [
+          { position: 'asc' },
+          { name: 'asc' }
+        ]
+      }
     }
   })
 
@@ -98,6 +104,12 @@ export default async function TenantPage({ params }: { params: Promise<{ slug: s
     ...service,
     price: Number(service.price)
   }))
+  // FORÇAR ORDENAÇÃO POR POSIÇÃO (NUCLEAR OPTION)
+  const profissionaisOrdenados = [...tenant.professionals].sort((a, b) => {
+    const posA = (a as any).position ?? 0;
+    const posB = (b as any).position ?? 0;
+    return posA - posB;
+  });
 
   const tenantLimpo = {
     id: tenant.id,
@@ -120,7 +132,7 @@ export default async function TenantPage({ params }: { params: Promise<{ slug: s
       <BookingSystem 
           tenant={tenantLimpo}
           services={servicosLimpos} 
-          professionals={tenant.professionals}
+          professionals={profissionaisOrdenados}
           themeConfig={currentTheme}
           themeVariant={themeVariant}
           splashUrl={splashUrl}
