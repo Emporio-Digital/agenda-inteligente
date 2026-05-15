@@ -140,7 +140,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                 <h1 className="text-3xl font-black text-white tracking-tight uppercase italic">{tenantName}</h1>
                 <div className="flex items-center justify-center md:justify-start gap-2 mt-1">
                   <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                  <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Dashboard Ativa</p>
+                  <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Kairós Ativo</p>
                 </div>
             </div>
         </div>
