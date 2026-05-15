@@ -165,7 +165,7 @@ export default async function BlogPost({ params }: Props) {
             >
               Criar Conta Grátis 🚀
             </Link>
-            <p className="mt-4 text-xs text-gray-600 uppercase tracking-widest font-bold relative z-10">Sem cartão de crédito • 3 dias grátis</p>
+            <p className="mt-4 text-xs text-gray-600 uppercase tracking-widest font-bold relative z-10">Sem cartão de crédito • 7 dias grátis</p>
           </div>
         </div>
 

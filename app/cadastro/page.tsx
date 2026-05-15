@@ -108,7 +108,7 @@ export default function RegisterPage() {
         <div className="text-center mb-10">
           <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg shadow-blue-900/20">🚀</div>
           <h1 className="text-3xl font-black text-white tracking-tight">Crie sua Conta Grátis</h1>
-          <p className="text-slate-300 text-sm mt-2">Teste todas as funcionalidades por 3 dias. Sem compromisso.</p>
+          <p className="text-slate-300 text-sm mt-2">Teste todas as funcionalidades por 7 dias. Sem compromisso.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">

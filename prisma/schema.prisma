@@ -79,6 +79,8 @@ model Professional {
   
   // VINCULO NOVO: O Profissional tem SEUS serviços
   services      Service[] 
+
+  @@index([tenantId])
 }
 
 // ✂️ SERVIÇOS (Agora vinculados ao Profissional)
@@ -97,6 +99,9 @@ model Service {
   professional   Professional? @relation(fields: [professionalId], references: [id])
   
   appointments   Appointment[] 
+
+  @@index([tenantId])
+  @@index([professionalId])
 }
 
 // 📅 AGENDAMENTOS
@@ -116,6 +121,10 @@ model Appointment {
   customer       Customer @relation(fields: [customerId], references: [id])
   
   services       Service[]
+
+  @@index([tenantId])
+  @@index([professionalId])
+  @@index([date])
 }
 
 // 👤 CLIENTE FINAL
@@ -126,4 +135,6 @@ model Customer {
   tenantId  String
   tenant    Tenant   @relation(fields: [tenantId], references: [id])
   appointments Appointment[]
+
+  @@index([tenantId])
 }

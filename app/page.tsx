@@ -35,7 +35,7 @@ import Link from "next/link"
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "BRL",
-          "description": "Teste Grátis de 3 dias sem cartão de crédito"
+          "description": "Teste Grátis de 7 dias sem cartão de crédito"
         },
         "aggregateRating": {
           "@type": "AggregateRating",
@@ -86,7 +86,7 @@ import Link from "next/link"
             "name": "Preciso cadastrar cartão para testar o sistema?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Não! O teste de 3 dias é totalmente livre. Você só escolhe um plano se gostar do sistema e desejar profissionalizar sua agenda."
+              "text": "Não! O teste de 7 dias é totalmente livre. Você só escolhe um plano se gostar do sistema e desejar profissionalizar sua agenda."
             }
           }
         ]
@@ -261,7 +261,7 @@ export default function LandingPage() {
                 Começar Agora 🚀
               </Link>
             </div>
-            <p className="text-xs text-gray-500 uppercase tracking-widest font-bold">Teste grátis de 3 dias • Cancele quando quiser</p>
+            <p className="text-xs text-gray-100 uppercase tracking-widest font-bold">Teste grátis de 7 dias • Cancele quando quiser</p>
           </div>
         </section>
 
@@ -409,7 +409,7 @@ export default function LandingPage() {
                 </Link>
               </div>
             </div>
-            <p className="text-center text-xs text-gray-500 mt-8">* Valores referentes ao plano mensal.</p>
+            <p className="text-center text-xs text-gray-300 mt-8">* Valores referentes ao plano mensal.</p>
           </div>
         </section>
 
@@ -498,7 +498,7 @@ export default function LandingPage() {
                         <span className="transform group-open:rotate-180 transition-transform">▼</span>
                     </summary>
                     <div className="px-4 pb-4 text-sm text-gray-400 border-t border-white/5 pt-2 text-left">
-                        Não! O teste de 3 dias é totalmente livre. Você só escolhe um plano se gostar do sistema.
+                        Não! O teste de 7 dias é totalmente livre. Você só escolhe um plano se gostar do sistema.
                     </div>
                 </details>
             </div>

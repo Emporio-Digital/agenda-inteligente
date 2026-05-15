@@ -430,7 +430,7 @@ export default function GestaoHubPage() {
                 </details>
                 <details className="group bg-white/5 backdrop-blur-md border border-white/5 rounded-xl overflow-hidden cursor-pointer">
                     <summary className="flex justify-between items-center p-4 font-medium text-gray-300 hover:text-white transition-colors">Preciso cadastrar cartão para o teste grátis? <span className="transform group-open:rotate-180 transition-transform">▼</span></summary>
-                    <div className="px-4 pb-4 text-sm text-gray-400 border-t border-white/5 pt-2 text-left">Não! O teste de 3 dias é livre. Você só escolhe um plano se o sistema realmente fizer sentido para o seu negócio.</div>
+                    <div className="px-4 pb-4 text-sm text-gray-400 border-t border-white/5 pt-2 text-left">Não! O teste de 7 dias é livre. Você só escolhe um plano se o sistema realmente fizer sentido para o seu negócio.</div>
                 </details>
             </div>
         </section>

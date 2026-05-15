@@ -34,28 +34,26 @@ export default async function FinancePage({ searchParams }: FinancePageProps) {
   const startDate = startOfMonth(targetDate)
   const endDate = endOfMonth(targetDate)
 
-  const professionals = await prisma.professional.findMany({
-    where: { tenantId },
-    orderBy: { name: 'asc' }
-  })
-
-  // --- LÓGICA DE FILTRO CORRIGIDA (INTEGRALIDADE TOTAL) ---
+  // 1. Preparamos a regra do filtro antes de perguntar ao banco
   const whereCondition: any = {
     tenantId,
     date: { gte: startDate, lte: endDate },
     status: 'DONE' 
   }
+  if (filterProId !== 'all') whereCondition.professionalId = filterProId
 
-  // Se o filtro não for 'all', injeta o ID do profissional na busca
-  if (filterProId !== 'all') {
-    whereCondition.professionalId = filterProId
-  }
-
-  const appointments = await prisma.appointment.findMany({
-    where: whereCondition,
-    include: { services: true, professional: true, customer: true },
-    orderBy: { date: 'desc' }
-  })
+  // 2. DISPARO EM PARALELO (Aumenta a velocidade de navegação)
+  const [professionals, appointments] = await Promise.all([
+    prisma.professional.findMany({
+      where: { tenantId },
+      orderBy: { name: 'asc' }
+    }),
+    prisma.appointment.findMany({
+      where: whereCondition,
+      include: { services: true, professional: true, customer: true },
+      orderBy: { date: 'desc' }
+    })
+  ])
 
   // CÁLCULO DE SEGURANÇA (Regra #4)
   const totalRevenue = appointments.reduce((acc, appt) => 

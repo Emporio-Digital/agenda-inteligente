@@ -59,7 +59,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
   const now = new Date()
   const diffTime = Math.abs(now.getTime() - createdAt.getTime())
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-  const isExpired = subscriptionStatus !== 'ACTIVE' && diffDays > 3
+  const isExpired = subscriptionStatus !== 'ACTIVE' && diffDays > 7
 
   if (isExpired) {
     return (
@@ -77,39 +77,18 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
   const filterProId = typeof params.proId === 'string' ? params.proId : undefined
   const showPast = params.showPast === 'true'
 
-  const professionals = await prisma.professional.findMany({
-    where: { tenantId },
-    orderBy: { name: 'asc' }
-  })
-
-  // --- AGENDA FUTURA (FILTRADA) ---
   const todayRef = new Date()
   todayRef.setHours(0, 0, 0, 0)
 
-  const pendingPastCount = await prisma.appointment.count({
-    where: { tenantId, status: 'SCHEDULED', date: { lt: todayRef } }
-  })
-
+  // Condições de filtro para Agenda
   const whereCondition: any = { 
     tenantId: tenantId, 
     date: showPast ? { lt: todayRef } : { gte: todayRef },
     status: 'SCHEDULED'
   }
-  
   if (filterProId && filterProId !== 'all') whereCondition.professionalId = filterProId
 
-  const rawAppointments = await prisma.appointment.findMany({
-    where: whereCondition,
-    orderBy: { date: 'asc' },
-    include: { customer: true, services: true, professional: true }
-  })
-
-  const appointments = rawAppointments.map(appt => ({
-    ...appt,
-    services: appt.services.map(s => ({ ...s, price: String(s.price) }))
-  }))
-
-  // --- LÓGICA DE FATURAMENTO (FILTRADA POR MÊS E PRO) ---
+  // Condições de filtro para Faturamento
   const realizedWhere: any = {
     tenantId,
     status: 'DONE',
@@ -118,14 +97,30 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
       lte: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0, 23, 59, 59)
     }
   }
-
   if (filterProId && filterProId !== 'all') realizedWhere.professionalId = filterProId
 
-  const realizedAppts = await prisma.appointment.findMany({
-    where: realizedWhere,
-    include: { services: true }
-  })
+  // BUSCA EM PARALELO (Otimizado)
+  const [professionals, pendingPastCount, rawAppointments, realizedAppts] = await Promise.all([
+    prisma.professional.findMany({ where: { tenantId }, orderBy: { name: 'asc' } }),
+    prisma.appointment.count({ where: { tenantId, status: 'SCHEDULED', date: { lt: todayRef } } }),
+    prisma.appointment.findMany({
+      where: whereCondition,
+      orderBy: { date: 'asc' },
+      include: { customer: true, services: true, professional: true }
+    }),
+    prisma.appointment.findMany({
+      where: realizedWhere,
+      include: { services: true }
+    })
+  ])
 
+  // Formatação de Preços (Seu padrão)
+  const appointments = rawAppointments.map(appt => ({
+    ...appt,
+    services: appt.services.map(s => ({ ...s, price: String(s.price) }))
+  }))
+
+  // Cálculo de Faturamento (Seu padrão)
   const totalRealizedRevenue = realizedAppts.reduce((total, appt) => {
     return total + appt.services.reduce((sum, s) => sum + Number(s.price), 0)
   }, 0)
