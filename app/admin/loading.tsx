@@ -9,7 +9,7 @@ export default function AdminLoading() {
       
       {/* Texto pulsando com o seu estilo de fonte */}
       <p className="mt-6 text-slate-500 text-[10px] font-black uppercase tracking-[0.4em] animate-pulse">
-        Atualizando Dashboard...
+        Kairós
       </p>
     </div>
   )
