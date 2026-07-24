@@ -8,7 +8,7 @@ description: "O mais robusto sistema de gestão e agendamento em São Caetano do
 keywords: ["sistema de gestão para barbearias", "agendamento online são caetano", "software para barbearia abc", "agenda barbearia santa paula", "gestão de barbearias avenida goiás", "Kairós agendamentos"],
 openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/sao-caetano-do-sul"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/sao-caetano-do-sul"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },
 }

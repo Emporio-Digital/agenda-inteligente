@@ -8,7 +8,7 @@ description: "O mais robusto sistema de gestão e agendamento em Arujá. Automa�
 keywords: ["sistema de gestão para barbearias", "agendamento online arujá", "software para barbearia arujá", "agenda barbearia arujá 5", "gestão de barbearias avenida joão manoel", "Kairós agendamentos"],
 openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/aruja"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/aruja"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },
 }

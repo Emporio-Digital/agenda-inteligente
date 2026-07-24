@@ -8,7 +8,7 @@ description: "O mais robusto sistema de gestão e agendamento no Tatuapé e Aná
 keywords: ["sistema de gestão para barbearias", "agendamento online tatuapé", "software para barbearia tatuapé", "agenda barbearia anália franco", "gestão de barbearias zona leste", "Kairós agendamentos"],
 openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/tatuape"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/tatuape"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },
 }

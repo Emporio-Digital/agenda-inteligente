@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   keywords:["sistema de gestão para barbearias", "agendamento online são caetano", "software para barbearia bairro santa paula", "agenda barbearia avenida goiás", "gestão de barbearias barcelona", "Kairós agendamentos"],
   openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/sao-caetano-do-sul"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/sao-caetano-do-sul"
   },
   icons: { icon: "/logo.png", apple: "/logo.png" },
 }

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   ],
   openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/blog",
+    canonical: "https://egkairos.com.br/blog",
   },
 }
 
@@ -35,13 +35,13 @@ export default function BlogHome() {
     "@type": "Blog",
     "name": "Blog Kairós",
     "description": "Conteúdo sobre gestão e agendamento para negócios de serviços.",
-    "url": "https://kairos.egemporiodigital.com.br/blog",
+    "url": "https://egkairos.com.br/blog",
     "publisher": {
       "@type": "Organization",
       "name": "Kairós",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://kairos.egemporiodigital.com.br/logo.png"
+        "url": "https://egkairos.com.br/logo.png"
       }
     },
     "blogPost": posts.map(post => ({
@@ -49,7 +49,7 @@ export default function BlogHome() {
       "headline": post.title,
       "datePublished": post.date,
       "articleSection": post.category,
-      "url": `https://kairos.egemporiodigital.com.br/blog/${post.slug}`
+      "url": `https://egkairos.com.br/blog/${post.slug}`
     }))
   };
 

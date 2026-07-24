@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   keywords:["sistema de gestão para barbearias", "agendamento online ferraz de vasconcelos", "software para barbearia avenida brasil ferraz", "agenda barbearia romanópolis", "gestão de barbearias alto tietê", "Kairós agendamentos"],
   openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/ferraz-de-vasconcelos"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/ferraz-de-vasconcelos"
   },
   icons: { icon: "/logo.png", apple: "/logo.png" },
 }

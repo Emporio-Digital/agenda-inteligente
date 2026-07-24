@@ -8,7 +8,7 @@ description: "O mais robusto sistema de gestão e agendamento na Vila Prudente. 
 keywords: ["sistema de gestão para barbearias", "agendamento online vila prudente", "software para barbearia vila prudente", "agenda barbearia jardim avelino", "gestão de barbearias vila ema", "Kairós agendamentos"],
 openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/vila-prudente"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/vila-prudente"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },
 }

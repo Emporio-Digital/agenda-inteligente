@@ -3,7 +3,7 @@ import { getPosts } from './lib/blog-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getPosts()
-  const baseUrl = 'https://kairos.egemporiodigital.com.br'
+  const baseUrl = 'https://egkairos.com.br'
 
   // FUNÇÃO DE SEGURANÇA: Converte datas PT-BR para ISO Internacional
   // O JavaScript não entende "FEV", então traduzimos para "Feb"

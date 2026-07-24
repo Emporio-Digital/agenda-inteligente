@@ -22,12 +22,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: post.title,
       description: post.excerpt,
       type: "article",
-      url: `https://kairos.egemporiodigital.com.br/blog/${slug}`,
+      url: `https://egkairos.com.br/blog/${slug}`,
       siteName: "Kairós",
       locale: "pt_BR",
     },
   alternates: {
-      canonical: `https://kairos.egemporiodigital.com.br/blog/${slug}`,
+      canonical: `https://egkairos.com.br/blog/${slug}`,
     }
   }
 }
@@ -55,13 +55,13 @@ export default async function BlogPost({ params }: Props) {
       "name": "Kairós",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://kairos.egemporiodigital.com.br/logo.png"
+        "url": "https://egkairos.com.br/logo.png"
       }
     },
     "datePublished": "2026-02-01",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://kairos.egemporiodigital.com.br/blog/${slug}`
+      "@id": `https://egkairos.com.br/blog/${slug}`
     }
   };
 

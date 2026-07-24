@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   keywords:["sistema de gestão regional", "agendamento online por cidade", "kairós unidades", "sistema para barbearia sp", "gestão de clínicas abc"],
   openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias"
   },
   icons: {
     icon: "/logo.png",

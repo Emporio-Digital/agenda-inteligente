@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   keywords:["sistema de gestão para barbearias", "agendamento online belo horizonte", "software para barbearia savassi", "agenda barbearia pampulha", "gestão de barbearias lourdes", "Kairós agendamentos"],
   openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/belo-horizonte"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/belo-horizonte"
   },
   icons: { icon: "/logo.png", apple: "/logo.png" },
 }

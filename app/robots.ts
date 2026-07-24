@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/admin/', // Protege sua área administrativa se houver
     },
-    sitemap: 'https://kairos.egemporiodigital.com.br/sitemap.xml',
+    sitemap: 'https://egkairos.com.br/sitemap.xml',
   }
 }

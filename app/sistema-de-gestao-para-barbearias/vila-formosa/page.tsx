@@ -8,7 +8,7 @@ description: "O mais robusto sistema de gestão e agendamento na Vila Formosa. A
 keywords: ["sistema de gestão para barbearias", "agendamento online vila formosa", "software para barbearia vila formosa", "agenda barbearia zona leste", "gestão de barbearias sampaio vidal", "Kairós agendamentos"],
 openGraph: { siteName: "Kairós" },
   alternates: {
-canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/vila-formosa"
+canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/vila-formosa"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },
 }

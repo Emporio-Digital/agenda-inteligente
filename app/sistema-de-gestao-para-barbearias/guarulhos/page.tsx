@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   keywords:["sistema de gestão para barbearias", "agendamento online guarulhos", "software para barbearia paulo faccini", "agenda barbearia vila augusta", "gestão de barbearias bosque maia", "Kairós agendamentos"],
   openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/guarulhos"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/guarulhos"
   },
   icons: { icon: "/logo.png", apple: "/logo.png" },
 }

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   keywords:["sistema de gestão para barbearias", "agendamento online itaquera", "software para barbearia zona leste", "agenda barbearia radial leste", "gestão de barbearias neo química arena", "Kairós agendamentos"],
   openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/itaquera"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/itaquera"
   },
   icons: { icon: "/logo.png", apple: "/logo.png" },
 }

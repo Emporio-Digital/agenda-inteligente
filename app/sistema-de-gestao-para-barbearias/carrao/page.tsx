@@ -8,7 +8,7 @@ description: "O mais robusto sistema de gestão e agendamento no Carrão. Automa
 keywords: ["sistema de gestão para barbearias", "agendamento online carrão", "software para barbearia carrão", "agenda barbearia zona leste", "gestão de barbearias conselheiro carrão", "Kairós agendamentos"],
 openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/carrao"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/carrao"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },
 }

@@ -8,7 +8,7 @@ description: "O mais robusto sistema de gest찾o e agendamento em Santos. Automa�
 keywords: ["sistema de gest찾o para barbearias", "agendamento online santos", "software para barbearia gonzaga", "agenda barbearia boqueir찾o", "gest찾o de barbearias avenida ana costa", "Kair처s agendamentos"],
 openGraph: { siteName: "Kair처s" },
   alternates: {
-canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/santos"
+canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/santos"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },
 }

@@ -8,7 +8,7 @@ description: "O mais robusto sistema de gestão e agendamento em São Bernardo d
 keywords: ["sistema de gestão para barbearias", "agendamento online são bernardo", "software para barbearia sbc", "agenda barbearia rudge ramos", "gestão de barbearias avenida kennedy", "Kairós agendamentos"],
 openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/sao-bernardo-do-campo"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/sao-bernardo-do-campo"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },
 }

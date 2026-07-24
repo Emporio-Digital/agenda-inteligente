@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   keywords:["sistema de gestão para barbearias", "agendamento online rio de janeiro", "software para barbearia barra da tijuca", "agenda barbearia ipanema", "gestão de barbearias recreio", "Kairós agendamentos"],
   openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/rio-de-janeiro"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/rio-de-janeiro"
   },
   icons: { icon: "/logo.png", apple: "/logo.png" },
 }

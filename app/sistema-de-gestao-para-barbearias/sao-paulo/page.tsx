@@ -8,7 +8,7 @@ description: "O mais robusto sistema de gestão e agendamento em São Paulo. Aut
 keywords: ["sistema de gestão para barbearias", "agendamento online sp", "software para barbearia sp", "agenda barbearia são paulo", "gestão de barbearias sp", "Kairós agendamentos"],
 openGraph: { siteName: "Kairós" },
   alternates: {
-  canonical: "https://kairos.egemporiodigital.com.br/sistema-de-gestao-para-barbearias/sao-paulo"
+  canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/sao-paulo"
 },
 icons: { icon: "/logo.png", apple: "/logo.png" },
 }
