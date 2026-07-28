@@ -131,61 +131,79 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     : 'Todos';
 
   return (
-    <div className="min-h-[100dvh] bg-slate-950 p-6 md:p-12 font-sans text-slate-200 overflow-x-hidden">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* HEADER INOVADOR (CURTIDO PELO SÓCIO) */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
-            <div className="w-full text-center md:text-left">
-                <h1 className="text-3xl font-black text-white tracking-tight uppercase italic">{tenantName}</h1>
-                <div className="flex items-center justify-center md:justify-start gap-2 mt-1">
-                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                  <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Kairós Ativo</p>
-                </div>
-            </div>
-        </div>
+    <div className="min-h-[100dvh] bg-slate-950 font-sans text-slate-200 overflow-x-hidden flex flex-col">
+      
+      {/* GATILHO DO MENU INVISÍVEL (MANTIDO INTACTO NA LÓGICA DO CSS) */}
+      <input type="checkbox" id="toggle-dashboard-menu" className="peer sr-only" />
 
-        {/* MENU "CENTRAL DE COMANDO" (CURTIDO PELO SÓCIO) */}
-        <div className="mb-12">
-            <input type="checkbox" id="toggle-dashboard-menu" className="peer sr-only" />
+      {/* FAIXA SUPERIOR FIXA */}
+      <header className="sticky top-0 z-50 w-full bg-slate-950/95 backdrop-blur-md border-b border-slate-800/60 px-6 py-4 flex items-center justify-between shadow-2xl">
+        <div className="flex items-center gap-5">
+          {/* LOGO */}
+          <img src="/logo.png" alt="Logo" className="w-14 h-14 md:w-16 md:h-16 object-contain drop-shadow-[0_0_8px_rgba(59,130,246,0.4)]" />
+          
+          <div className="relative flex flex-col pt-2">
+            {/* NOME KAIRÓS - Adicionado pr-4 e leading-tight para não cortar */}
+            <span className="font-black tracking-[-0.05em] text-3xl md:text-4xl uppercase italic leading-tight bg-gradient-to-b from-white via-slate-200 to-slate-500 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] select-none pr-4">
+              KAIRÓS
+            </span>
             
-            <label 
-                htmlFor="toggle-dashboard-menu" 
-                className="relative flex items-center justify-between px-8 py-5 bg-slate-900 border border-slate-800 rounded-[2.5rem] cursor-pointer hover:border-blue-500/50 transition-all shadow-2xl group overflow-hidden"
-            >
-                <div className="flex items-center gap-4 relative z-10">
-                    <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-900/40 group-hover:rotate-6 transition-transform">
-                        <span className="text-white text-xl">🚀</span>
-                    </div>
-                    <div className="flex flex-col">
-                        <div className="flex items-center md:gap-2">
-                            <span className="text-white font-black uppercase tracking-tighter text-lg leading-none">Central de Comando</span>
-                            {pendingPastCount > 0 && (
-                                <span className="flex h-3 w-3 absolute right-16 top-1/2 -translate-y-1/2 md:relative md:right-auto md:top-auto md:translate-y-0">
-                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                                  <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
-                                </span>
-                            )}
-                        </div>
-                        <span className="text-blue-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-1">Gerenciamento</span>
-                    </div>
-                </div>
-                <div className="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center group-hover:bg-slate-800 transition-colors">
-                    <span className="text-slate-500 group-hover:text-white transition-transform duration-500 peer-checked:rotate-180">↓</span>
-                </div>
-            </label>
+            {/* FLASH DE LUZ AZUL */}
+            <div className="relative w-full h-[2px] -mt-1 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400 to-transparent shadow-[0_0_15px_#3b82f6]"></div>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-full bg-blue-300 blur-[1px]"></div>
+            </div>
+          </div>
+        </div>
+        
+        {/* MENU HAMBURGUER COM EFEITO NEON CONDICIONAL */}
+        {/* MENU HAMBURGUER COM BORDA GIRATÓRIA */}
+        <label 
+          htmlFor="toggle-dashboard-menu" 
+          className="cursor-pointer relative p-[2px] rounded-2xl overflow-hidden group flex items-center justify-center transition-all active:scale-95 shadow-xl"
+        >
+          {/* BRILHO GIRATÓRIO (SÓ ATIVA NA NOTIFICAÇÃO) */}
+          {pendingPastCount > 0 && (
+            <div className="absolute inset-[-200%] bg-[conic-gradient(from_0deg,transparent_30%,#f59e0b_50%,transparent_70%)] animate-[spin_3s_linear_infinite]" />
+          )}
+          
+          {/* CORPO DO BOTÃO - Ajustado para brilhar azul no hover quando estiver limpo */}
+          <div className={`
+            relative z-10 p-2.5 rounded-[calc(1rem-2px)] w-full h-full flex items-center justify-center transition-all
+            ${pendingPastCount > 0 
+              ? 'bg-slate-950' 
+              : 'bg-slate-900 border border-slate-800 group-hover:bg-slate-800 group-hover:border-blue-500/50 shadow-[group-hover:0_0_15px_rgba(59,130,246,0.2)]'
+            }
+          `}>
+            <svg className={`w-7 h-7 transition-colors ${pendingPastCount > 0 ? 'text-amber-500' : 'text-slate-300 group-hover:text-white'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          </div>
+        </label>
+      </header>
 
-            {/* CONTEÚDO EXPANSÍVEL COM DESIGN ORIGINAL (IDÊNTICO) */}
-            <div className="grid grid-cols-1 overflow-hidden transition-all duration-500 max-h-0 opacity-0 peer-checked:max-h-[1000px] peer-checked:opacity-100 peer-checked:mt-8">
-                
-                <div className="flex gap-3 items-center mb-8 pb-6 border-b border-slate-800 w-full md:w-auto">
-                     <HeaderActions shareUrl={shareUrl} tenantSlug={tenantSlug} />
-                     <div className="pl-4 border-l border-slate-800">
-                        <LogoutButton />
-                     </div>
-                </div>
+      {/* ÁREA DO MENU DESLIZANTE QUE ENVOLVE OS CARDS E BOTÕES */}
+      <div className="w-full bg-slate-950 border-b border-slate-800 overflow-hidden transition-all duration-500 max-h-0 opacity-0 peer-checked:max-h-[1500px] peer-checked:opacity-100 shadow-2xl">
+        <div className="max-w-7xl mx-auto px-6 py-8 md:px-12">
+          
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 border-b border-slate-800 pb-6">
+            <div>
+              <h1 className="text-2xl font-black text-white tracking-tight uppercase italic">{tenantName}</h1>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Kairós Ativo</p>
+              </div>
+            </div>
+            
+            <div className="flex gap-3 items-center w-full md:w-auto">
+                 <HeaderActions shareUrl={shareUrl} tenantSlug={tenantSlug} />
+                 <div className="pl-4 border-l border-slate-800">
+                    <LogoutButton />
+                 </div>
+            </div>
+          </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-2">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-2">
                     {/* CARDS COM DESIGN ORIGINAL RESTAURADO */}
                     <Link href="/admin/servicos" className="bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-800 hover:border-blue-500/50 transition-all group hover:-translate-y-1 relative overflow-hidden">
                         <div className="absolute right-0 top-0 w-24 h-24 bg-blue-500/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
@@ -236,15 +254,16 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                     </div>
                 )}
 
-            </div>
+          </div>
         </div>
 
-        {/* AGENDA FUTURA */}
-        <div>
-            <div className="flex items-center justify-between mb-8">
+        {/* AGENDA FUTURA (Com Wrapper para alinhar o layout perfeitamente) */}
+        <div className="flex-1 w-full max-w-7xl mx-auto p-6 md:p-12">
+            <div className="w-full">
+                <div className="flex items-center justify-between mb-8">
                 <div className="flex flex-col">
                   <h2 className={`text-xl font-bold uppercase italic tracking-tighter ${showPast ? 'text-amber-500' : 'text-white'}`}>
-                      {showPast ? 'Pendentes (Passado)' : 'Agenda Futura'}
+                      {showPast ? 'Pendentes (Passado)' : 'Sua Agenda'}
                   </h2>
                   {showPast && (
                       <Link href="/admin" className="text-[10px] text-slate-400 bg-slate-900 border border-slate-800 hover:bg-slate-800 hover:text-white px-3 py-1.5 rounded-lg uppercase tracking-widest mt-2 flex items-center gap-2 transition-all w-max shadow-sm">
@@ -286,15 +305,18 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
 
             <div className="overflow-x-auto pb-20">
                 <table className="w-full border-separate border-spacing-y-4">
+                    {appointments.length > 0 && (
                     <thead className="text-left">
                         <tr className="text-slate-500 text-[10px] font-black uppercase tracking-widest">
-                            <th className="pl-6 pb-2">Horário/Data</th>
-                            <th className="pb-2">Cliente</th>
-                            <th className="pb-2">Item</th>
-                            <th className="pb-2">Profissional</th>
+                            <th className="pl-6 pb-2 whitespace-nowrap">Horário/Data</th>
+                            <th className="pb-2 pl-8 whitespace-nowrap">Cliente</th>
+                            <th className="pb-2 pl-7 whitespace-nowrap">Item</th>
+                            {/* Ajuste final: pl-10 para alinhar o título com o avatar/nome do profissional */}
+                            <th className="pb-2 pl-7 whitespace-nowrap">Profissional</th>
                             <th className="pr-6 pb-2 text-right">Ações</th>
                         </tr>
                     </thead>
+                    )}
                     <tbody>
                         {appointments.length === 0 ? (
                             <tr>
