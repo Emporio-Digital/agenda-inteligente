@@ -2,7 +2,7 @@
   "name": "Kairós - Sua Agenda Inteligente",
   "short_name": "Kairós",
   "description": "O sistema de agendamento mais simples e poderoso do mercado.",
-  "start_url": "/",
+  "start_url": "/admin",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",

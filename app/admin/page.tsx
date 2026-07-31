@@ -125,7 +125,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     return total + appt.services.reduce((sum, s) => sum + Number(s.price), 0)
   }, 0)
 
-  const shareUrl = `${process.env.NEXT_PUBLIC_URL || 'https://agenda-inteligente.vercel.app'}/${tenantSlug}`
+  const shareUrl = `https://egkairos.com.br/${tenantSlug}`
   const currentProName = filterProId && filterProId !== 'all' 
     ? professionals.find(p => p.id === filterProId)?.name.split(' ')[0] 
     : 'Todos';
@@ -309,7 +309,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                     <thead className="text-left">
                         <tr className="text-slate-500 text-[10px] font-black uppercase tracking-widest">
                             <th className="pl-6 pb-2 whitespace-nowrap">Horário/Data</th>
-                            <th className="pb-2 pl-8 whitespace-nowrap">Cliente</th>
+                            <th className="pb-2 pl-7 whitespace-nowrap">Cliente</th>
                             <th className="pb-2 pl-7 whitespace-nowrap">Item</th>
                             {/* Ajuste final: pl-10 para alinhar o título com o avatar/nome do profissional */}
                             <th className="pb-2 pl-7 whitespace-nowrap">Profissional</th>

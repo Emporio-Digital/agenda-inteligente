@@ -35,69 +35,80 @@ function LoginForm() {
   }
 
   return (
-    <div className="max-w-md w-full bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl p-8 relative z-10">
-        <div className="text-center mb-8">
-          {/* Logo no lugar do Emoji */}
-          <div className="w-12 h-12 mx-auto mb-4 relative flex items-center justify-center">
-             <img src="/logo.png" alt="Logo" className="object-contain w-full h-full" />
-          </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Bem-vindo de volta</h1>
-          <p className="text-gray-400 text-sm mt-2">Entre para gerenciar seu negócio</p>
-        </div>
-
-        {registered && (
-          <div className="mb-6 p-3 bg-green-500/10 text-green-400 text-sm rounded-xl text-center font-bold border border-green-500/20">
-            ✅ Conta criada com sucesso! Faça login.
-          </div>
-        )}
-
-        <form onSubmit={handleLogin} className="space-y-5">
-          <div>
-            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5 ml-1">Email</label>
-            <input 
-              type="email" 
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="w-full p-3 bg-zinc-950 border border-zinc-800 rounded-xl text-white placeholder:text-zinc-700 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
-              placeholder="seu@email.com"
-              required
-            />
-          </div>
-          
-          <div>
-            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5 ml-1">Senha</label>
-            <input 
-              type="password" 
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="w-full p-3 bg-zinc-950 border border-zinc-800 rounded-xl text-white placeholder:text-zinc-700 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
-              placeholder="••••••"
-              required
-            />
+    <div className="max-w-md w-full relative group">
+        {/* Efeito de Brilho atrás do Card */}
+        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-1000"></div>
+        
+        <div className="relative bg-slate-950/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-8 md:p-10">
+          <div className="text-center mb-10">
+            {/* Logo com Glow */}
+            <div className="w-20 h-20 mx-auto mb-6 relative">
+               <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full"></div>
+               <img src="/logo.png" alt="Logo" className="relative object-contain w-full h-full drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
+            </div>
+            <h1 className="text-3xl font-black text-white tracking-tight italic uppercase">
+              Kairós <span className="text-blue-500">.</span>
+            </h1>
+            <p className="text-slate-400 text-xs font-bold uppercase tracking-[0.2em] mt-3">Sua Agenda Inteligente</p>
           </div>
 
-          {error && (
-            <div className="p-3 bg-red-500/10 text-red-400 text-sm rounded-xl text-center border border-red-500/20">
-              {error}
+          {registered && (
+            <div className="mb-6 p-4 bg-emerald-500/10 text-emerald-400 text-xs rounded-xl text-center font-black border border-emerald-500/20 animate-pulse uppercase tracking-widest">
+              ✅ Conta criada! Faça login abaixo.
             </div>
           )}
 
-          <button 
-            type="submit" 
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-bold hover:bg-blue-500 transition-all shadow-lg shadow-blue-900/20 disabled:opacity-50 mt-2"
-          >
-            {loading ? 'Entrando...' : 'Acessar Painel'}
-          </button>
-        </form>
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div className="space-y-2">
+              <label className="block text-[10px] font-black text-slate-300 uppercase tracking-[0.15em] ml-1">Email de Acesso</label>
+              <div className="relative group">
+                <input 
+                  type="email" 
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  className="w-full p-4 bg-slate-900/50 border border-slate-800 rounded-xl text-white placeholder:text-slate-600 focus:ring-2 focus:ring-blue-600/50 focus:border-blue-500 outline-none transition-all hover:bg-slate-900"
+                  placeholder="seu@email.com"
+                  required
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="block text-[10px] font-black text-slate-300 uppercase tracking-[0.15em] ml-1">Sua Senha</label>
+              <input 
+                type="password" 
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full p-4 bg-slate-900/50 border border-slate-800 rounded-xl text-white placeholder:text-slate-600 focus:ring-2 focus:ring-blue-600/50 focus:border-blue-500 outline-none transition-all hover:bg-slate-900"
+                placeholder="••••••••"
+                required
+              />
+            </div>
 
-        <div className="mt-8 text-center pt-6 border-t border-zinc-800">
-          <p className="text-sm text-gray-500">
-            Ainda não tem conta?{' '}
-            <Link href="/cadastro" className="font-bold text-blue-400 hover:text-blue-300 transition-colors">
-              Criar Grátis
-            </Link>
-          </p>
+            {error && (
+              <div className="p-4 bg-red-500/10 text-red-400 text-[10px] font-bold rounded-xl text-center border border-red-500/20 uppercase tracking-widest">
+                {error}
+              </div>
+            )}
+
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="w-full relative overflow-hidden group/btn bg-blue-600 text-white py-4 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-blue-500 transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] disabled:opacity-50 active:scale-[0.98]"
+            >
+              <span className="relative z-10">{loading ? 'Validando Acesso...' : 'Entrar no Sistema'}</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite]"></div>
+            </button>
+          </form>
+
+          <div className="mt-10 text-center pt-8 border-t border-slate-800/50">
+            <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">
+              Novo por aqui?{' '}
+              <Link href="/cadastro" className="text-blue-400 hover:text-white transition-colors underline underline-offset-4">
+                Teste Grátis
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
   )
@@ -105,14 +116,31 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-950 p-4 font-sans selection:bg-blue-500 selection:text-white relative overflow-hidden">
+    <div className="min-h-[100dvh] flex items-center justify-center bg-slate-950 p-6 font-sans selection:bg-blue-500 selection:text-white relative overflow-hidden">
       
-      {/* Background Glow Effect (Igual Landing Page) */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[100px] -z-0"></div>
+      {/* Background Complexo de Gradients */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-600/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+        
+        {/* Grid Overlay Subtil */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light pointer-events-none"></div>
+      </div>
       
-      <Suspense fallback={<div className="text-white">Carregando...</div>}>
+      <Suspense fallback={
+        <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-blue-500 font-black text-xs uppercase tracking-[0.3em]">Kairós</p>
+        </div>
+      }>
         <LoginForm />
       </Suspense>
+
+      <style jsx global>{`
+        @keyframes shimmer {
+          100% { transform: translateX(100%); }
+        }
+      `}</style>
     </div>
   )
 }
