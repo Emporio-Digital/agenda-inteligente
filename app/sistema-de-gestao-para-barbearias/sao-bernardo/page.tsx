@@ -110,6 +110,83 @@ return (
                 </div>
             </section>
 
+            {/* --- NOVA SESSÃO: MOCKUP PREMIUM --- */}
+<section className="py-24 relative overflow-hidden bg-slate-950">
+  {/* Efeitos de fundo inspirados no Login */}
+  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] animate-pulse"></div>
+  <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-indigo-600/10 rounded-full blur-[100px]"></div>
+
+  <div className="max-w-7xl mx-auto px-6 relative z-10">
+    <div className="flex flex-col lg:flex-row items-center gap-16">
+      
+      {/* TEXTO À ESQUERDA */}
+      <div className="flex-1 text-center lg:text-left space-y-6">
+        <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-4 py-1.5 rounded-full">
+            
+            <span className="text-[10px] font-black text-blue-400 uppercase tracking-[0.2em]">🚀 GESTÃO INTELIGENTE</span>
+        </div>
+        
+        <h2 className="text-4xl md:text-6xl font-black text-white leading-tight italic uppercase tracking-tighter">
+          Seu negócio na <br />
+          <span className="text-blue-500">palma da mão.</span>
+        </h2>
+        
+        <p className="text-slate-400 text-lg max-w-xl mx-auto lg:mx-0 font-medium leading-relaxed">
+          Centralize agendamentos, equipe e faturamento em uma única plataforma. Simples, rápida e acessível de qualquer lugar.
+        </p>
+
+        <div className="grid grid-cols-2 gap-4 pt-4">
+            <div className="bg-slate-900/50 backdrop-blur-sm border border-white/5 p-4 rounded-2xl">
+                <span className="block text-2xl mb-1">⚡</span>
+                <span className="block text-xs font-black text-white uppercase tracking-widest">GESTÃO COMPLETA</span>
+            </div>
+            <div className="bg-slate-900/50 backdrop-blur-sm border border-white/5 p-4 rounded-2xl">
+                <span className="block text-2xl mb-1">📱</span>
+                <span className="block text-xs font-black text-white uppercase tracking-widest">USE COMO UM APP</span>
+            </div>
+        </div>
+      </div>
+
+      {/* MOCKUP À DIREITA */}
+      <div className="flex-1 relative">
+        {/* Glow atrás do celular */}
+        <div className="absolute inset-0 bg-blue-600/30 blur-[80px] rounded-full scale-75"></div>
+        
+        <div className="relative group">
+          {/* Imagem Principal (Substitua pela sua imagem da mão segurando o celular) */}
+          <img 
+            src="/mao-celular.png" 
+            alt="Smartphone Kairós" 
+            className="w-full h-auto max-w-[500px] mx-auto drop-shadow-[0_0_50px_rgba(37,99,235,0.2)] transition-transform duration-700 group-hover:scale-[1.03]"
+          />
+
+          {/* Cards Flutuantes (Dão vida à sessão) */}
+          <div className="absolute -top-4 -right-4 md:right-0 bg-slate-900/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl animate-bounce [animation-duration:3s]">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-500 text-xs">✓</div>
+              <div>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter leading-none">Novo Agendamento</p>
+                <p className="text-sm font-bold text-white">Corte + Barba</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="absolute bottom-10 -left-4 md:left-0 bg-slate-900/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl animate-pulse">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-500 text-xs">★</div>
+              <div>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter leading-none">Avaliação 5.0</p>
+                <p className="text-sm font-bold text-white">Cliente Satisfeito</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
             {/* --- A REGRA DOS 30% (O GANCHO MANUAL LOCAL) --- */}
             <section className="py-12 px-6">
                 <div className="max-w-5xl mx-auto bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
@@ -426,7 +503,7 @@ return (
         </main>
 
         {/* --- WHATSAPP FLOAT --- */}
-        <a href="https://wa.me/5511952835361" target="_blank" className="fixed bottom-6 right-6 bg-green-500 p-4 rounded-full shadow-2xl z-50 hover:scale-110 transition-transform border border-white/10">
+        <a href="https://wa.me/5511916053292" target="_blank" className="fixed bottom-6 right-6 bg-green-500 p-4 rounded-full shadow-2xl z-50 hover:scale-110 transition-transform border border-white/10">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-8.68-2.031-9.67-.272-.099-.47-.149-.669-.149-.198 0-.42.001-.643.001-.223 0-.586.085-.893.421-.306.335-1.169 1.141-1.169 2.784 0 1.642 1.198 3.227 1.372 3.461.174.234 2.358 3.6 5.714 5.05.798.345 1.42.551 1.902.705 1.05.336 2.007.288 2.756.175.845-.127 1.831-.749 2.088-1.472.257-.723.257-1.343.18-1.472-.078-.129-.276-.203-.574-.352z" /></svg>
         </a>
     </div>

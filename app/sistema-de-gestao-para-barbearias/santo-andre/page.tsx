@@ -1,14 +1,14 @@
 import Link from "next/link"
 import { Metadata } from "next"
 
-// --- METADATA (SEO CIRÚRGICO PARA SÃO CAETANO DO SUL) ---
+// --- METADATA (SEO CIRÚRGICO PARA Santo André) ---
 export const metadata: Metadata = {
-  title: "Sistema de Gestão para Barbearias em São Caetano do Sul | Kairós Agendamentos",
-  description: "O mais robusto sistema de gestão e agendamento em São Caetano do Sul. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe no ABC. Teste grátis!",
-  keywords:["sistema de gestão para barbearias", "agendamento online são caetano", "software para barbearia bairro santa paula", "agenda barbearia avenida goiás", "gestão de barbearias barcelona", "Kairós agendamentos"],
+  title: "Sistema de Gestão para Barbearias em Santo André | Kairós Agendamentos",
+  description: "O mais robusto sistema de gestão e agendamento em Santo André. Automação de agenda via WhatsApp, controle financeiro e gestão de equipe no ABC. Teste grátis!",
+  keywords:["sistema de gestão para barbearias", "agendamento online Santo André", "software para barbearia bairro jardim", "agenda barbearia avenida dom pedro ii", "gestão de barbearias campestre", "Kairós agendamentos"],
   openGraph: { siteName: "Kairós" },
   alternates: {
-    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/sao-caetano-do-sul"
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-barbearias/santo-andre"
   },
   icons: { icon: "/logo.png", apple: "/logo.png" },
 }
@@ -28,7 +28,7 @@ const GoogleReviewCard = ({ name, text, img, location }: any) => (
         <img src={img} alt={name} className="w-10 h-10 rounded-full object-cover border border-gray-100" />
         <div className="flex flex-col">
           <span className="text-gray-900 font-bold text-sm leading-none">{name}</span>
-          <span className="text-gray-400 text-[10px] uppercase font-bold tracking-tighter mt-1">São Caetano • {location}</span>
+          <span className="text-gray-400 text-[10px] uppercase font-bold tracking-tighter mt-1">Santo André • {location}</span>
         </div>
       </div>
       <span className="text-blue-500 font-black text-lg opacity-20">G</span>
@@ -42,7 +42,7 @@ const GoogleReviewCard = ({ name, text, img, location }: any) => (
   </div>
 )
 
-export default function SaoCaetanoPage() {
+export default function SantoAndrePage() {
   return (
     <div className="min-h-screen text-white font-sans selection:bg-blue-500 selection:text-white relative overflow-x-hidden bg-black">
       
@@ -94,31 +94,108 @@ export default function SaoCaetanoPage() {
         <section className="pt-40 pb-12 px-6 text-center">
           <div className="max-w-4xl mx-auto space-y-8">
             <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold uppercase border border-white/10 shadow-inner">
-              📍 O SISTEMA DE AGENDAMENTO Nº 1 DE SÃO CAETANO DO SUL
+              📍 O SISTEMA DE AGENDAMENTO Nº 1 DE SANTO ANDRÉ
             </div>
             <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.1] text-white">
               Sistema de gestão para barbearias em <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400">São Caetano.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400">Santo André.</span>
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed font-light">
-              Na cidade com o maior IDH do país, o seu atendimento precisa ser impecável. Automatize sua barbearia com tecnologia de elite.
+              Na cidade que é o coração econômico e comercial do ABC, o seu atendimento precisa ser impecável. Automatize sua barbearia com tecnologia de elite.
             </p>
             <Link href="/cadastro" className="inline-block bg-white text-black px-8 py-4 rounded-full text-lg font-bold shadow-2xl hover:-translate-y-1 transition-all">
-              Modernizar minha Barbearia em São Caetano 🚀
+              Modernizar minha Barbearia em Santo André 🚀
             </Link>
           </div>
         </section>
 
+        {/* --- NOVA SESSÃO: MOCKUP PREMIUM --- */}
+<section className="py-24 relative overflow-hidden bg-slate-950">
+  {/* Efeitos de fundo inspirados no Login */}
+  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] animate-pulse"></div>
+  <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-indigo-600/10 rounded-full blur-[100px]"></div>
+
+  <div className="max-w-7xl mx-auto px-6 relative z-10">
+    <div className="flex flex-col lg:flex-row items-center gap-16">
+      
+      {/* TEXTO À ESQUERDA */}
+      <div className="flex-1 text-center lg:text-left space-y-6">
+        <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-4 py-1.5 rounded-full">
+            
+            <span className="text-[10px] font-black text-blue-400 uppercase tracking-[0.2em]">🚀 GESTÃO INTELIGENTE</span>
+        </div>
+        
+        <h2 className="text-4xl md:text-6xl font-black text-white leading-tight italic uppercase tracking-tighter">
+          Seu negócio na <br />
+          <span className="text-blue-500">palma da mão.</span>
+        </h2>
+        
+        <p className="text-slate-400 text-lg max-w-xl mx-auto lg:mx-0 font-medium leading-relaxed">
+          Centralize agendamentos, equipe e faturamento em uma única plataforma. Simples, rápida e acessível de qualquer lugar.
+        </p>
+
+        <div className="grid grid-cols-2 gap-4 pt-4">
+            <div className="bg-slate-900/50 backdrop-blur-sm border border-white/5 p-4 rounded-2xl">
+                <span className="block text-2xl mb-1">⚡</span>
+                <span className="block text-xs font-black text-white uppercase tracking-widest">GESTÃO COMPLETA</span>
+            </div>
+            <div className="bg-slate-900/50 backdrop-blur-sm border border-white/5 p-4 rounded-2xl">
+                <span className="block text-2xl mb-1">📱</span>
+                <span className="block text-xs font-black text-white uppercase tracking-widest">USE COMO UM APP</span>
+            </div>
+        </div>
+      </div>
+
+      {/* MOCKUP À DIREITA */}
+      <div className="flex-1 relative">
+        {/* Glow atrás do celular */}
+        <div className="absolute inset-0 bg-blue-600/30 blur-[80px] rounded-full scale-75"></div>
+        
+        <div className="relative group">
+          {/* Imagem Principal (Substitua pela sua imagem da mão segurando o celular) */}
+          <img 
+            src="/mao-celular.png" 
+            alt="Smartphone Kairós" 
+            className="w-full h-auto max-w-[500px] mx-auto drop-shadow-[0_0_50px_rgba(37,99,235,0.2)] transition-transform duration-700 group-hover:scale-[1.03]"
+          />
+
+          {/* Cards Flutuantes (Dão vida à sessão) */}
+          <div className="absolute -top-4 -right-4 md:right-0 bg-slate-900/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl animate-bounce [animation-duration:3s]">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-500 text-xs">✓</div>
+              <div>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter leading-none">Novo Agendamento</p>
+                <p className="text-sm font-bold text-white">Corte + Barba</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="absolute bottom-10 -left-4 md:left-0 bg-slate-900/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl animate-pulse">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-500 text-xs">★</div>
+              <div>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter leading-none">Avaliação 5.0</p>
+                <p className="text-sm font-bold text-white">Cliente Satisfeito</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
         {/* --- A REGRA DOS 30% (O GANCHO MANUAL LOCAL) --- */}
         <section className="py-12 px-6">
             <div className="max-w-5xl mx-auto bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
-                <h2 className="text-2xl md:text-3xl font-black text-white mb-6 uppercase tracking-wide italic">São Caetano do Sul exige o mais alto padrão de agilidade.</h2>
+                <h2 className="text-2xl md:text-3xl font-black text-white mb-6 uppercase tracking-wide italic">Santo André exige o mais alto padrão de agilidade.</h2>
                 <div className="space-y-4 text-gray-300 leading-relaxed text-sm md:text-base">
                     <p>
-                        Para o barbeiro que domina a movimentada <strong className="text-blue-400">Avenida Goiás</strong> ou atende o público premium no <strong className="text-blue-400">Bairro Santa Paula</strong>, sabe que o cliente sul-caetanense valoriza a exclusividade. Se o agendamento perto da <strong className="text-blue-400">Rua Visconde de Inhaúma</strong> depender de mensagens demoradas, o seu faturamento está em risco.
+                        Para o barbeiro que domina a movimentada <strong className="text-blue-400">Avenida Dom Pedro II</strong> ou atende o público premium no <strong className="text-blue-400">Bairro Jardim</strong>, sabe que o cliente andreense valoriza a exclusividade. Se o agendamento perto da <strong className="text-blue-400">Rua Coronel Oliveira Lima</strong> depender de mensagens demoradas, o seu faturamento está em risco.
                     </p>
                     <p>
-                        Atendendo não só o centro, mas também as barbearias do <strong className="text-purple-400">Barcelona, Nova Gerty e Cerâmica</strong>, o Kairós foi desenhado para quem busca eficiência no ABC. Na velocidade de quem vive em São Caetano, sua barbearia precisa de um link de agendamento que funcione em segundos, refletindo o profissionalismo e a modernidade que a nossa cidade representa no mercado nacional.
+                        Atendendo não só o centro, mas também as barbearias do <strong className="text-purple-400">Campestre, Vila Assunção e Parque das Nações</strong>, o Kairós foi desenhado para quem busca eficiência no ABC. Na velocidade de quem vive em Santo André, sua barbearia precisa de um link de agendamento que funcione em segundos, refletindo o profissionalismo e a modernidade que a nossa cidade representa no mercado nacional.
                     </p>
                 </div>
             </div>
@@ -213,7 +290,7 @@ export default function SaoCaetanoPage() {
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                             </div>
                             <div className="flex flex-col">
-                                <h2 className="text-lg md:text-2xl font-bold uppercase tracking-wide text-white leading-tight">Dossiê de Dominação: Kairós em São Caetano</h2>
+                                <h2 className="text-lg md:text-2xl font-bold uppercase tracking-wide text-white leading-tight">Dossiê de Dominação: Kairós em Santo André</h2>
                                 <p className="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1 italic">Clique para ver os 15 pilares de gestão local</p>
                             </div>
                         </div>
@@ -224,84 +301,84 @@ export default function SaoCaetanoPage() {
                         <div className="grid grid-cols-1 gap-12 max-w-4xl relative z-10 text-gray-400 text-sm md:text-base leading-relaxed">
                             
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 1. SISTEMA DE GESTÃO PARA BARBEARIAS com link personalizado, logo e capa em São Caetano do Sul.</h3>
-                                <p className="mt-2">Tenha uma vitrine digital de alto nível para sua barbearia no bairro Santa Paula com a identidade visual da sua marca estampada no link de agendamento. Esse posicionamento profissional economiza horas de atendimento manual, pois o cliente de São Caetano já entende seu valor antes mesmo de agendar. O Kairós permite customizar logo e capa, fugindo do visual genérico de outros sistemas lentos de mercado. Eleve o padrão do seu negócio no ABC e conquiste a confiança imediata do público sul-caetanense.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 1. SISTEMA DE GESTÃO PARA BARBEARIAS com link personalizado, logo e capa em Santo André.</h3>
+                                <p className="mt-2">Tenha uma vitrine digital de alto nível para sua barbearia no Bairro Jardim com a identidade visual da sua marca estampada no link de agendamento. Esse posicionamento profissional economiza horas de atendimento manual, pois o cliente de Santo André já entende seu valor antes mesmo de agendar. O Kairós permite customizar logo e capa, fugindo do visual genérico de outros sistemas lentos de mercado. Eleve o padrão do seu negócio no ABC e conquiste a confiança imediata do público andreense.</p>
                             </div>
 
                             <div>
                                 <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 2. SISTEMA DE GESTÃO PARA BARBEARIAS com agendas individuais para cada profissional da equipe.</h3>
-                                <p className="mt-2">Organize seu time na Avenida Goiás com calendários independentes e sincronizados em tempo real para cada barbeiro da sua equipe premium. O benefício prático é a eliminação total de conflitos de horários, economizando cerca de 30 minutos diários de gestão manual estressante no seu negócio. Enquanto softwares antigos misturam tudo, o Kairós separa as cadeiras com clareza absoluta e interface intuitiva para o profissional de São Caetano. Garanta uma operação fluida que reflete o alto padrão de qualidade do seu time de especialistas no ABC.</p>
+                                <p className="mt-2">Organize seu time na Avenida Dom Pedro II com calendários independentes e sincronizados em tempo real para cada barbeiro da sua equipe premium. O benefício prático é a eliminação total de conflitos de horários, economizando cerca de 30 minutos diários de gestão manual estressante no seu negócio. Enquanto softwares antigos misturam tudo, o Kairós separa as cadeiras com clareza absoluta e interface intuitiva para o profissional de Santo André. Garanta uma operação fluida que reflete o alto padrão de qualidade do seu time de especialistas no ABC.</p>
                             </div>
 
                             <div>
                                 <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 3. SISTEMA DE GESTÃO PARA BARBEARIAS com personalização máxima de serviços, valores e tempos.</h3>
-                                <p className="mt-2">Adapte seu cardápio de serviços para o público exigente do bairro Cerâmica, definindo durações e preços específicos conforme o nível de cada barbeiro da casa. O controle total da sua margem de lucro em São Caetano do Sul fica garantido com essa flexibilidade técnica que só o Kairós oferece no agendamento. Você altera valores instantaneamente no painel, sem precisar de qualquer suporte técnico demorado ou lidar com menus complicados de sistemas burocráticos. Domine o mercado de estética em São Caetano oferecendo personalização real para cada tipo de cliente da região.</p>
+                                <p className="mt-2">Adapte seu cardápio de serviços para o público exigente do Bairro Campestre, definindo durações e preços específicos conforme o nível de cada barbeiro da casa. O controle total da sua margem de lucro em Santo André fica garantido com essa flexibilidade técnica que só o Kairós oferece no agendamento. Você altera valores instantaneamente no painel, sem precisar de qualquer suporte técnico demorado ou lidar com menus complicados de sistemas burocráticos. Domine o mercado de estética em Santo André oferecendo personalização real para cada tipo de cliente da região.</p>
                             </div>
 
                             <div>
                                 <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 4. SISTEMA DE GESTÃO PARA BARBEARIAS sem necessidade de cadastro, login ou download para o cliente.</h3>
-                                <p className="mt-2">O grande diferencial competitivo para o público de São Caetano do Sul é a velocidade absoluta no acesso ao link de reserva sem nenhuma barreira técnica. Sabemos que o cliente de elite do ABC não quer perder tempo baixando aplicativos pesados ou criando contas chatas só para marcar um corte. Com o Kairós, o cliente entra, escolhe o barbeiro e pronto, sem burocracia de formulários ou senhas difíceis de lembrar no dia a dia. Essa facilidade garante que sua barbearia tenha uma taxa de conversão muito maior e atraia os melhores clientes da cidade.</p>
+                                <p className="mt-2">O grande diferencial competitivo para o público de Santo André é a velocidade absoluta no acesso ao link de reserva sem nenhuma barreira técnica. Sabemos que o cliente de elite do ABC não quer perder tempo baixando aplicativos pesados ou criando contas chatas só para marcar um corte. Com o Kairós, o cliente entra, escolhe o barbeiro e pronto, sem burocracia de formulários ou senhas difíceis de lembrar no dia a dia. Essa facilidade garante que sua barbearia tenha uma taxa de conversão muito maior e atraia os melhores clientes da cidade.</p>
                             </div>
 
                             <div>
                                 <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 5. SISTEMA DE GESTÃO PARA BARBEARIAS com agendamento finalizado em menos de 1 minuto.</h3>
-                                <p className="mt-2">Proporcione ao seu cliente do bairro Barcelona a experiência de agendar um serviço completo com a mesma velocidade de um clique no Instagram. A agilidade extrema do sistema libera sua recepção para focar 100% no atendimento presencial de alto nível aos clientes que já estão na cadeira. Enquanto a concorrência se perde em áudios longos de WhatsApp, seu cliente em São Caetano resolve a vida de forma autônoma e muito rápida. Mostre que sua barbearia respeita o tempo do cliente com a tecnologia de agendamento mais veloz de São Caetano do Sul.</p>
+                                <p className="mt-2">Proporcione ao seu cliente da Vila Assunção a experiência de agendar um serviço completo com a mesma velocidade de um clique no Instagram. A agilidade extrema do sistema libera sua recepção para focar 100% no atendimento presencial de alto nível aos clientes que já estão na cadeira. Enquanto a concorrência se perde em áudios longos de WhatsApp, seu cliente em Santo André resolve a vida de forma autônoma e muito rápida. Mostre que sua barbearia respeita o tempo do cliente com a tecnologia de agendamento mais veloz de Santo André.</p>
                             </div>
 
                             <div>
                                 <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 6. SISTEMA DE GESTÃO PARA BARBEARIAS com agenda inteligente que evita conflitos de horários.</h3>
-                                <p className="mt-2">Elimine o erro humano e furos na agenda da sua unidade no bairro Nova Gerty com nosso algoritmo de sincronização em tempo real de última geração. O sistema economiza o estresse de ter dois clientes marcados para o mesmo barbeiro no mesmo horário de pico em São Caetano. Ao contrário de agendas de papel que falham, o Kairós trava o horário no milissegundo em que o agendamento ocorre no link oficial. Mantenha a organização da sua barbearia impecável e evite qualquer tipo de reclamação por atrasos ou falhas operacionais no ABC.</p>
+                                <p className="mt-2">Elimine o erro humano e furos na agenda da sua unidade no Parque das Nações com nosso algoritmo de sincronização em tempo real de última geração. O sistema economiza o estresse de ter dois clientes marcados para o mesmo barbeiro no mesmo horário de pico em Santo André. Ao contrário de agendas de papel que falham, o Kairós trava o horário no milissegundo em que o agendamento ocorre no link oficial. Mantenha a organização da sua barbearia impecável e evite qualquer tipo de reclamação por atrasos ou falhas operacionais no ABC.</p>
                             </div>
 
                             <div>
                                 <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 7. SISTEMA DE GESTÃO PARA BARBEARIAS com fotos reais de cada barbeiro no momento do agendamento.</h3>
-                                <p className="mt-2">Humanize o atendimento da sua barbearia em São Caetano permitindo que o cliente escolha visualmente o profissional que mais combina com seu estilo pessoal. Isso gera uma conexão imediata e aumenta a confiança do cliente antes mesmo dele chegar ao seu estabelecimento físico no ABC Paulista. O Kairós entende que o visual é fundamental no nicho de estética, por isso destacamos a foto do barbeiro com qualidade superior na interface. Fortaleça a marca pessoal dos seus profissionais e fidelize o público de São Caetano do Sul com modernidade.</p>
+                                <p className="mt-2">Humanize o atendimento da sua barbearia em Santo André permitindo que o cliente escolha visualmente o profissional que mais combina com seu estilo pessoal. Isso gera uma conexão imediata e aumenta a confiança do cliente antes mesmo dele chegar ao seu estabelecimento físico no ABC Paulista. O Kairós entende que o visual é fundamental no nicho de estética, por isso destacamos a foto do barbeiro com qualidade superior na interface. Fortaleça a marca pessoal dos seus profissionais e fidelize o público de Santo André com modernidade.</p>
                             </div>
 
                             <div>
                                 <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 8. SISTEMA DE GESTÃO PARA BARBEARIAS com dashboard simples e intuitivo para o uso dos funcionários.</h3>
-                                <p className="mt-2">Facilite a rotina da sua equipe na Vila Gerty com um painel de controle que não exige treinamentos complexos ou manuais extensos de aprendizado. Seus barbeiros visualizam o próximo atendimento do dia em segundos pelo celular, otimizando o fluxo de trabalho dentro da barbearia em São Caetano. O Kairós remove todas as distrações visuais e botões inúteis que apenas poluem softwares tradicionais de gestão de negócios de beleza. Garanta que sua operação em São Caetano do Sul seja fluida e que seus colaboradores amem utilizar a tecnologia de ponta.</p>
+                                <p className="mt-2">Facilite a rotina da sua equipe em Utinga com um painel de controle que não exige treinamentos complexos ou manuais extensos de aprendizado. Seus barbeiros visualizam o próximo atendimento do dia em segundos pelo celular, otimizando o fluxo de trabalho dentro da barbearia em Santo André. O Kairós remove todas as distrações visuais e botões inúteis que apenas poluem softwares tradicionais de gestão de negócios de beleza. Garanta que sua operação em Santo André seja fluida e que seus colaboradores amem utilizar a tecnologia de ponta.</p>
                             </div>
 
                             <div>
                                 <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 9. SISTEMA DE GESTÃO PARA BARBEARIAS com atalho de acesso rápido na tela inicial do celular do dono.</h3>
-                                <p className="mt-2">Tenha o controle total da sua barbearia no bairro Mauá na palma da mão, acessando o sistema com um único toque rápido no ícone. Economize tempo precioso abrindo a gestão financeira instantaneamente sem precisar digitar endereços de sites ou buscar em abas perdidas do navegador. O Kairós funciona com tecnologia PWA, sendo muito mais leve e rápido do que aplicativos nativos que costumam travar em São Caetano. Esteja sempre presente na gestão do seu negócio no ABC, monitorando o faturamento e produtividade de onde você estiver.</p>
+                                <p className="mt-2">Tenha o controle total da sua barbearia na Vila Pires na palma da mão, acessando o sistema com um único toque rápido no ícone. Economize tempo precioso abrindo a gestão financeira instantaneamente sem precisar digitar endereços de sites ou buscar em abas perdidas do navegador. O Kairós funciona com tecnologia PWA, sendo muito mais leve e rápido do que aplicativos nativos que costumam travar em Santo André. Esteja sempre presente na gestão do seu negócio no ABC, monitorando o faturamento e produtividade de onde você estiver.</p>
                             </div>
 
                             <div>
                                 <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 10. SISTEMA DE GESTÃO PARA BARBEARIAS com gestão completa de serviços realizados e histórico detalhado.</h3>
-                                <p className="mt-2">Saiba exatamente quais são os serviços que mais rendem na sua barbearia em São Caetano e identifique quem são os seus clientes vips da região. O benefício prático é poder criar estratégias de marketing cirúrgicas para quem não aparece há algum tempo na sua loja física no ABC. Diferente de outros sistemas que escondem seus dados, o Kairós entrega relatórios financeiros claros e intuitivos para o dono do negócio. Tome decisões baseadas em números reais e impulsione o crescimento da sua barbearia em São Caetano do Sul com segurança.</p>
+                                <p className="mt-2">Saiba exatamente quais são os serviços que mais rendem na sua barbearia em Santo André e identifique quem são os seus clientes vips da região. O benefício prático é poder criar estratégias de marketing cirúrgicas para quem não aparece há algum tempo na sua loja física no ABC. Diferente de outros sistemas que escondem seus dados, o Kairós entrega relatórios financeiros claros e intuitivos para o dono do negócio. Tome decisões baseadas em números reais e impulsione o crescimento da sua barbearia em Santo André com segurança.</p>
                             </div>
 
                             <div>
                                 <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 11. SISTEMA DE GESTÃO PARA BARBEARIAS com confirmação de agendamento via WhatsApp em apenas um clique.</h3>
-                                <p className="mt-2">Reduza as faltas e o esquecimento de clientes na sua barbearia no Bairro Cerâmica enviando lembretes profissionais de agendamento simplificados. Essa funcionalidade diminui o No-Show em até 40%, protegendo seu faturamento diário em São Caetano contra imprevistos de última hora dos clientes. O Kairós automatiza o processo: você clica na reserva e a mensagem de confirmação já sai pronta para ser disparada pelo WhatsApp. Profissionalize sua comunicação no ABC e mantenha sua agenda sempre cheia e confirmada com máxima eficiência.</p>
+                                <p className="mt-2">Reduza as faltas e o esquecimento de clientes na sua barbearia no Bairro Campestre enviando lembretes profissionais de agendamento simplificados. Essa funcionalidade diminui o No-Show em até 40%, protegendo seu faturamento diário em Santo André contra imprevistos de última hora dos clientes. O Kairós automatiza o processo: você clica na reserva e a mensagem de confirmação já sai pronta para ser disparada pelo WhatsApp. Profissionalize sua comunicação no ABC e mantenha sua agenda sempre cheia e confirmada com máxima eficiência.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 12. SISTEMA DE GESTÃO PARA BARBEARIAS focado em experiência Mobile-First para clientes de São Caetano.</h3>
-                                <p className="mt-2">Otimizamos cada pixel do sistema para que seu cliente de São Caetano do Sul tenha rapidez total ao agendar pelo smartphone enquanto se desloca pelo ABC. O benefício é uma interface que carrega instantaneamente, mesmo em conexões de internet 4G instáveis dentro dos bairros da nossa cidade. Enquanto softwares antigos travam no celular, o Kairós foi desenhado primeiro para a tela pequena, garantindo satisfação total do seu público. Ofereça a melhor e mais moderna experiência de agendamento mobile de São Caetano do Sul aos seus clientes.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 12. SISTEMA DE GESTÃO PARA BARBEARIAS focado em experiência Mobile-First para clientes de Santo André.</h3>
+                                <p className="mt-2">Otimizamos cada pixel do sistema para que seu cliente de Santo André tenha rapidez total ao agendar pelo smartphone enquanto se desloca pelo ABC. O benefício é uma interface que carrega instantaneamente, mesmo em conexões de internet 4G instáveis dentro dos bairros da nossa cidade. Enquanto softwares antigos travam no celular, o Kairós foi desenhado primeiro para a tela pequena, garantindo satisfação total do seu público. Ofereça a melhor e mais moderna experiência de agendamento mobile de Santo André aos seus clientes.</p>
                             </div>
 
                             <div>
                                 <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 13. SISTEMA DE GESTÃO PARA BARBEARIAS para eliminar definitivamente o vaivém de mensagens no WhatsApp.</h3>
-                                <p className="mt-2">Pare de perder horas respondendo "quais horários estão livres?" na sua barbearia em São Caetano e deixe a tecnologia trabalhar por você 24h. Automatizar a agenda permite que você foque 100% na qualidade do corte e na experiência do cliente que já está na cadeira da sua barbearia. O Kairós é a solução definitiva contra a burocracia de áudios e textos infinitos que travam a produtividade da sua equipe no ABC. Recupere sua paz mental em São Caetano do Sul deixando o sistema gerenciar as reservas com total perfeição e autonomia.</p>
+                                <p className="mt-2">Pare de perder horas respondendo "quais horários estão livres?" na sua barbearia em Santo André e deixe a tecnologia trabalhar por você 24h. Automatizar a agenda permite que você foque 100% na qualidade do corte e na experiência do cliente que já está na cadeira da sua barbearia. O Kairós é a solução definitiva contra a burocracia de áudios e textos infinitos que travam a produtividade da sua equipe no ABC. Recupere sua paz mental em Santo André deixando o sistema gerenciar as reservas com total perfeição e autonomia.</p>
                             </div>
 
                             <div>
                                 <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 14. SISTEMA DE GESTÃO PARA BARBEARIAS com filtro de relatórios de até 3 meses para controle financeiro.</h3>
-                                <p className="mt-2">Tenha uma visão clara e organizada do fluxo de caixa da sua barbearia no bairro Prosperidade com filtros financeiros precisos e fáceis de ler. Controle seu faturamento e analise a produtividade da sua equipe mês a mês sem a necessidade de planilhas de Excel confusas ou manuais. O diferencial do Kairós é traduzir números brutos em informações estratégicas para o dono da barbearia planejar o crescimento em São Caetano. Mantenha as finanças do seu negócio no ABC sob controle total com relatórios intuitivos e seguros para sua gestão diária.</p>
+                                <p className="mt-2">Tenha uma visão clara e organizada do fluxo de caixa da sua barbearia na Vila Humaitá com filtros financeiros precisos e fáceis de ler. Controle seu faturamento e analise a produtividade da sua equipe mês a mês sem a necessidade de planilhas de Excel confusas ou manuais. O diferencial do Kairós é traduzir números brutos em informações estratégicas para o dono da barbearia planejar o crescimento em Santo André. Mantenha as finanças do seu negócio no ABC sob controle total com relatórios intuitivos e seguros para sua gestão diária.</p>
                             </div>
 
                             <div>
-                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 15. SISTEMA DE GESTÃO PARA BARBEARIAS para modernizar e profissionalizar o seu negócio em São Caetano do Sul.</h3>
-                                <p className="mt-2">Eleve sua barbearia ao patamar de excelência que o público exigente de São Caetano exige e seja reconhecido como a referência do seu bairro. O ganho de autoridade local é imediato quando os clientes percebem que você utiliza um sistema de gestão de elite para organizar sua agenda. O Kairós remove definitivamente o amadorismo das anotações em papel e coloca sua barbearia na era da automação digital completa no ABC Paulista. Seja o líder de mercado na sua região de São Caetano do Sul e veja sua base de clientes crescer com a força da tecnologia.</p>
+                                <h3 className="font-bold text-white uppercase flex items-center gap-2"><span className="inline-block w-1 h-5 bg-blue-500 rounded-full"></span> 15. SISTEMA DE GESTÃO PARA BARBEARIAS para modernizar e profissionalizar o seu negócio em Santo André.</h3>
+                                <p className="mt-2">Eleve sua barbearia ao patamar de excelência que o público exigente de Santo André exige e seja reconhecido como a referência do seu bairro. O ganho de autoridade local é imediato quando os clientes percebem que você utiliza um sistema de gestão de elite para organizar sua agenda. O Kairós remove definitivamente o amadorismo das anotações em papel e coloca sua barbearia na era da automação digital completa no ABC Paulista. Seja o líder de mercado na sua região de Santo André e veja sua base de clientes crescer com a força da tecnologia.</p>
                             </div>
 
                         </div>
                         <div className="mt-14 flex justify-center md:justify-start">
                             <Link href="/cadastro" className="bg-white text-black px-6 py-4 rounded-full font-bold hover:bg-white/90 transition-all shadow-2xl text-center text-sm md:text-base leading-snug max-w-full">
-                                Modernizar minha Barbearia em São Caetano do Sul 🚀
+                                Modernizar minha Barbearia em Santo André 🚀
                             </Link>
                         </div>
                     </div>
@@ -313,15 +390,15 @@ export default function SaoCaetanoPage() {
         <section className="py-24 px-6 bg-black/20">
             <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
-                  <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase leading-tight">Barbeiros que dominam São Caetano:</h2>
+                  <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase leading-tight">Barbeiros que dominam Santo André:</h2>
                   <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10 text-yellow-400 font-black">4.9 ★★★★★</div>
                 </div>
                 
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                  <GoogleReviewCard name="Marcos V." location="Santa Paula" img="https://i.pravatar.cc/150?u=91" text="No Santa Paula os clientes exigem tecnologia. O Kairós colocou minha barbearia num nível de gestão impecável." />
-                  <GoogleReviewCard name="Júlio C." location="Avenida Goiás" img="https://i.pravatar.cc/150?u=92" text="Parei de perder tempo no Whats aqui na loja da Goiás. O agendamento sem login foi a chave pra encher a agenda." />
-                  <GoogleReviewCard name="Rodrigo B." location="Barcelona" img="https://i.pravatar.cc/150?u=93" text="O financeiro é direto ao ponto. Consigo ver tudo o que minha equipe do Barcelona produziu no mês pelo celular." />
-                  <GoogleReviewCard name="Fábio L." location="Cerâmica" img="https://i.pravatar.cc/150?u=94" text="Sistema rápido e profissional. Em São Caetano não tem nada melhor para quem quer automatizar a barbearia." />
+                  <GoogleReviewCard name="Marcos V." location="Bairro Jardim" img="https://i.pravatar.cc/150?u=91" text="No Bairro Jardim os clientes exigem tecnologia. O Kairós colocou minha barbearia num nível de gestão impecável." />
+                  <GoogleReviewCard name="Júlio C." location="Av. Dom Pedro II" img="https://i.pravatar.cc/150?u=92" text="Parei de perder tempo no Whats aqui na loja da Dom Pedro II. O agendamento sem login foi a chave pra encher a agenda." />
+                  <GoogleReviewCard name="Rodrigo B." location="Vila Assunção" img="https://i.pravatar.cc/150?u=93" text="O financeiro é direto ao ponto. Consigo ver tudo o que minha equipe da Vila Assunção produziu no mês pelo celular." />
+                  <GoogleReviewCard name="Fábio L." location="Campestre" img="https://i.pravatar.cc/150?u=94" text="Sistema rápido e profissional. Em Santo André não tem nada melhor para quem quer automatizar a barbearia." />
                 </div>
             </div>
         </section>
@@ -425,7 +502,7 @@ export default function SaoCaetanoPage() {
       </main>
 
       {/* --- WHATSAPP FLOAT --- */}
-      <a href="https://wa.me/5511952835361" target="_blank" className="fixed bottom-6 right-6 bg-green-500 p-4 rounded-full shadow-2xl z-50 hover:scale-110 transition-transform border border-white/10">
+      <a href="https://wa.me/5511916053292" target="_blank" className="fixed bottom-6 right-6 bg-green-500 p-4 rounded-full shadow-2xl z-50 hover:scale-110 transition-transform border border-white/10">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-8.68-2.031-9.67-.272-.099-.47-.149-.669-.149-.198 0-.42.001-.643.001-.223 0-.586.085-.893.421-.306.335-1.169 1.141-1.169 2.784 0 1.642 1.198 3.227 1.372 3.461.174.234 2.358 3.6 5.714 5.05.798.345 1.42.551 1.902.705 1.05.336 2.007.288 2.756.175.845-.127 1.831-.749 2.088-1.472.257-.723.257-1.343.18-1.472-.078-.129-.276-.203-.574-.352z"/></svg>
       </a>
     </div>

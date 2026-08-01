@@ -167,6 +167,83 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* --- NOVA SESSÃO: MOCKUP PREMIUM --- */}
+<section className="py-24 relative overflow-hidden bg-slate-950">
+  {/* Efeitos de fundo inspirados no Login */}
+  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] animate-pulse"></div>
+  <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-indigo-600/10 rounded-full blur-[100px]"></div>
+
+  <div className="max-w-7xl mx-auto px-6 relative z-10">
+    <div className="flex flex-col lg:flex-row items-center gap-16">
+      
+      {/* TEXTO À ESQUERDA */}
+      <div className="flex-1 text-center lg:text-left space-y-6">
+        <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-4 py-1.5 rounded-full">
+            
+            <span className="text-[10px] font-black text-blue-400 uppercase tracking-[0.2em]">🚀 GESTÃO INTELIGENTE</span>
+        </div>
+        
+        <h2 className="text-4xl md:text-6xl font-black text-white leading-tight italic uppercase tracking-tighter">
+          Seu negócio na <br />
+          <span className="text-blue-500">palma da mão.</span>
+        </h2>
+        
+        <p className="text-slate-400 text-lg max-w-xl mx-auto lg:mx-0 font-medium leading-relaxed">
+          Centralize agendamentos, equipe e faturamento em uma única plataforma. Simples, rápida e acessível de qualquer lugar.
+        </p>
+
+        <div className="grid grid-cols-2 gap-4 pt-4">
+            <div className="bg-slate-900/50 backdrop-blur-sm border border-white/5 p-4 rounded-2xl">
+                <span className="block text-2xl mb-1">⚡</span>
+                <span className="block text-xs font-black text-white uppercase tracking-widest">GESTÃO COMPLETA</span>
+            </div>
+            <div className="bg-slate-900/50 backdrop-blur-sm border border-white/5 p-4 rounded-2xl">
+                <span className="block text-2xl mb-1">📱</span>
+                <span className="block text-xs font-black text-white uppercase tracking-widest">USE COMO UM APP</span>
+            </div>
+        </div>
+      </div>
+
+      {/* MOCKUP À DIREITA */}
+      <div className="flex-1 relative">
+        {/* Glow atrás do celular */}
+        <div className="absolute inset-0 bg-blue-600/30 blur-[80px] rounded-full scale-75"></div>
+        
+        <div className="relative group">
+          {/* Imagem Principal (Substitua pela sua imagem da mão segurando o celular) */}
+          <img 
+            src="/mao-celular.png" 
+            alt="Smartphone Kairós" 
+            className="w-full h-auto max-w-[500px] mx-auto drop-shadow-[0_0_50px_rgba(37,99,235,0.2)] transition-transform duration-700 group-hover:scale-[1.03]"
+          />
+
+          {/* Cards Flutuantes (Dão vida à sessão) */}
+          <div className="absolute -top-4 -right-4 md:right-0 bg-slate-900/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl animate-bounce [animation-duration:3s]">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-500 text-xs">✓</div>
+              <div>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter leading-none">Novo Agendamento</p>
+                <p className="text-sm font-bold text-white">Corte + Barba</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="absolute bottom-10 -left-4 md:left-0 bg-slate-900/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl animate-pulse">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-500 text-xs">★</div>
+              <div>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter leading-none">Avaliação 5.0</p>
+                <p className="text-sm font-bold text-white">Cliente Satisfeito</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
         {/* --- COMO FUNCIONA (AJUSTADO PARA PADRÃO SEO) --- */}
         <section className="py-24 px-6 relative overflow-hidden">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-600/10 blur-[120px] rounded-full z-0 pointer-events-none"></div>
@@ -1242,7 +1319,7 @@ export default function LandingPage() {
 
       {/* --- BOTÃO WHATSAPP --- */}
       <a 
-        href="https://wa.me/5511952835361" 
+        href="https://wa.me/5511916053292" 
         target="_blank" 
         className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-xl shadow-green-900/30 z-50 transition-all hover:-translate-y-1 flex items-center gap-2 border border-white/10"
       >
