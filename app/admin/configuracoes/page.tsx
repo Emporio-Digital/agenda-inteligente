@@ -4,6 +4,7 @@ import { jwtVerify } from 'jose'
 import SettingsForm from "./form"
 import SubscriptionPlans from "./subscription-plans"
 import Link from "next/link"
+import { redirect } from "next/navigation"
 
 async function getTenant() {
   const headerList = await headers()
@@ -19,7 +20,7 @@ async function getTenant() {
 export default async function SettingsPage() {
   const tenant = await getTenant()
 
-  if (!tenant) return <div className="p-10 text-center text-white">Carregando...</div>
+  if (!tenant) redirect('/login')
 
   const isTrial = !tenant.subscriptionStatus || tenant.subscriptionStatus === 'TRIAL' || tenant.subscriptionStatus === 'PENDING'
   const statusColor = isTrial ? 'bg-yellow-900/30 text-yellow-400 border-yellow-800' : 'bg-green-900/30 text-green-400 border-green-800'

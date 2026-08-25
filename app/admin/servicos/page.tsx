@@ -62,25 +62,34 @@ export default function GerenciarServicos() {
 
   async function loadData() {
     setLoading(true)
-    const resServices = await fetch('/api/admin/services')
-    const dataServices = await resServices.json()
-    if (resServices.ok) setServices(dataServices)
-
-    const resPros = await fetch('/api/professionals')
-    const dataPros = await resPros.json()
-    if (resPros.ok) {
-        setProfessionals(dataPros)
-        if (dataPros.length > 0) setSelectedProId(dataPros[0].id)
-    }
-
     try {
-        const resTenant = await fetch('/api/admin/tenant') 
-        if (resTenant.ok) {
-            const dataTenant = await resTenant.json()
-            if (dataTenant.theme) setTheme(dataTenant.theme)
-        }
-    } catch (error) { console.log("Usando ícone padrão") }
-    setLoading(false)
+      // Dispara os 3 pedidos ao mesmo tempo (ganho de velocidade real)
+      const [resServices, resPros, resTenant] = await Promise.all([
+        fetch('/api/admin/services'),
+        fetch('/api/professionals'),
+        fetch('/api/admin/tenant').catch(() => null) // Não trava se o tenant der erro
+      ])
+
+      const [dataServices, dataPros] = await Promise.all([
+        resServices.json(),
+        resPros.json()
+      ])
+
+      if (resServices.ok) setServices(dataServices)
+      if (resPros.ok) {
+        setProfessionals(dataPros)
+        if (dataPros.length > 0 && !selectedProId) setSelectedProId(dataPros[0].id)
+      }
+      
+      if (resTenant && resTenant.ok) {
+        const dataTenant = await resTenant.json()
+        if (dataTenant.theme) setTheme(dataTenant.theme)
+      }
+    } catch (error) {
+      console.error("Erro ao carregar dados:", error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function handleCreate() {

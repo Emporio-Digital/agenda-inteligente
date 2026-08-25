@@ -37,25 +37,54 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
   let themeVariant = 'BARBER' 
   let createdAt = new Date()
   
+  const params = await searchParams
+  const filterProId = typeof params.proId === 'string' ? params.proId : undefined
+  const showPast = params.showPast === 'true'
+  const todayRef = new Date()
+  todayRef.setHours(0, 0, 0, 0)
+
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'segredo-padrao-mvp')
     const { payload } = await jwtVerify(token, secret)
     tenantId = payload.tenantId as string
-    
-    const tenant = await prisma.tenant.findUnique({ where: { id: tenantId }})
-    if (!tenant) throw new Error("Tenant not found")
-
-    tenantName = tenant.name
-    tenantSlug = tenant.slug
-    subscriptionStatus = tenant.subscriptionStatus || 'TRIAL'
-    themeVariant = tenant.themeVariant || 'BARBER'
-    createdAt = new Date(tenant.createdAt)
   } catch (error) {
     redirect('/login')
   }
 
-  const themeConfig = ADMIN_THEMES[themeVariant] || ADMIN_THEMES.BARBER
+  const [tenant, professionals, pendingPastCount, rawAppointments, realizedAppts] = await Promise.all([
+    prisma.tenant.findUnique({ where: { id: tenantId }}),
+    prisma.professional.findMany({ where: { tenantId }, orderBy: { name: 'asc' } }),
+    prisma.appointment.count({ where: { tenantId, status: 'SCHEDULED', date: { lt: todayRef } } }),
+    prisma.appointment.findMany({
+      where: { 
+        tenantId, 
+        date: showPast ? { lt: todayRef } : { gte: todayRef },
+        status: 'SCHEDULED',
+        ...(filterProId && filterProId !== 'all' ? { professionalId: filterProId } : {})
+      },
+      orderBy: { date: 'asc' },
+      include: { customer: true, services: true, professional: true }
+    }),
+    prisma.appointment.findMany({
+      where: {
+        tenantId,
+        status: 'DONE',
+        date: {
+          gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+          lte: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0, 23, 59, 59)
+        },
+        ...(filterProId && filterProId !== 'all' ? { professionalId: filterProId } : {})
+      },
+      include: { services: true }
+    })
+  ])
 
+  if (!tenant) redirect('/login')
+  tenantName = tenant.name
+  tenantSlug = tenant.slug
+  subscriptionStatus = tenant.subscriptionStatus || 'TRIAL'
+  themeVariant = tenant.themeVariant || 'BARBER'
+  createdAt = new Date(tenant.createdAt)
   const now = new Date()
   const diffTime = Math.abs(now.getTime() - createdAt.getTime())
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
@@ -73,46 +102,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     )
   }
 
-  const params = await searchParams
-  const filterProId = typeof params.proId === 'string' ? params.proId : undefined
-  const showPast = params.showPast === 'true'
-
-  const todayRef = new Date()
-  todayRef.setHours(0, 0, 0, 0)
-
-  // Condições de filtro para Agenda
-  const whereCondition: any = { 
-    tenantId: tenantId, 
-    date: showPast ? { lt: todayRef } : { gte: todayRef },
-    status: 'SCHEDULED'
-  }
-  if (filterProId && filterProId !== 'all') whereCondition.professionalId = filterProId
-
-  // Condições de filtro para Faturamento
-  const realizedWhere: any = {
-    tenantId,
-    status: 'DONE',
-    date: {
-      gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-      lte: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0, 23, 59, 59)
-    }
-  }
-  if (filterProId && filterProId !== 'all') realizedWhere.professionalId = filterProId
-
-  // BUSCA EM PARALELO (Otimizado)
-  const [professionals, pendingPastCount, rawAppointments, realizedAppts] = await Promise.all([
-    prisma.professional.findMany({ where: { tenantId }, orderBy: { name: 'asc' } }),
-    prisma.appointment.count({ where: { tenantId, status: 'SCHEDULED', date: { lt: todayRef } } }),
-    prisma.appointment.findMany({
-      where: whereCondition,
-      orderBy: { date: 'asc' },
-      include: { customer: true, services: true, professional: true }
-    }),
-    prisma.appointment.findMany({
-      where: realizedWhere,
-      include: { services: true }
-    })
-  ])
+  const themeConfig = ADMIN_THEMES[themeVariant] || ADMIN_THEMES.BARBER
 
   // Formatação de Preços (Seu padrão)
   const appointments = rawAppointments.map(appt => ({
@@ -183,7 +173,9 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
       </header>
 
       {/* ÁREA DO MENU DESLIZANTE QUE ENVOLVE OS CARDS E BOTÕES */}
-      <div className="w-full bg-slate-950 border-b border-slate-800 overflow-hidden transition-all duration-500 max-h-0 opacity-0 peer-checked:max-h-[1500px] peer-checked:opacity-100 shadow-2xl">
+      <div className="w-full bg-slate-950 border-b border-slate-800 overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-in-out grid grid-rows-[0fr] peer-checked:grid-rows-[1fr] opacity-0 peer-checked:opacity-100 shadow-2xl">
+    <div className="min-h-0"> {/* Wrapper necessário para a animação de grid row funcionar */}
+       {/* Aqui dentro continua todo o conteúdo original do seu menu */}
         <div className="max-w-7xl mx-auto px-6 py-8 md:px-12">
           
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 border-b border-slate-800 pb-6">
@@ -253,11 +245,11 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                         </Link>
                     </div>
                 )}
+          </div> {/* fecha o padding do menu */}
+        </div> {/* fecha a min-h-0 */}
+      </div> {/* fecha o grid-rows do menu */}
 
-          </div>
-        </div>
-
-        {/* AGENDA FUTURA (Com Wrapper para alinhar o layout perfeitamente) */}
+      {/* AGENDA FUTURA (Agora fora do menu, aparecendo sempre) */}
         <div className="flex-1 w-full max-w-7xl mx-auto p-6 md:p-12">
             <div className="w-full">
                 <div className="flex items-center justify-between mb-8">

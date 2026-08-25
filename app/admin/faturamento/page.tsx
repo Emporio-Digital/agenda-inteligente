@@ -73,7 +73,7 @@ export default async function FinancePage({ searchParams }: FinancePageProps) {
         
         {/* Top Header */}
         <div className="flex items-center justify-between mb-8 px-2">
-          <Link href="/admin" className="w-10 h-10 bg-slate-900 border border-slate-800 rounded-full flex items-center justify-center text-slate-400 hover:text-white transition-all shadow-lg">
+          <Link href="/admin" prefetch={true} className="w-10 h-10 bg-slate-900 border border-slate-800 rounded-full flex items-center justify-center text-slate-400 hover:text-white transition-all shadow-lg">
             ←
           </Link>
           <h1 className="text-xs font-black uppercase tracking-[0.4em] text-slate-600">Extrato de Serviços</h1>
@@ -92,7 +92,7 @@ export default async function FinancePage({ searchParams }: FinancePageProps) {
                 </summary>
                 <div className="absolute top-[110%] left-0 right-0 bg-slate-900 border border-slate-800 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                     {monthsOptions.map((m) => (
-                        <Link key={m.value} href={`/admin/faturamento?month=${m.value}&proId=${filterProId}`} className="block px-6 py-4 text-sm font-bold border-b border-slate-800/50 last:border-0 hover:bg-blue-600 hover:text-white capitalize transition-all">
+                        <Link key={m.value} href={`/admin/faturamento?month=${m.value}&proId=${filterProId}`} prefetch={true} className="block px-6 py-4 text-sm font-bold border-b border-slate-800/50 last:border-0 hover:bg-blue-600 hover:text-white capitalize transition-all">
                             {m.label}
                         </Link>
                     ))}
@@ -108,9 +108,9 @@ export default async function FinancePage({ searchParams }: FinancePageProps) {
                     <span className="text-purple-500 text-[10px] transition-transform group-open:rotate-180">▼</span>
                 </summary>
                 <div className="absolute top-[110%] left-0 right-0 bg-slate-900 border border-slate-800 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                    <Link href={`/admin/faturamento?month=${filterMonth}&proId=all`} className="block px-6 py-4 text-sm font-bold border-b border-slate-800/50 hover:bg-purple-600 hover:text-white transition-all">Todos</Link>
+                    <Link href={`/admin/faturamento?month=${filterMonth}&proId=all`} prefetch={true} className="block px-6 py-4 text-sm font-bold border-b border-slate-800/50 hover:bg-purple-600 hover:text-white transition-all">Todos</Link>
                     {professionals.map(pro => (
-                        <Link key={pro.id} href={`/admin/faturamento?month=${filterMonth}&proId=${pro.id}`} className="block px-6 py-4 text-sm font-bold border-b border-slate-800/50 last:border-0 hover:bg-purple-600 hover:text-white transition-all">
+                        <Link key={pro.id} href={`/admin/faturamento?month=${filterMonth}&proId=${pro.id}`} prefetch={true} className="block px-6 py-4 text-sm font-bold border-b border-slate-800/50 last:border-0 hover:bg-purple-600 hover:text-white transition-all">
                             {pro.name}
                         </Link>
                     ))}

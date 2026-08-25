@@ -244,7 +244,7 @@ export default function GerenciarProfissionais() {
                            </div>
 
                            <div className="w-16 h-16 rounded-full bg-slate-800 border border-slate-700 overflow-hidden flex items-center justify-center text-2xl text-slate-500 shrink-0">
-                                {pro.photoUrl ? <img src={pro.photoUrl} className="w-full h-full object-cover" /> : "👤"}
+                                {pro.photoUrl ? <img src={pro.photoUrl} loading="lazy" decoding="async" className="w-full h-full object-cover" /> : "👤"}
                            </div>
                            <div>
                                 <h3 className="font-bold text-lg text-white">{index + 1}. {pro.name}</h3>
@@ -278,7 +278,7 @@ export default function GerenciarProfissionais() {
                     <div className="flex flex-col items-center justify-center mb-6">
                         <div className="relative w-28 h-28 rounded-full bg-slate-800 border-4 border-slate-700 shadow-lg mb-4 overflow-hidden group cursor-pointer">
                             {editingPro.photoUrl ? (
-                                <img src={editingPro.photoUrl} className="w-full h-full object-cover" />
+                                <img src={editingPro.photoUrl} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center text-4xl text-slate-600">👤</div>
                             )}
