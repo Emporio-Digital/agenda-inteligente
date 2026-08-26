@@ -295,33 +295,20 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                 )}
             </div>
 
-            <div className="overflow-x-auto pb-20">
-                <table className="w-full border-separate border-spacing-y-4">
-                    {appointments.length > 0 && (
-                    <thead className="text-left">
-                        <tr className="text-slate-500 text-[10px] font-black uppercase tracking-widest">
-                            <th className="pl-6 pb-2 whitespace-nowrap">Horário/Data</th>
-                            <th className="pb-2 pl-7 whitespace-nowrap">Cliente</th>
-                            <th className="pb-2 pl-7 whitespace-nowrap">Item</th>
-                            {/* Ajuste final: pl-10 para alinhar o título com o avatar/nome do profissional */}
-                            <th className="pb-2 pl-7 whitespace-nowrap">Profissional</th>
-                            <th className="pr-6 pb-2 text-right">Ações</th>
-                        </tr>
-                    </thead>
-                    )}
-                    <tbody>
-                        {appointments.length === 0 ? (
-                            <tr>
-                                <td colSpan={5} className="bg-slate-900 rounded-[2rem] p-12 text-center border border-slate-800">
-                                    <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Sem agendamentos para este filtro</p>
-                                </td>
-                            </tr>
-                        ) : (
-                            appointments.map((appt) => <AppointmentRow key={appt.id} appt={appt} />)
-                        )}
-                    </tbody>
-                </table>
-            </div>
+            {/* NOVO GRID DE CARDS EM VEZ DE TABELA */}
+          <div className="pb-20">
+              {appointments.length === 0 ? (
+                  <div className="bg-slate-900 rounded-[2.5rem] p-12 text-center border border-slate-800">
+                      <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Sem agendamentos para este filtro</p>
+                  </div>
+              ) : (
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                      {appointments.map((appt) => (
+                          <AppointmentRow key={appt.id} appt={appt} />
+                      ))}
+                  </div>
+              )}
+          </div>
         </div>
 
       </div>

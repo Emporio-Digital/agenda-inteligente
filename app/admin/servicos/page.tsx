@@ -167,52 +167,70 @@ export default function GerenciarServicos() {
 
       <div className="max-w-5xl mx-auto">
         
+        {/* CABEÇALHO COM ESTILO GLOW */}
         <div className="flex items-center gap-4 mb-8">
-            <Link href="/admin" className="text-slate-400 hover:text-white font-bold bg-slate-900 px-3 py-1 rounded-lg border border-slate-800 transition-colors">← Voltar</Link>
+            <Link href="/admin" className="text-slate-300 hover:text-white font-extrabold bg-slate-900/90 hover:bg-slate-800 px-4 py-2 rounded-xl border border-slate-800/80 transition-all text-xs md:text-sm shadow-md">
+              ← Voltar
+            </Link>
             <div>
-                 <h1 className="text-3xl font-black text-white flex items-center gap-3">
-                    <ThemeIcon className="w-8 h-8 text-blue-600" />
+                 <h1 className="text-2xl md:text-3xl font-black text-white flex items-center gap-3">
+                    <ThemeIcon className="w-7 h-7 md:w-8 md:h-8 text-blue-500 drop-shadow-[0_0_10px_rgba(59,130,246,0.4)]" />
                     Catálogo de Serviços
                  </h1>
-                 <p className="text-slate-500">Defina os preços e durações.</p>
+                 <p className="text-slate-400 text-xs md:text-sm mt-0.5">Defina os preços, durações e profissionais.</p>
             </div>
         </div>
 
-        <div className="bg-slate-900 p-6 md:p-8 rounded-3xl shadow-lg border border-slate-800 mb-10">
-            <h2 className="text-lg font-bold mb-6 text-white flex items-center gap-2">
-                <span className="bg-blue-600 w-2 h-6 rounded-full"></span>
+        {/* CONTAINER DO FORMULÁRIO UPGRADE */}
+        <div className="bg-slate-900/90 p-6 md:p-8 rounded-[2rem] shadow-xl border border-slate-800/80 mb-10 relative overflow-hidden">
+            <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
+            
+            <h2 className="text-base md:text-lg font-black mb-6 text-white flex items-center gap-2.5">
+                <span className="bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.6)] w-1.5 h-6 rounded-full"></span>
                 Novo Serviço
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
                 <div>
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Nome do Serviço</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Nome do Serviço</label>
                     <input 
                         type="text" 
                         value={name} 
                         onChange={e => setName(e.target.value)} 
                         placeholder="Ex: Serviço Premium" 
-                        className="w-full p-3 md:p-4 border border-slate-700 rounded-xl mt-1 bg-slate-800 text-white focus:ring-2 focus:ring-blue-600 outline-none" 
+                        className="w-full p-3.5 border border-slate-800 focus:border-blue-500/50 rounded-2xl mt-1.5 bg-slate-950/60 text-white placeholder-slate-600 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all duration-200" 
                     />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Preço (R$)</label>
-                        <input type="number" value={price} onChange={e => setPrice(e.target.value)} placeholder="0.00" className="w-full p-3 md:p-4 border border-slate-700 rounded-xl mt-1 bg-slate-800 text-white focus:ring-2 focus:ring-blue-600 outline-none" />
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Preço (R$)</label>
+                        <input 
+                          type="number" 
+                          value={price} 
+                          onChange={e => setPrice(e.target.value)} 
+                          placeholder="0.00" 
+                          className="w-full p-3.5 border border-slate-800 focus:border-blue-500/50 rounded-2xl mt-1.5 bg-slate-950/60 text-white placeholder-slate-600 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all duration-200" 
+                        />
                     </div>
                     <div>
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Minutos</label>
-                        <input type="number" value={duration} onChange={e => setDuration(e.target.value)} step="5" className="w-full p-3 md:p-4 border border-slate-700 rounded-xl mt-1 bg-slate-800 text-white focus:ring-2 focus:ring-blue-600 outline-none" />
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Minutos</label>
+                        <input 
+                          type="number" 
+                          value={duration} 
+                          onChange={e => setDuration(e.target.value)} 
+                          step="5" 
+                          className="w-full p-3.5 border border-slate-800 focus:border-blue-500/50 rounded-2xl mt-1.5 bg-slate-950/60 text-white focus:ring-4 focus:ring-blue-500/10 outline-none transition-all duration-200" 
+                        />
                     </div>
                 </div>
                 <div className="md:col-span-2">
-                    <label className="text-xs font-bold text-blue-400 uppercase tracking-wider ml-1">Realizado por:</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Realizado por:</label>
                     <select 
                         value={selectedProId} 
                         onChange={e => setSelectedProId(e.target.value)}
-                        className="w-full p-3 md:p-4 border border-slate-700 bg-slate-800 rounded-xl mt-1 font-bold text-white focus:ring-2 focus:ring-blue-600 outline-none cursor-pointer"
+                        className="w-full p-3.5 border border-slate-800 focus:border-blue-500/50 bg-slate-950/60 rounded-2xl mt-1.5 font-bold text-white focus:ring-4 focus:ring-blue-500/10 outline-none cursor-pointer transition-all duration-200"
                     >
-                        <option value="">Todos</option>
+                        <option value="">Todos os Especialistas</option>
                         {professionals.map(p => (
                             <option key={p.id} value={p.id}>{p.name}</option>
                         ))}
@@ -220,37 +238,66 @@ export default function GerenciarServicos() {
                 </div>
             </div>
 
-            <button onClick={handleCreate} disabled={!name || !price || saving} className="w-full py-3 md:py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-500 transition-all shadow-lg shadow-blue-900/20 text-sm md:text-lg">
-                {saving ? "Salvando..." : "Adicionar +"}
+            <button 
+              onClick={handleCreate} 
+              disabled={!name || !price || saving} 
+              className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-black rounded-2xl transition-all shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-[0.99] text-sm uppercase tracking-widest disabled:opacity-40 disabled:pointer-events-none"
+            >
+                {saving ? "Salvando..." : "Adicionar Serviço"}
             </button>
         </div>
 
+        {/* LISTA DE SERVIÇOS PREMIUM */}
         <div className="space-y-4 pb-20">
             {services.map(s => (
-                <div key={s.id} className="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex justify-between items-center shadow-sm hover:border-slate-700 transition-colors">
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center text-blue-400 shrink-0">
-                            <ThemeIcon className="w-6 h-6" />
+                <div 
+                  key={s.id} 
+                  className="bg-slate-900/90 p-4 md:p-5 rounded-3xl border border-slate-800/80 hover:border-blue-500/30 flex justify-between items-center shadow-lg transition-all duration-300 relative overflow-hidden group"
+                >
+                    <div className="flex items-center gap-4 min-w-0">
+                        {/* ÍCONE COM LEVE GLOW */}
+                        <div className="w-11 h-11 bg-slate-800 rounded-2xl flex items-center justify-center text-blue-400 shrink-0 border border-slate-700/50 shadow-inner">
+                            <ThemeIcon className="w-5.5 h-5.5" />
                         </div>
-                        <div>
-                            <h3 className="font-bold text-lg text-white">{s.name}</h3>
-                            <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3 text-sm text-slate-400 mt-1">
-                                <span className="flex items-center gap-1">⏱ {s.durationMin} min</span>
-                                <span className="text-green-400 font-bold bg-green-900/20 px-2 rounded w-fit">R$ {Number(s.price).toFixed(2)}</span>
+                        <div className="min-w-0">
+                            <h3 className="font-extrabold text-base md:text-lg text-white leading-tight truncate">
+                              {s.name}
+                            </h3>
+                            <div className="flex flex-row items-center gap-2.5 text-xs text-slate-400 mt-1.5">
+                                <span className="flex items-center gap-1 font-medium">
+                                  ⏱ {s.durationMin} min
+                                </span>
+                                <span className="text-slate-700">|</span>
+                                <span className="text-green-400 font-black bg-green-950/60 border border-green-900/30 px-2.5 py-0.5 rounded-lg text-[11px] tracking-tight">
+                                  R$ {Number(s.price).toFixed(2).replace('.', ',')}
+                                </span>
                             </div>
                         </div>
                     </div>
                     
-                    <div className="flex items-center gap-4">
-                        <div className="text-right">
-                             <p className="text-[8px] md:text-[10px] uppercase font-bold text-slate-500">Profissional</p>
-                             <p className="text-xs md:text-sm font-bold text-slate-300 max-w-[80px] md:max-w-none truncate">{s.professional?.name || 'Todos'}</p>
+                    {/* INFO DO PROFISSIONAL E EXCLUSÃO */}
+                    <div className="flex items-center gap-4 shrink-0 pl-2">
+                        <div className="text-right hidden sm:block">
+                             <p className="text-[8px] md:text-[9px] uppercase font-black text-slate-400 tracking-wider">Profissional</p>
+                             <p className="text-xs font-bold text-slate-300 max-w-[100px] truncate">
+                               {s.professional?.name ? s.professional.name.split(' ')[0] : 'Todos'}
+                             </p>
                         </div>
-                        <button onClick={() => setShowConfirmDelete(s.id)} className="w-10 h-10 rounded-lg bg-red-900/20 text-red-500 hover:bg-red-600 hover:text-white flex items-center justify-center transition-all shrink-0">🗑️</button>
+                        <button 
+                          onClick={() => setShowConfirmDelete(s.id)} 
+                          className="w-9 h-9 rounded-xl bg-red-500/10 hover:bg-red-600 text-red-400 hover:text-white border border-red-500/20 flex items-center justify-center transition-all shrink-0"
+                        >
+                          🗑️
+                        </button>
                     </div>
                 </div>
             ))}
-            {services.length === 0 && !loading && <div className="text-center text-slate-500 py-10 bg-slate-900 rounded-2xl border border-slate-800">Nenhum serviço cadastrado ainda.</div>}
+            
+            {services.length === 0 && !loading && (
+              <div className="text-center text-slate-400 py-12 bg-slate-900/90 rounded-[2rem] border border-slate-800/80 font-bold uppercase tracking-widest text-xs">
+                Nenhum serviço cadastrado ainda.
+              </div>
+            )}
         </div>
 
       </div>

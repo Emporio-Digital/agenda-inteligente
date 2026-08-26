@@ -178,140 +178,206 @@ export default function GerenciarProfissionais() {
       )}
 
       <div className="max-w-5xl mx-auto">
+        {/* CABEÇALHO UPGRADE */}
         <div className="flex items-center justify-between mb-10">
             <div className="flex items-center gap-4">
-                <Link href="/admin" className="text-slate-400 hover:text-white font-bold bg-slate-900 px-3 py-1 rounded-lg border border-slate-800 transition-colors">
+                <Link href="/admin" className="text-slate-300 hover:text-white font-extrabold bg-slate-900/90 hover:bg-slate-800 px-4 py-2 rounded-xl border border-slate-800/80 transition-all text-xs md:text-sm shadow-md">
                     ← Voltar
                 </Link>
                 <div>
                      <h1 className="text-2xl md:text-3xl font-black text-white">Equipe</h1>
-                     <p className="text-slate-500 text-sm md:text-base">Gerencie quem atende em seu negócio.</p>
+                     <p className="text-slate-400 text-xs md:text-sm mt-0.5">Gerencie quem atende e configure escalas.</p>
                 </div>
             </div>
         </div>
 
-        {/* CREATE CARD DARK - REESTABELECIDO DESIGN ORIGINAL */}
-        <div className="bg-slate-900 p-6 md:p-8 rounded-3xl shadow-lg border border-slate-800 mb-10">
-            <h2 className="text-lg font-bold mb-4 text-white flex items-center gap-2">
-                <span className="bg-purple-600 w-2 h-6 rounded-full"></span>
+        {/* CARD ADICIONAR NOVO MEMBRO (VERSÃO AZUL) */}
+        <div className="bg-slate-900/90 p-6 md:p-8 rounded-[2rem] shadow-xl border border-slate-800/80 mb-10 relative overflow-hidden">
+            <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
+            
+            <h2 className="text-base md:text-lg font-black mb-5 text-white flex items-center gap-2.5">
+                <span className="bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.6)] w-1.5 h-6 rounded-full"></span>
                 Adicionar Novo Membro
             </h2>
             <div className="flex flex-col md:flex-row gap-4 items-end">
                 <div className="flex-1 w-full">
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Nome do Profissional</label>
+                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-1.5">Nome do Profissional</label>
                     <input 
                         type="text" 
                         value={newName}
                         onChange={e => setNewName(e.target.value)}
                         placeholder="Ex: Ana Silva"
-                        className="w-full p-3 md:p-4 border border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-600 outline-none bg-slate-800 text-white placeholder-slate-600"
+                        className="w-full p-3.5 border border-slate-800 focus:border-blue-500/50 rounded-2xl bg-slate-950/60 text-white placeholder-slate-600 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all duration-200"
                     />
                 </div>
                 <button 
                     onClick={handleCreate}
                     disabled={!newName || saving}
-                    className={`h-[50px] md:h-[60px] px-8 rounded-xl font-bold transition-all w-full md:w-auto text-sm
-                        ${saving || !newName ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-purple-600 text-white hover:bg-purple-500 shadow-lg'}
+                    className={`h-[50px] md:h-[52px] px-8 rounded-2xl font-black transition-all w-full md:w-auto text-xs uppercase tracking-widest shrink-0
+                        ${saving || !newName 
+                          ? 'bg-slate-850 text-slate-500 cursor-not-allowed border border-slate-800' 
+                          : 'bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-[0.99]'}
                     `}
                 >
-                    {saving ? "..." : "Contratar +"}
+                    {saving ? "Salvando..." : "Contratar Membro"}
                 </button>
             </div>
         </div>
 
-        {/* LISTA DARK - CORRIGIDA E SEM DUPLICAÇÃO */}
+        {/* LISTA DE COLABORADORES UPGRADE */}
         <div className="grid grid-cols-1 gap-4 pb-20">
              {professionals.map((pro, index) => (
-                 <div key={pro.id} className="bg-slate-900 p-5 md:p-6 rounded-2xl border border-slate-800 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 hover:border-slate-700 transition-colors">
-                      <div className="flex items-center gap-4 w-full md:w-auto">
-                           
-                           {/* BOTÕES DE ORDENAÇÃO */}
-                           <div className="flex flex-col gap-1 pr-2">
+                 <div 
+                   key={pro.id} 
+                   className="bg-slate-900/90 p-4 md:p-5 rounded-3xl border border-slate-800/80 hover:border-blue-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
+                 >
+                      <div className="flex items-center gap-3.5 w-full sm:w-auto min-w-0">
+                           {/* BOTÕES DE ORDENAÇÃO ESTILIZADOS */}
+                           <div className="flex flex-col gap-0.5 pr-1.5 border-r border-slate-800">
                                 <button 
                                     onClick={() => handleMove(index, 'up')}
                                     disabled={index === 0}
-                                    className="p-1 hover:bg-slate-800 rounded disabled:opacity-20 text-slate-400 transition-colors"
+                                    className="p-1 hover:bg-slate-800 rounded-lg disabled:opacity-10 text-slate-400 hover:text-white transition-all active:scale-90"
                                 >
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path></svg>
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 15l7-7 7 7"></path></svg>
                                 </button>
                                 <button 
                                     onClick={() => handleMove(index, 'down')}
                                     disabled={index === professionals.length - 1}
-                                    className="p-1 hover:bg-slate-800 rounded disabled:opacity-20 text-slate-400 transition-colors"
+                                    className="p-1 hover:bg-slate-800 rounded-lg disabled:opacity-10 text-slate-400 hover:text-white transition-all active:scale-90"
                                 >
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
                            </div>
 
-                           <div className="w-16 h-16 rounded-full bg-slate-800 border border-slate-700 overflow-hidden flex items-center justify-center text-2xl text-slate-500 shrink-0">
-                                {pro.photoUrl ? <img src={pro.photoUrl} loading="lazy" decoding="async" className="w-full h-full object-cover" /> : "👤"}
+                           {/* AVATAR COM SHADOW E BORDA */}
+                           <div className="w-13 h-13 rounded-full bg-slate-800 border border-slate-700/50 overflow-hidden flex items-center justify-center text-xl text-slate-500 shrink-0 shadow-inner">
+                                {pro.photoUrl ? (
+                                  <img src={pro.photoUrl} loading="lazy" decoding="async" className="w-full h-full object-cover" alt={pro.name} />
+                                ) : (
+                                  "👤"
+                                )}
                            </div>
-                           <div>
-                                <h3 className="font-bold text-lg text-white">{index + 1}. {pro.name}</h3>
-                                <p className="text-sm text-slate-400">{pro.workStart} às {pro.workEnd}</p>
+                           
+                           <div className="min-w-0 leading-tight">
+                                <span className="text-[8px] font-black text-blue-400 uppercase tracking-widest block mb-0.5">Membro #{index + 1}</span>
+                                <h3 className="font-extrabold text-base md:text-lg text-white truncate leading-tight">
+                                  {pro.name}
+                                </h3>
+                                <p className="text-xs text-slate-400 mt-1 flex items-center gap-1.5 font-medium">
+                                  ⏱ {pro.workStart} às {pro.workEnd}
+                                </p>
                            </div>
                       </div>
                       
-                      <div className="flex gap-3 w-full md:w-auto">
-                           <button onClick={() => setEditingPro(pro)} className="flex-1 md:flex-none px-4 py-2 bg-blue-900/20 text-blue-400 border border-blue-900/50 font-bold rounded-lg hover:bg-blue-900/40 transition-colors text-sm">Configurar</button>
-                           <button onClick={() => setShowConfirmDelete(pro.id)} className="px-4 py-2 bg-red-900/20 text-red-400 border border-red-900/50 font-bold rounded-lg hover:bg-red-900/40 transition-colors text-sm">Excluir</button>
+                      {/* BOTÕES DE CONFIGURAÇÃO DO MEMBRO */}
+                      <div className="flex gap-2.5 w-full sm:w-auto shrink-0 mt-3 sm:mt-0">
+                           <button 
+                             onClick={() => setEditingPro(pro)} 
+                             className="flex-1 sm:flex-none px-4.5 py-2.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 font-extrabold rounded-xl hover:bg-blue-600 hover:text-white transition-all text-xs uppercase tracking-wider"
+                           >
+                             Configurar
+                           </button>
+                           <button 
+                             onClick={() => setShowConfirmDelete(pro.id)} 
+                             className="px-4.5 py-2.5 bg-red-500/10 text-red-400 border border-red-500/20 font-extrabold rounded-xl hover:bg-red-600 hover:text-white transition-all text-xs uppercase tracking-wider"
+                           >
+                             Excluir
+                           </button>
                       </div>
                  </div>
              ))}
              
              {professionals.length === 0 && !loading && (
-                 <div className="text-center py-10 text-slate-500 bg-slate-900 rounded-2xl border border-slate-800">Nenhum profissional cadastrado.</div>
+                 <div className="text-center py-12 text-slate-400 bg-slate-900/90 rounded-[2rem] border border-slate-800/80 font-bold uppercase tracking-widest text-xs">
+                   Nenhum profissional cadastrado.
+                 </div>
              )}
         </div>
-        </div> {/* <--- ADICIONE ESTA LINHA EXATAMENTE AQUI */}
+      </div> {/* FECHAMENTO DA MAX-W-5L */}
 
-      {/* MODAL CONFIGURAÇÃO DARK - REESTABELECIDO DESIGN ORIGINAL */}
+      {/* MODAL CONFIGURAÇÃO (GLOW & GLASSMORPHISM) */}
       {editingPro && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="bg-slate-900 rounded-3xl shadow-2xl p-6 md:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto border border-slate-800 custom-scrollbar">
-                <div className="flex justify-between items-center mb-6 md:mb-8 border-b border-slate-800 pb-4">
-                    <h3 className="text-xl md:text-2xl font-black text-white">Editar Perfil</h3>
-                    <button onClick={() => setEditingPro(null)} className="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center hover:bg-slate-700">✕</button>
+        <div className="fixed inset-0 bg-slate-950/80 z-50 flex items-center justify-center p-4 backdrop-blur-md animate-in fade-in duration-250">
+            <div className="bg-slate-950 border border-slate-800/80 rounded-[2.5rem] shadow-2xl p-6 md:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto relative animate-in zoom-in-95 duration-200 custom-scrollbar text-left">
+                <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
+                
+                {/* TOPO DO MODAL */}
+                <div className="flex justify-between items-center mb-6 border-b border-slate-850 pb-4">
+                    <h3 className="text-xl md:text-2xl font-black text-white tracking-tight">Editar Perfil</h3>
+                    <button 
+                      onClick={() => setEditingPro(null)} 
+                      className="w-8 h-8 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800/60 flex items-center justify-center transition-colors text-xs"
+                    >
+                      ✕
+                    </button>
                 </div>
                 
-                <div className="space-y-6">
-                    <div className="flex flex-col items-center justify-center mb-6">
-                        <div className="relative w-28 h-28 rounded-full bg-slate-800 border-4 border-slate-700 shadow-lg mb-4 overflow-hidden group cursor-pointer">
+                <div className="space-y-5">
+                    {/* ENVIAR FOTO COM AVATAR EXCELÊNCIA */}
+                    <div className="flex flex-col items-center justify-center mb-4">
+                        <div className="relative w-24 h-24 rounded-full bg-slate-900 border-4 border-slate-800/80 shadow-xl overflow-hidden group cursor-pointer transition-all hover:border-blue-500/40">
                             {editingPro.photoUrl ? (
-                                <img src={editingPro.photoUrl} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                                <img src={editingPro.photoUrl} loading="lazy" decoding="async" className="w-full h-full object-cover" alt="Foto" />
                             ) : (
-                                <div className="w-full h-full flex items-center justify-center text-4xl text-slate-600">👤</div>
+                                <div className="w-full h-full flex items-center justify-center text-3xl text-slate-600">👤</div>
                             )}
-                            <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span className="text-white text-xs font-bold uppercase">Trocar Foto</span>
+                            <div className="absolute inset-0 bg-black/75 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span className="text-white text-[9px] font-black uppercase tracking-wider">Trocar Foto</span>
                             </div>
                             <input type="file" className="absolute inset-0 opacity-0 cursor-pointer" accept="image/*" onChange={handleFileChange} />
                         </div>
                     </div>
 
+                    {/* CAMPO NOME */}
                     <div>
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Nome</label>
-                        <input type="text" value={editingPro.name} onChange={(e) => setEditingPro({...editingPro, name: e.target.value})} className="w-full p-3 border border-slate-700 rounded-xl bg-slate-800 font-bold text-white focus:ring-1 focus:ring-blue-500 outline-none relative z-10" />
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5 ml-1">Nome Completo</label>
+                        <input 
+                          type="text" 
+                          value={editingPro.name} 
+                          onChange={(e) => setEditingPro({...editingPro, name: e.target.value})} 
+                          className="w-full p-3 border border-slate-800 rounded-xl bg-slate-900/60 font-bold text-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/50 outline-none transition-all duration-200" 
+                        />
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-6">
-                        <div className="relative">
-                            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Entrada</label>
-                            <input type="time" value={editingPro.workStart} onChange={(e) => setEditingPro({...editingPro, workStart: e.target.value})} className="w-full p-3 border border-slate-700 rounded-xl bg-slate-800 text-white relative z-10" />
+                    {/* ENTRADA E SAÍDA SIMÉTRICOS */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5 ml-1">Entrada</label>
+                            <input 
+                              type="time" 
+                              value={editingPro.workStart} 
+                              onChange={(e) => setEditingPro({...editingPro, workStart: e.target.value})} 
+                              className="w-full p-3 border border-slate-800 rounded-xl bg-slate-900/60 text-white font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/50 outline-none transition-all duration-200" 
+                            />
                         </div>
-                        <div className="relative">
-                            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Saída</label>
-                            <input type="time" value={editingPro.workEnd} onChange={(e) => setEditingPro({...editingPro, workEnd: e.target.value})} className="w-full p-3 border border-slate-700 rounded-xl bg-slate-800 text-white relative z-10" />
+                        <div>
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5 ml-1">Saída</label>
+                            <input 
+                              type="time" 
+                              value={editingPro.workEnd} 
+                              onChange={(e) => setEditingPro({...editingPro, workEnd: e.target.value})} 
+                              className="w-full p-3 border border-slate-800 rounded-xl bg-slate-900/60 text-white font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/50 outline-none transition-all duration-200" 
+                            />
                         </div>
                     </div>
 
+                    {/* PASTILHAS DIAS DE TRABALHO */}
                     <div>
-                        <label className="text-xs font-bold text-slate-500 uppercase mb-2 block tracking-wider">Dias de Trabalho</label>
-                        <div className="flex flex-wrap gap-2">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2.5 ml-1">Dias de Expediente</label>
+                        <div className="flex flex-wrap gap-1.5">
                             {daysMap.map((day) => {
                                 const isSelected = editingPro.workDays?.split(',').includes(day.val)
                                 return (
-                                    <button key={day.val} onClick={() => toggleDay(day.val)} className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${isSelected ? 'bg-blue-600 text-white shadow-lg' : 'bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500'}`}>
+                                    <button 
+                                      key={day.val} 
+                                      onClick={() => toggleDay(day.val)} 
+                                      className={`w-9.5 h-9.5 rounded-xl text-xs font-black transition-all border
+                                        ${isSelected 
+                                          ? 'bg-blue-600 text-white border-blue-500 shadow-md shadow-blue-500/15' 
+                                          : 'bg-slate-900/50 text-slate-400 border-slate-800 hover:border-slate-700'
+                                        }`}
+                                    >
                                         {day.label.charAt(0)}
                                     </button>
                                 )
@@ -319,19 +385,36 @@ export default function GerenciarProfissionais() {
                         </div>
                     </div>
 
-                    <div className="bg-orange-900/10 p-5 rounded-xl border border-orange-500/20">
-                        <p className="text-[10px] font-bold text-orange-400 uppercase mb-3">Pausa / Almoço</p>
-                        <div className="grid grid-cols-2 gap-4">
-                            <input type="time" value={editingPro.lunchStart || ""} onChange={(e) => setEditingPro({...editingPro, lunchStart: e.target.value})} className="w-full p-2 border border-slate-700 rounded bg-slate-800 text-white text-sm" />
-                            <input type="time" value={editingPro.lunchEnd || ""} onChange={(e) => setEditingPro({...editingPro, lunchEnd: e.target.value})} className="w-full p-2 border border-slate-700 rounded bg-slate-800 text-white text-sm" />
+                    {/* INTERVALO DE PAUSA */}
+                    <div className="bg-orange-500/5 p-4 rounded-2xl border border-orange-500/10">
+                        <p className="text-[9px] font-black text-orange-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                          <span>☕</span> Pausa para Almoço / Descanso
+                        </p>
+                        <div className="grid grid-cols-2 gap-3">
+                            <input 
+                              type="time" 
+                              value={editingPro.lunchStart || ""} 
+                              onChange={(e) => setEditingPro({...editingPro, lunchStart: e.target.value})} 
+                              className="w-full p-2.5 border border-slate-800/80 rounded-xl bg-slate-900/60 text-white text-xs font-bold focus:border-orange-500/30 outline-none" 
+                            />
+                            <input 
+                              type="time" 
+                              value={editingPro.lunchEnd || ""} 
+                              onChange={(e) => setEditingPro({...editingPro, lunchEnd: e.target.value})} 
+                              className="w-full p-2.5 border border-slate-800/80 rounded-xl bg-slate-900/60 text-white text-xs font-bold focus:border-orange-500/30 outline-none" 
+                            />
                         </div>
                     </div>
                 </div>
 
-                <button onClick={handleUpdate} className="w-full mt-8 py-4 bg-blue-600 text-white hover:bg-blue-500 rounded-xl font-bold shadow-xl shadow-blue-900/20 text-lg transition-colors">
+                {/* ENVIAR ALTERAÇÕES */}
+                <button 
+                  onClick={handleUpdate} 
+                  className="w-full mt-7 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-black rounded-2xl transition-all shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-[0.99] text-xs uppercase tracking-widest"
+                >
                     {saving ? "Salvando..." : "Salvar Alterações"}
                 </button>
-                </div>
+            </div>
         </div>
       )}
     </div>
