@@ -163,8 +163,8 @@ export default function SubscriptionPlans({ currentPlan, status }: SubscriptionP
             </div>
             
             <p className="text-center text-xs text-gray-400">
-                Pagamento processado de forma 100% segura pelo Mercado Pago.
-            </p>
+    Pagamento processado de forma 100% segura pela Stripe.
+</p>
         </div>
     )
 }
