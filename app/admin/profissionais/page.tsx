@@ -150,53 +150,60 @@ export default function GerenciarProfissionais() {
   ]
 
   return (
-    <div className="min-h-[100dvh] bg-slate-950 p-6 md:p-12 font-sans relative overflow-x-hidden">
+    <div className="min-h-[100dvh] bg-slate-50 p-6 md:p-12 font-sans relative overflow-x-hidden text-slate-800">
       
-      {/* NOTIFICAÇÃO TOAST (DESIGN MODERNO) */}
+      {/* NOTIFICAÇÃO TOAST */}
       {notification && (
         <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[10000] animate-in slide-in-from-top-4">
           <div className={`px-6 py-3 rounded-2xl shadow-2xl border flex items-center gap-3 backdrop-blur-xl ${
-            notification.type === 'success' ? 'bg-green-500/20 border-green-500/50 text-green-400' : 'bg-red-500/20 border-red-500/50 text-red-400'
+            notification.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-rose-50 border-rose-200 text-rose-700'
           }`}>
             <span className="text-xs font-bold uppercase tracking-widest">{notification.message}</span>
           </div>
         </div>
       )}
 
-      {/* MODAL DE CONFIRMAÇÃO (DESIGN DARK) */}
+      {/* MODAL DE CONFIRMAÇÃO */}
       {showConfirmDelete && (
-        <div className="fixed inset-0 z-[10001] flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm">
-          <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-xs w-full shadow-2xl text-center">
-            <h3 className="text-white font-bold mb-2">Tem certeza?</h3>
-            <p className="text-slate-400 text-xs mb-8 text-center">Isso apagará os agendamentos deste profissional.</p>
+        <div className="fixed inset-0 z-[10001] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-sm">
+          <div className="bg-white border border-slate-200 p-8 rounded-3xl max-w-xs w-full shadow-2xl text-center">
+            <h3 className="text-slate-900 font-bold mb-2">Tem certeza?</h3>
+            <p className="text-slate-500 text-xs mb-8 text-center">Isso apagará os agendamentos deste profissional.</p>
             <div className="flex flex-col gap-2">
-              <button onClick={handleDelete} className="w-full bg-red-600 text-white font-bold py-3 rounded-xl hover:bg-red-500 transition-colors uppercase text-[10px] tracking-widest">Confirmar Exclusão</button>
-              <button onClick={() => setShowConfirmDelete(null)} className="w-full text-slate-500 font-bold py-3 uppercase text-[10px] tracking-widest">Cancelar</button>
+              <button onClick={handleDelete} className="w-full bg-rose-600 text-white font-bold py-3 rounded-xl hover:bg-rose-700 transition-colors uppercase text-[10px] tracking-widest shadow-sm">Confirmar Exclusão</button>
+              <button onClick={() => setShowConfirmDelete(null)} className="w-full text-slate-500 hover:text-slate-800 font-bold py-3 uppercase text-[10px] tracking-widest transition-colors">Cancelar</button>
             </div>
           </div>
         </div>
       )}
 
       <div className="max-w-5xl mx-auto">
-        {/* CABEÇALHO UPGRADE */}
-        <div className="flex items-center justify-between mb-10">
-            <div className="flex items-center gap-4">
-                <Link href="/admin" className="text-slate-300 hover:text-white font-extrabold bg-slate-900/90 hover:bg-slate-800 px-4 py-2 rounded-xl border border-slate-800/80 transition-all text-xs md:text-sm shadow-md">
-                    ← Voltar
-                </Link>
-                <div>
-                     <h1 className="text-2xl md:text-3xl font-black text-white">Equipe</h1>
-                     <p className="text-slate-400 text-xs md:text-sm mt-0.5">Gerencie quem atende e configure escalas.</p>
-                </div>
+        {/* CABEÇALHO PADRÃO COM BOTÃO ACIMA E TÍTULO RETO */}
+        <div className="flex flex-col items-start gap-4 mb-8">
+            <Link 
+              href="/admin" 
+              className="group h-[40px] px-4 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-600 hover:text-blue-600 bg-white hover:bg-blue-50/50 border border-slate-200/80 hover:border-blue-200 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-95"
+            >
+              <svg className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+              </svg>
+              <span>Voltar</span>
+            </Link>
+            
+            <div>
+                 <h1 className="text-2xl md:text-3xl font-black text-slate-900">
+                   Equipe
+                 </h1>
+                 <p className="text-slate-500 text-xs md:text-sm mt-1">Gerencie quem atende e configure escalas.</p>
             </div>
         </div>
 
-        {/* CARD ADICIONAR NOVO MEMBRO (VERSÃO AZUL) */}
-        <div className="bg-slate-900/90 p-6 md:p-8 rounded-[2rem] shadow-xl border border-slate-800/80 mb-10 relative overflow-hidden">
-            <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
+        {/* CARD ADICIONAR NOVO MEMBRO BRANCO COM PROFUNDIDADE */}
+        <div className="bg-white p-6 md:p-8 rounded-[2rem] shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] border border-slate-100/80 mb-10 relative overflow-hidden">
+            <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"></div>
             
-            <h2 className="text-base md:text-lg font-black mb-5 text-white flex items-center gap-2.5">
-                <span className="bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.6)] w-1.5 h-6 rounded-full"></span>
+            <h2 className="text-base md:text-lg font-black mb-5 text-slate-900 flex items-center gap-2.5">
+                <span className="bg-blue-600 shadow-sm w-1.5 h-6 rounded-full"></span>
                 Adicionar Novo Membro
             </h2>
             <div className="flex flex-col md:flex-row gap-4 items-end">
@@ -207,7 +214,7 @@ export default function GerenciarProfissionais() {
                         value={newName}
                         onChange={e => setNewName(e.target.value)}
                         placeholder="Ex: Ana Silva"
-                        className="w-full p-3.5 border border-slate-800 focus:border-blue-500/50 rounded-2xl bg-slate-950/60 text-white placeholder-slate-600 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all duration-200"
+                        className="w-full p-3.5 border border-slate-200 focus:border-blue-500 rounded-2xl bg-slate-50 text-slate-900 placeholder-slate-400 focus:bg-white focus:ring-4 focus:ring-blue-500/10 outline-none transition-all duration-200"
                     />
                 </div>
                 <button 
@@ -215,8 +222,8 @@ export default function GerenciarProfissionais() {
                     disabled={!newName || saving}
                     className={`h-[50px] md:h-[52px] px-8 rounded-2xl font-black transition-all w-full md:w-auto text-xs uppercase tracking-widest shrink-0
                         ${saving || !newName 
-                          ? 'bg-slate-850 text-slate-500 cursor-not-allowed border border-slate-800' 
-                          : 'bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-[0.99]'}
+                          ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200' 
+                          : 'bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-md shadow-blue-500/20 active:scale-[0.99]'}
                     `}
                 >
                     {saving ? "Salvando..." : "Contratar Membro"}
@@ -224,34 +231,34 @@ export default function GerenciarProfissionais() {
             </div>
         </div>
 
-        {/* LISTA DE COLABORADORES UPGRADE */}
+        {/* LISTA DE COLABORADORES BRANCOS COM PROFUNDIDADE */}
         <div className="grid grid-cols-1 gap-4 pb-20">
              {professionals.map((pro, index) => (
                  <div 
                    key={pro.id} 
-                   className="bg-slate-900/90 p-4 md:p-5 rounded-3xl border border-slate-800/80 hover:border-blue-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
+                   className="bg-white p-4 md:p-5 rounded-3xl border border-slate-100/80 hover:border-blue-300/80 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_30px_-5px_rgba(0,0,0,0.12)] transition-all duration-300 relative overflow-hidden group"
                  >
                       <div className="flex items-center gap-3.5 w-full sm:w-auto min-w-0">
                            {/* BOTÕES DE ORDENAÇÃO ESTILIZADOS */}
-                           <div className="flex flex-col gap-0.5 pr-1.5 border-r border-slate-800">
+                           <div className="flex flex-col gap-0.5 pr-1.5 border-r border-slate-100">
                                 <button 
                                     onClick={() => handleMove(index, 'up')}
                                     disabled={index === 0}
-                                    className="p-1 hover:bg-slate-800 rounded-lg disabled:opacity-10 text-slate-400 hover:text-white transition-all active:scale-90"
+                                    className="p-1 hover:bg-slate-100 rounded-lg disabled:opacity-20 text-slate-400 hover:text-slate-700 transition-all active:scale-90"
                                 >
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 15l7-7 7 7"></path></svg>
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7"></path></svg>
                                 </button>
                                 <button 
                                     onClick={() => handleMove(index, 'down')}
                                     disabled={index === professionals.length - 1}
-                                    className="p-1 hover:bg-slate-800 rounded-lg disabled:opacity-10 text-slate-400 hover:text-white transition-all active:scale-90"
+                                    className="p-1 hover:bg-slate-100 rounded-lg disabled:opacity-20 text-slate-400 hover:text-slate-700 transition-all active:scale-90"
                                 >
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
                            </div>
 
                            {/* AVATAR COM SHADOW E BORDA */}
-                           <div className="w-13 h-13 rounded-full bg-slate-800 border border-slate-700/50 overflow-hidden flex items-center justify-center text-xl text-slate-500 shrink-0 shadow-inner">
+                           <div className="w-13 h-13 rounded-full bg-slate-100 border border-slate-200 overflow-hidden flex items-center justify-center text-xl text-slate-400 shrink-0 shadow-sm">
                                 {pro.photoUrl ? (
                                   <img src={pro.photoUrl} loading="lazy" decoding="async" className="w-full h-full object-cover" alt={pro.name} />
                                 ) : (
@@ -260,12 +267,13 @@ export default function GerenciarProfissionais() {
                            </div>
                            
                            <div className="min-w-0 leading-tight">
-                                <span className="text-[8px] font-black text-blue-400 uppercase tracking-widest block mb-0.5">Membro #{index + 1}</span>
-                                <h3 className="font-extrabold text-base md:text-lg text-white truncate leading-tight">
+                                <span className="text-[8px] font-black text-blue-600 uppercase tracking-widest block mb-0.5">Membro #{index + 1}</span>
+                                <h3 className="font-extrabold text-base md:text-lg text-slate-900 truncate leading-tight">
                                   {pro.name}
                                 </h3>
-                                <p className="text-xs text-slate-400 mt-1 flex items-center gap-1.5 font-medium">
-                                  ⏱ {pro.workStart} às {pro.workEnd}
+                                <p className="text-xs text-slate-800 font-bold mt-1 flex items-center gap-1.5">
+                                  <span className="text-blue-600 text-sm">⏱</span> 
+                                  <span>{pro.workStart} às {pro.workEnd}</span>
                                 </p>
                            </div>
                       </div>
@@ -274,13 +282,13 @@ export default function GerenciarProfissionais() {
                       <div className="flex gap-2.5 w-full sm:w-auto shrink-0 mt-3 sm:mt-0">
                            <button 
                              onClick={() => setEditingPro(pro)} 
-                             className="flex-1 sm:flex-none px-4.5 py-2.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 font-extrabold rounded-xl hover:bg-blue-600 hover:text-white transition-all text-xs uppercase tracking-wider"
+                             className="flex-1 sm:flex-none px-4.5 py-2.5 bg-blue-50 text-blue-600 border border-blue-200 font-extrabold rounded-xl hover:bg-blue-600 hover:text-white transition-all text-xs uppercase tracking-wider shadow-sm"
                            >
                              Configurar
                            </button>
                            <button 
                              onClick={() => setShowConfirmDelete(pro.id)} 
-                             className="px-4.5 py-2.5 bg-red-500/10 text-red-400 border border-red-500/20 font-extrabold rounded-xl hover:bg-red-600 hover:text-white transition-all text-xs uppercase tracking-wider"
+                             className="px-4.5 py-2.5 bg-rose-50 text-rose-600 border border-rose-200 font-extrabold rounded-xl hover:bg-rose-600 hover:text-white transition-all text-xs uppercase tracking-wider shadow-sm"
                            >
                              Excluir
                            </button>
@@ -289,40 +297,40 @@ export default function GerenciarProfissionais() {
              ))}
              
              {professionals.length === 0 && !loading && (
-                 <div className="text-center py-12 text-slate-400 bg-slate-900/90 rounded-[2rem] border border-slate-800/80 font-bold uppercase tracking-widest text-xs">
+                 <div className="text-center py-12 text-slate-400 bg-white rounded-[2rem] border border-slate-200 font-bold uppercase tracking-widest text-xs shadow-sm">
                    Nenhum profissional cadastrado.
                  </div>
              )}
         </div>
       </div> {/* FECHAMENTO DA MAX-W-5L */}
 
-      {/* MODAL CONFIGURAÇÃO (GLOW & GLASSMORPHISM) */}
+      {/* MODAL CONFIGURAÇÃO BRANCO */}
       {editingPro && (
-        <div className="fixed inset-0 bg-slate-950/80 z-50 flex items-center justify-center p-4 backdrop-blur-md animate-in fade-in duration-250">
-            <div className="bg-slate-950 border border-slate-800/80 rounded-[2.5rem] shadow-2xl p-6 md:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto relative animate-in zoom-in-95 duration-200 custom-scrollbar text-left">
-                <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
+        <div className="fixed inset-0 bg-slate-900/40 z-50 flex items-center justify-center p-4 backdrop-blur-md animate-in fade-in duration-250">
+            <div className="bg-white border border-slate-200 rounded-[2.5rem] shadow-2xl p-6 md:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto relative animate-in zoom-in-95 duration-200 custom-scrollbar text-left">
+                <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"></div>
                 
                 {/* TOPO DO MODAL */}
-                <div className="flex justify-between items-center mb-6 border-b border-slate-850 pb-4">
-                    <h3 className="text-xl md:text-2xl font-black text-white tracking-tight">Editar Perfil</h3>
+                <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                    <h3 className="text-xl md:text-2xl font-black text-slate-900 tracking-tight">Editar Perfil</h3>
                     <button 
                       onClick={() => setEditingPro(null)} 
-                      className="w-8 h-8 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800/60 flex items-center justify-center transition-colors text-xs"
+                      className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 border border-slate-200 flex items-center justify-center transition-colors text-xs"
                     >
                       ✕
                     </button>
                 </div>
                 
                 <div className="space-y-5">
-                    {/* ENVIAR FOTO COM AVATAR EXCELÊNCIA */}
+                    {/* ENVIAR FOTO */}
                     <div className="flex flex-col items-center justify-center mb-4">
-                        <div className="relative w-24 h-24 rounded-full bg-slate-900 border-4 border-slate-800/80 shadow-xl overflow-hidden group cursor-pointer transition-all hover:border-blue-500/40">
+                        <div className="relative w-24 h-24 rounded-full bg-slate-50 border-4 border-slate-200 shadow-md overflow-hidden group cursor-pointer transition-all hover:border-blue-400">
                             {editingPro.photoUrl ? (
                                 <img src={editingPro.photoUrl} loading="lazy" decoding="async" className="w-full h-full object-cover" alt="Foto" />
                             ) : (
-                                <div className="w-full h-full flex items-center justify-center text-3xl text-slate-600">👤</div>
+                                <div className="w-full h-full flex items-center justify-center text-3xl text-slate-400">👤</div>
                             )}
-                            <div className="absolute inset-0 bg-black/75 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <span className="text-white text-[9px] font-black uppercase tracking-wider">Trocar Foto</span>
                             </div>
                             <input type="file" className="absolute inset-0 opacity-0 cursor-pointer" accept="image/*" onChange={handleFileChange} />
@@ -336,28 +344,28 @@ export default function GerenciarProfissionais() {
                           type="text" 
                           value={editingPro.name} 
                           onChange={(e) => setEditingPro({...editingPro, name: e.target.value})} 
-                          className="w-full p-3 border border-slate-800 rounded-xl bg-slate-900/60 font-bold text-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/50 outline-none transition-all duration-200" 
+                          className="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 font-bold text-slate-900 focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all duration-200" 
                         />
                     </div>
                     
-                    {/* ENTRADA E SAÍDA SIMÉTRICOS */}
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5 ml-1">Entrada</label>
+                    {/* ENTRADA E SAÍDA 100% RESPONSIVOS SEM ENCAVALAR NO MOBILE */}
+                    <div className="grid grid-cols-2 gap-3 w-full">
+                        <div className="min-w-0">
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5 ml-1 truncate">Entrada</label>
                             <input 
                               type="time" 
                               value={editingPro.workStart} 
                               onChange={(e) => setEditingPro({...editingPro, workStart: e.target.value})} 
-                              className="w-full p-3 border border-slate-800 rounded-xl bg-slate-900/60 text-white font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/50 outline-none transition-all duration-200" 
+                              className="w-full min-w-0 p-3 text-center border border-slate-200 rounded-xl bg-slate-50 text-slate-900 font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all duration-200" 
                             />
                         </div>
-                        <div>
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5 ml-1">Saída</label>
+                        <div className="min-w-0">
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5 ml-1 truncate">Saída</label>
                             <input 
                               type="time" 
                               value={editingPro.workEnd} 
                               onChange={(e) => setEditingPro({...editingPro, workEnd: e.target.value})} 
-                              className="w-full p-3 border border-slate-800 rounded-xl bg-slate-900/60 text-white font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/50 outline-none transition-all duration-200" 
+                              className="w-full min-w-0 p-3 text-center border border-slate-200 rounded-xl bg-slate-50 text-slate-900 font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all duration-200" 
                             />
                         </div>
                     </div>
@@ -374,8 +382,8 @@ export default function GerenciarProfissionais() {
                                       onClick={() => toggleDay(day.val)} 
                                       className={`w-9.5 h-9.5 rounded-xl text-xs font-black transition-all border
                                         ${isSelected 
-                                          ? 'bg-blue-600 text-white border-blue-500 shadow-md shadow-blue-500/15' 
-                                          : 'bg-slate-900/50 text-slate-400 border-slate-800 hover:border-slate-700'
+                                          ? 'bg-blue-600 text-white border-blue-600 shadow-sm' 
+                                          : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-300'
                                         }`}
                                     >
                                         {day.label.charAt(0)}
@@ -385,23 +393,23 @@ export default function GerenciarProfissionais() {
                         </div>
                     </div>
 
-                    {/* INTERVALO DE PAUSA */}
-                    <div className="bg-orange-500/5 p-4 rounded-2xl border border-orange-500/10">
-                        <p className="text-[9px] font-black text-orange-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                    {/* INTERVALO DE PAUSA RESPONSIVO */}
+                    <div className="bg-amber-50/60 p-4 rounded-2xl border border-amber-200/80">
+                        <p className="text-[9px] font-black text-amber-800 uppercase tracking-widest mb-3 flex items-center gap-1.5">
                           <span>☕</span> Pausa para Almoço / Descanso
                         </p>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-2 gap-3 w-full">
                             <input 
                               type="time" 
                               value={editingPro.lunchStart || ""} 
                               onChange={(e) => setEditingPro({...editingPro, lunchStart: e.target.value})} 
-                              className="w-full p-2.5 border border-slate-800/80 rounded-xl bg-slate-900/60 text-white text-xs font-bold focus:border-orange-500/30 outline-none" 
+                              className="w-full min-w-0 p-2.5 text-center border border-amber-200 rounded-xl bg-white text-slate-900 text-xs font-bold focus:border-amber-400 outline-none" 
                             />
                             <input 
                               type="time" 
                               value={editingPro.lunchEnd || ""} 
                               onChange={(e) => setEditingPro({...editingPro, lunchEnd: e.target.value})} 
-                              className="w-full p-2.5 border border-slate-800/80 rounded-xl bg-slate-900/60 text-white text-xs font-bold focus:border-orange-500/30 outline-none" 
+                              className="w-full min-w-0 p-2.5 text-center border border-amber-200 rounded-xl bg-white text-slate-900 text-xs font-bold focus:border-amber-400 outline-none" 
                             />
                         </div>
                     </div>
@@ -410,7 +418,7 @@ export default function GerenciarProfissionais() {
                 {/* ENVIAR ALTERAÇÕES */}
                 <button 
                   onClick={handleUpdate} 
-                  className="w-full mt-7 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-black rounded-2xl transition-all shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-[0.99] text-xs uppercase tracking-widest"
+                  className="w-full mt-7 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-black rounded-2xl transition-all shadow-md shadow-blue-500/20 active:scale-[0.99] text-xs uppercase tracking-widest"
                 >
                     {saving ? "Salvando..." : "Salvar Alterações"}
                 </button>

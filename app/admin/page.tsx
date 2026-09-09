@@ -121,27 +121,27 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
     : 'Todos';
 
   return (
-    <div className="min-h-[100dvh] bg-slate-950 font-sans text-slate-200 overflow-x-hidden flex flex-col">
+    <div className="min-h-[100dvh] bg-slate-50 font-sans text-slate-800 overflow-x-hidden flex flex-col">
       
       {/* GATILHO DO MENU INVISÍVEL (MANTIDO INTACTO NA LÓGICA DO CSS) */}
       <input type="checkbox" id="toggle-dashboard-menu" className="peer sr-only" />
 
       {/* FAIXA SUPERIOR FIXA */}
-      <header className="sticky top-0 z-50 w-full bg-slate-950/95 backdrop-blur-md border-b border-slate-800/60 px-6 py-4 flex items-center justify-between shadow-2xl">
+      <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-6 py-4 flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-5">
           {/* LOGO */}
-          <img src="/logo.png" alt="Logo" className="w-14 h-14 md:w-16 md:h-16 object-contain drop-shadow-[0_0_8px_rgba(59,130,246,0.4)]" />
+          <img src="/logo.png" alt="Logo" className="w-14 h-14 md:w-16 md:h-16 object-contain drop-shadow-md" />
           
           <div className="relative flex flex-col pt-2">
-            {/* NOME KAIRÓS - Adicionado pr-4 e leading-tight para não cortar */}
-            <span className="font-black tracking-[-0.05em] text-3xl md:text-4xl uppercase italic leading-tight bg-gradient-to-b from-white via-slate-200 to-slate-500 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] select-none pr-4">
+            {/* NOME KAIRÓS */}
+            <span className="font-black tracking-[-0.05em] text-3xl md:text-4xl uppercase italic leading-tight bg-gradient-to-b from-slate-950 via-slate-900 to-slate-700 bg-clip-text text-transparent drop-shadow-sm select-none pr-4">
               KAIRÓS
             </span>
             
             {/* FLASH DE LUZ AZUL */}
             <div className="relative w-full h-[2px] -mt-1 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400 to-transparent shadow-[0_0_15px_#3b82f6]"></div>
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-full bg-blue-300 blur-[1px]"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500 to-transparent shadow-[0_0_15px_#3b82f6]"></div>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-full bg-blue-400 blur-[1px]"></div>
             </div>
           </div>
         </div>
@@ -157,15 +157,15 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
             <div className="absolute inset-[-200%] bg-[conic-gradient(from_0deg,transparent_30%,#f59e0b_50%,transparent_70%)] animate-[spin_3s_linear_infinite]" />
           )}
           
-          {/* CORPO DO BOTÃO - Ajustado para brilhar azul no hover quando estiver limpo */}
+          {/* CORPO DO BOTÃO - Alerta laranja preservado intacto */}
           <div className={`
             relative z-10 p-2.5 rounded-[calc(1rem-2px)] w-full h-full flex items-center justify-center transition-all
             ${pendingPastCount > 0 
               ? 'bg-slate-950' 
-              : 'bg-slate-900 border border-slate-800 group-hover:bg-slate-800 group-hover:border-blue-500/50 shadow-[group-hover:0_0_15px_rgba(59,130,246,0.2)]'
+              : 'bg-white border border-slate-200 group-hover:bg-slate-50 group-hover:border-blue-500/50 shadow-sm'
             }
           `}>
-            <svg className={`w-7 h-7 transition-colors ${pendingPastCount > 0 ? 'text-amber-500' : 'text-slate-300 group-hover:text-white'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className={`w-7 h-7 transition-colors ${pendingPastCount > 0 ? 'text-amber-500' : 'text-blue-600 group-hover:text-blue-700'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
             </svg>
           </div>
@@ -173,14 +173,14 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
       </header>
 
       {/* ÁREA DO MENU DESLIZANTE QUE ENVOLVE OS CARDS E BOTÕES */}
-      <div className="w-full bg-slate-950 border-b border-slate-800 overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-in-out grid grid-rows-[0fr] peer-checked:grid-rows-[1fr] opacity-0 peer-checked:opacity-100 shadow-2xl">
+      <div className="w-full bg-slate-50 border-b border-slate-200 overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-in-out grid grid-rows-[0fr] peer-checked:grid-rows-[1fr] opacity-0 peer-checked:opacity-100 shadow-md">
     <div className="min-h-0"> {/* Wrapper necessário para a animação de grid row funcionar */}
        {/* Aqui dentro continua todo o conteúdo original do seu menu */}
         <div className="max-w-7xl mx-auto px-6 py-8 md:px-12">
           
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 border-b border-slate-800 pb-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 border-b border-slate-200 pb-6">
             <div>
-              <h1 className="text-2xl font-black text-white tracking-tight uppercase italic">{tenantName}</h1>
+              <h1 className="text-2xl font-black text-slate-900 tracking-tight uppercase italic">{tenantName}</h1>
               <div className="flex items-center gap-2 mt-1">
                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                 <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Kairós Ativo</p>
@@ -189,58 +189,57 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
             
             <div className="flex gap-3 items-center w-full md:w-auto">
                  <HeaderActions shareUrl={shareUrl} tenantSlug={tenantSlug} />
-                 <div className="pl-4 border-l border-slate-800">
+                 <div className="pl-4 border-l border-slate-200">
                     <LogoutButton />
                  </div>
             </div>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-2">
-                    {/* CARDS COM DESIGN ORIGINAL RESTAURADO */}
-                    <Link href="/admin/servicos" className="bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-800 hover:border-blue-500/50 transition-all group hover:-translate-y-1 relative overflow-hidden">
-                        <div className="absolute right-0 top-0 w-24 h-24 bg-blue-500/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
-                        <div className="w-12 h-12 bg-slate-800 text-blue-400 rounded-2xl flex items-center justify-center text-2xl mb-4 relative z-10 border border-slate-700">
+                    {/* CARDS COM DESIGN BRANCO E PROFUNDIDADE */}
+                    <Link href="/admin/servicos" className="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 hover:border-blue-500/50 hover:shadow-md transition-all group hover:-translate-y-1 relative overflow-hidden">
+                        <div className="absolute right-0 top-0 w-24 h-24 bg-blue-500/5 rounded-bl-full transition-transform group-hover:scale-110"></div>
+                        <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-2xl mb-4 relative z-10 border border-blue-100">
                             {themeConfig.serviceIcon}
                         </div>
-                        <h3 className="font-bold text-white relative z-10">{themeConfig.serviceName}</h3>
-                        <p className="text-xs text-slate-400 mt-1 relative z-10">Editar preços</p>
+                        <h3 className="font-bold text-slate-900 relative z-10">{themeConfig.serviceName}</h3>
+                        <p className="text-xs text-slate-500 mt-1 relative z-10">Editar preços</p>
                     </Link>
                     
-                    <Link href="/admin/profissionais" className="bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-800 hover:border-purple-500/50 transition-all group hover:-translate-y-1 relative overflow-hidden">
-                        <div className="absolute right-0 top-0 w-24 h-24 bg-purple-500/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
-                        <div className="w-12 h-12 bg-slate-800 text-purple-400 rounded-2xl flex items-center justify-center text-2xl mb-4 relative z-10 border border-slate-700">
+                    <Link href="/admin/profissionais" className="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 hover:border-purple-500/50 hover:shadow-md transition-all group hover:-translate-y-1 relative overflow-hidden">
+                        <div className="absolute right-0 top-0 w-24 h-24 bg-purple-500/5 rounded-bl-full transition-transform group-hover:scale-110"></div>
+                        <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center text-2xl mb-4 relative z-10 border border-purple-100">
                             {themeConfig.proIcon}
                         </div>
-                        <h3 className="font-bold text-white relative z-10">{themeConfig.proName}</h3>
-                        <p className="text-xs text-slate-400 mt-1 relative z-10">Gestão de equipe</p>
+                        <h3 className="font-bold text-slate-900 relative z-10">{themeConfig.proName}</h3>
+                        <p className="text-xs text-slate-500 mt-1 relative z-10">Gestão de equipe</p>
                     </Link>
 
-                    <Link href="/admin/configuracoes" className="bg-slate-900 p-6 rounded-3xl shadow-lg border border-slate-800 hover:border-orange-500/50 transition-all group hover:-translate-y-1 relative overflow-hidden">
-                        <div className="absolute right-0 top-0 w-24 h-24 bg-orange-500/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
-                        <div className="w-12 h-12 bg-slate-800 text-orange-400 rounded-2xl flex items-center justify-center text-2xl mb-4 relative z-10 border border-slate-700">⚙️</div>
-                        <h3 className="font-bold text-white relative z-10">Configurações</h3>
-                        <p className="text-xs text-slate-400 mt-1 relative z-10">Dados e Assinatura</p>
+                    <Link href="/admin/configuracoes" className="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 hover:border-orange-500/50 hover:shadow-md transition-all group hover:-translate-y-1 relative overflow-hidden">
+                        <div className="absolute right-0 top-0 w-24 h-24 bg-orange-500/5 rounded-bl-full transition-transform group-hover:scale-110"></div>
+                        <div className="w-12 h-12 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center text-2xl mb-4 relative z-10 border border-orange-100">⚙️</div>
+                        <h3 className="font-bold text-slate-900 relative z-10">Configurações</h3>
+                        <p className="text-xs text-slate-500 mt-1 relative z-10">Dados e Assinatura</p>
                     </Link>
 
-                    <Link href="/admin/faturamento" className={`bg-gradient-to-br ${themeConfig.bgGradient} p-6 rounded-3xl shadow-lg shadow-blue-900/20 text-white relative overflow-hidden border border-white/10 group hover:-translate-y-1 transition-all`}>
+                    <Link href="/admin/faturamento" className={`bg-gradient-to-br ${themeConfig.bgGradient} p-6 rounded-3xl shadow-md text-white relative overflow-hidden border border-white/10 group hover:-translate-y-1 transition-all`}>
                         <div className="absolute -right-6 -top-6 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
-                        <p className="text-[10px] font-black opacity-70 uppercase tracking-widest mb-2">Faturamento ({currentProName})</p>
-                        {/* AJUSTE VISUAL: text-2xl no mobile para não bater na borda */}
+                        <p className="text-[10px] font-black opacity-80 uppercase tracking-widest mb-2">Faturamento ({currentProName})</p>
                         <p className="text-2xl md:text-3xl font-black text-white">R$ {totalRealizedRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
-                        <p className="text-xs text-white/60 mt-2 border-t border-white/10 pt-2 inline-block">Ver Extrato Detalhado →</p>
+                        <p className="text-xs text-white/80 mt-2 border-t border-white/10 pt-2 inline-block">Ver Extrato Detalhado →</p>
                     </Link>
                 </div>
 
                 {pendingPastCount > 0 && (
-                    <div className="mt-4 bg-amber-900/10 border border-amber-900/30 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div className="mt-4 bg-amber-50 border border-amber-200 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
                         <div className="flex items-center gap-3 text-left w-full">
-                            <div className="w-8 h-8 rounded-full bg-amber-900/50 flex items-center justify-center border border-amber-800 text-amber-500 shrink-0">⚠️</div>
+                            <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center border border-amber-300 text-amber-600 shrink-0">⚠️</div>
                             <div>
-                                <h4 className="text-amber-500 font-bold text-sm tracking-tight">Faturamento Retido</h4>
-                                <p className="text-xs text-slate-400 mt-0.5">Você tem {pendingPastCount} atendimento(s) no passado sem confirmação.</p>
+                                <h4 className="text-amber-800 font-bold text-sm tracking-tight">Faturamento Retido</h4>
+                                <p className="text-xs text-amber-700 mt-0.5">Você tem {pendingPastCount} atendimento(s) no passado sem confirmação.</p>
                             </div>
                         </div>
-                        <Link href="/admin?showPast=true" className="w-full md:w-auto text-center px-6 py-2.5 bg-amber-600/10 hover:bg-amber-600/20 border border-amber-600/30 text-amber-500 text-xs font-bold uppercase tracking-wider rounded-xl transition-all whitespace-nowrap">
+                        <Link href="/admin?showPast=true" className="w-full md:w-auto text-center px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all whitespace-nowrap shadow-sm">
                             Revisar
                         </Link>
                     </div>
@@ -254,11 +253,11 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
             <div className="w-full">
                 <div className="flex items-center justify-between mb-8">
                 <div className="flex flex-col">
-                  <h2 className={`text-xl font-bold uppercase italic tracking-tighter ${showPast ? 'text-amber-500' : 'text-white'}`}>
+                  <h2 className={`text-xl font-bold uppercase italic tracking-tighter ${showPast ? 'text-amber-500' : 'text-slate-900'}`}>
                       {showPast ? 'Pendentes (Passado)' : 'Sua Agenda'}
                   </h2>
                   {showPast && (
-                      <Link href="/admin" className="text-[10px] text-slate-400 bg-slate-900 border border-slate-800 hover:bg-slate-800 hover:text-white px-3 py-1.5 rounded-lg uppercase tracking-widest mt-2 flex items-center gap-2 transition-all w-max shadow-sm">
+                      <Link href="/admin" className="text-[10px] text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 hover:text-slate-900 px-3.5 py-1.5 rounded-xl uppercase tracking-widest mt-2 flex items-center gap-2 transition-all w-max shadow-sm font-bold">
                           ← Voltar para Agenda
                       </Link>
                   )}
@@ -266,16 +265,16 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                 
                 {professionals.length > 0 && (
                     <details className="relative group" key={filterProId || 'default'}>
-                        <summary className="list-none bg-slate-900 text-white border border-slate-800 px-5 py-2.5 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-blue-500/50 transition-all select-none">
-                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Filtrar:</span>
-                            <span className="font-bold text-sm text-blue-400">{currentProName}</span>
-                            <span className="text-xs text-slate-500 group-open:rotate-180 transition-transform">▼</span>
+                        <summary className="list-none bg-white text-slate-900 border border-slate-200 px-5 py-2.5 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-blue-500/50 shadow-sm transition-all select-none">
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Filtrar:</span>
+                            <span className="font-bold text-sm text-blue-600">{currentProName}</span>
+                            <span className="text-xs text-blue-600 group-open:rotate-180 transition-transform">▼</span>
                         </summary>
                         
-                        <div className="absolute right-0 top-full mt-2 w-56 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col z-50 animate-in fade-in slide-in-from-top-2">
+                        <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden flex flex-col z-50 animate-in fade-in slide-in-from-top-2">
                             <Link 
                                 href="/admin" 
-                                className={`px-5 py-4 text-sm font-bold border-b border-slate-800 hover:bg-slate-800 transition-colors flex items-center justify-between ${!filterProId || filterProId === 'all' ? 'text-blue-400' : 'text-slate-400'}`}
+                                className={`px-5 py-4 text-sm font-bold border-b border-slate-100 hover:bg-slate-50 transition-colors flex items-center justify-between ${!filterProId || filterProId === 'all' ? 'text-blue-600' : 'text-slate-600'}`}
                             >
                                 Todos
                                 {(!filterProId || filterProId === 'all') && <span>✓</span>}
@@ -284,7 +283,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                                 <Link 
                                     key={pro.id} 
                                     href={`/admin?proId=${pro.id}`} 
-                                    className={`px-5 py-4 text-sm font-bold border-b border-slate-800 last:border-0 hover:bg-slate-800 transition-colors flex items-center justify-between ${filterProId === pro.id ? 'text-blue-400' : 'text-slate-400'}`}
+                                    className={`px-5 py-4 text-sm font-bold border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors flex items-center justify-between ${filterProId === pro.id ? 'text-blue-600' : 'text-slate-600'}`}
                                 >
                                     {pro.name}
                                     {filterProId === pro.id && <span>✓</span>}
@@ -298,8 +297,8 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
             {/* NOVO GRID DE CARDS EM VEZ DE TABELA */}
           <div className="pb-20">
               {appointments.length === 0 ? (
-                  <div className="bg-slate-900 rounded-[2.5rem] p-12 text-center border border-slate-800">
-                      <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Sem agendamentos para este filtro</p>
+                  <div className="bg-white rounded-[2.5rem] p-12 text-center border border-slate-200 shadow-sm">
+                      <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Sem agendamentos para este filtro</p>
                   </div>
               ) : (
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
