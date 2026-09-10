@@ -50,7 +50,7 @@ export default function PullToRefresh() {
         const distance = Math.min(diff * 0.42, 105)
         pullDistanceRef.current = distance
         setPullDistance(distance)
-        if (e.cancelable && diff > 15) {
+        if (e.cancelable) {
           e.preventDefault()
         }
       } else {
@@ -81,15 +81,15 @@ export default function PullToRefresh() {
       }
     }
 
-    // Desativa o reload nativo do Chrome/Android apenas enquanto o componente estiver ativo
-    document.body.style.overscrollBehaviorY = 'contain'
+    // Desativa o reload nativo no Android travando o root html
+    document.documentElement.style.overscrollBehaviorY = 'contain'
 
     window.addEventListener('touchstart', handleTouchStart, { passive: true })
     window.addEventListener('touchmove', handleTouchMove, { passive: false })
     window.addEventListener('touchend', handleTouchEnd)
 
     return () => {
-      document.body.style.overscrollBehaviorY = ''
+      document.documentElement.style.overscrollBehaviorY = ''
       window.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('touchmove', handleTouchMove)
       window.removeEventListener('touchend', handleTouchEnd)
