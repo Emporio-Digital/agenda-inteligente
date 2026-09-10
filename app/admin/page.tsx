@@ -43,8 +43,9 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
   const params = await searchParams
   const filterProId = typeof params.proId === 'string' ? params.proId : undefined
   const showPast = params.showPast === 'true'
-  const todayRef = new Date()
-  todayRef.setHours(0, 0, 0, 0)
+  // Obtém o início do dia (00:00:00) cravado no fuso horário do Brasil (UTC-3)
+  const nowBr = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date())
+  const todayRef = new Date(`${nowBr}T00:00:00-03:00`)
 
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'segredo-padrao-mvp')
@@ -260,7 +261,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                     <div className={`bg-white/90 border border-slate-200/90 border-l-4 ${showPast ? 'border-l-amber-500' : 'border-l-blue-600'} pl-3.5 pr-4 py-2 rounded-xl flex items-center gap-2.5 shadow-sm`}>
                       <span className="text-base select-none leading-none">{showPast ? '⚠️' : '📅'}</span>
                       <h2 className={`text-base md:text-lg font-black uppercase italic tracking-tight ${showPast ? 'text-amber-600' : 'text-slate-700'}`}>
-                        {showPast ? 'Pendentes (Passado)' : 'Sua Agenda'}
+                        {showPast ? 'Pendentes' : 'Sua Agenda'}
                       </h2>
                     </div>
                     <div className="hidden md:flex">

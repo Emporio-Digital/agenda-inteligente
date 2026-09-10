@@ -356,7 +356,7 @@ export default function GerenciarProfissionais() {
                               type="time" 
                               value={editingPro.workStart} 
                               onChange={(e) => setEditingPro({...editingPro, workStart: e.target.value})} 
-                              className="w-full min-w-0 p-3 text-center border border-slate-200 rounded-xl bg-slate-50 text-slate-900 font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all duration-200" 
+                              className="w-full min-w-0 py-3 px-1 text-center border border-slate-200 rounded-xl bg-slate-50 text-slate-900 font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all duration-200 appearance-none [-webkit-appearance:none] box-border block" 
                             />
                         </div>
                         <div className="min-w-0">
@@ -365,7 +365,7 @@ export default function GerenciarProfissionais() {
                               type="time" 
                               value={editingPro.workEnd} 
                               onChange={(e) => setEditingPro({...editingPro, workEnd: e.target.value})} 
-                              className="w-full min-w-0 p-3 text-center border border-slate-200 rounded-xl bg-slate-50 text-slate-900 font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all duration-200" 
+                              className="w-full min-w-0 py-3 px-1 text-center border border-slate-200 rounded-xl bg-slate-50 text-slate-900 font-bold focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all duration-200 appearance-none [-webkit-appearance:none] box-border block" 
                             />
                         </div>
                     </div>
@@ -399,18 +399,22 @@ export default function GerenciarProfissionais() {
                           <span>☕</span> Pausa para Almoço / Descanso
                         </p>
                         <div className="grid grid-cols-2 gap-3 w-full">
-                            <input 
-                              type="time" 
-                              value={editingPro.lunchStart || ""} 
-                              onChange={(e) => setEditingPro({...editingPro, lunchStart: e.target.value})} 
-                              className="w-full min-w-0 p-2.5 text-center border border-amber-200 rounded-xl bg-white text-slate-900 text-xs font-bold focus:border-amber-400 outline-none" 
-                            />
-                            <input 
-                              type="time" 
-                              value={editingPro.lunchEnd || ""} 
-                              onChange={(e) => setEditingPro({...editingPro, lunchEnd: e.target.value})} 
-                              className="w-full min-w-0 p-2.5 text-center border border-amber-200 rounded-xl bg-white text-slate-900 text-xs font-bold focus:border-amber-400 outline-none" 
-                            />
+                            <div className="min-w-0">
+                                <input 
+                                  type="time" 
+                                  value={editingPro.lunchStart || ""} 
+                                  onChange={(e) => setEditingPro({...editingPro, lunchStart: e.target.value})} 
+                                  className="w-full min-w-0 py-2.5 px-1 text-center border border-amber-200 rounded-xl bg-white text-slate-900 text-xs font-bold focus:border-amber-400 outline-none appearance-none [-webkit-appearance:none] box-border block" 
+                                />
+                            </div>
+                            <div className="min-w-0">
+                                <input 
+                                  type="time" 
+                                  value={editingPro.lunchEnd || ""} 
+                                  onChange={(e) => setEditingPro({...editingPro, lunchEnd: e.target.value})} 
+                                  className="w-full min-w-0 py-2.5 px-1 text-center border border-amber-200 rounded-xl bg-white text-slate-900 text-xs font-bold focus:border-amber-400 outline-none appearance-none [-webkit-appearance:none] box-border block" 
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

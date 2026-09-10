@@ -81,11 +81,15 @@ export default function PullToRefresh() {
       }
     }
 
+    // Desativa o reload nativo do Chrome/Android apenas enquanto o componente estiver ativo
+    document.body.style.overscrollBehaviorY = 'contain'
+
     window.addEventListener('touchstart', handleTouchStart, { passive: true })
     window.addEventListener('touchmove', handleTouchMove, { passive: false })
     window.addEventListener('touchend', handleTouchEnd)
 
     return () => {
+      document.body.style.overscrollBehaviorY = ''
       window.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('touchmove', handleTouchMove)
       window.removeEventListener('touchend', handleTouchEnd)
