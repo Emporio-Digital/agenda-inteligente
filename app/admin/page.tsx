@@ -96,11 +96,27 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
 
   if (isExpired) {
     return (
-      <div className="min-h-[100dvh] bg-slate-950 flex flex-col items-center justify-center p-6 text-center">
-        <div className="bg-slate-900 border border-slate-800 p-8 rounded-2xl max-w-md w-full shadow-2xl">
-          <div className="text-5xl mb-6">🔒</div>
-          <h1 className="text-2xl font-bold text-white mb-2 text-sans">Acesso Expirado</h1>
-          <Link href="/admin/configuracoes" className="block w-full bg-blue-600 text-white font-bold py-3 rounded-xl mt-4">Ver Planos</Link>
+      <div className="min-h-[100dvh] bg-slate-50 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden font-sans">
+        {/* Glow de fundo */}
+        <div className="absolute w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        {/* Card Cyber-Glass no padrão novo */}
+        <div className="relative z-10 bg-white/80 backdrop-blur-2xl border border-white/90 p-8 md:p-10 rounded-[2.5rem] max-w-md w-full shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_20px_45px_-10px_rgba(15,23,42,0.12)]">
+          <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-3xl shadow-sm">
+            🔒
+          </div>
+          <h1 className="text-2xl font-black text-slate-900 tracking-tight uppercase italic mb-2">
+            Período de Teste Expirado
+          </h1>
+          <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6">
+            Seus 7 dias gratuitos chegaram ao fim. Escolha um plano para reativar sua agenda e continuar recebendo atendimentos.
+          </p>
+          <Link 
+            href="/admin/configuracoes" 
+            className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-widest text-xs py-4 rounded-2xl shadow-md hover:shadow-lg hover:shadow-blue-500/25 transition-all active:scale-95 border border-blue-500/40"
+          >
+            Ver Planos Disponíveis →
+          </Link>
         </div>
       </div>
     )
