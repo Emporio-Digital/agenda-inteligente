@@ -208,7 +208,7 @@ export default function GerenciarProfissionais() {
             </h2>
             <div className="flex flex-col md:flex-row gap-4 items-end">
                 <div className="flex-1 w-full">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-1.5">Nome do Profissional</label>
+                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-1.5">Nome do Profissional</label>
                     <input 
                         type="text" 
                         value={newName}
@@ -339,7 +339,7 @@ export default function GerenciarProfissionais() {
 
                     {/* CAMPO NOME */}
                     <div>
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5 ml-1">Nome Completo</label>
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1.5 ml-1">Nome Completo</label>
                         <input 
                           type="text" 
                           value={editingPro.name} 
@@ -351,7 +351,7 @@ export default function GerenciarProfissionais() {
                     {/* ENTRADA E SAÍDA 100% RESPONSIVOS SEM ENCAVALAR NO MOBILE */}
                     <div className="grid grid-cols-2 gap-3 w-full">
                         <div className="min-w-0">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5 ml-1 truncate">Entrada</label>
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1.5 ml-1 truncate">Entrada</label>
                             <input 
                               type="time" 
                               value={editingPro.workStart} 
@@ -360,7 +360,7 @@ export default function GerenciarProfissionais() {
                             />
                         </div>
                         <div className="min-w-0">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5 ml-1 truncate">Saída</label>
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1.5 ml-1 truncate">Saída</label>
                             <input 
                               type="time" 
                               value={editingPro.workEnd} 
@@ -372,7 +372,7 @@ export default function GerenciarProfissionais() {
 
                     {/* PASTILHAS DIAS DE TRABALHO */}
                     <div>
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2.5 ml-1">Dias de Expediente</label>
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2.5 ml-1">Dias de Expediente</label>
                         <div className="flex flex-wrap gap-1.5">
                             {daysMap.map((day) => {
                                 const isSelected = editingPro.workDays?.split(',').includes(day.val)

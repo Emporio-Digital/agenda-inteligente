@@ -97,7 +97,7 @@ export default function AppointmentRow({ appt }: { appt: any }) {
           )}
         </div>
         <div className="min-w-0 leading-tight">
-          <span className="text-slate-400 text-[8px] font-black uppercase tracking-widest block">Profissional</span>
+          <span className="text-slate-500 text-[8px] font-black uppercase tracking-widest block">Profissional</span>
           <span className="text-xs md:text-sm font-black text-slate-900 truncate block">
             {appt.professional.name.split(' ')[0]}
           </span>
@@ -109,7 +109,7 @@ export default function AppointmentRow({ appt }: { appt: any }) {
 
       {/* 3. CLIENTE */}
       <div className="mb-2 min-w-0">
-        <span className="text-slate-400 text-[8px] font-black uppercase tracking-widest block mb-1">Cliente</span>
+        <span className="text-slate-500 text-[8px] font-black uppercase tracking-widest block mb-1">Cliente</span>
         <div className="min-w-0 leading-tight">
           <h4 className="font-extrabold text-slate-900 text-xs truncate leading-snug">
             {appt.customer.name}
@@ -126,13 +126,13 @@ export default function AppointmentRow({ appt }: { appt: any }) {
       {/* 4. FINANCEIRO / ITENS */}
       <div className="grid grid-cols-2 gap-2 mb-2">
         <div>
-          <span className="text-slate-400 text-[8px] font-black uppercase tracking-widest block mb-1">Item</span>
+          <span className="text-slate-500 text-[8px] font-black uppercase tracking-widest block mb-1">Item</span>
           <span className="bg-slate-100 text-slate-600 px-2 py-0.5 rounded text-[8px] font-black border border-slate-200 uppercase whitespace-nowrap inline-block">
             {appt.services.length} {appt.services.length === 1 ? 'Item' : 'Itens'}
           </span>
         </div>
         <div className="text-right">
-          <span className="text-slate-400 text-[8px] font-black uppercase tracking-widest block mb-1">Valor</span>
+          <span className="text-slate-500 text-[8px] font-black uppercase tracking-widest block mb-1">Valor</span>
           <span className="font-extrabold text-emerald-600 text-xs md:text-sm whitespace-nowrap block">
             R$ {totalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </span>
@@ -239,11 +239,11 @@ export default function AppointmentRow({ appt }: { appt: any }) {
               {/* GRID DETALHES GERAIS */}
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-center">
-                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-wider mb-1">Especialista</p>
+                    <p className="text-[8px] font-black text-slate-500 uppercase tracking-wider mb-1">Especialista</p>
                     <p className="text-xs text-slate-900 font-extrabold truncate tracking-tight">{appt.professional.name}</p>
                 </div>
                 <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-center">
-                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-wider mb-1">Hora/Data</p>
+                    <p className="text-[8px] font-black text-slate-500 uppercase tracking-wider mb-1">Hora/Data</p>
                     <p className="text-[11px] text-slate-900 font-bold">{hora} - {dia}</p>
                 </div>
               </div>

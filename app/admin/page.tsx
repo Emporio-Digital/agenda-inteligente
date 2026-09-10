@@ -6,6 +6,9 @@ import { redirect } from "next/navigation"
 import LogoutButton from "./logout-button"
 import AppointmentRow from "./appointment-row"
 import HeaderActions from "./header-actions" 
+import BrandTitle from "./brand-title"
+import RefreshButton from "./refresh-button"
+import PullToRefresh from "./pull-to-refresh"
 
 export const dynamic = 'force-dynamic'
 
@@ -122,28 +125,28 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
 
   return (
     <div className="min-h-[100dvh] bg-slate-50 font-sans text-slate-800 overflow-x-hidden flex flex-col">
+      <PullToRefresh />
       
       {/* GATILHO DO MENU INVISÍVEL (MANTIDO INTACTO NA LÓGICA DO CSS) */}
       <input type="checkbox" id="toggle-dashboard-menu" className="peer sr-only" />
 
-      {/* FAIXA SUPERIOR FIXA */}
-      <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-6 py-4 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-5">
-          {/* LOGO */}
-          <img src="/logo.png" alt="Logo" className="w-14 h-14 md:w-16 md:h-16 object-contain drop-shadow-md" />
-          
-          <div className="relative flex flex-col pt-2">
-            {/* NOME KAIRÓS */}
-            <span className="font-black tracking-[-0.05em] text-3xl md:text-4xl uppercase italic leading-tight bg-gradient-to-b from-slate-950 via-slate-900 to-slate-700 bg-clip-text text-transparent drop-shadow-sm select-none pr-4">
-              KAIRÓS
-            </span>
+      {/* FAIXA SUPERIOR FIXA - SLIM E MODERNA */}
+      <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-6 py-2.5 md:py-3 flex items-center justify-between shadow-sm">
+        <div className="flex items-center gap-4 min-w-0">
+          {/* DOCK CYBER-GLASS REAL (ACRÍLICO RETROILUMINADO INTEGRADO) */}
+          <div className="relative w-14 h-14 md:w-15 md:h-15 rounded-2xl p-[3px] bg-white/90 backdrop-blur-xl border border-white shadow-[0_12px_24px_-6px_rgba(15,23,42,0.2),0_0_14px_rgba(0,240,255,0.25),inset_0_1.5px_1px_rgba(255,255,255,1)] flex items-center justify-center shrink-0">
             
-            {/* FLASH DE LUZ AZUL */}
-            <div className="relative w-full h-[2px] -mt-1 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500 to-transparent shadow-[0_0_15px_#3b82f6]"></div>
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-full bg-blue-400 blur-[1px]"></div>
+            {/* CANALETA DE LASER EMBUTIDA DENTRO DO VIDRO (360 GRAUS) */}
+            <div className="absolute inset-[2.5px] rounded-[13px] border border-cyan-400/50 shadow-[0_0_8px_#00f0ff,inset_0_0_6px_#00f0ff] pointer-events-none" />
+
+            {/* LOGO NÚCLEO CENTRAL PRESERVADO */}
+            <div className="relative z-10 w-full h-full rounded-[11px] overflow-hidden bg-slate-950 shadow-[0_4px_10px_rgba(0,0,0,0.5)] flex items-center justify-center border border-slate-900">
+              <img src="/logo.png" alt="Logo" className="w-full h-full object-cover scale-110" />
             </div>
           </div>
+          
+          {/* TÍTULO ATIVO COM TRANSIÇÃO E EFEITO SCANNER */}
+          <BrandTitle tenantName={tenantName} />
         </div>
         
         {/* MENU HAMBURGUER COM EFEITO NEON CONDICIONAL */}
@@ -253,9 +256,17 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
             <div className="w-full">
                 <div className="flex items-center justify-between mb-8">
                 <div className="flex flex-col">
-                  <h2 className={`text-xl font-bold uppercase italic tracking-tighter ${showPast ? 'text-amber-500' : 'text-slate-900'}`}>
-                      {showPast ? 'Pendentes (Passado)' : 'Sua Agenda'}
-                  </h2>
+                  <div className="flex items-center gap-3">
+                    <div className={`bg-white/90 border border-slate-200/90 border-l-4 ${showPast ? 'border-l-amber-500' : 'border-l-blue-600'} pl-3.5 pr-4 py-2 rounded-xl flex items-center gap-2.5 shadow-sm`}>
+                      <span className="text-base select-none leading-none">{showPast ? '⚠️' : '📅'}</span>
+                      <h2 className={`text-base md:text-lg font-black uppercase italic tracking-tight ${showPast ? 'text-amber-600' : 'text-slate-700'}`}>
+                        {showPast ? 'Pendentes (Passado)' : 'Sua Agenda'}
+                      </h2>
+                    </div>
+                    <div className="hidden md:flex">
+                      <RefreshButton />
+                    </div>
+                  </div>
                   {showPast && (
                       <Link href="/admin" className="text-[10px] text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 hover:text-slate-900 px-3.5 py-1.5 rounded-xl uppercase tracking-widest mt-2 flex items-center gap-2 transition-all w-max shadow-sm font-bold">
                           ← Voltar para Agenda
@@ -263,9 +274,10 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                   )}
                 </div>
                 
-                {professionals.length > 0 && (
-                    <details className="relative group" key={filterProId || 'default'}>
-                        <summary className="list-none bg-white text-slate-900 border border-slate-200 px-5 py-2.5 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-blue-500/50 shadow-sm transition-all select-none">
+                <div>
+                  {professionals.length > 0 && (
+                      <details className="relative group" key={filterProId || 'default'}>
+                          <summary className="list-none bg-white text-slate-900 border border-slate-200 px-5 py-2.5 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-blue-500/50 shadow-sm transition-all select-none">
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Filtrar:</span>
                             <span className="font-bold text-sm text-blue-600">{currentProName}</span>
                             <span className="text-xs text-blue-600 group-open:rotate-180 transition-transform">▼</span>
@@ -291,7 +303,8 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
                             ))}
                         </div>
                     </details>
-                )}
+                  )}
+                </div>
             </div>
 
             {/* NOVO GRID DE CARDS EM VEZ DE TABELA */}

@@ -199,7 +199,7 @@ export default function GerenciarServicos() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
                 <div>
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Nome do Serviço</label>
+                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Nome do Serviço</label>
                     <input 
                         type="text" 
                         value={name} 
@@ -210,7 +210,7 @@ export default function GerenciarServicos() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Preço (R$)</label>
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Preço (R$)</label>
                         <input 
                           type="number" 
                           value={price} 
@@ -220,7 +220,7 @@ export default function GerenciarServicos() {
                         />
                     </div>
                     <div>
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Minutos</label>
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Minutos</label>
                         <input 
                           type="number" 
                           value={duration} 
@@ -231,7 +231,7 @@ export default function GerenciarServicos() {
                     </div>
                 </div>
                 <div className="md:col-span-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Realizado por:</label>
+                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Realizado por:</label>
                     <select 
                         value={selectedProId} 
                         onChange={e => setSelectedProId(e.target.value)}
