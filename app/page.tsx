@@ -1,15 +1,18 @@
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
 import BrandTitle from "@/app/admin/brand-title"
 
 // --- DADOS DOS TEMAS ---
 const themes = [
-  { name: "Barbearia", img: "https://i.ibb.co/wf70mrq/IMG-9293.jpg", label: "Tema Barbearia" },
-  { name: "Salão", img: "https://i.ibb.co/JR4P893D/IMG-9294.jpg", label: "Tema Salão de Beleza" },
-  { name: "Restaurante", img: "https://i.ibb.co/wFBtgbwL/IMG-9298.jpg", label: "Tema Restaurante" },
-  { name: "Clínica", img: "https://i.ibb.co/pr6s04cB/IMG-2228.jpg", label: "Tema Clínica" },
-  { name: "Tattoo", img: "https://i.ibb.co/7Jh8hN6s/IMG-2247.jpg", label: "Tema Studio Tattoo" },
-  { name: "Fotografia", img: "https://i.ibb.co/VYgtkMgY/IMG-2234.jpg", label: "Tema Fotografia" },
-  { name: "Serviços", img: "https://i.ibb.co/1fXMcxcS/IMG-2241.jpg", label: "Tema Serviços" },
+  { name: "Barbearia", img: "/temas/tema-barbearia.jpg", label: "Tema Barbearia" },
+  { name: "Salão", img: "/temas/tema-salao.jpg", label: "Tema Salão de Beleza" },
+  { name: "Restaurante", img: "/temas/tema-restaurante.jpg", label: "Tema Restaurante" },
+  { name: "Clínica", img: "/temas/tema-clinica.jpg", label: "Tema Clínica" },
+  { name: "Tattoo", img: "/temas/tema-tattoo.jpg", label: "Tema Studio Tattoo" },
+  { name: "Fotografia", img: "/temas/tema-fotografia.jpg", label: "Tema Fotografia" },
+  { name: "Serviços", img: "/temas/tema-servicos.jpg", label: "Tema Serviços" },
 ]
 
 // --- COMPONENTE DE DEPOIMENTOS ---
@@ -41,6 +44,8 @@ const testimonials = [
 ]
 
 export default function LandingPage() {
+  const [playVideo, setPlayVideo] = useState(false)
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-blue-600 selection:text-white relative overflow-x-hidden">
       
@@ -316,6 +321,8 @@ export default function LandingPage() {
           <img 
             src="/mao-celular.png" 
             alt="Smartphone Kairós" 
+            loading="lazy"
+            decoding="async"
             className="w-full h-auto max-w-[500px] mx-auto drop-shadow-[0_20px_40px_rgba(15,23,42,0.15)] transition-transform duration-700 group-hover:scale-[1.03]"
           />
 
@@ -426,7 +433,13 @@ export default function LandingPage() {
                             <div key={index} className="flex-shrink-0 flex flex-col items-center group w-[200px] md:w-[300px]">
                                 <div className="relative bg-slate-950 rounded-[2rem] md:rounded-[2.5rem] border-[4px] md:border-[8px] border-slate-900 overflow-hidden shadow-[0_20px_40px_-15px_rgba(15,23,42,0.25)] w-full aspect-[9/19] transition-transform duration-300 group-hover:scale-[1.02]">
                                      <div className="w-full h-full bg-slate-900 flex items-center justify-center relative">
-                                        <img src={theme.img} alt={theme.label} className="w-full h-full object-cover opacity-95 group-hover:opacity-100 transition-all" />
+                                        <img 
+                                          src={theme.img} 
+                                          alt={theme.label} 
+                                          loading="lazy"
+                                          decoding="async"
+                                          className="w-full h-full object-cover opacity-95 group-hover:opacity-100 transition-all" 
+                                        />
                                      </div>
                                 </div>
                                 <p className="text-center mt-6 font-bold text-slate-700 bg-white px-4 py-2 rounded-full border border-slate-200/80 shadow-sm text-sm md:text-base">{theme.label}</p>
@@ -606,13 +619,32 @@ export default function LandingPage() {
                 <div className="relative max-w-[336px] mx-auto p-2 rounded-[2.8rem] bg-white/75 backdrop-blur-2xl border border-white/90 shadow-[inset_0_2px_1px_rgba(255,255,255,1),0_25px_50px_-12px_rgba(15,23,42,0.18)]">
                     {/* Container do Vídeo (VERTICAL 9:16) */}
                     <div className="relative rounded-[2.3rem] overflow-hidden border-[6px] border-slate-950 bg-black aspect-[9/19] w-full shadow-inner">
+                      {playVideo ? (
                         <iframe 
-                          src="https://www.youtube.com/embed/qPyu76KGlmw" 
+                          src="https://www.youtube.com/embed/qPyu76KGlmw?autoplay=1" 
                           title="Tutorial Kairós"
                           className="w-full h-full" 
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
                         ></iframe>
+                      ) : (
+                        <div 
+                          onClick={() => setPlayVideo(true)} 
+                          className="relative w-full h-full cursor-pointer group flex items-center justify-center"
+                        >
+                          <img 
+                            src="/capa-video.jpg" 
+                            alt="Tutorial Kairós" 
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                          />
+                          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+                          <div className="absolute w-16 h-16 rounded-full bg-blue-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-blue-600 transition-all border border-white/30">
+                            <svg className="w-7 h-7 fill-current translate-x-0.5" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        </div>
+                      )}
                     </div>
                 </div>
             </div>
