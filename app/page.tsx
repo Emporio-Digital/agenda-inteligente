@@ -20,7 +20,13 @@ const GoogleReviewCard = ({ name, text, img, location }: any) => (
   <div className="bg-white p-5 rounded-2xl shadow-xl flex flex-col gap-3 border border-gray-100 transition-all hover:scale-[1.02]">
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-3">
-        <img src={img} alt={name} className="w-10 h-10 rounded-full object-cover border border-gray-100" />
+        <img 
+          src={img} 
+          alt={name} 
+          loading="lazy" 
+          decoding="async" 
+          className="w-10 h-10 rounded-full object-cover border border-gray-100" 
+        />
         <div className="flex flex-col">
           <span className="text-gray-900 font-bold text-sm leading-none">{name}</span>
           <span className="text-gray-400 text-[10px] uppercase font-bold tracking-tighter mt-1">{location}</span>
@@ -111,7 +117,7 @@ export default function LandingPage() {
     
 
       {/* --- BACKGROUND FIXO --- */}
-      <div className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden bg-slate-50">
+      <div className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden bg-slate-50 transform-gpu will-change-transform">
         {/* Glow suave azulado atrás da logo para dar vida */}
         <div className="absolute w-[500px] md:w-[700px] h-[500px] md:h-[700px] bg-blue-400/15 rounded-full blur-[140px] pointer-events-none"></div>
 
