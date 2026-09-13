@@ -493,7 +493,7 @@ export default function BeloHorizontePage() {
                                 document.getElementById('video-trigger')?.addEventListener('click', function() {
                                     var container = document.getElementById('video-container');
                                     if (container) {
-                                        container.innerHTML = '<iframe src="https://www.youtube.com/embed/qPyu76KGlmw?autoplay=1" title="Tutorial Kairós" class="w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                                        container.innerHTML = '<iframe src="https://www.youtube.com/embed/rov3FztdA5s?autoplay=1" title="Tutorial Kairós" class="w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
                                     }
                                 });
                             `

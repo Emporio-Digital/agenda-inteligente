@@ -410,7 +410,7 @@ return (
                     <h2 className="text-3xl md:text-4xl font-black text-white mb-6 uppercase italic">Sua barbearia em São Bernardo na tela do celular</h2>
                     <p className="text-gray-400 mb-10 max-w-2xl mx-auto">Acompanhe sua agenda inteligente em tempo real. Instale na tela inicial em menos de 10 segundos.</p>
                     <div className="relative rounded-[2.5rem] overflow-hidden border-[8px] border-zinc-800 shadow-2xl bg-black aspect-[9/19] max-w-[320px] mx-auto group">
-                        <iframe src="https://www.youtube.com/embed/qPyu76KGlmw" title="Tutorial Kairós" className="w-full h-full" allowFullScreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/rov3FztdA5s" title="Tutorial Kairós" className="w-full h-full" allowFullScreen></iframe>
                     </div>
                 </div>
             </section>

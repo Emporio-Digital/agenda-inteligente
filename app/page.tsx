@@ -627,7 +627,7 @@ export default function LandingPage() {
                     <div className="relative rounded-[2.3rem] overflow-hidden border-[6px] border-slate-950 bg-black aspect-[9/19] w-full shadow-inner">
                       {playVideo ? (
                         <iframe 
-                          src="https://www.youtube.com/embed/qPyu76KGlmw?autoplay=1" 
+                          src="https://www.youtube.com/embed/rov3FztdA5s?autoplay=1" 
                           title="Tutorial Kairós"
                           className="w-full h-full" 
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
