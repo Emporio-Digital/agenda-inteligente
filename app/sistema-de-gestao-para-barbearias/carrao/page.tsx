@@ -642,6 +642,7 @@ return (
                         <li><Link href="https://egemporiodigital.com.br/sobre" target="_blank" className="hover:text-blue-600 transition-colors">Sobre a EG Empório Digital</Link></li>
                         <li><Link href="https://egemporiodigital.com.br/servicos" target="_blank" className="hover:text-blue-600 transition-colors">Nossos Serviços</Link></li>
                         <li><Link href="https://egemporiodigital.com.br/saas" target="_blank" className="hover:text-blue-600 transition-colors">Outras Automações</Link></li>
+                        <li><Link href="https://egkairos.com.br/blog" target="_blank" className="hover:text-blue-600 transition-colors">Blog</Link></li>
                         <li><Link href="#" className="hover:text-blue-600 transition-colors">Política de Privacidade</Link></li>
                     </ul>
                 </div>

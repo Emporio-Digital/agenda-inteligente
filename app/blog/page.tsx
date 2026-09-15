@@ -249,89 +249,90 @@ export default function BlogHome() {
           </div>
         </section>
 
-      {/* --- FOOTER COMPLETO PADRÃO KAIRÓS --- */}
+      {/* --- FOOTER (ATUALIZADO) --- */}
         <footer className="bg-white/80 backdrop-blur-xl pt-10 pb-6 border-t border-slate-200/80 relative z-20">
           <div className="max-w-7xl mx-auto px-6">
             
             {/* CABEÇALHO DO RODAPÉ - LOGOS */}
             <div className="flex flex-col md:flex-row items-center md:items-end gap-4 mb-8 pb-6 border-b border-slate-200/80">
-              <div className="flex items-center gap-3">
-                <img src="/logo.png" alt="Logo Kairós" className="w-10 h-10 object-contain" />
-                <div className="flex flex-col">
-                  <span className="text-xl font-black tracking-tighter text-slate-900 uppercase leading-none">Kairós</span>
-                  <span className="text-[9px] text-slate-500 font-bold uppercase tracking-[0.2em] mt-0.5">Sua agenda inteligente</span>
+                <div className="flex items-center gap-3">
+                    <img src="/logo.png" alt="Logo Kairós" className="w-10 h-10 object-contain" />
+                    <div className="flex flex-col">
+                        <span className="text-xl font-black tracking-tighter text-slate-900 uppercase leading-none">Kairós</span>
+                        <span className="text-[9px] text-slate-500 font-bold uppercase tracking-[0.2em] mt-0.5">Sua agenda inteligente</span>
+                    </div>
                 </div>
-              </div>
-              <div className="hidden md:block w-[1px] h-6 bg-slate-200 mx-4"></div>
-              <div className="flex flex-col items-center md:items-start">
-                <span className="text-[9px] text-slate-400 uppercase font-bold tracking-widest leading-none mb-1">Uma solução do grupo</span>
-                <Link href="https://egemporiodigital.com.br" target="_blank" className="text-xs font-bold text-slate-800 hover:text-blue-600 transition-colors">
-                  EG EMPÓRIO DIGITAL
-                </Link>
-              </div>
+                <div className="hidden md:block w-[1px] h-6 bg-slate-200 mx-4"></div>
+                <div className="flex flex-col items-center md:items-start">
+                    <span className="text-[9px] text-slate-400 uppercase font-bold tracking-widest leading-none mb-1">Uma solução do grupo</span>
+                    <Link href="https://egemporiodigital.com.br" target="_blank" className="text-xs font-bold text-slate-800 hover:text-blue-600 transition-colors">
+                        EG EMPÓRIO DIGITAL
+                    </Link>
+                </div>
             </div>
 
-            {/* GRID DE CONTEÚDO */}
+            {/* GRID DE CONTEÚDO (ESTILO TRINKS) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8 text-center md:text-left">
-              
-              {/* COLUNA 1 - INSTITUCIONAL */}
-              <div className="flex flex-col gap-3">
-                <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Institucional</h4>
-                <ul className="flex flex-col gap-2 text-xs text-slate-600 font-medium">
-                  <li><Link href="https://egemporiodigital.com.br/sobre" target="_blank" className="hover:text-blue-600 transition-colors">Sobre a EG Empório Digital</Link></li>
-                  <li><Link href="https://egemporiodigital.com.br/servicos" target="_blank" className="hover:text-blue-600 transition-colors">Nossos Serviços</Link></li>
-                  <li><Link href="https://egemporiodigital.com.br/saas" target="_blank" className="hover:text-blue-600 transition-colors">Outras Automações</Link></li>
-                  <li><Link href="#" className="hover:text-blue-600 transition-colors">Política de Privacidade</Link></li>
-                </ul>
-              </div>
-
-              {/* COLUNA 2 - HUB DE SOLUÇÕES */}
-              <div className="flex flex-col gap-3">
-                <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Conheça</h4>
-                <ul className="flex flex-col gap-2 text-xs text-slate-600 font-medium">
-                  <li><Link href="/sistema-de-gestao-para-barbearias" className="hover:text-blue-600 transition-colors text-slate-900 font-bold tracking-tight">💈 Gestão de Barbearias</Link></li>
-                  <li><span className="opacity-40 text-slate-400 italic">💅 Gestão de Salões (Em breve)</span></li>
-                  <li><span className="opacity-40 text-slate-400 italic">🏥 Gestão de Clínicas (Em breve)</span></li>
-                  <li><span className="opacity-40 text-slate-400 italic">🐉 Gestão de Studios (Em breve)</span></li>
-                </ul>
-              </div>
-
-              {/* COLUNA 3 - COMERCIAL E REDES */}
-              <div className="flex flex-col gap-3">
-                <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Comercial</h4>
-                <ul className="flex flex-col gap-2 text-xs text-slate-600 font-medium mb-2">
-                  <li><Link href="/cadastro" className="hover:text-blue-700 transition-colors font-bold text-blue-600">Teste Grátis</Link></li>
-                  <li><Link href="/sistema-de-gestao-para-barbearias#planos" className="hover:text-blue-600 transition-colors">Planos e Preços</Link></li>
-                </ul>
                 
-                <h4 className="text-blue-600 font-black uppercase text-[10px] tracking-widest">Siga-nos</h4>
-                <div className="flex justify-center md:justify-start">
-                  <Link href="https://instagram.com/eg.emporio.digital" target="_blank" className="w-8 h-8 bg-slate-100 border border-slate-200 rounded-full flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 transition-all group shadow-sm">
-                    <svg className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                    </svg>
-                  </Link>
+                {/* COLUNA 1 - INSTITUCIONAL */}
+                <div className="flex flex-col gap-3">
+                    <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Institucional</h4>
+                    <ul className="flex flex-col gap-2 text-xs text-slate-600 font-medium">
+                        <li><Link href="https://egemporiodigital.com.br/sobre" target="_blank" className="hover:text-blue-600 transition-colors">Sobre a EG Empório Digital</Link></li>
+                        <li><Link href="https://egemporiodigital.com.br/servicos" target="_blank" className="hover:text-blue-600 transition-colors">Nossos Serviços</Link></li>
+                        <li><Link href="https://egemporiodigital.com.br/saas" target="_blank" className="hover:text-blue-600 transition-colors">Outras Automações</Link></li>
+                        <li><Link href="https://egkairos.com.br/blog" target="_blank" className="hover:text-blue-600 transition-colors">Blog</Link></li>
+                        <li><Link href="#" className="hover:text-blue-600 transition-colors">Política de Privacidade</Link></li>
+                    </ul>
                 </div>
-              </div>
 
-              {/* COLUNA 4 - TECNOLOGIA / STATUS */}
-              <div className="flex flex-col gap-3">
-                <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Tecnologia</h4>
-                <div className="bg-white/80 border border-slate-200/80 p-3 rounded-xl shadow-sm">
-                  <span className="text-[9px] font-bold text-slate-400 uppercase block mb-1">Sistema</span>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-xs font-bold text-slate-900">Kairós</span>
-                  </div>
+                {/* COLUNA 2 - HUB DE SOLUÇÕES */}
+                <div className="flex flex-col gap-3">
+                    <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Conheça</h4>
+                    <ul className="flex flex-col gap-2 text-xs text-slate-600 font-medium">
+                        <li><Link href="/sistema-de-gestao-para-barbearias" className="hover:text-blue-600 transition-colors text-slate-900 font-bold tracking-tight">💈 Gestão de Barbearias</Link></li>
+                        <li><span className="opacity-40 text-slate-400 italic">💅 Gestão de Salões (Em breve)</span></li>
+                        <li><span className="opacity-40 text-slate-400 italic">🏥 Gestão de Clínicas (Em breve)</span></li>
+                        <li><span className="opacity-40 text-slate-400 italic">🐉 Gestão de Studios (Em breve)</span></li>
+                    </ul>
                 </div>
-              </div>
+
+                {/* COLUNA 3 - COMERCIAL E REDES */}
+                <div className="flex flex-col gap-3">
+                    <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Comercial</h4>
+                    <ul className="flex flex-col gap-2 text-xs text-slate-600 font-medium mb-2">
+                        <li><Link href="/cadastro" className="hover:text-blue-700 transition-colors font-bold text-blue-600">Teste Grátis</Link></li>
+                        <li><Link href="#planos" className="hover:text-blue-600 transition-colors">Planos e Preços</Link></li>
+                    </ul>
+                    
+                    <h4 className="text-blue-600 font-black uppercase text-[10px] tracking-widest">Siga-nos</h4>
+                    <div className="flex justify-center md:justify-start">
+                        <Link href="https://instagram.com/eg.emporio.digital" target="_blank" className="w-8 h-8 bg-slate-100 border border-slate-200 rounded-full flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 transition-all group shadow-sm">
+                            <svg className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </Link>
+                    </div>
+                </div>
+
+                {/* COLUNA 4 - APP / STATUS */}
+                <div className="flex flex-col gap-3">
+                    <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Tecnologia</h4>
+                    <div className="bg-white/80 border border-slate-200/80 p-3 rounded-xl shadow-sm">
+                        <span className="text-[9px] font-bold text-slate-400 uppercase block mb-1">Sistema</span>
+                        <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <span className="text-xs font-bold text-slate-900">Kairós</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* RODAPÉ FINAL - COPYRIGHT */}
             <div className="pt-4 border-t border-slate-200/80 flex flex-col md:flex-row justify-between items-center gap-2 text-center md:text-left">
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">
-                © EG EMPÓRIO DIGITAL
-              </p>
+                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">
+                    © EG EMPÓRIO DIGITAL
+                </p>
             </div>
 
           </div>
