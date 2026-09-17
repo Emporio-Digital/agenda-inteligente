@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#000000",
+  themeColor: "#f8fafc",
 };
 
 export const metadata: Metadata = {
@@ -36,6 +36,11 @@ metadataBase: new URL("https://egkairos.com.br"), // 1. URL BASE OFICIAL
     icon: "/logo.png", 
     shortcut: "/logo.png",
     apple: "/logo.png", 
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Kairós",
   },
   openGraph: {
     title: "Kairós - Sua Agenda Inteligente",
@@ -156,7 +161,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50`}
       >
         {/* --- INJEÇÃO UNIFICADA DE AUTORIDADE MÁXIMA --- */}
       <script

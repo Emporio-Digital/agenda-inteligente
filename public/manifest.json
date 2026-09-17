@@ -4,8 +4,8 @@
   "description": "O sistema de agendamento mais simples e poderoso do mercado.",
   "start_url": "/admin",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#f8fafc",
+  "theme_color": "#f8fafc",
   "icons": [
     {
       "src": "/logo.png",
