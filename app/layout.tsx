@@ -13,10 +13,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Configuração de Visualização (Igual ao original)
+// Configuração de Visualização (Travada estilo App Nativo - sem pulo de tela)
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
   themeColor: "#f8fafc",
 };
 

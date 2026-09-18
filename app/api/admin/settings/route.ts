@@ -14,6 +14,32 @@ function generateSlug(text: string) {
     .replace(/[\s_-]+/g, '-')
 }
 
+export async function GET() {
+  try {
+    const headerList = await headers()
+    const token = headerList.get('cookie')?.split('auth_token=')[1]?.split(';')[0]
+    if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'segredo-padrao-mvp')
+    const { payload } = await jwtVerify(token, secret)
+    const tenantId = payload.tenantId as string
+
+    const tenant = await prisma.tenant.findUnique({
+      where: { id: tenantId },
+      select: {
+        id: true,
+        name: true,
+        logoUrl: true,
+        themeVariant: true,
+      }
+    })
+
+    return NextResponse.json(tenant)
+  } catch (error) {
+    return NextResponse.json({ error: 'Erro ao buscar configurações' }, { status: 500 })
+  }
+}
+
 export async function PUT(request: Request) {
   try {
     // Auth Check

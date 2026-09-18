@@ -40,6 +40,8 @@ export default function GerenciarServicos() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [theme, setTheme] = useState("") 
+  const [tenantLogo, setTenantLogo] = useState("")
+  const [filterProId, setFilterProId] = useState<string>("all")
 
   const [name, setName] = useState("")
   const [price, setPrice] = useState("")
@@ -63,11 +65,10 @@ export default function GerenciarServicos() {
   async function loadData() {
     setLoading(true)
     try {
-      // Dispara os 3 pedidos ao mesmo tempo (ganho de velocidade real)
       const [resServices, resPros, resTenant] = await Promise.all([
         fetch('/api/admin/services'),
         fetch('/api/professionals'),
-        fetch('/api/admin/tenant').catch(() => null) // Não trava se o tenant der erro
+        fetch('/api/admin/settings').catch(() => null)
       ])
 
       const [dataServices, dataPros] = await Promise.all([
@@ -78,12 +79,12 @@ export default function GerenciarServicos() {
       if (resServices.ok) setServices(dataServices)
       if (resPros.ok) {
         setProfessionals(dataPros)
-        if (dataPros.length > 0 && !selectedProId) setSelectedProId(dataPros[0].id)
       }
       
       if (resTenant && resTenant.ok) {
         const dataTenant = await resTenant.json()
-        if (dataTenant.theme) setTheme(dataTenant.theme)
+        if (dataTenant?.themeVariant) setTheme(dataTenant.themeVariant)
+        if (dataTenant?.logoUrl) setTenantLogo(dataTenant.logoUrl)
       }
     } catch (error) {
       console.error("Erro ao carregar dados:", error)
@@ -99,9 +100,11 @@ export default function GerenciarServicos() {
     }
     setSaving(true)
     try {
+        const proIdToSend = (selectedProId && selectedProId !== 'all') ? selectedProId : null
+
         const res = await fetch('/api/admin/services', {
             method: 'POST',
-            body: JSON.stringify({ name, price, duration, professionalId: selectedProId || null })
+            body: JSON.stringify({ name, price, duration, professionalId: proIdToSend })
         })
 
         if (res.ok) {
@@ -109,6 +112,7 @@ export default function GerenciarServicos() {
             setName("")
             setPrice("")
             setDuration("30")
+            setSelectedProId("")
             setNotification({ message: "Serviço adicionado!", type: 'success' })
         } else {
             setNotification({ message: "Erro ao salvar", type: 'error' })
@@ -237,7 +241,8 @@ export default function GerenciarServicos() {
                         onChange={e => setSelectedProId(e.target.value)}
                         className="w-full p-3.5 border border-slate-200 focus:border-blue-500 bg-slate-50 rounded-2xl mt-1.5 font-bold text-slate-900 focus:bg-white focus:ring-4 focus:ring-blue-500/10 outline-none cursor-pointer transition-all duration-200"
                     >
-                        <option value="">Todos os Especialistas</option>
+                        <option value="" disabled>Selecionar</option>
+                        <option value="all">Toda a Equipe</option>
                         {professionals.map(p => (
                             <option key={p.id} value={p.id}>{p.name}</option>
                         ))}
@@ -247,25 +252,91 @@ export default function GerenciarServicos() {
 
             <button 
               onClick={handleCreate} 
-              disabled={!name || !price || saving} 
+              disabled={!name || !price || !selectedProId || saving} 
               className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-black rounded-2xl transition-all shadow-md shadow-blue-500/20 active:scale-[0.99] text-sm uppercase tracking-widest disabled:opacity-40 disabled:pointer-events-none"
             >
                 {saving ? "Salvando..." : "Adicionar Serviço"}
             </button>
         </div>
 
+        {/* CABEÇALHO DA LISTA COM FILTRO IDÊNTICO À HOME */}
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xs md:text-sm font-black uppercase tracking-wider text-slate-500">
+            Serviços Cadastrados
+          </h3>
+
+          {professionals.length > 0 && (
+            <details className="relative group" key={filterProId}>
+              <summary className="list-none bg-white text-slate-900 border border-slate-200 px-5 py-2.5 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-blue-500/50 shadow-sm transition-all select-none">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Filtrar:</span>
+                <span className="font-bold text-sm text-blue-600">
+                  {filterProId === 'all' 
+                    ? 'Todos' 
+                    : professionals.find(p => p.id === filterProId)?.name.split(' ')[0] || 'Todos'}
+                </span>
+                <span className="text-xs text-blue-600 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+
+              <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden flex flex-col z-50 animate-in fade-in slide-in-from-top-2">
+                <button 
+                  type="button"
+                  onClick={(e) => {
+                    setFilterProId('all')
+                    e.currentTarget.closest('details')?.removeAttribute('open')
+                  }}
+                  className={`px-5 py-4 text-sm font-bold border-b border-slate-100 hover:bg-slate-50 transition-colors flex items-center justify-between text-left ${filterProId === 'all' ? 'text-blue-600' : 'text-slate-600'}`}
+                >
+                  Todos
+                  {filterProId === 'all' && <span>✓</span>}
+                </button>
+                {professionals.map(pro => (
+                  <button 
+                    key={pro.id} 
+                    type="button"
+                    onClick={(e) => {
+                      setFilterProId(pro.id)
+                      e.currentTarget.closest('details')?.removeAttribute('open')
+                    }}
+                    className={`px-5 py-4 text-sm font-bold border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors flex items-center justify-between text-left ${filterProId === pro.id ? 'text-blue-600' : 'text-slate-600'}`}
+                  >
+                    {pro.name}
+                    {filterProId === pro.id && <span>✓</span>}
+                  </button>
+                ))}
+              </div>
+            </details>
+          )}
+        </div>
+
         {/* LISTA DE SERVIÇOS BRANCOS COM EFEITO DE PROFUNDIDADE */}
         <div className="space-y-4 pb-20">
-            {services.map(s => (
+            {services
+              .filter(s => filterProId === 'all' || s.professionalId === filterProId || s.professional?.id === filterProId)
+              .map(s => (
                 <div 
                   key={s.id} 
                   className="bg-white p-4 md:p-5 rounded-3xl border border-slate-100/80 hover:border-blue-300/80 flex justify-between items-center shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_30px_-5px_rgba(0,0,0,0.12)] transition-all duration-300 relative overflow-hidden group"
                 >
                     <div className="flex items-center gap-4 min-w-0">
-                        {/* ÍCONE DO SERVIÇO */}
-                        <div className="w-11 h-11 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shrink-0 border border-blue-100 shadow-sm">
-                            <ThemeIcon className="w-5.5 h-5.5" />
-                        </div>
+                        {/* FOTO DO PROFISSIONAL OU LOGO DA EQUIPE */}
+                        {(() => {
+                          const pro = professionals.find(p => p.id === s.professionalId) || s.professional
+                          const imageSrc = pro?.photoUrl || tenantLogo
+
+                          return (
+                            <div className="w-11 h-11 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shrink-0 border border-blue-100 shadow-sm overflow-hidden">
+                              {imageSrc ? (
+                                <img 
+                                  src={imageSrc} 
+                                  alt={pro?.name || "Equipe"} 
+                                  className="w-full h-full object-cover" 
+                                />
+                              ) : (
+                                <ThemeIcon className="w-5 h-5" />
+                              )}
+                            </div>
+                          )
+                        })()}
                         <div className="min-w-0">
                             <h3 className="font-extrabold text-base md:text-lg text-slate-900 leading-tight truncate">
                               {s.name}

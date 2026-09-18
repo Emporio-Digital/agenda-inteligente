@@ -155,6 +155,23 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
     return `${dia}/${mes}/${ano}`
   }
 
+  function handlePhoneChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const raw = e.target.value.replace(/\D/g, "").slice(0, 11)
+    if (!raw) {
+      setCustomerPhone("")
+      return
+    }
+    if (raw.length <= 2) {
+      setCustomerPhone(`(${raw}`)
+      return
+    }
+    if (raw.length <= 7) {
+      setCustomerPhone(`(${raw.slice(0, 2)}) ${raw.slice(2)}`)
+      return
+    }
+    setCustomerPhone(`(${raw.slice(0, 2)}) ${raw.slice(2, 7)}-${raw.slice(7)}`)
+  }
+
   async function handleFinish() {
     setLoading(true)
     const dataFinal = new Date(`${selectedDate}T${selectedTime}:00`)
@@ -437,17 +454,20 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                             <div className="relative group">
                                 <span className="absolute left-4 top-4 text-gray-400 group-focus-within:text-slate-900 transition-colors">📱</span>
                                 <input 
-                                    type="tel" placeholder="(DDD) WhatsApp" 
+                                    type="tel" 
+                                    placeholder="(00) 00000-0000" 
+                                    maxLength={15}
                                     className="w-full p-4 pl-12 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:border-transparent outline-none transition-all font-medium text-slate-900" 
                                     style={{ '--tw-ring-color': primaryColor } as any}
-                                    value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} 
+                                    value={customerPhone} 
+                                    onChange={handlePhoneChange} 
                                 />
                             </div>
                         </div>
 
                         <button 
                             onClick={handleFinish} 
-                            disabled={!customerName || !customerPhone || loading} 
+                            disabled={!customerName.trim() || customerPhone.replace(/\D/g, '').length < 11 || loading} 
                             className="w-full mt-8 py-4 rounded-xl text-white font-bold text-lg shadow-xl shadow-gray-200 disabled:opacity-50 hover:opacity-90 transition-all active:scale-95" 
                             style={{ backgroundColor: primaryColor }}
                         >
