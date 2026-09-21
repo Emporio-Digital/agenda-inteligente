@@ -47,8 +47,8 @@ export async function createCheckoutSession(plan: 'SOLO' | 'PRO' | 'ILIMITADO', 
     params.append('metadata[tenantId]', tenantId);
     params.append('metadata[planTier]', plan);
     params.append('metadata[cycle]', cycle);
-    params.append('success_url', `${baseUrl}/admin/configuracoes?success=true`);
-    params.append('cancel_url', `${baseUrl}/admin/configuracoes?canceled=true`);
+    params.append('success_url', `${baseUrl}/admin?success=true`);
+    params.append('cancel_url', `${baseUrl}/admin?canceled=true`);
 
     // 4. Cria a Sessão de Checkout na Stripe
     const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {

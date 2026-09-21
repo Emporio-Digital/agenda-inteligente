@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     // 2. Lê os dados enviados pela Stripe
     const event = JSON.parse(rawBody);
 
-    // 3. Pagamento Aprovado -> Acesso Liberado no Prisma!
+    // 3. Pagamento Aprovado -> Acesso Liberado + Salva o ID do Cliente Stripe
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
       
@@ -48,14 +48,42 @@ export async function POST(request: Request) {
 
       console.log(`💰 PAGAMENTO APROVADO STRIPE! Tenant: ${tenantId} | Plano: ${planTier}`);
 
-      // 4. ATUALIZA O BANCO DE DADOS (Igualzinho ao Mercado Pago)
       await prisma.tenant.update({
         where: { id: tenantId },
         data: {
           subscriptionStatus: "ACTIVE",
           planTier: planTier,
+          ...(session.customer ? { stripeCustomerId: String(session.customer) } : {}),
         },
       });
+    }
+
+    // 4. Inadimplência na Renovação -> Falha de Cartão no 2º mês em diante
+    if (event.type === "invoice.payment_failed") {
+      const invoice = event.data.object;
+      const customerId = invoice.customer ? String(invoice.customer) : null;
+
+      if (customerId) {
+        console.log(`⚠️ PAGAMENTO RECUSADO STRIPE! Customer: ${customerId}`);
+        await prisma.tenant.updateMany({
+          where: { stripeCustomerId: customerId },
+          data: { subscriptionStatus: "PAST_DUE" },
+        });
+      }
+    }
+
+    // 5. Cancelamento de Assinatura -> Cliente cancelou
+    if (event.type === "customer.subscription.deleted") {
+      const subscription = event.data.object;
+      const customerId = subscription.customer ? String(subscription.customer) : null;
+
+      if (customerId) {
+        console.log(`❌ ASSINATURA CANCELADA STRIPE! Customer: ${customerId}`);
+        await prisma.tenant.updateMany({
+          where: { stripeCustomerId: customerId },
+          data: { subscriptionStatus: "CANCELED" },
+        });
+      }
     }
 
     // 5. Responde 200 para a Stripe saber que recebemos

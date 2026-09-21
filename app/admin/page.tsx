@@ -9,6 +9,7 @@ import HeaderActions from "./header-actions"
 import BrandTitle from "./brand-title"
 import RefreshButton from "./refresh-button"
 import PullToRefresh from "./pull-to-refresh"
+import SubscriptionPlans from "./configuracoes/subscription-plans"
 
 export const dynamic = 'force-dynamic'
 
@@ -92,31 +93,38 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
   const now = new Date()
   const diffTime = Math.abs(now.getTime() - createdAt.getTime())
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-  const isExpired = subscriptionStatus !== 'ACTIVE' && diffDays > 7
+  const isExpired = subscriptionStatus?.toUpperCase() !== 'ACTIVE' && diffDays > 7
 
   if (isExpired) {
     return (
-      <div className="min-h-[100dvh] bg-slate-50 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden font-sans">
+      <div className="min-h-[100dvh] bg-slate-50 flex flex-col items-center justify-center p-4 md:p-8 relative overflow-hidden font-sans">
         {/* Glow de fundo */}
-        <div className="absolute w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[140px] pointer-events-none"></div>
 
-        {/* Card Cyber-Glass no padrão novo */}
-        <div className="relative z-10 bg-white/80 backdrop-blur-2xl border border-white/90 p-8 md:p-10 rounded-[2.5rem] max-w-md w-full shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_20px_45px_-10px_rgba(15,23,42,0.12)]">
-          <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-3xl shadow-sm">
-            🔒
+        {/* Card Cyber-Glass expandido para acomodar os planos com perfeição */}
+        <div className="relative z-10 bg-white/90 backdrop-blur-2xl border border-white p-6 md:p-10 rounded-[2.5rem] max-w-4xl w-full shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_20px_45px_-10px_rgba(15,23,42,0.12)] my-auto">
+          
+          <div className="text-center max-w-lg mx-auto mb-8">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-3xl shadow-sm">
+              🔒
+            </div>
+            <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight uppercase italic mb-2">
+              Período de Teste Expirado
+            </h1>
+            <p className="text-xs md:text-sm text-slate-500 font-medium leading-relaxed">
+              Seus 7 dias gratuitos chegaram ao fim. Escolha o plano ideal abaixo para continuar gerenciando sua empresa e seus agendamentos.
+            </p>
           </div>
-          <h1 className="text-2xl font-black text-slate-900 tracking-tight uppercase italic mb-2">
-            Período de Teste Expirado
-          </h1>
-          <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6">
-            Seus 7 dias gratuitos chegaram ao fim. Escolha um plano para reativar sua agenda e continuar recebendo atendimentos.
-          </p>
-          <Link 
-            href="/admin/configuracoes" 
-            className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-widest text-xs py-4 rounded-2xl shadow-md hover:shadow-lg hover:shadow-blue-500/25 transition-all active:scale-95 border border-blue-500/40"
-          >
-            Ver Planos Disponíveis →
-          </Link>
+
+          {/* Seletor de Planos idêntico ao de Configurações */}
+          <div className="bg-slate-50/60 p-4 md:p-6 rounded-3xl border border-slate-200/80 mb-6">
+            <SubscriptionPlans currentPlan={tenant.planTier} status={tenant.subscriptionStatus} />
+          </div>
+
+          {/* Opção segura de sair caso ele queira deslogar */}
+          <div className="flex justify-center">
+            <LogoutButton />
+          </div>
         </div>
       </div>
     )
