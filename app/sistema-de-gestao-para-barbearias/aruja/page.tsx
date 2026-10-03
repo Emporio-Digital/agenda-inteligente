@@ -1,6 +1,16 @@
 import Link from "next/link"
 import { Metadata } from "next"
 import BrandTitle from "@/app/admin/brand-title"
+import VideoPlayer from "@/app/video-player"
+import { Orbitron } from "next/font/google"
+
+export const dynamic = "force-static"
+
+const orbitron = Orbitron({ 
+  subsets: ["latin"],
+  weight: ["700", "900"],
+  display: "swap"
+})
 
 // --- METADATA (SEO CIRÚRGICO PARA ARUJÁ - 100% PRESERVADO) ---
 export const metadata: Metadata = {
@@ -46,7 +56,10 @@ const GoogleReviewCard = ({ name, text, img, location }: any) => (
 
 export default function ArujaPage() {
 return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-blue-600 selection:text-white relative overflow-x-hidden">
+    <div 
+      className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-blue-600 selection:text-white relative overflow-x-hidden"
+      style={{ "--font-orbitron": orbitron.style.fontFamily } as React.CSSProperties}
+    >
 
         {/* --- ESTILOS GLOBAIS --- */}
         <style dangerouslySetInnerHTML={{
@@ -77,9 +90,8 @@ return (
         details[open] summary ~ * { animation: fadeInDown 0.5s ease-out forwards; }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');
         .brand-scanner {
-          font-family: 'Orbitron', sans-serif;
+          font-family: var(--font-orbitron), sans-serif;
           position: relative;
           color: #0f172a;
           white-space: nowrap;
@@ -468,38 +480,7 @@ return (
 
                     {/* DOCK DE VIDRO EXTERNO ENVOLVENDO O CELULAR (IDÊNTICO À HOME) */}
                     <div className="relative max-w-[336px] mx-auto p-2 rounded-[2.8rem] bg-white/75 backdrop-blur-2xl border border-white/90 shadow-[inset_0_2px_1px_rgba(255,255,255,1),0_25px_50px_-12px_rgba(15,23,42,0.18)]">
-                        {/* Container do Vídeo (VERTICAL 9:16) */}
-                        <div id="video-container" className="relative rounded-[2.3rem] overflow-hidden border-[6px] border-slate-950 bg-black aspect-[9/19] w-full shadow-inner">
-                            <div 
-                                id="video-trigger"
-                                className="relative w-full h-full cursor-pointer group flex items-center justify-center"
-                                dangerouslySetInnerHTML={{
-                                    __html: `
-                                        <img 
-                                            src="/capa-video.jpg" 
-                                            alt="Tutorial Kairós" 
-                                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                                        />
-                                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-                                        <div class="absolute w-16 h-16 rounded-full bg-blue-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-blue-600 transition-all border border-white/30">
-                                            <svg class="w-7 h-7 fill-current translate-x-0.5" viewBox="0 0 24 24">
-                                                <path d="M8 5v14l11-7z" />
-                                            </svg>
-                                        </div>
-                                    `
-                                }}
-                            />
-                            <script dangerouslySetInnerHTML={{
-                                __html: `
-                                    document.getElementById('video-trigger')?.addEventListener('click', function() {
-                                        var container = document.getElementById('video-container');
-                                        if (container) {
-                                            container.innerHTML = '<iframe src="https://www.youtube.com/embed/TXJnEl8QeJA?autoplay=1" title="Tutorial Kairós" class="w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-                                        }
-                                    });
-                                `
-                            }} />
-                        </div>
+                        <VideoPlayer />
                     </div>
                 </div>
             </section>

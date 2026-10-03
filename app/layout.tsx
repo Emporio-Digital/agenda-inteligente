@@ -179,11 +179,16 @@ export default function RootLayout({
             __html: `
               if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
-                  navigator.serviceWorker.register('/sw.js').then(function(reg) {
-                    console.log('SW ativo!');
-                  }).catch(function(err) {
-                    console.log('Erro SW:', err);
-                  });
+                  var registerSW = function() {
+                    navigator.serviceWorker.register('/sw.js').catch(function(err) {
+                      console.log('Erro SW:', err);
+                    });
+                  };
+                  if ('requestIdleCallback' in window) {
+                    requestIdleCallback(registerSW);
+                  } else {
+                    setTimeout(registerSW, 1500);
+                  }
                 });
               }
             `,

@@ -1,6 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Orbitron } from 'next/font/google'
+
+const orbitron = Orbitron({
+  subsets: ['latin'],
+  weight: ['500', '700', '900'],
+  display: 'swap',
+})
 
 export default function BrandTitle({ tenantName }: { tenantName: string }) {
   const [text, setText] = useState('KAIRÓS')
@@ -13,12 +20,13 @@ export default function BrandTitle({ tenantName }: { tenantName: string }) {
   }, [tenantName])
 
   return (
-    <div className="flex items-center min-w-0 select-none overflow-hidden max-w-[200px] md:max-w-none">
+    <div 
+      className="flex items-center min-w-0 select-none overflow-hidden max-w-[200px] md:max-w-none"
+      style={{ '--font-orbitron-brand': orbitron.style.fontFamily } as React.CSSProperties}
+    >
       <style jsx>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap');
-
         .logo-animate {
-          font-family: 'Orbitron', sans-serif;
+          font-family: var(--font-orbitron-brand, sans-serif);
           font-weight: 900;
           position: relative;
           color: transparent;
