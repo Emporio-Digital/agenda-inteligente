@@ -1,6 +1,15 @@
 import Link from "next/link"
 import { Metadata } from "next"
 import BrandTitle from "@/app/admin/brand-title"
+import { Orbitron } from "next/font/google"
+
+export const dynamic = "force-static"
+
+const orbitron = Orbitron({ 
+  subsets: ["latin"],
+  weight: ["700", "900"],
+  display: "swap"
+})
 
 // --- METADATA (SEO HUB - AUTORIDADE NACIONAL - 100% PRESERVADO) ---
 export const metadata: Metadata = {
@@ -92,7 +101,10 @@ const locations = [
 
 export default function GestaoHubPage() {
 return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-blue-600 selection:text-white relative overflow-x-hidden">
+    <div 
+      className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-blue-600 selection:text-white relative overflow-x-hidden"
+      style={{ "--font-orbitron": orbitron.style.fontFamily } as React.CSSProperties}
+    >
 
         {/* --- ESTILOS GLOBAIS --- */}
         <style dangerouslySetInnerHTML={{
@@ -123,9 +135,8 @@ return (
         details[open] summary ~ * { animation: fadeInDown 0.5s ease-out forwards; }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');
         .brand-scanner {
-          font-family: 'Orbitron', sans-serif;
+          font-family: var(--font-orbitron), sans-serif;
           position: relative;
           color: #0f172a;
           white-space: nowrap;
@@ -161,7 +172,13 @@ return (
 
           {/* Logo nítida */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] opacity-35 transition-all">
-              <img src="/logo-fundo.png" alt="" className="w-full h-auto object-contain drop-shadow-[0_10px_35px_rgba(37,99,235,0.15)]" />
+              <img 
+                src="/logo-fundo.png" 
+                alt="" 
+                decoding="async"
+                fetchPriority="high"
+                className="w-full h-auto object-contain drop-shadow-[0_10px_35px_rgba(37,99,235,0.15)]" 
+              />
           </div>
           
           <div className="absolute inset-0 bg-slate-50/30 backdrop-blur-[1px]"></div> 
@@ -332,12 +349,11 @@ return (
                 
                 <div className="relative group">
                   <img 
-                    src="/mao-celular.png" 
-                    alt="Smartphone Kairós" 
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-auto max-w-[500px] mx-auto drop-shadow-[0_20px_40px_rgba(15,23,42,0.15)] transition-transform duration-700 group-hover:scale-[1.03]"
-                  />
+                        src="/mao-celular.png" 
+                        alt="Smartphone Kairós" 
+                        decoding="async"
+                        className="w-full h-auto max-w-[500px] mx-auto drop-shadow-[0_20px_40px_rgba(15,23,42,0.15)] transition-transform duration-700 group-hover:scale-[1.03]"
+                      />
 
                   {/* Cards Flutuantes Acrílico Real */}
                   <div className="absolute -top-4 -right-4 md:right-0 bg-white/75 backdrop-blur-2xl border border-white/90 p-4 rounded-2xl shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_16px_32px_-8px_rgba(15,23,42,0.15)] animate-bounce [animation-duration:3s]">
@@ -441,7 +457,7 @@ return (
                 </div>
 
                 <div className="w-full overflow-hidden hover-pause">
-                    <div className="flex w-max animate-scroll-slow gap-6 px-4">
+                    <div className="flex w-max animate-scroll-slow gap-6 px-4 will-change-transform">
                         {[...themes, ...themes].map((theme, index) => (
                             <div key={index} className="flex-shrink-0 flex flex-col items-center group w-[200px] md:w-[300px]">
                                 <div className="relative bg-slate-950 rounded-[2rem] md:rounded-[2.5rem] border-[4px] md:border-[8px] border-slate-900 overflow-hidden shadow-[0_20px_40px_-15px_rgba(15,23,42,0.25)] w-full aspect-[9/19] transition-transform duration-300 group-hover:scale-[1.02]">
@@ -451,6 +467,7 @@ return (
                                           alt={theme.label} 
                                           loading="lazy"
                                           decoding="async"
+                                          fetchPriority="low"
                                           className="w-full h-full object-cover opacity-95 group-hover:opacity-100 transition-all" 
                                         />
                                      </div>

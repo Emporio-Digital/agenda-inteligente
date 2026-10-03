@@ -127,7 +127,13 @@ return (
 
           {/* Logo nítida */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] opacity-35 transition-all">
-              <img src="/logo-fundo.png" alt="" className="w-full h-auto object-contain drop-shadow-[0_10px_35px_rgba(37,99,235,0.15)]" />
+              <img 
+                src="/logo-fundo.png" 
+                alt="" 
+                decoding="async"
+                fetchPriority="high"
+                className="w-full h-auto object-contain drop-shadow-[0_10px_35px_rgba(37,99,235,0.15)]" 
+              />
           </div>
           
           <div className="absolute inset-0 bg-slate-50/30 backdrop-blur-[1px]"></div> 
@@ -295,7 +301,6 @@ return (
                       <img 
                         src="/mao-celular.png" 
                         alt="Smartphone Kairós" 
-                        loading="lazy"
                         decoding="async"
                         className="w-full h-auto max-w-[500px] mx-auto drop-shadow-[0_20px_40px_rgba(15,23,42,0.15)] transition-transform duration-700 group-hover:scale-[1.03]"
                       />
@@ -419,7 +424,7 @@ return (
                 </div>
 
                 <div className="w-full overflow-hidden hover-pause">
-                    <div className="flex w-max animate-scroll-slow gap-6 px-4">
+                    <div className="flex w-max animate-scroll-slow gap-6 px-4 will-change-transform">
                         {[...themes, ...themes].map((theme, index) => (
                             <div key={index} className="flex-shrink-0 flex flex-col items-center group w-[200px] md:w-[300px]">
                                 <div className="relative bg-slate-950 rounded-[2rem] md:rounded-[2.5rem] border-[4px] md:border-[8px] border-slate-900 overflow-hidden shadow-[0_20px_40px_-15px_rgba(15,23,42,0.25)] w-full aspect-[9/19] transition-transform duration-300 group-hover:scale-[1.02]">
@@ -429,6 +434,7 @@ return (
                                           alt={theme.label} 
                                           loading="lazy"
                                           decoding="async"
+                                          fetchPriority="low"
                                           className="w-full h-full object-cover opacity-95 group-hover:opacity-100 transition-all" 
                                         />
                                      </div>
