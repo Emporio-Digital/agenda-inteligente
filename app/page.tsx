@@ -946,6 +946,8 @@ export default function LandingPage() {
                         </div>
                     </div>
                 </details>
+                </div>
+                </section>
 
 
         {/* --- FOOTER (ATUALIZADO) --- */}
