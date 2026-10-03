@@ -2,6 +2,7 @@ import Link from "next/link"
 import BrandTitle from "@/app/admin/brand-title"
 import VideoPlayer from "@/app/video-player"
 import { Orbitron } from "next/font/google"
+export const dynamic = "force-static"
 
 const orbitron = Orbitron({ 
   subsets: ["latin"],
