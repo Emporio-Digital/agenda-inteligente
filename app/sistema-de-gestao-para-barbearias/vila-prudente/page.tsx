@@ -301,6 +301,7 @@ return (
                       <img 
                         src="/mao-celular.png" 
                         alt="Smartphone Kairós" 
+                        loading="lazy"
                         decoding="async"
                         className="w-full h-auto max-w-[500px] mx-auto drop-shadow-[0_20px_40px_rgba(15,23,42,0.15)] transition-transform duration-700 group-hover:scale-[1.03]"
                       />
