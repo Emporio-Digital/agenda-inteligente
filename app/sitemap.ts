@@ -76,6 +76,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9, // Prioridade alta para dominação local
   }))
 
+  // 4. Mapeia as Páginas de Salão de Beleza (Hub e Cidades)
+  const locaisSalaoRoutes = [
+    '/sistema-de-gestao-para-salao-de-beleza', // Hub Principal
+    '/sistema-de-gestao-para-salao-de-beleza/santo-andre',
+    '/sistema-de-gestao-para-salao-de-beleza/sao-bernardo-do-campo',
+    '/sistema-de-gestao-para-salao-de-beleza/sao-caetano-do-sul',
+    '/sistema-de-gestao-para-salao-de-beleza/sao-paulo',
+    '/sistema-de-gestao-para-salao-de-beleza/tatuape',
+    '/sistema-de-gestao-para-salao-de-beleza/vila-prudente',
+  ].map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date().toISOString(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
+  }))
+
   // Junta tudo e entrega para o Google
-  return [...routes, ...blogs, ...locaisRoutes]
+  return [...routes, ...blogs, ...locaisRoutes, ...locaisSalaoRoutes]
 }

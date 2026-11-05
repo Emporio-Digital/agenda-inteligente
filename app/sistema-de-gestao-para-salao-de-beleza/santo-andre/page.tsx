@@ -1,0 +1,704 @@
+import Link from "next/link"
+import { Metadata } from "next"
+import BrandTitle from "@/app/admin/brand-title"
+import VideoPlayer from "@/app/video-player"
+import { Orbitron } from "next/font/google"
+
+export const dynamic = "force-static"
+
+const orbitron = Orbitron({ 
+  subsets: ["latin"],
+  weight: ["700", "900"],
+  display: "swap"
+})
+
+// --- METADATA (SEO CIRÚRGICO PARA SANTO ANDRÉ - SALÃO DE BELEZA) ---
+export const metadata: Metadata = {
+  title: "Sistema de Gestão para Salão de Beleza em Santo André | Kairós Agendamentos",
+  description: "O melhor sistema de gestão e agendamento para salão de beleza em Santo André e Bairro Jardim. Agenda via WhatsApp, controle de comissões e financeiro. Teste grátis!",
+  keywords: [
+    "sistema de gestão para salão de beleza",
+    "agendamento online salão santo andré",
+    "software para salão de beleza santo andré",
+    "agenda salão de beleza bairro jardim",
+    "gestão de salões grande abc",
+    "Kairós agendamentos"
+  ],
+  openGraph: { siteName: "Kairós" },
+  alternates: {
+    canonical: "https://egkairos.com.br/sistema-de-gestao-para-salao-de-beleza/santo-andre"
+  },
+  icons: { icon: "/logo.png", apple: "/logo.png" },
+}
+
+const themes = [
+  { name: "Salão", img: "/temas/tema-salao.jpg", label: "Tema Salão de Beleza" },
+  { name: "Barbearia", img: "/temas/tema-barbearia.jpg", label: "Tema Barbearia" },
+  { name: "Restaurante", img: "/temas/tema-restaurante.jpg", label: "Tema Restaurante" },
+  { name: "Clínica", img: "/temas/tema-clinica.jpg", label: "Tema Clínica" },
+  { name: "Tattoo", img: "/temas/tema-tattoo.jpg", label: "Tema Studio Tattoo" },
+  { name: "Fotografia", img: "/temas/tema-fotografia.jpg", label: "Tema Fotografia" },
+  { name: "Serviços", img: "/temas/tema-servicos.jpg", label: "Tema Serviços" },
+]
+
+const GoogleReviewCard = ({ name, text, img, location }: any) => (
+  <div className="bg-white p-5 rounded-2xl shadow-xl flex flex-col gap-3 border border-gray-100 transition-all hover:scale-[1.02]">
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-3">
+        <img src={img} alt={name} loading="lazy" decoding="async" className="w-10 h-10 rounded-full object-cover border border-gray-100" />
+        <div className="flex flex-col">
+          <span className="text-gray-900 font-bold text-sm leading-none">{name}</span>
+          <span className="text-gray-400 text-[10px] uppercase font-bold tracking-tighter mt-1">Santo André • {location}</span>
+        </div>
+      </div>
+      <span className="text-blue-500 font-black text-lg opacity-20">G</span>
+    </div>
+    <div className="flex text-yellow-400 text-xs">{"★".repeat(5)}</div>
+    <p className="text-gray-600 text-[11px] leading-relaxed italic">"{text}"</p>
+    <div className="pt-2 border-t border-gray-50 flex justify-between items-center text-[9px] font-extrabold uppercase text-blue-500">
+      Ver no Maps
+    </div>
+  </div>
+)
+
+export default function SantoAndreSalaoPage() {
+  return (
+    <div 
+      className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-blue-600 selection:text-white relative overflow-x-hidden"
+      style={{ "--font-orbitron": orbitron.style.fontFamily } as React.CSSProperties}
+    >
+
+      {/* --- ESTILOS GLOBAIS --- */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-scroll {
+          animation: scroll 10s linear infinite;
+        }
+        .animate-scroll-slow {
+          animation: scroll 60s linear infinite;
+        }
+        .hover-pause:hover .animate-scroll,
+        .hover-pause:hover .animate-scroll-slow {
+          animation-play-state: paused;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: fadeInDown 0.5s ease-out forwards; }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .brand-scanner {
+          font-family: var(--font-orbitron), sans-serif;
+          position: relative;
+          color: #0f172a;
+          white-space: nowrap;
+        }
+        .brand-scanner::before {
+          content: attr(data-text);
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 0;
+          height: 100%;
+          background: linear-gradient(to right, #090d16 20%, #2563eb 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          -webkit-text-stroke: 0.5px #1d4ed8;
+          border-right: 2.5px solid #2563eb;
+          overflow: hidden;
+          animation: fillScannerLoop 5s linear infinite;
+        }
+        @keyframes fillScannerLoop {
+          0%, 5% { width: 0; border-right-color: #2563eb; }
+          40% { width: 100%; border-right-color: #2563eb; }
+          45%, 75% { width: 100%; border-right-color: transparent; }
+          80% { width: 100%; border-right-color: #2563eb; }
+          95%, 100% { width: 0; border-right-color: #2563eb; }
+        }
+      `}} />
+
+      {/* --- BACKGROUND FIXO --- */}
+      <div className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden bg-slate-50 transform-gpu will-change-transform">
+        <div className="absolute w-[500px] md:w-[700px] h-[500px] md:h-[700px] bg-blue-400/15 rounded-full blur-[140px] pointer-events-none"></div>
+
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] opacity-35 transition-all">
+          <img 
+            src="/logo-fundo.png" 
+            alt="" 
+            decoding="async"
+            fetchPriority="high"
+            className="w-full h-auto object-contain drop-shadow-[0_10px_35px_rgba(37,99,235,0.15)]" 
+          />
+        </div>
+        
+        <div className="absolute inset-0 bg-slate-50/30 backdrop-blur-[1px]"></div> 
+      </div>
+
+      {/* WRAPPER FIXO DO HEADER + MENU DESLIZANTE */}
+      <div className="fixed top-0 left-0 w-full z-50">
+        <input type="checkbox" id="toggle-lp-menu" className="peer sr-only" />
+
+        <header className="w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-6 py-2.5 md:py-3 shadow-sm">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            
+            {/* LADO ESQUERDO: DOCK CYBER-GLASS + BRANDTITLE */}
+            <div className="flex items-center gap-4 min-w-0">
+              <Link href="/sistema-de-gestao-para-salao-de-beleza" className="relative w-14 h-14 md:w-15 md:h-15 rounded-2xl p-[3px] bg-white/90 backdrop-blur-xl border border-white shadow-[0_12px_24px_-6px_rgba(15,23,42,0.2),0_0_14px_rgba(0,240,255,0.25),inset_0_1.5px_1px_rgba(255,255,255,1)] flex items-center justify-center shrink-0">
+                <div className="absolute inset-[2.5px] rounded-[13px] border border-cyan-400/50 shadow-[0_0_8px_#00f0ff,inset_0_0_6px_#00f0ff] pointer-events-none" />
+                <div className="relative z-10 w-full h-full rounded-[11px] overflow-hidden bg-slate-950 shadow-[0_4px_10px_rgba(0,0,0,0.5)] flex items-center justify-center border border-slate-900">
+                  <img src="/logo.png" alt="Logo" className="w-full h-full object-cover scale-110" />
+                </div>
+              </Link>
+              
+              <BrandTitle tenantName="SUA AGENDA INTELIGENTE" />
+            </div>
+
+            {/* LADO DIREITO DESKTOP */}
+            <div className="hidden md:flex items-center gap-3 shrink-0">
+              <Link 
+                href="/" 
+                className="bg-white border border-slate-200 text-slate-700 hover:text-blue-600 hover:border-blue-500/50 hover:bg-slate-50 px-5 py-2.5 rounded-2xl text-sm font-bold uppercase tracking-wider shadow-sm transition-all active:scale-95 whitespace-nowrap"
+              >
+                Início
+              </Link>
+
+              <Link 
+                href="/cadastro" 
+                className="relative group overflow-hidden bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-2xl text-sm font-bold uppercase tracking-wider shadow-md hover:shadow-lg hover:shadow-blue-500/25 transition-all active:scale-95 border border-blue-500/40 whitespace-nowrap flex items-center gap-2"
+              >
+                <span className="relative z-10 flex items-center gap-1.5">
+                  Teste Grátis
+                  <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              </Link>
+            </div>
+
+            {/* LADO DIREITO MOBILE: BOTÃO HAMBURGUER */}
+            <label 
+              htmlFor="toggle-lp-menu" 
+              className="md:hidden cursor-pointer relative p-[2px] rounded-2xl overflow-hidden group flex items-center justify-center transition-all active:scale-95 shadow-sm"
+            >
+              <div className="relative z-10 p-2.5 rounded-[calc(1rem-2px)] w-full h-full flex items-center justify-center transition-all bg-white border border-slate-200 group-hover:bg-slate-50 group-hover:border-blue-500/50 shadow-sm">
+                <svg className="w-6 h-6 text-blue-600 group-hover:text-blue-700 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+              </div>
+            </label>
+
+          </div>
+        </header>
+
+        {/* GAVETA DESLIZANTE MOBILE */}
+        <div className="md:hidden w-full bg-slate-50/98 backdrop-blur-xl border-b border-slate-200 overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-in-out grid grid-rows-[0fr] peer-checked:grid-rows-[1fr] opacity-0 peer-checked:opacity-100 shadow-xl">
+          <div className="min-h-0">
+            <div className="px-6 py-6 flex flex-col gap-3">
+              <Link 
+                href="/" 
+                className="w-full text-center bg-white border border-slate-200 text-slate-800 hover:text-blue-600 hover:border-blue-500/50 py-3.5 rounded-2xl text-sm font-bold uppercase tracking-wider shadow-sm transition-all active:scale-95"
+              >
+                Início
+              </Link>
+
+              <Link 
+                href="/cadastro" 
+                className="w-full text-center relative group overflow-hidden bg-blue-600 hover:bg-blue-700 text-white py-3.5 rounded-2xl text-sm font-bold uppercase tracking-wider shadow-md hover:shadow-blue-500/25 transition-all active:scale-95 border border-blue-500/40 flex items-center justify-center gap-2"
+              >
+                <span className="relative z-10 flex items-center gap-1.5">
+                  Teste Grátis Agora
+                  <span>→</span>
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <main className="relative z-10">
+
+        {/* --- HERO SECTION --- */}
+        <section className="pt-32 md:pt-40 pb-12 px-6 relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] -z-10"></div>
+
+          <div className="max-w-4xl mx-auto text-center space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-blue-200/80 shadow-sm">
+              <span>📍</span>
+              <span>O SISTEMA DE AGENDAMENTO Nº 1 DE SANTO ANDRÉ</span>
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.1] text-slate-900 drop-shadow-sm">
+              Sistema de gestão para salão de beleza em <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 bg-[length:200%_auto] animate-gradient">
+                Santo André.
+              </span>
+            </h1>
+
+            <p className="text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed font-normal">
+              No coração do Grande ABC, sua cliente valoriza praticidade e atendimento de alto nível. Automatize agendamentos, comissões da equipe e acabe com as faltas no seu salão.
+            </p>
+
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-4">
+              <Link 
+                href="/cadastro" 
+                className="w-full md:w-auto bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/35 hover:-translate-y-1 flex items-center justify-center gap-2"
+              >
+                Modernizar meu Salão em Santo André 🚀
+              </Link>
+            </div>
+            <p className="text-xs text-slate-600 uppercase tracking-widest font-bold">Teste grátis de 7 dias • Cancele quando quiser</p>
+          </div>
+        </section>
+
+        {/* --- NOVA SESSÃO: MOCKUP PREMIUM --- */}
+        <section className="py-24 relative overflow-hidden bg-slate-100/70 border-y border-slate-200/80">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-[120px] pointer-events-none"></div>
+          <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-indigo-400/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="flex flex-col lg:flex-row items-center gap-16">
+              
+              {/* TEXTO À ESQUERDA */}
+              <div className="flex-1 text-center lg:text-left space-y-6">
+                <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 px-4 py-1.5 rounded-full">
+                  <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">🚀 GESTÃO INTELIGENTE DE BELEZA</span>
+                </div>
+                
+                <h2 className="text-4xl md:text-6xl font-black text-slate-900 leading-tight italic uppercase tracking-tighter">
+                  Seu salão na <br />
+                  <span className="text-blue-600">palma da mão.</span>
+                </h2>
+                
+                <p className="text-slate-600 text-lg max-w-xl mx-auto lg:mx-0 font-medium leading-relaxed">
+                  Centralize os horários de cabeleireiras, manicures e esteticistas em uma única plataforma. Simples, rápida e acessível de qualquer lugar.
+                </p>
+
+                <div className="grid grid-cols-2 gap-4 pt-4">
+                  <div className="bg-white border border-slate-200/80 shadow-sm p-4 rounded-2xl">
+                    <span className="block text-2xl mb-1">⚡</span>
+                    <span className="block text-xs font-black text-slate-900 uppercase tracking-widest">GESTÃO DE COMISSÕES</span>
+                  </div>
+                  <div className="bg-white border border-slate-200/80 shadow-sm p-4 rounded-2xl">
+                    <span className="block text-2xl mb-1">📱</span>
+                    <span className="block text-xs font-black text-slate-900 uppercase tracking-widest">USE COMO UM APP</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* MOCKUP À DIREITA */}
+              <div className="flex-1 relative">
+                <div className="absolute inset-0 bg-blue-500/15 blur-[80px] rounded-full scale-75 pointer-events-none"></div>
+                
+                <div className="relative group">
+                  <img 
+                    src="/beauty-celular.png" 
+                    alt="Smartphone Kairós" 
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-auto max-w-[500px] mx-auto drop-shadow-[0_20px_40px_rgba(15,23,42,0.15)] transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+
+                  {/* Cards Flutuantes Acrílico Real */}
+                  <div className="absolute -top-4 -right-4 md:right-0 bg-white/75 backdrop-blur-2xl border border-white/90 p-4 rounded-2xl shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_16px_32px_-8px_rgba(15,23,42,0.15)] animate-bounce [animation-duration:3s]">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-600 text-xs">✓</div>
+                      <div>
+                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-tighter leading-none">Novo Agendamento</p>
+                        <p className="text-sm font-bold text-slate-900">Mechas + Escova</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="absolute bottom-10 -left-4 md:left-0 bg-white/75 backdrop-blur-2xl border border-white/90 p-4 rounded-2xl shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_16px_32px_-8px_rgba(15,23,42,0.15)] animate-pulse">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-blue-500/10 border border-blue-500/30 rounded-full flex items-center justify-center text-blue-600 text-xs">★</div>
+                      <div>
+                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-tighter leading-none">Avaliação 5.0</p>
+                        <p className="text-sm font-bold text-slate-900">Cliente Satisfeita</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* --- A REGRA DOS 30% (O GANCHO MANUAL LOCAL - ACRÍLICO COM BISEL) --- */}
+        <section className="py-12 px-6">
+          <div className="max-w-5xl mx-auto p-[1px] rounded-3xl bg-gradient-to-r from-blue-500/10 via-blue-500/30 to-blue-500/10 shadow-[0_10px_30px_-5px_rgba(37,99,235,0.12)]">
+            <div className="bg-white/70 backdrop-blur-2xl border border-white/90 rounded-3xl p-8 md:p-12 shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_12px_28px_-8px_rgba(15,23,42,0.08)]">
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 uppercase tracking-wide italic">Sistema de gestão para salão de beleza em Santo André.</h2>
+              <div className="space-y-4 text-slate-700 leading-relaxed text-sm md:text-base font-normal">
+                <p>
+                  Quem administra um salão de beleza ou studio de estética no <strong className="text-blue-600">Bairro Jardim</strong>, especialmente nas imediações da movimentada <strong className="text-blue-600">Rua das Figueiras</strong> e da <strong className="text-blue-600">Avenida Dom Pedro II</strong>, sabe que a cliente andreense não aceita perder tempo esperando respostas no WhatsApp. O público do ABC busca um atendimento sofisticado e ágil, comparável aos melhores salões dos Jardins na capital.
+                </p>
+                <p>
+                  Atendendo espaços de beleza no <strong className="text-indigo-600">Bairro Campestre, Vila Assunção, Vila Gilda (próximo ao Shopping ABC) e Centro</strong>, o Kairós foi projetado para a dinâmica de quem busca conveniência no Grande ABC. Com clientes circulando entre Santo André, São Bernardo e São Caetano, seu salão precisa de um link de agendamento online automático que opere 24 horas por dia, blindando sua agenda contra conflitos e garantindo o controle minucioso do faturamento e das comissões.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* --- COMO FUNCIONA (AJUSTADO PARA PADRÃO SEO) --- */}
+        <section className="py-24 px-6 relative overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-500/5 blur-[120px] rounded-full z-0 pointer-events-none"></div>
+
+          <div className="max-w-7xl mx-auto relative z-10">
+            <div className="text-center mb-16 space-y-4">
+              <h2 className="text-4xl md:text-6xl font-black text-slate-900 italic tracking-tighter uppercase leading-none">
+                Simples como deve ser
+              </h2>
+              <p className="text-slate-600 text-sm md:text-lg font-medium tracking-wide">
+                Tudo automático, 24 horas por dia.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* CARD 1 - EQUIPE E AGENDAS */}
+              <div className="group relative bg-white/70 backdrop-blur-2xl p-10 rounded-[2.5rem] flex flex-col gap-6 border border-white/90 shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_12px_28px_-8px_rgba(15,23,42,0.08)] hover:shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_20px_35px_-8px_rgba(37,99,235,0.18)] hover:border-blue-300/80 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                <div className="absolute right-0 top-0 w-32 h-32 bg-blue-500/5 rounded-bl-full transition-transform group-hover:scale-110 pointer-events-none"></div>
+                <div className="w-14 h-14 bg-blue-50/90 text-blue-600 rounded-2xl flex items-center justify-center text-3xl border border-blue-100/80 group-hover:scale-110 transition-transform relative z-10 shadow-sm">
+                  👤
+                </div>
+                <div className="space-y-3 relative z-10">
+                  <h3 className="text-2xl font-bold text-slate-900 leading-tight tracking-tight">
+                    1. Serviços e Agendas <br /> Individuais
+                  </h3>
+                  <p className="text-slate-600 text-base leading-relaxed font-normal">
+                    Cada profissional tem sua própria agenda com serviços, preços e tempos de execução diferentes. Organize seu time com liberdade total e zero conflitos.
+                  </p>
+                </div>
+              </div>
+
+              {/* CARD 2 - AGENDAMENTO RÁPIDO */}
+              <div className="group relative bg-white/70 backdrop-blur-2xl p-10 rounded-[2.5rem] flex flex-col gap-6 border border-white/90 shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_12px_28px_-8px_rgba(15,23,42,0.08)] hover:shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_20px_35px_-8px_rgba(37,99,235,0.18)] hover:border-blue-300/80 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                <div className="absolute right-0 top-0 w-32 h-32 bg-blue-500/5 rounded-bl-full transition-transform group-hover:scale-110 pointer-events-none"></div>
+                <div className="w-14 h-14 bg-blue-50/90 text-blue-600 rounded-2xl flex items-center justify-center text-3xl border border-blue-100/80 group-hover:scale-110 transition-transform relative z-10 shadow-sm">
+                  ⚡
+                </div>
+                <div className="space-y-3 relative z-10">
+                  <h3 className="text-2xl font-bold text-slate-900 leading-tight tracking-tight">
+                    2. Agendamento em <br /> Menos de 1 Minuto
+                  </h3>
+                  <p className="text-slate-600 text-base leading-relaxed font-normal">
+                    Seu cliente agenda sem precisar baixar aplicativos ou criar contas chatas. O caminho mais rápido entre o desejo do cliente e a sua cadeira de atendimento.
+                  </p>
+                </div>
+              </div>
+
+              {/* CARD 3 - BRANDING E WHATSAPP */}
+              <div className="group relative bg-white/70 backdrop-blur-2xl p-10 rounded-[2.5rem] flex flex-col gap-6 border border-white/90 shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_12px_28px_-8px_rgba(15,23,42,0.08)] hover:shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_20px_35px_-8px_rgba(37,99,235,0.18)] hover:border-blue-300/80 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                <div className="absolute right-0 top-0 w-32 h-32 bg-blue-500/5 rounded-bl-full transition-transform group-hover:scale-110 pointer-events-none"></div>
+                <div className="w-14 h-14 bg-blue-50/90 text-blue-600 rounded-2xl flex items-center justify-center text-3xl border border-blue-100/80 group-hover:scale-110 transition-transform relative z-10 shadow-sm">
+                  🎨
+                </div>
+                <div className="space-y-3 relative z-10">
+                  <h3 className="text-2xl font-bold text-slate-900 leading-tight tracking-tight">
+                    3. Sua Marca e WhatsApp <br /> Num Clique
+                  </h3>
+                  <p className="text-slate-600 text-base leading-relaxed font-normal">
+                    Link exclusivo com sua logo, capa e URL própria. Reduza faltas enviando confirmações profissionais pelo WhatsApp com apenas um toque rápido e simples.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* --- CARROSSEL DE MOCKUPS --- */}
+        <section className="py-24 bg-slate-100/60 border-y border-slate-200/80 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4 text-slate-900">Seu sistema, sua cara.</h2>
+              <p className="text-slate-600">Personalize para o seu nicho.</p>
+            </div>
+
+            <div className="w-full overflow-hidden hover-pause">
+              <div className="flex w-max animate-scroll-slow gap-6 px-4 will-change-transform">
+                {[...themes, ...themes].map((theme, index) => (
+                  <div key={index} className="flex-shrink-0 flex flex-col items-center group w-[200px] md:w-[300px]">
+                    <div className="relative bg-slate-950 rounded-[2rem] md:rounded-[2.5rem] border-[4px] md:border-[8px] border-slate-900 overflow-hidden shadow-[0_20px_40px_-15px_rgba(15,23,42,0.25)] w-full aspect-[9/19] transition-transform duration-300 group-hover:scale-[1.02]">
+                      <div className="w-full h-full bg-slate-900 flex items-center justify-center relative">
+                        <img 
+                          src={theme.img} 
+                          alt={theme.label} 
+                          loading="lazy"
+                          decoding="async"
+                          fetchPriority="low"
+                          className="w-full h-full object-cover opacity-95 group-hover:opacity-100 transition-all" 
+                        />
+                      </div>
+                    </div>
+                    <p className="text-center mt-6 font-bold text-slate-700 bg-white px-4 py-2 rounded-full border border-slate-200/80 shadow-sm text-sm md:text-base">{theme.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* --- DEPOIMENTOS --- */}
+        <section className="py-24 px-6 bg-slate-100/60 border-y border-slate-200/80 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900 italic tracking-tighter uppercase leading-tight">
+                Salões que dominam <span className="text-blue-600">Santo André:</span>
+              </h2>
+              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-200/80 text-amber-500 font-black shadow-sm">
+                4.9 ★★★★★
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              <GoogleReviewCard name="Renata B." location="Bairro Jardim" img="https://i.pravatar.cc/150?u=51" text="Nosso salão perto da Rua das Figueiras dobrou a taxa de agendamentos. A cliente do ABC quer agilidade no link sem complicação." />
+              <GoogleReviewCard name="Luciana S." location="Campestre" img="https://i.pravatar.cc/150?u=52" text="Organizar horários de mechas e manicure era uma loucura. O Kairós resolveu tudo e o cálculo de comissões sai perfeito no fim do mês." />
+              <GoogleReviewCard name="Débora F." location="Vila Assunção" img="https://i.pravatar.cc/150?u=53" text="O lembrete de confirmação via WhatsApp reduziu nossas faltas a quase zero. Melhor investimento que fizemos em Santo André." />
+              <GoogleReviewCard name="Priscila M." location="Vila Gilda" img="https://i.pravatar.cc/150?u=54" text="Próximo ao Shopping ABC o fluxo é grande. O sistema roda liso no celular e minhas colaboradoras aprenderam a usar em 5 minutos." />
+            </div>
+          </div>
+        </section>
+
+        {/* --- VÍDEO TUTORIAL (PWA) --- */}
+        <section className="py-24 bg-slate-100/60 border-t border-slate-200/80 relative overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/10 blur-[130px] rounded-full pointer-events-none"></div>
+
+          <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <div className="inline-block bg-white/70 backdrop-blur-xl text-blue-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-white/90 mb-6 shadow-[inset_0_1px_1px_rgba(255,255,255,1),0_4px_12px_rgba(37,99,235,0.08)]">
+              Dica Bônus
+            </div>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 uppercase italic">
+              Seu salão de beleza em Santo André na tela do celular
+            </h2>
+            <p className="text-slate-600 mb-10 max-w-2xl mx-auto font-normal">
+              Acompanhe sua agenda inteligente em tempo real. Instale na tela inicial em menos de 10 segundos.
+            </p>
+
+            <div className="relative max-w-[336px] mx-auto p-2 rounded-[2.8rem] bg-white/75 backdrop-blur-2xl border border-white/90 shadow-[inset_0_2px_1px_rgba(255,255,255,1),0_25px_50px_-12px_rgba(15,23,42,0.18)]">
+              <VideoPlayer />
+            </div>
+          </div>
+        </section>
+
+        {/* --- OS 15 PILARES (O CONTEÚDO ARTESANAL) --- */}
+        <section className="py-24 px-6 relative z-20">
+          <div className="max-w-6xl mx-auto space-y-6">
+            <details className="group border-b border-slate-200/80 cursor-pointer transition-all">
+              <summary className="flex items-center py-4 md:py-5 outline-none select-none hover:opacity-80 transition-opacity cursor-pointer">
+                <span className="flex items-center gap-4 md:gap-6">
+                  <span className="bg-blue-50 text-blue-600 p-3 rounded-2xl border border-blue-200/60 shrink-0 flex items-center justify-center text-2xl shadow-sm">
+                    💅
+                  </span>
+                  <span className="flex flex-col text-left">
+                    <span className="text-xl md:text-2xl font-black uppercase tracking-tight text-slate-900 leading-tight block group-hover:text-blue-600 transition-colors">Dossiê de Dominação: Kairós em Santo André</span>
+                    <span className="text-xs md:text-sm text-slate-500 uppercase tracking-widest mt-1 italic block font-medium">Clique para ver os 15 pilares de gestão local</span>
+                  </span>
+                </span>
+              </summary>
+
+              <div className="py-8 md:py-12 relative">
+                <div className="grid grid-cols-1 gap-12 max-w-4xl relative z-10 text-slate-600 text-sm md:text-base leading-relaxed">
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 1. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA com link personalizado, logo e capa em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Construa uma presença digital de alto padrão para seu salão de beleza no Bairro Jardim com um link personalizado que valoriza sua identidade. Essa apresentação sofisticada transmite credibilidade imediata para o público exigente de Santo André, que preza por beleza e conforto. O Kairós substitui plataformas padronizadas por uma vitrine exclusiva e refinada, posicionando seu espaço como a principal referência estética do Grande ABC.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 2. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA com agendas individuais para cada profissional da equipe em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Organize cabeleireiras, coloristas, manicures e esteticistas no Bairro Campestre com grades de horários exclusivas e sincronização instantânea. Essa separação clara evita atrasos entre bancadas e lavatórios, poupando horas que a recepção gastaria conferindo disponibilidades manuais. Enquanto salões convencionais se complicam com papéis ou anotações, o Kairós proporciona organização total para que sua equipe em Santo André foque exclusivamente na arte do atendimento.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 3. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA com personalização máxima de serviços, valores e tempos em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Configure tempos de execução e valores personalizados para procedimentos como mechas, escova progressiva, corte e micropigmentação na Vila Assunção. A versatilidade do Kairós permite adaptar seu cardápio de serviços para o perfil comercial de Santo André, ajustando preços conforme a demanda com total autonomia. Mantenha o controle rigoroso da margem de lucro do seu salão de beleza e posicione-se estrategicamente no mercado regional.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 4. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA sem necessidade de cadastro, login ou download para o cliente em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Elimine qualquer barreira no agendamento das clientes que circulam pela Rua das Figueiras e Avenida Dom Pedro II. Ninguém em Santo André quer baixar novos aplicativos ou preencher formulários extensos apenas para marcar um horário de unhas ou retoque capilar. Com o Kairós, o fluxo é descomplicado: a cliente clica, escolhe o procedimento, seleciona a profissional e confirma em menos de um minuto. Facilidade que resulta em mais clientes na sua cadeira.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 5. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA com agendamento finalizado em menos de 1 minuto em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Permita que sua cliente do Grande ABC agende um procedimento enquanto faz compras no Shopping ABC ou aguarda em um compromisso corporativo. A velocidade do sistema desafoga sua recepção, liberando o time para proporcionar uma experiência acolhedora para quem já está no salão. Mostre que seu espaço em Santo André valoriza o tempo da cliente moderna e conquiste a preferência regional pela eficiência digital.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 6. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA com agenda inteligente que evita conflitos de horários em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Acabe definitivamente com o erro de agendar duas clientes no mesmo horário para a mesma profissional na sua unidade de Santo André. Nosso algoritmo inteligente trava o horário no exato instante da confirmação, garantindo fluidez contínua e pontualidade no atendimento. No competitivo mercado do ABC, a pontualidade é primordial para reter clientes fiéis e conquistar avaliações cinco estrelas.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 7. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA com fotos reais de cada profissional no momento do agendamento em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Dê visibilidade ao talento da sua equipe em Santo André permitindo que as clientes escolham a profissional visualizando sua foto real. Isso cria uma conexão afetiva e transmite segurança para quem busca um estilo específico, corte ou coloração personalizada. O Kairós valoriza os profissionais do seu salão, transformando a tela de agendamento em uma vitrine acolhedora, humana e atrativa.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 8. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA com dashboard simples e intuitivo para o uso dos funcionários em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Ofereça à sua equipe de Santo André um painel limpo e prático que não exige treinamentos complexos ou leitura de manuais densos. Suas colaboradoras consultam os próximos atendimentos do dia em segundos pelo celular, otimizando a preparação de produtos e bancadas. O Kairós simplifica a rotina de trabalho em salões de beleza de alto fluxo, mantendo a equipe alinhada e a recepção tranquila.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 9. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA com atalho de acesso rápido na tela inicial do celular do dono em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Acompanhe a movimentação e o faturamento do seu salão em Santo André com um simples toque na tela inicial do seu celular, onde você estiver. Graças à tecnologia PWA leve e veloz, você administra seu negócio como se usasse um aplicativo nativo sem ocupar memória do aparelho. Monitore a ocupação de horários e os resultados diários com total flexibilidade e segurança em toda a região do ABC.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 10. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA com gestão completa de serviços realizados e histórico detalhado em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Entenda os hábitos e procedimentos mais procurados pelas clientes de Santo André, identificando os serviços mais rentáveis para o seu negócio. O histórico do Kairós armazena as preferências de cada atendimento, viabilizando ações de pós-venda inteligentes e pacotes especiais de fidelização. Baseie suas decisões de investimento em dados claros e garanta o crescimento constante do seu salão no Grande ABC.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 11. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA com confirmação de agendamento via WhatsApp em apenas um clique em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Reduza significativamente o No-Show no seu salão em Santo André enviando lembretes objetivos diretamente no WhatsApp das suas clientes. Esse recurso protege seu faturamento contra faltas e esquecimentos, garantindo bancadas e lavatórios sempre ativos e produtivos. Com apenas um clique, o lembrete profissional é disparado com as informações do procedimento, horário e endereço do salão.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 12. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA focado em experiência Mobile-First para clientes de Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Disponibilize uma experiência de agendamento ultrarrápida projetada para smartphones, ideal para clientes que navegam pelas redes sociais no ABC. A interface limpa assegura que a cliente realize a reserva sem travamentos ou dificuldades técnicas. Ao escolher o Kairós, seu salão de beleza em Santo André se destaca no mercado com um ecossistema digital elegante e contemporâneo.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 13. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA para eliminar definitivamente o vaivém de mensagens no WhatsApp em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Livre seu espaço em Santo André da rotina exaustiva de trocar dezenas de mensagens para encontrar uma brecha na agenda. Centralizar as reservas no link inteligente do Kairós permite que sua equipe dedique atenção total ao bem-estar das clientes presentes na loja. O sistema encerra ruídos de comunicação e administra seus horários 24 horas por dia com máxima precisão.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 14. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA com filtro de relatórios de até 3 meses para controle financeiro em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Tenha clareza sobre faturamento, despesas operacionais e o cálculo transparente de comissões da equipe do seu salão em Santo André. O Kairós disponibiliza relatórios objetivos sem a necessidade de tabelas complexas de Excel, auxiliando na reposição de produtos e na gestão financeira. Administre seu salão no Grande ABC com governança corporativa e solidez empresarial.</p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 15. SISTEMA DE GESTÃO PARA SALÃO DE BELEZA para modernizar e profissionalizar o seu negócio em Santo André.</h3>
+                    <p className="mt-2 text-left text-slate-600">Eleve o prestígio do seu salão ou studio de estética em Santo André, oferecendo uma jornada de atendimento digital impecável para o público da região. Da mesma forma como nossa tecnologia já comanda o agendamento local através do <Link href="/sistema-de-gestao-para-barbearias" className="text-blue-600 font-bold hover:underline">sistema de gestão para barbearias</Link> e atende as <Link href="/sistema-de-gestao-para-barbearias/santo-andre" className="text-blue-600 font-bold hover:underline">barbearias de Santo André</Link>, o Kairós consolida agora o mesmo padrão de excelência para os salões de beleza. Conquiste a preferência do ABC paulista com uma gestão moderna e eficiente.</p>
+                  </div>
+
+                </div>
+                <div className="mt-14 flex justify-center md:justify-start">
+                  <Link href="/cadastro" className="bg-blue-600 text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700 transition-all shadow-md shadow-blue-500/25 text-center text-sm md:text-base leading-snug">
+                    Quero mais clientes no meu salão agora
+                  </Link>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        {/* --- FOOTER (ATUALIZADO) --- */}
+        <footer className="bg-white/80 backdrop-blur-xl pt-10 pb-6 border-t border-slate-200/80 relative z-20">
+          <div className="max-w-7xl mx-auto px-6">
+            
+            {/* CABEÇALHO DO RODAPÉ - LOGOS */}
+            <div className="flex flex-col md:flex-row items-center md:items-end gap-4 mb-8 pb-6 border-b border-slate-200/80">
+              <div className="flex items-center gap-3">
+                <img src="/logo.png" alt="Logo Kairós" className="w-10 h-10 object-contain" />
+                <div className="flex flex-col">
+                  <span className="text-xl font-black tracking-tighter text-slate-900 uppercase leading-none">Kairós</span>
+                  <span className="text-[9px] text-slate-500 font-bold uppercase tracking-[0.2em] mt-0.5">Sua agenda inteligente</span>
+                </div>
+              </div>
+              <div className="hidden md:block w-[1px] h-6 bg-slate-200 mx-4"></div>
+              <div className="flex flex-col items-center md:items-start">
+                <span className="text-[9px] text-slate-400 uppercase font-bold tracking-widest leading-none mb-1">Uma solução do grupo</span>
+                <Link href="https://egemporiodigital.com.br" target="_blank" className="text-xs font-bold text-slate-800 hover:text-blue-600 transition-colors">
+                  EG EMPÓRIO DIGITAL
+                </Link>
+              </div>
+            </div>
+
+            {/* GRID DE CONTEÚDO (ESTILO TRINKS) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8 text-center md:text-left">
+              
+              {/* COLUNA 1 - INSTITUCIONAL */}
+              <div className="flex flex-col gap-3">
+                <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Institucional</h4>
+                <ul className="flex flex-col gap-2 text-xs text-slate-600 font-medium">
+                  <li><Link href="https://egemporiodigital.com.br/sobre" target="_blank" className="hover:text-blue-600 transition-colors">Sobre a EG Empório Digital</Link></li>
+                  <li><Link href="https://egemporiodigital.com.br/servicos" target="_blank" className="hover:text-blue-600 transition-colors">Nossos Serviços</Link></li>
+                  <li><Link href="https://egemporiodigital.com.br/saas" target="_blank" className="hover:text-blue-600 transition-colors">Outras Automações</Link></li>
+                  <li><Link href="https://egkairos.com.br/blog" target="_blank" className="hover:text-blue-600 transition-colors">Blog</Link></li>
+                  <li><Link href="#" className="hover:text-blue-600 transition-colors">Política de Privacidade</Link></li>
+                </ul>
+              </div>
+
+              {/* COLUNA 2 - HUB DE SOLUÇÕES */}
+              <div className="flex flex-col gap-3">
+                <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Conheça</h4>
+                <ul className="flex flex-col gap-2 text-xs text-slate-600 font-medium">
+                  <li><Link href="/sistema-de-gestao-para-barbearias" className="hover:text-blue-600 transition-colors text-slate-900 font-bold tracking-tight">💈 Gestão de Barbearias</Link></li>
+                  <li><Link href="/sistema-de-gestao-para-salao-de-beleza" className="hover:text-blue-600 transition-colors text-slate-900 font-bold tracking-tight">💅 Gestão de Salões</Link></li>
+                  <li><span className="opacity-40 text-slate-400 italic">🏥 Gestão de Clínicas (Em breve)</span></li>
+                  <li><span className="opacity-40 text-slate-400 italic">🐉 Gestão de Studios (Em breve)</span></li>
+                </ul>
+              </div>
+
+              {/* COLUNA 3 - COMERCIAL E REDES */}
+              <div className="flex flex-col gap-3">
+                <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Comercial</h4>
+                <ul className="flex flex-col gap-2 text-xs text-slate-600 font-medium mb-2">
+                  <li><Link href="/cadastro" className="hover:text-blue-700 transition-colors font-bold text-blue-600">Teste Grátis</Link></li>
+                  <li><Link href="#planos" className="hover:text-blue-600 transition-colors">Planos e Preços</Link></li>
+                </ul>
+                
+                <h4 className="text-blue-600 font-black uppercase text-[10px] tracking-widest">Siga-nos</h4>
+                <div className="flex justify-center md:justify-start">
+                  <Link href="https://instagram.com/eg.emporio.digital" target="_blank" className="w-8 h-8 bg-slate-100 border border-slate-200 rounded-full flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 transition-all group shadow-sm">
+                    <svg className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                  </Link>
+                </div>
+              </div>
+
+              {/* COLUNA 4 - APP / STATUS */}
+              <div className="flex flex-col gap-3">
+                <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Tecnologia</h4>
+                <div className="bg-white/80 border border-slate-200/80 p-3 rounded-xl shadow-sm">
+                  <span className="text-[9px] font-bold text-slate-400 uppercase block mb-1">Sistema</span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-xs font-bold text-slate-900">Kairós</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* RODAPÉ FINAL - COPYRIGHT */}
+            <div className="pt-4 border-t border-slate-200/80 flex flex-col md:flex-row justify-between items-center gap-2 text-center md:text-left">
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">
+                © EG EMPÓRIO DIGITAL
+              </p>
+            </div>
+
+          </div>
+        </footer>
+
+      </main>
+
+      {/* --- BOTÃO WHATSAPP (IDÊNTICO À HOME) --- */}
+      <a 
+        href="https://wa.me/5511916053292" 
+        target="_blank" 
+        className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-xl shadow-green-900/30 z-50 transition-all hover:-translate-y-1 flex items-center gap-2 border border-white/10"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-8.68-2.031-9.67-.272-.099-.47-.149-.669-.149-.198 0-.42.001-.643.001-.223 0-.586.085-.893.421-.306.335-1.169 1.141-1.169 2.784 0 1.642 1.198 3.227 1.372 3.461.174.234 2.358 3.6 5.714 5.05.798.345 1.42.551 1.902.705 1.05.336 2.007.288 2.756.175.845-.127 1.831-.749 2.088-1.472.257-.723.257-1.343.18-1.472-.078-.129-.276-.203-.574-.352z"/>
+        </svg>
+        <span className="font-bold text-sm hidden md:block">Suporte</span>
+      </a>
+    </div>
+  )
+}

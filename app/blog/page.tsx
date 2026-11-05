@@ -291,7 +291,7 @@ export default function BlogHome() {
                     <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Conheça</h4>
                     <ul className="flex flex-col gap-2 text-xs text-slate-600 font-medium">
                         <li><Link href="/sistema-de-gestao-para-barbearias" className="hover:text-blue-600 transition-colors text-slate-900 font-bold tracking-tight">💈 Gestão de Barbearias</Link></li>
-                        <li><span className="opacity-40 text-slate-400 italic">💅 Gestão de Salões (Em breve)</span></li>
+                        <li><Link href="/sistema-de-gestao-para-salao-de-beleza" className="hover:text-blue-600 transition-colors text-slate-900 font-bold tracking-tight">💅 Gestão de Salões</Link></li>
                         <li><span className="opacity-40 text-slate-400 italic">🏥 Gestão de Clínicas (Em breve)</span></li>
                         <li><span className="opacity-40 text-slate-400 italic">🐉 Gestão de Studios (Em breve)</span></li>
                     </ul>

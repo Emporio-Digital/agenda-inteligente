@@ -349,7 +349,7 @@ return (
                 
                 <div className="relative group">
                   <img 
-                        src="/mao-celular.png" 
+                        src="/barber-celular.png" 
                         alt="Smartphone Kairós" 
                         loading="lazy"
                         decoding="async"
@@ -671,7 +671,7 @@ return (
 
                             <div>
                                 <h3 className="font-bold text-slate-900 uppercase flex items-center gap-2"><span className="w-1 h-5 bg-blue-500 rounded-full inline-block"></span> 15. SISTEMA DE GESTÃO PARA BARBEARIAS para modernizar e liderar o mercado de barbearias de elite.</h3>
-                                <p className="mt-2 text-left text-slate-600">Posicione sua barbearia como a maior referência em tecnologia e organização da sua região e conquiste a confiança dos clientes que buscam exclusividade e agilidade. Utilizar um sistema de gestão de elite como o Kairós é um sinal claro de que sua marca valoriza a inovação e o tempo do cliente em todos os níveis do atendimento. Saia definitivamente do modelo de gestão tradicional e obsoleto e insira sua empresa na era da automação digital inteligente e altamente lucrativa. Seja o líder incontestável do mercado de barbearias e veja sua autoridade ser acompanhada por uma gestão profissional impecável.</p>
+                                <p className="mt-2 text-left text-slate-600">Posicione sua barbearia como a maior referência em tecnologia e organização da sua região e conquiste a confiança dos clientes que buscam exclusividade e agilidade. Utilizar um sistema de gestão de elite como o Kairós é um sinal claro de que sua marca valoriza a inovação e o tempo do cliente em todos os níveis do atendimento. Caso você também gerencie espaços unissex ou operações de estética feminina, conheça também o nosso <Link href="/sistema-de-gestao-para-salao-de-beleza" className="text-blue-600 font-bold hover:underline">sistema de gestão para salão de beleza</Link>, construído com o mesmo padrão de velocidade e conversão. Saia definitivamente do modelo de gestão tradicional e obsoleto, seja o líder incontestável do mercado e veja sua autoridade ser acompanhada por uma gestão profissional impecável.</p>
                             </div>
 
                         </div>
@@ -727,7 +727,7 @@ return (
                     <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Conheça</h4>
                     <ul className="flex flex-col gap-2 text-xs text-slate-600 font-medium">
                         <li><Link href="/sistema-de-gestao-para-barbearias" className="hover:text-blue-600 transition-colors text-slate-900 font-bold tracking-tight">💈 Gestão de Barbearias</Link></li>
-                        <li><span className="opacity-40 text-slate-400 italic">💅 Gestão de Salões (Em breve)</span></li>
+                        <li><Link href="/sistema-de-gestao-para-salao-de-beleza" className="hover:text-blue-600 transition-colors text-slate-900 font-bold tracking-tight">💅 Gestão de Salões</Link></li>
                         <li><span className="opacity-40 text-slate-400 italic">🏥 Gestão de Clínicas (Em breve)</span></li>
                         <li><span className="opacity-40 text-slate-400 italic">🐉 Gestão de Studios (Em breve)</span></li>
                     </ul>

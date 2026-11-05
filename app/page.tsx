@@ -337,7 +337,7 @@ export default function LandingPage() {
         <div className="relative group">
           {/* Imagem Principal (Substitua pela sua imagem da mão segurando o celular) */}
           <img 
-            src="/mao-celular.png" 
+            src="/home-kairos.png" 
             alt="Smartphone Kairós" 
             decoding="async"
             className="w-full h-auto max-w-[500px] mx-auto drop-shadow-[0_20px_40px_rgba(15,23,42,0.15)] transition-transform duration-700 group-hover:scale-[1.03]"
@@ -992,7 +992,7 @@ export default function LandingPage() {
                     <h4 className="text-blue-600 font-black uppercase text-[11px] tracking-widest">Conheça</h4>
                     <ul className="flex flex-col gap-2 text-xs text-slate-600 font-medium">
                         <li><Link href="/sistema-de-gestao-para-barbearias" className="hover:text-blue-600 transition-colors text-slate-900 font-bold tracking-tight">💈 Gestão de Barbearias</Link></li>
-                        <li><span className="opacity-40 text-slate-400 italic">💅 Gestão de Salões (Em breve)</span></li>
+                        <li><Link href="/sistema-de-gestao-para-salao-de-beleza" className="hover:text-blue-600 transition-colors text-slate-900 font-bold tracking-tight">💅 Gestão de Salões</Link></li>
                         <li><span className="opacity-40 text-slate-400 italic">🏥 Gestão de Clínicas (Em breve)</span></li>
                         <li><span className="opacity-40 text-slate-400 italic">🐉 Gestão de Studios (Em breve)</span></li>
                     </ul>
