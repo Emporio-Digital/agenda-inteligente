@@ -341,7 +341,7 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
               ) : (
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                       {appointments.map((appt) => (
-                          <AppointmentRow key={appt.id} appt={appt} />
+                          <AppointmentRow key={appt.id} appt={appt} tenantName={tenantName} />
                       ))}
                   </div>
               )}

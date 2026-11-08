@@ -5,7 +5,7 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { toZonedTime } from 'date-fns-tz'
 
-export default function AppointmentRow({ appt }: { appt: any }) {
+export default function AppointmentRow({ appt, tenantName = '' }: { appt: any, tenantName?: string }) {
   const [status, setStatus] = useState(appt.status)
   const [loading, setLoading] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -68,8 +68,9 @@ export default function AppointmentRow({ appt }: { appt: any }) {
   
   const cleanPhone = (phone: string) => phone.replace(/\D/g, '')
   const firstName = appt.customer.name.split(' ')[0]
-  const serviceNames = appt.services.map((s: any) => s.name).join(', ')
-  const message = `Olá ${firstName}, tudo bem? Confirmando: *${serviceNames}* dia *${dia}* às *${hora}*.`
+  const serviceNames = appt.services.map((s: any) => s.name.trim()).join(', ')
+  const cabecalho = tenantName ? `*${tenantName.trim()}*\n\n` : ''
+  const message = `${cabecalho}Olá, *${firstName}*! Tudo bem?\nPassando para confirmar seu agendamento:\n\n✂️ *Serviço(s):* ${serviceNames}\n📅 *Data:* ${dia}\n⏰ *Horário:* às ${hora}\n\nTe esperamos! 😉`
   const zapLink = `https://wa.me/55${cleanPhone(appt.customer.phone)}?text=${encodeURIComponent(message)}`
 
   return (
