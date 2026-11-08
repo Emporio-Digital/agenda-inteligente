@@ -70,8 +70,8 @@ export default function AppointmentRow({ appt, tenantName = '' }: { appt: any, t
   const firstName = appt.customer.name.split(' ')[0]
   const serviceNames = appt.services.map((s: any) => s.name.trim()).join(', ')
   const cabecalho = tenantName ? `*${tenantName.trim()}*\n\n` : ''
-  const message = `${cabecalho}Olá, *${firstName}*! Tudo bem?\nPassando para confirmar seu agendamento:\n\n\u2702\uFE0F *Serviço(s):* ${serviceNames}\n\uD83D\uDCC5 *Data:* ${dia}\n\u23F0 *Horário:* às ${hora}\n\nTe esperamos! \uD83D\uDE09`
-  const zapLink = `https://wa.me/55${cleanPhone(appt.customer.phone)}?text=${encodeURIComponent(message)}`
+  const message = `${cabecalho}Olá, *${firstName}*! Tudo bem?\nPassando para confirmar seu agendamento:\n\n✨ *Serviço(s):* ${serviceNames}\n📆 *Data:* ${dia}\n🕒 *Horário:* às ${hora}\n\nTe esperamos! 😊`
+  const zapLink = `https://api.whatsapp.com/send?phone=55${cleanPhone(appt.customer.phone)}&text=${encodeURIComponent(message)}`
 
   return (
     <div 
