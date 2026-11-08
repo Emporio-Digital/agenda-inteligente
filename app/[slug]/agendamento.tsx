@@ -101,8 +101,20 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
   const [customerName, setCustomerName] = useState("")
   const [customerPhone, setCustomerPhone] = useState("")
   const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const primaryColor = tenant.primaryColor || "#0f172a" 
+
+  // Calcula se a cor de fundo é clara ou escura para definir o texto
+  const isLightColor = (() => {
+    const hex = primaryColor.replace("#", "")
+    const full = hex.length === 3 ? hex.split("").map((c: string) => c + c).join("") : hex
+    const r = parseInt(full.substring(0, 2), 16) || 0
+    const g = parseInt(full.substring(2, 4), 16) || 0
+    const b = parseInt(full.substring(4, 6), 16) || 0
+    return (r * 299 + g * 587 + b * 114) / 1000 >= 150
+  })()
+  const primaryTextColor = isLightColor ? "#0f172a" : "#ffffff"
 
   const labels = TEXT_LABELS[themeVariant] || TEXT_LABELS.BARBER
   // Ajuste gramatical seguro: se tiver article definido usa ele, senão usa 'o'
@@ -172,6 +184,12 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
     setCustomerPhone(`(${raw.slice(0, 2)}) ${raw.slice(2, 7)}-${raw.slice(7)}`)
   }
 
+  function handleCloseErrorModal() {
+    setErrorMessage(null)
+    fetchSlots()
+    setStep(4)
+  }
+
   async function handleFinish() {
     setLoading(true)
     const dataFinal = new Date(`${selectedDate}T${selectedTime}:00`)
@@ -191,11 +209,11 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
         if (response.ok) setStep(6)
         else {
             const erro = await response.json()
-            alert(erro.error || "Erro.")
-            fetchSlots()
-            setStep(4)
+            setErrorMessage(erro.error || "Ops! Este horário acabou de ser preenchido por outro cliente. Por favor, selecione outro horário.")
         }
-    } catch (error) { alert("Erro de conexão.") } 
+    } catch (error) { 
+        setErrorMessage("Erro de conexão. Verifique sua internet e tente novamente.") 
+    } 
     finally { setLoading(false) }
   }
 
@@ -316,13 +334,14 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                                     <div key={service.id} onClick={() => toggleService(service)} 
                                          className={`relative p-4 rounded-xl border transition-all cursor-pointer flex justify-between items-center group
                                          ${isSelected 
-                                            ? 'bg-slate-900 text-white border-slate-900 shadow-lg scale-[1.02]' 
+                                            ? 'shadow-lg scale-[1.02]' 
                                             : 'bg-white border-gray-200 hover:border-blue-300 hover:bg-blue-50'
                                          }`}
+                                         style={isSelected ? { backgroundColor: primaryColor, color: primaryTextColor, borderColor: primaryColor } : {}}
                                     >
                                         <div>
                                             <h3 className="font-bold text-sm">{service.name}</h3>
-                                            <p className={`text-xs ${isSelected ? 'text-gray-300' : 'text-gray-500'}`}>{service.durationMin} min</p>
+                                            <p className="text-xs" style={{ opacity: isSelected ? 0.8 : 1, color: isSelected ? primaryTextColor : undefined }}>{service.durationMin} min</p>
                                         </div>
                                         <div className="font-bold">R$ {Number(service.price).toFixed(2)}</div>
                                     </div>
@@ -339,8 +358,8 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                                 <button 
                                     onClick={() => setStep(3)}
                                     disabled={selectedServices.length === 0}
-                                    className="px-6 py-3 rounded-xl text-white font-bold shadow-lg disabled:opacity-50 transition-transform active:scale-95"
-                                    style={{ backgroundColor: primaryColor }}
+                                    className="px-6 py-3 rounded-xl font-bold shadow-lg disabled:opacity-50 transition-transform active:scale-95"
+                                    style={{ backgroundColor: primaryColor, color: primaryTextColor }}
                                 >
                                     Continuar →
                                 </button>
@@ -356,26 +375,29 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                         <h2 className="text-lg font-bold mb-4 text-center text-slate-800">Melhor dia para você?</h2>
                         <input 
                             type="date" 
-                            className="w-full p-5 border-2 rounded-xl text-xl font-bold text-center text-slate-900 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900 mb-6 transition-all border-gray-200"
+                            className="w-full box-border max-w-full p-4 border-2 rounded-xl text-lg font-bold text-center text-slate-900 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900 mb-6 transition-all border-gray-200 appearance-none"
                             min={new Date().toISOString().split('T')[0]} 
                             value={selectedDate}
                             onChange={(e) => setSelectedDate(e.target.value)}
                         />
                          <button 
-                            disabled={!selectedDate}
-                            onClick={() => setStep(4)}
-                            className="w-full py-4 rounded-xl text-white font-bold text-lg shadow-xl disabled:opacity-50 transition-all hover:opacity-90 active:scale-95"
-                            style={{ backgroundColor: selectedDate ? primaryColor : '#ccc' }}
-                        >
-                            Ver Horários
-                        </button>
+    disabled={!selectedDate}
+    onClick={() => setStep(4)}
+    className="w-full py-4 rounded-xl font-bold text-lg shadow-xl disabled:opacity-50 transition-all hover:opacity-90 active:scale-95"
+    style={{ 
+        backgroundColor: selectedDate ? primaryColor : '#ccc',
+        color: selectedDate ? primaryTextColor : '#ffffff'
+    }}
+>
+    Ver Horários
+</button>
                      </div>
                 )}
 
                 {/* 4. HORÁRIOS */}
                 {step === 4 && (
                     <div className="animate-in slide-in-from-right-4 duration-500">
-                        <button onClick={() => setStep(3)} className="text-xs font-bold uppercase text-gray-400 hover:text-black mb-4">← Alterar Dia</button>
+                        <button onClick={() => setStep(3)} className="text-xs font-bold uppercase text-gray-400 hover:text-black mb-4">← Voltar</button>
                         <h2 className="text-lg font-bold mb-1 text-slate-800">Horários Livres</h2>
                         <p className="text-xs text-gray-500 mb-6">Agenda de <strong>{formatDateDisplay(selectedDate)}</strong></p>
 
@@ -417,6 +439,7 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                 {/* 5. CONFIRMAÇÃO */}
                 {step === 5 && (
                     <div className="animate-in slide-in-from-right-4 duration-500">
+                        <button onClick={() => setStep(4)} className="text-xs font-bold uppercase text-gray-400 hover:text-black mb-4">← Voltar</button>
                         <h2 className="text-2xl font-black text-slate-900 mb-6 text-center">Quase lá! 🚀</h2>
                         
                         <div className="bg-gray-50 p-6 rounded-2xl mb-6 border border-gray-100 relative overflow-hidden shadow-inner">
@@ -466,13 +489,13 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                         </div>
 
                         <button 
-                            onClick={handleFinish} 
-                            disabled={!customerName.trim() || customerPhone.replace(/\D/g, '').length < 11 || loading} 
-                            className="w-full mt-8 py-4 rounded-xl text-white font-bold text-lg shadow-xl shadow-gray-200 disabled:opacity-50 hover:opacity-90 transition-all active:scale-95" 
-                            style={{ backgroundColor: primaryColor }}
-                        >
-                            {loading ? "Confirmando..." : "Confirmar Agendamento"}
-                        </button>
+    onClick={handleFinish} 
+    disabled={!customerName.trim() || customerPhone.replace(/\D/g, '').length < 11 || loading} 
+    className="w-full mt-8 py-4 rounded-xl font-bold text-lg shadow-xl shadow-gray-200 disabled:opacity-50 hover:opacity-90 transition-all active:scale-95" 
+    style={{ backgroundColor: primaryColor, color: primaryTextColor }}
+>
+    {loading ? "Confirmando..." : "Confirmar Agendamento"}
+</button>
                     </div>
                 )}
 
@@ -528,6 +551,31 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
              </div>
           </div>
        </div>
+       {/* MODAL DE HORÁRIO INDISPONÍVEL / ERRO */}
+       {errorMessage && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+             <div className={`bg-white w-full max-w-sm p-6 ${themeConfig.rounded} shadow-2xl text-center border border-gray-100 animate-in zoom-in-95 duration-200`}>
+                <div className="w-16 h-16 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-amber-100 shadow-inner">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="12" y1="8" x2="12" y2="12"/>
+                      <line x1="12" y1="16" x2="12.01" y2="16"/>
+                   </svg>
+                </div>
+                <h3 className="text-lg font-black text-slate-900 mb-2">Atenção</h3>
+                <p className="text-sm text-slate-600 mb-6 leading-relaxed">
+                   {errorMessage}
+                </p>
+                <button
+                   onClick={handleCloseErrorModal}
+                   className="w-full py-3.5 px-4 rounded-xl font-bold text-sm shadow-lg transition-transform active:scale-95 hover:opacity-90"
+                   style={{ backgroundColor: primaryColor, color: primaryTextColor }}
+                >
+                   Escolher Outro Horário
+                </button>
+             </div>
+          </div>
+       )}
     </div>
   )
 }
