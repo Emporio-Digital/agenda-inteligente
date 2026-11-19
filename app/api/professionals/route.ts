@@ -120,8 +120,8 @@ export async function PUT(request: Request) {
     const { payload } = await jwtVerify(token, secret)
 
     const body = await request.json()
-    // ADICIONADO: photoUrl no destructuring
-    const { id, name, workStart, workEnd, lunchStart, lunchEnd, workDays, photoUrl, position } = body
+    // ADICIONADO: photoUrl e workHours no destructuring
+    const { id, name, workStart, workEnd, lunchStart, lunchEnd, workDays, photoUrl, position, workHours } = body
 
     if (!id) return NextResponse.json({ error: 'ID obrigatório' }, { status: 400 })
 
@@ -129,6 +129,33 @@ export async function PUT(request: Request) {
     const existing = await prisma.professional.findUnique({ where: { id }})
     if (!existing || existing.tenantId !== payload.tenantId) {
         return NextResponse.json({ error: 'Proibido' }, { status: 403 })
+    }
+
+    // Validação segura de workHours (apenas quando enviado no body)
+    let sanitizedWorkHours: any = undefined
+    if (workHours !== undefined) {
+        if (workHours === null) {
+            sanitizedWorkHours = {}
+        } else if (typeof workHours === 'object' && !Array.isArray(workHours)) {
+            const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/
+            for (const [, cfg] of Object.entries(workHours)) {
+                const dayCfg = cfg as any
+                if (dayCfg?.enabled) {
+                    if (!timeRegex.test(dayCfg.workStart || '') || !timeRegex.test(dayCfg.workEnd || '') || dayCfg.workStart >= dayCfg.workEnd) {
+                        return NextResponse.json({ error: 'Horário personalizado inválido: a saída deve ser maior que a entrada.' }, { status: 400 })
+                    }
+                    const hasLunchStart = Boolean(dayCfg.lunchStart)
+                    const hasLunchEnd = Boolean(dayCfg.lunchEnd)
+                    if (hasLunchStart !== hasLunchEnd) {
+                        return NextResponse.json({ error: 'Preencha início e fim da pausa ou deixe ambos vazios.' }, { status: 400 })
+                    }
+                    if (hasLunchStart && (!timeRegex.test(dayCfg.lunchStart) || !timeRegex.test(dayCfg.lunchEnd) || dayCfg.lunchStart >= dayCfg.lunchEnd)) {
+                        return NextResponse.json({ error: 'Intervalo de pausa personalizado inválido.' }, { status: 400 })
+                    }
+                }
+            }
+            sanitizedWorkHours = workHours
+        }
     }
 
     const updated = await prisma.professional.update({
@@ -141,7 +168,8 @@ export async function PUT(request: Request) {
             lunchEnd,
             workDays,
             photoUrl,
-            position: position !== undefined ? position : undefined
+            position: position !== undefined ? position : undefined,
+            workHours: sanitizedWorkHours
         }
     })
 

@@ -41,14 +41,33 @@ export async function GET(request: Request) {
     }
     // ---------------------------------------------------------
 
-    const workStartMin = timeToMinutes(professional.workStart || "09:00")
-    const workEndMin = timeToMinutes(professional.workEnd || "18:00")
+    const customSchedule = (professional.workHours as Record<string, any> | null)?.[dayOfWeek]
+    const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/
+    const hasValidCustomDay =
+      customSchedule?.enabled === true &&
+      timeRegex.test(customSchedule.workStart || '') &&
+      timeRegex.test(customSchedule.workEnd || '') &&
+      customSchedule.workStart < customSchedule.workEnd
+
+    const hasValidCustomLunch =
+      hasValidCustomDay &&
+      timeRegex.test(customSchedule.lunchStart || '') &&
+      timeRegex.test(customSchedule.lunchEnd || '') &&
+      customSchedule.lunchStart < customSchedule.lunchEnd
+
+    const effectiveWorkStart = hasValidCustomDay ? customSchedule.workStart : (professional.workStart || "09:00")
+    const effectiveWorkEnd = hasValidCustomDay ? customSchedule.workEnd : (professional.workEnd || "18:00")
+    const effectiveLunchStart = hasValidCustomDay ? (hasValidCustomLunch ? customSchedule.lunchStart : null) : professional.lunchStart
+    const effectiveLunchEnd = hasValidCustomDay ? (hasValidCustomLunch ? customSchedule.lunchEnd : null) : professional.lunchEnd
+
+    const workStartMin = timeToMinutes(effectiveWorkStart)
+    const workEndMin = timeToMinutes(effectiveWorkEnd)
     
     let lunchStartMin = -1
     let lunchEndMin = -1
-    if (professional.lunchStart && professional.lunchEnd) {
-        lunchStartMin = timeToMinutes(professional.lunchStart)
-        lunchEndMin = timeToMinutes(professional.lunchEnd)
+    if (effectiveLunchStart && effectiveLunchEnd) {
+        lunchStartMin = timeToMinutes(effectiveLunchStart)
+        lunchEndMin = timeToMinutes(effectiveLunchEnd)
     }
 
     // 2. Busca Agendamentos (FUSO BRASIL CORRETO)
