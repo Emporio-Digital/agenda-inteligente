@@ -332,18 +332,18 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                                 const isSelected = selectedServices.find(s => s.id === service.id)
                                 return (
                                     <div key={service.id} onClick={() => toggleService(service)} 
-                                         className={`relative p-4 rounded-xl border transition-all cursor-pointer flex justify-between items-center group
+                                         className={`relative p-4 rounded-xl border transition-all cursor-pointer flex justify-between items-center gap-3 group
                                          ${isSelected 
                                             ? 'shadow-lg scale-[1.02]' 
                                             : 'bg-white border-gray-200 hover:border-blue-300 hover:bg-blue-50'
                                          }`}
                                          style={isSelected ? { backgroundColor: primaryColor, color: primaryTextColor, borderColor: primaryColor } : {}}
                                     >
-                                        <div>
+                                        <div className="flex-1 min-w-0">
                                             <h3 className="font-bold text-sm">{service.name}</h3>
                                             <p className="text-xs" style={{ opacity: isSelected ? 0.8 : 1, color: isSelected ? primaryTextColor : undefined }}>{service.durationMin} min</p>
                                         </div>
-                                        <div className="font-bold">R$ {Number(service.price).toFixed(2)}</div>
+                                        <div className="font-bold shrink-0 whitespace-nowrap">R$ {Number(service.price).toFixed(2)}</div>
                                     </div>
                                 )
                             })}
@@ -534,11 +534,11 @@ export default function BookingSystem({ tenant, services, professionals, themeCo
                         </div>
 
                         {/* CORREÇÃO AQUI: EG EMPÓRIO DIGITAL */}
-                        <div className="bg-zinc-900 text-white p-5 rounded-2xl shadow-2xl relative overflow-hidden group border border-zinc-700">
-                             <div className="absolute top-0 right-0 w-24 h-24 bg-blue-600 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                             <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">EG Empório Digital</p>
+                        <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-5 rounded-2xl shadow-xl shadow-blue-600/20 relative overflow-hidden group border border-blue-500/40">
+                             <div className="absolute top-0 right-0 w-24 h-24 bg-white rounded-full blur-3xl opacity-15 group-hover:opacity-25 transition-opacity"></div>
+                             <p className="text-[10px] font-bold uppercase tracking-widest text-blue-100 mb-2">Kairós</p>
                              <h3 className="text-lg font-bold mb-4">Gostou da experiência?</h3>
-                             <a href="/" className="inline-block bg-white text-black text-xs font-bold px-6 py-3 rounded-xl hover:scale-105 transition-transform shadow-lg shadow-white/10">
+                             <a href="/" className="inline-block bg-white text-blue-700 text-xs font-bold px-6 py-3 rounded-xl hover:scale-105 transition-transform shadow-lg shadow-black/10">
                                  Testar Grátis Agora
                              </a>
                         </div>
