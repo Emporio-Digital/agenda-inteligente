@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import QRCode from 'react-qr-code'
 import Link from 'next/link'
 
@@ -13,6 +13,45 @@ export default function HeaderActions({ shareUrl, tenantSlug }: HeaderActionsPro
   const [isQrOpen, setIsQrOpen] = useState(false)
   const [copied, setCopied] = useState(false)
 
+  const [qrFile, setQrFile] = useState<File | null>(null)
+
+  useEffect(() => {
+    if (!isQrOpen) {
+      setQrFile(null)
+      return
+    }
+
+    const timer = setTimeout(() => {
+      const svg = document.getElementById('qr-wrapper')?.querySelector('svg')
+      if (!svg) return
+
+      const svgData = new XMLSerializer().serializeToString(svg)
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      const img = new Image()
+      const size = 1000
+      canvas.width = size
+      canvas.height = size
+
+      img.onload = () => {
+        if (ctx) {
+          ctx.fillStyle = '#ffffff'
+          ctx.fillRect(0, 0, size, size)
+          ctx.drawImage(img, 0, 0, size, size)
+          canvas.toBlob((blob) => {
+            if (blob) {
+              setQrFile(new File([blob], `Kairos-QR-${tenantSlug}.png`, { type: 'image/png' }))
+            }
+          }, 'image/png')
+        }
+      }
+
+      img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)))
+    }, 100)
+
+    return () => clearTimeout(timer)
+  }, [isQrOpen, shareUrl, tenantSlug])
+
   const handleCopy = () => {
     navigator.clipboard.writeText(shareUrl)
     setCopied(true)
@@ -20,7 +59,20 @@ export default function HeaderActions({ shareUrl, tenantSlug }: HeaderActionsPro
   }
 
   // NOVA LÓGICA: Salvar Imagem na Galeria em vez de Imprimir
-  const handleSaveImage = () => {
+  const handleSaveImage = async () => {
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1)
+
+    if (isIOS && qrFile && navigator.canShare && navigator.canShare({ files: [qrFile] })) {
+      try {
+        await navigator.share({
+          files: [qrFile],
+        })
+      } catch {
+        // Usuário fechou a gavetinha sem salvar (ignora sem gerar erro)
+      }
+      return
+    }
+
     const svg = document.getElementById('qr-wrapper')?.querySelector('svg')
     
     if (svg) {

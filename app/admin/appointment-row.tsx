@@ -11,6 +11,7 @@ export default function AppointmentRow({ appt, tenantName = '' }: { appt: any, t
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [notification, setNotification] = useState<{message: string, type: 'success' | 'error'} | null>(null)
   const [showConfirmCancel, setShowConfirmCancel] = useState(false)
+  const [showConfirmComplete, setShowConfirmComplete] = useState(false)
 
   useEffect(() => {
     if (notification) {
@@ -50,6 +51,7 @@ export default function AppointmentRow({ appt, tenantName = '' }: { appt: any, t
       if (res.ok) {
         setStatus('DONE')
         setIsModalOpen(false)
+        setNotification({ message: 'Atendimento concluído!', type: 'success' })
       } else {
         setNotification({ message: 'Erro ao finalizar', type: 'error' })
       }
@@ -57,9 +59,24 @@ export default function AppointmentRow({ appt, tenantName = '' }: { appt: any, t
       setNotification({ message: 'Erro de conexão', type: 'error' })
     }
     setLoading(false)
+    setShowConfirmComplete(false)
   }
 
-  if (status === 'CANCELED' || status === 'DONE') return null 
+  if (status === 'CANCELED' || status === 'DONE') {
+    if (!notification) return null
+    return (
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[10005] animate-in slide-in-from-top-4 w-fit pointer-events-none">
+        <div className={`px-5 py-3 rounded-2xl shadow-xl border flex items-center gap-2.5 backdrop-blur-xl ${
+          notification.type === 'success'
+            ? 'bg-emerald-600 border-emerald-500 text-white'
+            : 'bg-rose-600 border-rose-500 text-white'
+        }`}>
+          <span className="text-sm leading-none font-bold">{notification.type === 'success' ? '✓' : '⚠️'}</span>
+          <span className="text-xs font-black uppercase tracking-widest whitespace-nowrap">{notification.message}</span>
+        </div>
+      </div>
+    )
+  }
 
   const timeZone = 'America/Sao_Paulo'
   const dataObj = toZonedTime(appt.date, timeZone)
@@ -159,25 +176,71 @@ export default function AppointmentRow({ appt, tenantName = '' }: { appt: any, t
 
       {/* NOTIFICAÇÃO TOAST */}
       {notification && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[10000] animate-in slide-in-from-top-4 w-fit">
-          <div className={`px-6 py-3 rounded-2xl shadow-2xl border flex items-center gap-3 backdrop-blur-xl ${
-            notification.type === 'success' ? 'bg-green-500/20 border-green-500/50 text-green-400' : 'bg-red-500/20 border-red-500/50 text-red-400'
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[10005] animate-in slide-in-from-top-4 w-fit pointer-events-none">
+          <div className={`px-5 py-3 rounded-2xl shadow-xl border flex items-center gap-2.5 backdrop-blur-xl ${
+            notification.type === 'success'
+              ? 'bg-emerald-600 border-emerald-500 text-white'
+              : 'bg-rose-600 border-rose-500 text-white'
           }`}>
-            <span className="text-xs font-black uppercase tracking-widest">{notification.message}</span>
+            <span className="text-sm leading-none font-bold">{notification.type === 'success' ? '✓' : '⚠️'}</span>
+            <span className="text-xs font-black uppercase tracking-widest whitespace-nowrap">{notification.message}</span>
           </div>
         </div>
       )}
 
-      {/* MODAL CONFIRMAÇÃO */}
+      {/* MODAL CONFIRMAÇÃO DE CANCELAMENTO */}
       {showConfirmCancel && (
-        <div className="fixed inset-0 z-[10001] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div onClick={(e) => e.stopPropagation()} className="bg-white border border-slate-200 p-8 rounded-[2.5rem] max-w-xs w-full shadow-2xl text-center">
-            <h3 className="text-slate-900 font-bold mb-6 italic uppercase tracking-tighter">Confirmar cancelamento?</h3>
+        <div 
+          onClick={(e) => { e.stopPropagation(); setShowConfirmCancel(false); }}
+          className="fixed inset-0 z-[10001] flex items-center justify-center p-6 bg-slate-900/45 backdrop-blur-sm animate-in fade-in duration-200"
+        >
+          <div onClick={(e) => e.stopPropagation()} className="relative bg-white border border-slate-200 p-7 rounded-[2.5rem] max-w-xs w-full shadow-2xl text-center overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-rose-500/60 to-transparent"></div>
+            <div className="w-12 h-12 mx-auto mb-4 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600 text-xl font-black shadow-sm">
+              ✕
+            </div>
+            <h3 className="text-slate-900 font-black text-base uppercase italic tracking-tight mb-1.5">
+              Cancelar agendamento?
+            </h3>
+            <p className="text-xs text-slate-500 font-medium mb-6 leading-relaxed">
+              O horário de <span className="font-bold text-slate-700">{firstName}</span> às {hora} será removido da agenda.
+            </p>
             <div className="flex flex-col gap-2">
-              <button onClick={handleCancel} disabled={loading} className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 rounded-2xl uppercase text-[10px] tracking-[0.2em] shadow-sm transition-all">
-                {loading ? '...' : 'Sim, Cancelar'}
+              <button onClick={handleCancel} disabled={loading} className="w-full bg-rose-600 hover:bg-rose-700 text-white font-black py-3.5 rounded-2xl uppercase text-[11px] tracking-widest shadow-md shadow-rose-500/20 transition-all active:scale-[0.98]">
+                {loading ? 'Cancelando...' : 'Sim, Cancelar'}
               </button>
-              <button onClick={() => setShowConfirmCancel(false)} className="w-full text-slate-500 hover:text-slate-700 font-bold py-3 uppercase text-[10px] tracking-widest transition-colors">Voltar</button>
+              <button onClick={() => setShowConfirmCancel(false)} className="w-full text-slate-500 hover:text-slate-800 font-black py-2.5 uppercase text-[10px] tracking-widest transition-colors">
+                Voltar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL CONFIRMAÇÃO DE CONCLUSÃO */}
+      {showConfirmComplete && (
+        <div 
+          onClick={(e) => { e.stopPropagation(); setShowConfirmComplete(false); }}
+          className="fixed inset-0 z-[10002] flex items-center justify-center p-6 bg-slate-900/45 backdrop-blur-sm animate-in fade-in duration-200"
+        >
+          <div onClick={(e) => e.stopPropagation()} className="relative bg-white border border-slate-200 p-7 rounded-[2.5rem] max-w-xs w-full shadow-2xl text-center overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/60 to-transparent"></div>
+            <div className="w-12 h-12 mx-auto mb-4 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 text-xl font-black shadow-sm">
+              ✓
+            </div>
+            <h3 className="text-slate-900 font-black text-base uppercase italic tracking-tight mb-1.5">
+              Concluir atendimento?
+            </h3>
+            <p className="text-xs text-slate-500 font-medium mb-6 leading-relaxed">
+              Confirmar <span className="font-bold text-slate-700">{firstName}</span> e lançar <span className="font-bold text-emerald-600">R$ {totalFormatado}</span> no faturamento?
+            </p>
+            <div className="flex flex-col gap-2">
+              <button onClick={handleComplete} disabled={loading} className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-black py-3.5 rounded-2xl uppercase text-[11px] tracking-widest shadow-md shadow-blue-500/20 transition-all active:scale-[0.98]">
+                {loading ? 'Finalizando...' : 'Sim, Concluir'}
+              </button>
+              <button onClick={() => setShowConfirmComplete(false)} className="w-full text-slate-500 hover:text-slate-800 font-black py-2.5 uppercase text-[10px] tracking-widest transition-colors">
+                Voltar
+              </button>
             </div>
           </div>
         </div>
@@ -252,10 +315,10 @@ export default function AppointmentRow({ appt, tenantName = '' }: { appt: any, t
 
               {/* BOTÕES DE AÇÕES PRINCIPAIS */}
               <button 
-                onClick={handleComplete} disabled={loading}
+                onClick={() => setShowConfirmComplete(true)} disabled={loading}
                 className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-black py-4.5 rounded-2xl transition-all shadow-md shadow-blue-500/20 active:scale-[0.98] flex items-center justify-center uppercase tracking-widest text-[11px] mb-2"
               >
-                {loading ? 'Finalizando...' : 'Concluir Atendimento'}
+                Concluir Atendimento
               </button>
               <button 
                 onClick={() => setIsModalOpen(false)} 

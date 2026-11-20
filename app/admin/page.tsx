@@ -4,12 +4,12 @@ import { headers } from "next/headers"
 import { jwtVerify } from 'jose'
 import { redirect } from "next/navigation"
 import LogoutButton from "./logout-button"
-import AppointmentRow from "./appointment-row"
 import HeaderActions from "./header-actions" 
 import BrandTitle from "./brand-title"
 import RefreshButton from "./refresh-button"
 import PullToRefresh from "./pull-to-refresh"
 import SubscriptionPlans from "./configuracoes/subscription-plans"
+import AgendaBoard from "./agenda-board"
 
 export const dynamic = 'force-dynamic'
 
@@ -276,79 +276,16 @@ export default async function AdminDashboard({ searchParams }: AdminPageProps) {
         </div> {/* fecha a min-h-0 */}
       </div> {/* fecha o grid-rows do menu */}
 
-      {/* AGENDA FUTURA (Agora fora do menu, aparecendo sempre) */}
-        <div className="flex-1 w-full max-w-7xl mx-auto p-6 md:p-12">
-            <div className="w-full">
-                <div className="flex items-center justify-between mb-8">
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-3">
-                    <div className={`bg-white/90 border border-slate-200/90 border-l-4 ${showPast ? 'border-l-amber-500' : 'border-l-blue-600'} pl-3.5 pr-4 py-2 rounded-xl flex items-center gap-2.5 shadow-sm`}>
-                      <span className="text-base select-none leading-none">{showPast ? '⚠️' : '📅'}</span>
-                      <h2 className={`text-base md:text-lg font-black uppercase italic tracking-tight ${showPast ? 'text-amber-600' : 'text-slate-700'}`}>
-                        {showPast ? 'Pendentes' : 'Sua Agenda'}
-                      </h2>
-                    </div>
-                    <div className="hidden md:flex">
-                      <RefreshButton />
-                    </div>
-                  </div>
-                  {showPast && (
-                      <Link href="/admin" className="text-[10px] text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 hover:text-slate-900 px-3.5 py-1.5 rounded-xl uppercase tracking-widest mt-2 flex items-center gap-2 transition-all w-max shadow-sm font-bold">
-                          ← Voltar para Agenda
-                      </Link>
-                  )}
-                </div>
-                
-                <div>
-                  {professionals.length > 0 && (
-                      <details className="relative group" key={filterProId || 'default'}>
-                          <summary className="list-none bg-white text-slate-900 border border-slate-200 px-5 py-2.5 rounded-2xl flex items-center gap-3 cursor-pointer hover:border-blue-500/50 shadow-sm transition-all select-none">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Filtrar:</span>
-                            <span className="font-bold text-sm text-blue-600">{currentProName}</span>
-                            <span className="text-xs text-blue-600 group-open:rotate-180 transition-transform">▼</span>
-                        </summary>
-                        
-                        <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden flex flex-col z-50 animate-in fade-in slide-in-from-top-2">
-                            <Link 
-                                href="/admin" 
-                                className={`px-5 py-4 text-sm font-bold border-b border-slate-100 hover:bg-slate-50 transition-colors flex items-center justify-between ${!filterProId || filterProId === 'all' ? 'text-blue-600' : 'text-slate-600'}`}
-                            >
-                                Todos
-                                {(!filterProId || filterProId === 'all') && <span>✓</span>}
-                            </Link>
-                            {professionals.map(pro => (
-                                <Link 
-                                    key={pro.id} 
-                                    href={`/admin?proId=${pro.id}`} 
-                                    className={`px-5 py-4 text-sm font-bold border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors flex items-center justify-between ${filterProId === pro.id ? 'text-blue-600' : 'text-slate-600'}`}
-                                >
-                                    {pro.name}
-                                    {filterProId === pro.id && <span>✓</span>}
-                                </Link>
-                            ))}
-                        </div>
-                    </details>
-                  )}
-                </div>
-            </div>
-
-            {/* NOVO GRID DE CARDS EM VEZ DE TABELA */}
-          <div className="pb-20">
-              {appointments.length === 0 ? (
-                  <div className="bg-white rounded-[2.5rem] p-12 text-center border border-slate-200 shadow-sm">
-                      <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Sem agendamentos para este filtro</p>
-                  </div>
-              ) : (
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                      {appointments.map((appt) => (
-                          <AppointmentRow key={appt.id} appt={appt} tenantName={tenantName} />
-                      ))}
-                  </div>
-              )}
-          </div>
-        </div>
-
-      </div>
+      {/* AGENDA FUTURA COM FILTRO DE DATA */}
+      <AgendaBoard
+        appointments={appointments}
+        professionals={professionals}
+        filterProId={filterProId}
+        currentProName={currentProName}
+        showPast={showPast}
+        tenantName={tenantName}
+        refreshSlot={<RefreshButton />}
+      />
     </div>
   )
 }

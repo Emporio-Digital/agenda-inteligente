@@ -556,7 +556,7 @@ export default function GerenciarProfissionais() {
                         <div className="min-w-0">
                           <div className="flex items-center gap-2">
                             <span className="text-xs font-black text-slate-800 tracking-tight truncate">
-                              Horários por Dia
+                              Opcional • Dias com Horários Personalizados
                             </span>
                             {customCount > 0 && (
                               <span className="bg-blue-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full shrink-0 shadow-sm">
@@ -564,9 +564,6 @@ export default function GerenciarProfissionais() {
                               </span>
                             )}
                           </div>
-                          <p className="text-[10px] text-slate-400 font-semibold truncate">
-                            Opcional • Ex: faculdade ou meio período
-                          </p>
                         </div>
                       </div>
                       <svg
@@ -604,11 +601,11 @@ export default function GerenciarProfissionais() {
                                       <span className="text-xs font-black text-slate-900 block truncate">
                                         {fullDayNames[day.val]}
                                       </span>
-                                      <span className={`text-[10px] font-bold block truncate ${isCustom ? 'text-blue-600' : 'text-slate-400'}`}>
-                                        {isCustom
-                                          ? `${dayCfg?.workStart || '--:--'} – ${dayCfg?.workEnd || '--:--'} • ${hasLunch ? `Pausa ${dayCfg.lunchStart}–${dayCfg.lunchEnd}` : 'Sem pausa'}`
-                                          : `Padrão (${editingPro.workStart} – ${editingPro.workEnd})`}
-                                      </span>
+                                      {!isCustom && (
+                                        <span className="text-[10px] font-bold block truncate text-slate-400">
+                                          Padrão ({editingPro.workStart} – {editingPro.workEnd})
+                                        </span>
+                                      )}
                                     </div>
                                     <button
                                       type="button"
@@ -668,7 +665,7 @@ export default function GerenciarProfissionais() {
                                               : 'text-slate-500 hover:text-slate-700'
                                           }`}
                                         >
-                                          ⚡ Direto (sem pausa)
+                                          ⚡ Sem pausa
                                         </button>
                                       </div>
 

@@ -161,33 +161,68 @@ export default async function FinancePage({ searchParams }: FinancePageProps) {
                     const valorTotal = appt.services.reduce((s, serv) => s + Number(serv.price), 0)
                     
                     return (
-                        <div key={appt.id} className="bg-white border border-slate-100/80 p-6 rounded-[2.2rem] flex items-center justify-between shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_30px_-5px_rgba(0,0,0,0.12)] transition-all group">
-                            <div className="flex flex-col gap-2">
-                                <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">
-                                    {format(dataZonada, "dd 'de' MMMM", { locale: ptBR })}
+                        <div key={appt.id} className="relative bg-white border border-slate-100/90 p-5 md:p-6 rounded-[2rem] shadow-[0_10px_25px_-5px_rgba(0,0,0,0.07),0_8px_10px_-6px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_30px_-5px_rgba(0,0,0,0.11)] hover:border-blue-200/70 transition-all overflow-hidden group">
+                            <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/35 to-transparent"></div>
+
+                            {/* TOPO: DATA / HORA E STATUS */}
+                            <div className="flex items-center justify-between gap-2 mb-4">
+                                <span className="text-[10px] font-black text-blue-600 bg-blue-50 border border-blue-100 px-2.5 py-1 rounded-lg uppercase tracking-wider">
+                                    {format(dataZonada, "dd 'de' MMMM '•' HH:mm", { locale: ptBR })}
                                 </span>
-                                <h4 className="font-bold text-slate-900 text-lg tracking-tight leading-none">{appt.customer.name}</h4>
-                                
-                                <div className="flex flex-col gap-1.5 mt-1">
+                                <span className="text-[10px] font-black text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-lg uppercase tracking-wider flex items-center gap-1.5 shrink-0">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                    Concluído
+                                </span>
+                            </div>
+
+                            {/* CLIENTE E PROFISSIONAL IDENTIFICADOS */}
+                            <div className="grid grid-cols-2 gap-2.5 mb-4">
+                                <div className="bg-slate-50/80 border border-slate-200/70 rounded-2xl px-3.5 py-2.5 min-w-0">
+                                    <span className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">
+                                        Cliente
+                                    </span>
+                                    <h4 className="font-extrabold text-slate-900 text-sm tracking-tight truncate">
+                                        {appt.customer.name}
+                                    </h4>
+                                </div>
+                                <div className="bg-slate-50/80 border border-slate-200/70 rounded-2xl px-3.5 py-2.5 min-w-0">
+                                    <span className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">
+                                        Profissional
+                                    </span>
+                                    <p className="font-extrabold text-slate-900 text-sm tracking-tight truncate">
+                                        {appt.professional.name.split(' ')[0]}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* SERVIÇOS REALIZADOS */}
+                            <div className="bg-slate-50/60 border border-slate-200/60 rounded-2xl px-3.5 py-3 mb-4">
+                                <span className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">
+                                    Serviços
+                                </span>
+                                <div className="space-y-1.5">
                                     {appt.services.map(s => (
-                                        <span key={s.id} className="text-xs text-slate-600 font-medium flex items-center gap-2">
-                                            <span className="w-1.5 h-1.5 bg-blue-600 rounded-full shrink-0"></span>
-                                            {s.name}
-                                        </span>
+                                        <div key={s.id} className="flex items-center justify-between gap-3 text-xs">
+                                            <span className="text-slate-700 font-semibold flex items-center gap-2 truncate min-w-0">
+                                                <span className="w-1.5 h-1.5 bg-blue-600 rounded-full shrink-0"></span>
+                                                <span className="truncate">{s.name}</span>
+                                            </span>
+                                            <span className="text-slate-500 font-mono text-[11px] font-bold whitespace-nowrap shrink-0">
+                                                R$ {Number(s.price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                            </span>
+                                        </div>
                                     ))}
                                 </div>
                             </div>
 
-                            <div className="text-right flex flex-col items-end gap-2">
-                                <span className="text-emerald-600 font-black text-xl tracking-tighter">
+                            {/* RODAPÉ: TOTAL */}
+                            <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                                    Total
+                                </span>
+                                <span className="text-emerald-600 font-black text-xl tracking-tighter whitespace-nowrap">
                                     R$ {valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                 </span>
-                                <div className="px-2.5 py-1 bg-slate-50 border border-slate-200/80 rounded-xl flex items-center gap-1.5 shadow-sm">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></span>
-                                    <span className="text-[10px] text-slate-700 font-black uppercase tracking-wider">
-                                        {appt.professional.name.split(' ')[0]}
-                                    </span>
-                                </div>
                             </div>
                         </div>
                     )
